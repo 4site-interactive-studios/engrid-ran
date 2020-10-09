@@ -1,0 +1,33 @@
+//Event styling
+.en__additional__amount,
+.en__additional__label,
+.en__ticket__currency,
+.en__ticket__name,
+.en__ticket__price {
+  font-size: inherit;
+}
+
+.en__ticket__selector {
+  display: flex;
+}
+
+.en__additional__amount,
+.en__ticket__field--cost {
+  width: initial;
+}
+
+.en__ticket__field--quantity {
+  width: initial;
+}
+
+.en__ticket__minus,
+.en__ticket__plus {
+  background-color: transparent;
+}
+
+.en__ticket__minus:hover,
+.en__ticket__minus:focus,
+.en__ticket__plus:hover,
+.en__ticket__plus:focus {
+  background-color: #ffffff;
+}
