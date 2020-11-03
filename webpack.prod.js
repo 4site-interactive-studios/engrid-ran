@@ -34,7 +34,14 @@ module.exports = merge(common, {
               plugins: [require("autoprefixer")],
             },
           },
-          "sass-loader", // 1. From SASS to CSS
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                  outputStyle: 'expanded'
+              }
+            }
+          } // 1. From SASS to CSS
         ],
       },
     ],
