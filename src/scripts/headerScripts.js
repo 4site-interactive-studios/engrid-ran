@@ -30,3 +30,24 @@ if(isIframe()){
 }else{
     loadScripts();
 }
+
+
+// Placeholder replacement scripts
+
+document.onreadystatechange = () => {    
+    if(document.readyState === "interactive" || document.readyState === "complete"){
+
+        // Add placeholder to the "other" giving amount field
+        let enFieldOtherAmt = document.querySelectorAll('input.en__field__input--other')[0];
+        if(enFieldOtherAmt){
+            enFieldOtherAmt.placeholder = "Other";
+        }
+
+        // Add placeholder to the Mobile Phone Field
+        let enFieldMobilePhone = document.querySelectorAll('input#en__field_supporter_phoneNumber')[0];
+        if(enFieldMobilePhone){
+            enFieldMobilePhone.placeholder = "000-000-0000 (optional)";
+        }
+
+}
+};

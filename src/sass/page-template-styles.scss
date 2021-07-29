@@ -63,7 +63,7 @@
     // TYPOGRAPHY INPUT:HOVER
     // --input_color_hover: var(--input_color);
     // --input_background-color_hover: var(--input_background-color);
-    // --input_border-color_hover: #767677;
+    --input_border-color_hover: #000;
     // --input_border-bottom-color_hover: var(--input_border-color_hover);
     // --input_box-shadow_hover: --input_box-shadow;
 
@@ -118,14 +118,14 @@
         background-color: #f9f003;
         color: #343432;
         padding: 1rem .5rem .25rem .5rem;
-        font-weight: 500;
+        font-weight: 600;
         display: inline-block;
         text-align:center;
         font-size: (0.05552em * 32);
     }
     
     .highlight.big {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
     
     h2.highlight {
@@ -189,6 +189,7 @@
             cursor: pointer;
             transition-duration: 0.25s;
             transition-property: border-color, background-color;
+            top:3px;
         }
     
         .en__field__input--radio:checked + .en__field__label::before {
@@ -211,13 +212,17 @@
             background-position-y: calc(50% - 2px);
             background-repeat: no-repeat;
             font-size: calc(0.05552em * 18);
-            font-weight: bold;
             letter-spacing: 0.4px;
             text-align: center;
             color: #ffffff;
             text-transform: none;
             background-color:var(--color_primary);
             justify-content: center;
+            font-family: var(--bold_font-family);
+        }
+
+        .en__field--radio .en__field__item input[type=radio]+label:checked {
+          background-color:#f1700b;
         }
     
         .en__field--radio .en__field__item input[type="radio"]:checked {
@@ -230,18 +235,22 @@
           border-color: #f1700b;
           color: #ffffff;
         }
+        
+        .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item:after {
+          font-size:1.5rem;
+          color:var(--color_light-gray);
+        }
+
     
-        .en__field__input--other:focus {background-color:pink !important;}
-    
-        .radio-to-buttons_donationAmt>.en__field>.en__field__element .en__field__input--other:focus {background-color: pink !important;}
-        /*
-        .en__field--radio .en__field__item input[type="radio"]:checked + label {
+        .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio input[type="radio"]:checked + label,
+        .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other.has-value input,
+        .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other:not(.en__field__item--hidden) input {
             text-transform: none;
             background-color: #f1700b;
             border-color: #f1700b;
             color: #ffffff;
         }
-        */
+
         .en__field--radio input[value$="ard"] + label {
             background-size: 24px 18px;
             background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/card.png?v=1572545889000");
@@ -267,6 +276,10 @@
         display: inline-block;
     }
     
+    input[type=checkbox]+label:before {
+      margin-top:1px;
+    }
+
     .en__field__input--checkbox:checked + .en__field__label::after, .en__contactDetails__select:checked + .en__contactDetails__rows::after {
         content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='16' viewBox='0 0 21 16'><path fill='%23F57E20' fill-rule='nonzero' d='M18.76.16L6.68 12.113l-4.44-4.392a.555.555 0 0 0-.779 0L.161 9.006a.541.541 0 0 0 0 .771L6.29 15.84a.555.555 0 0 0 .78 0l13.77-13.624a.541.541 0 0 0 0-.771L19.539.16a.555.555 0 0 0-.779 0z'/></svg>");
         position: absolute;
@@ -696,7 +709,8 @@
         font-size:var(--donation-amount__button_font-size);
         color:#fff;
         // text-align: center;
-        padding-left:33%;
+        padding:.85rem .85rem .85rem 33%;
+        line-height:1;
     }
     
     .en__field--donationAmt .en__field__item--other::before {
@@ -722,6 +736,7 @@
     .en__submit .button, .en__submit button {
         background-color:var(--color_primary_accent);
         margin-bottom:2rem;
+        text-transform: capitalize;
     }
     
     .content-preFooter {

@@ -6156,6 +6156,7 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   --input_border-radius:0;
   --checkbox_content_checked:"";
   --checkbox_border-width:2px;
+  --input_border-color_hover:#000;
   --button_font-family:var(--bold_font-family);
   --button_color:var(--color_white);
   --button_font-size:1.6rem;
@@ -6178,13 +6179,13 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   color:#343432;
   display:inline-block;
   font-size:1.77664em;
-  font-weight:500;
+  font-weight:600;
   padding:1rem .5rem .25rem;
   text-align:center;
 }
 
 [data-engrid-theme=engrid-ran2] .highlight.big{
-  font-size:1.5rem;
+  font-size:1.3rem;
 }
 
 [data-engrid-theme=engrid-ran2] h2.highlight{
@@ -6242,6 +6243,7 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   height:calc(1.4rem - 2px);
   left:-2rem;
   position:absolute;
+  top:3px;
   transition-duration:.25s;
   transition-property:border-color, background-color;
   vertical-align:middle;
@@ -6265,13 +6267,17 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   background-repeat:no-repeat;
   color:#fff;
   flex-grow:1;
+  font-family:var(--bold_font-family);
   font-size:.99936em;
-  font-weight:700;
   justify-content:center;
   letter-spacing:.4px;
   padding:1rem 0 1rem 2.25rem;
   text-align:center;
   text-transform:none;
+}
+
+[data-engrid-theme=engrid-ran2] .give-by-select .en__field--radio .en__field__item input[type=radio]+label:checked{
+  background-color:#f1700b;
 }
 
 [data-engrid-theme=engrid-ran2] .give-by-select .en__field--radio .en__field__item input[type=radio]:checked{
@@ -6285,8 +6291,16 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   text-transform:none;
 }
 
-[data-engrid-theme=engrid-ran2] .give-by-select .en__field__input--other:focus,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt>.en__field>.en__field__element .en__field__input--other:focus{
-  background-color:pink !important;
+[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item:after{
+  color:var(--color_light-gray);
+  font-size:1.5rem;
+}
+
+[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other.has-value input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other:not(.en__field__item--hidden) input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio input[type=radio]:checked+label{
+  background-color:#f1700b;
+  border-color:#f1700b;
+  color:#fff;
+  text-transform:none;
 }
 
 [data-engrid-theme=engrid-ran2] .give-by-select .en__field--radio input[value$=ard]+label{
@@ -6309,6 +6323,10 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   font-weight:400;
   letter-spacing:.4px;
   text-transform:none;
+}
+
+[data-engrid-theme=engrid-ran2] input[type=checkbox]+label:before{
+  margin-top:1px;
 }
 
 [data-engrid-theme=engrid-ran2] .en__contactDetails__select:checked+.en__contactDetails__rows:after,[data-engrid-theme=engrid-ran2] .en__field__input--checkbox:checked+.en__field__label:after{
@@ -6608,7 +6626,8 @@ input[type=radio]+label{
   color:#fff;
   font-family:var(--donation-amount__button_font-family);
   font-size:var(--donation-amount__button_font-size);
-  padding-left:33%;
+  line-height:1;
+  padding:.85rem .85rem .85rem 33%;
 }
 
 [data-engrid-theme=engrid-ran2] .en__field--donationAmt .en__field__item--other:before{
@@ -6634,6 +6653,7 @@ input[type=radio]+label{
 [data-engrid-theme=engrid-ran2] .en__submit .button,[data-engrid-theme=engrid-ran2] .en__submit button{
   background-color:var(--color_primary_accent);
   margin-bottom:2rem;
+  text-transform:capitalize;
 }
 
 [data-engrid-theme=engrid-ran2] .content-preFooter{
