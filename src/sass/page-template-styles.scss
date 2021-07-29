@@ -11,28 +11,27 @@
     // TYPOGRAPHY DEFAULT
     --default_font-family:"HarmoniaSansStd", sans-serif;
     --bold_font-family:"HarmoniaSansBlk", sans-serif;
-    // --default_color: initial;
-    --root_font-size:1.09em;
+    --root_font-size: 1.125rem;
     --default_font-size: var(--root_font-size);
-    // --default_font-weight: initial;
-    // --default_line-height: initial;
+    --engrid__body_padding: 0 3.5rem;
 
-    // TYPOGRAPHY H1
-    --h1_font-family:"HarmoniaSansBlk", sans-serif;
-    // --h1_color: initial;
-    --h1_font-size: calc(var(--root_font-size) * 2.5);
-    // --h1_font-weight: initial;
-    --h1_line-height: 1.1;
+    // TYPOGRAPHY H1 AND H2
+    --h1_font-family:"HarmoniaSansStd", sans-serif;
+    --h1_font-size: 3rem;
+    --h1_line-height: 1.2;
+    --h1_font-weight: 900;
+    --h2_font-size: 1.5rem;
+    --h2_font-weight: 700;
 
-    // TYPOGRAPHY H2
-    --h2_font-size: calc(var(--root_font-size) * 1.5);
+    // LABELS
+    --label-font-family:"HarmoniaSansStd", sans-serif;
+    --label-font-size: 0.75rem;
+    --label-font-weight: 500;
+    --label-text-transform: uppercase;
+    --label-letter-spacing: 1.68px;
 
     // TYPOGRAPHY P
     --p_font-family: var(--default_font-family);
-    // --p_color: initial;
-    // --p_font-size: var(--root_font-size);
-    // --p_font-weight: initial;
-    // --p_line-height: initial;
 
     // TYPOGRAPHY A
     --a_font-family: var(--default_font-family);
@@ -47,32 +46,23 @@
     // TYPOGRAPHY INPUT
     --input_font-family: var(--default_font-family);
     --input_color: #000000;
-    --input_font-size: 1em;
-    // --input_font-weight: initial;
-    // --input_line-height: initial;
+    --input_font-size: 1rem;
     --input_background-color: var(--white);
     --input_border-width: 1px;
     --input_border-color: #000;
     --input_border-radius: 0;
-    // --input_placeholder-color: var(--color_light-gray);
-    // --input_box-shadow: inset 0 2px 2px -1px rgba(74, 74, 104, 0.1);
     --checkbox_content_checked: "";
     --checkbox_border-width: 2px;
         
     // TYPOGRAPHY INPUT:FOCUS
     // TYPOGRAPHY INPUT:HOVER
-    // --input_color_hover: var(--input_color);
-    // --input_background-color_hover: var(--input_background-color);
     --input_border-color_hover: #000;
-    // --input_border-bottom-color_hover: var(--input_border-color_hover);
-    // --input_box-shadow_hover: --input_box-shadow;
 
     // TYPOGRAPHY BUTTON
-    --button_font-family: var(--bold_font-family);
+    --button_font-family: "HarmoniaSansStd", sans-serif;
     --button_color: var(--color_white);
     --button_font-size: 1.6rem;
-    // --button_font-weight: initial;
-    // --button_line-height: initial;
+    --button_font-weight: 900;
     // --button_background-color: #535b61;
     --button_border-width: 0;
     // --button_border-color: var(--color_black);
@@ -91,14 +81,12 @@
     --donation-amount__button_background-color_checked: var(--color_primary_accent);
     // --button_border-color_checked: var(--button_border-color_hover);
 
-  // TYPOGRAPHY SUBMIT BUTTON
-  // @TODO Add Submit Button Background Color and Color
-  // --submit__button_color: var(--button_color);
-  // --submit__button_border-color: var(--button_border-color);
-  --submit__button_backgrond-color: var(--color_primary_accent);
-  // --submit__button_padding-top: 1ch;
-  // --submit__button_padding-bottom: 1ch;
-  --submit__button_font-size: calc(0.05552em * 24);
+    // TYPOGRAPHY SUBMIT BUTTON
+    // --submit__button_border-color: var(--button_border-color);
+    --submit__button_backgrond-color: var(--color_primary_accent);
+    // --submit__button_padding-top: 1ch;
+    // --submit__button_padding-bottom: 1ch;
+    --submit__button_font-size: calc(0.05552em * 24);
 
     // DONATION PAGE
     --give-monthly-donation-amount-appended-label: "/mo";
@@ -106,7 +94,6 @@
     --recurring-frequency__button_count: 3;
     --donation-amount__button_count: 3;
     --give-by-select__button_count: 2;
-    --label-font-family: var(--default_font-family);
 }
 
 
@@ -151,16 +138,16 @@
         font-family:"HarmoniaSansBlk", sans-serif;
     }
     
-    .finelabels label.en__field__label {
-        font-size: calc(0.05552em * 12);
-        font-weight: 700;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: 1.68px;
-        text-transform: uppercase;
-        padding-bottom: 0;
-    }
+    // .finelabels label.en__field__label {
+    //     font-size: calc(0.05552em * 12);
+    //     font-weight: 700;
+    //     font-stretch: normal;
+    //     font-style: normal;
+    //     line-height: normal;
+    //     letter-spacing: 1.68px;
+    //     text-transform: uppercase;
+    //     padding-bottom: 0;
+    // }
     
     .en__field__label[for=en__field_transaction_recurrpay0], .en__field__label[for=en__field_transaction_recurrpay1] {
         font-family:var(--bold_font-family);
@@ -386,7 +373,6 @@
         text-decoration: none;
     }
     
-    
     .content-preFooter {
         grid-column: pc;
         background-size: contain;
@@ -395,8 +381,13 @@
         background-position: bottom left;
         background-repeat: no-repeat;
       }
+
       .content-preFooter.pseudo-subgrid > div {
         grid-column: cc;
+
+        h1{
+          text-align: center;
+        }
       }
     
     
@@ -510,14 +501,14 @@
         }
       }
       
-       h1 {
+      h1 {
         margin-top: 5px;
       }
       
-      .layout-centerleft1col,
-      .layout-centercenter1col,
-      .layout-centercenter1col-wide,
-      .layout-centerright1col {
+      [data-engrid-layout="centerleft1col"],
+      [data-engrid-layout="centercenter1col"],
+      [data-engrid-layout="centercenter2col"],
+      [data-engrid-layout="centerright1col"] {
         .page-alert,
         .content-header,
         .body-banner,
@@ -557,16 +548,16 @@
         .body-footer {
           margin-bottom: 5rem;
         }
-      
-        .content-footer.pseudo-subgrid > div {
-          grid-column: bc;
-        }
+      }
+
+      .content-footer.pseudo-subgrid > div {
+        grid-column: cc;
       }
       
-      body:not(#en__pagebuilder) .layout-centerleft1col,
-      body:not(#en__pagebuilder) .layout-centercenter1col,
-      body:not(#en__pagebuilder) .layout-centercenter1col-wide,
-      body:not(#en__pagebuilder) .layout-centerright1col {
+      body:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
+      body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
+      body:not(#en__pagebuilder)[data-engrid-layout="centercenter2col"],
+      body:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
         // Specified on child dom elements so that if there are none, then the parent div collapses its vertical height.
         .content-preFooter > div {
           min-height: 710px;
@@ -600,10 +591,10 @@
         }
       }
       
-      body#en__pagebuilder .layout-centerleft1col,
-      body#en__pagebuilder .layout-centercenter1col,
-      body#en__pagebuilder .layout-centercenter1col-wide,
-      body#en__pagebuilder .layout-centerright1col {
+      body#en__pagebuilder[data-engrid-layout="centerleft1col"],
+      body#en__pagebuilder[data-engrid-layout="centercenter1col"],
+      body#en__pagebuilder[data-engrid-layout="centercenter2col"],
+      body#en__pagebuilder[data-engrid-layout="centerright1col"] {
         .page-backgroundImage > div,
         .page-backgroundImageOverlay > div {
           grid-column: bc;
@@ -619,10 +610,10 @@
       
       /* Sum of all MIN values of the Body Columns */
       @media screen and (min-width: 600px) {
-        .layout-centerleft1col,
-        .layout-centercenter1col,
-        .layout-centercenter1col-wide,
-        .layout-centerright1col {
+       [data-engrid-layout="centerleft1col"],
+       [data-engrid-layout="centercenter1col"],
+       [data-engrid-layout="centercenter2col"],
+       [data-engrid-layout="centerright1col"] {
           .en__component--advrow .body-header,
           .en__component--advrow .body-banner,
           .en__component--advrow .body-bannerOverlay,
@@ -671,20 +662,19 @@
       */
       
       /* Sum of all MAX values of the Body Columns + 1px */
-      @media screen and (min-width: 1231px) {
-        .layout-centerleft1col,
-        .layout-centercenter1col,
-        .layout-centercenter1col-wide,
-        .layout-centerright1col {
-          .content-preFooter {
-            background-size: cover;
-          }
-        }
+      @media screen and (min-width: $one_col_content-column_max-width) {
+        //[data-engrid-layout="centerleft1col"],
+        //[data-engrid-layout="centercenter1col"],
+        //[data-engrid-layout="centercenter2col"],
+        //[data-engrid-layout="centerright1col"] {
+        //   .content-preFooter {
+        //     background-size: cover;
+        //   }
+        // }
       
-        body:not(#en__pagebuilder) .layout-centerleft1col,
-        body:not(#en__pagebuilder) .layout-centercenter1col,
-        body:not(#en__pagebuilder) .layout-centercenter1col-wide,
-        body:not(#en__pagebuilder) .layout-centerright1col {
+        body:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
+        body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
+        body:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
           // Specified on child dom elements so that if there are none, then the parent div collapses its vertical height.
           .content-preFooter > div {
             min-height: 1010px;
@@ -760,9 +750,9 @@
     }
     
     @media screen and (max-width:600px) {
-        body:not(#en__pagebuilder)[data-engrid-layout=centercenter1col] .page-backgroundImage {
-            height:auto;
-        }
+        // body:not(#en__pagebuilder)[data-engrid-layout=centercenter1col] .page-backgroundImage {
+        //     height:auto;
+        // }
     
         .footer-logo {
           margin-bottom: 1rem;
@@ -771,7 +761,7 @@
         .body-headerOutside {
         margin-top: 2rem !important;
         margin-bottom: 2rem !important;
-    }
+      }
     }
     
     @media screen and (max-width:460px) {
@@ -789,15 +779,15 @@
     
     /* Force visibility for the background image/video all the way down to the smallest screen sizes */
     /* Overrides: https://github.com/4site-interactive-studios/engrid-scripts/blob/8811d0e3e882b5e9009875f7155cb40e66124093/packages/styles/src/_engrid-background-image.scss#L131 */
-    [data-engrid-body-banner="empty"][data-engrid-page-background="image"],
-    [data-engrid-page-background="video"] {
-      .page-backgroundImage,
-      .page-backgroundImageOverlay {
-        &::before {
-          content: " " !important;
-        }
-      }
-    }
+    // [data-engrid-body-banner="empty"][data-engrid-page-background="image"],
+    // [data-engrid-page-background="video"] {
+    //   .page-backgroundImage,
+    //   .page-backgroundImageOverlay {
+    //     &::before {
+    //       content: " " !important;
+    //     }
+    //   }
+    // }
 
 
 // The most broadly used CSS Custom Properties for quick theming.

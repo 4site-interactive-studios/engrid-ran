@@ -6292,7 +6292,11 @@ var NeverBounce = /*#__PURE__*/function () {
           field.addEventListener("nb:result", function (e) {
             if (e.detail.result.is(window._nb.settings.getAcceptedStatusCodes())) {
               NBClass.setEmailStatus("valid");
-              if (NBClass.nbDate) NBClass.nbDate.value = new Date().toLocaleDateString();
+              if (NBClass.nbDate) NBClass.nbDate.value = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+              });
             } else {
               NBClass.setEmailStatus("invalid");
               if (NBClass.nbDate) NBClass.nbDate.value = "";
