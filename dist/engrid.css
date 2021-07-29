@@ -6148,7 +6148,7 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   --color_primary:#000;
   --color_primary_accent:#f1700b;
   --default_font-family:"HarmoniaSansStd", sans-serif;
-  --bold_font-family:"HarmoniaSansBlk", sans-serif;
+  --bold_font-family:"HarmoniaSansStd", sans-serif;
   --root_font-size:1.125rem;
   --default_font-size:var(--root_font-size);
   --engrid__body_padding:0 3.5rem;
@@ -6232,6 +6232,7 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
 [data-engrid-theme=engrid-ran2] .en__field__label[for=en__field_transaction_recurrpay0],[data-engrid-theme=engrid-ran2] .en__field__label[for=en__field_transaction_recurrpay1]{
   font-family:var(--bold_font-family);
   font-size:1.33248em;
+  font-weight:900;
   margin:0 1.7rem 0 1.3rem;
   text-transform:none !important;
 }
@@ -6250,7 +6251,7 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   height:calc(1.4rem - 2px);
   left:-2rem;
   position:absolute;
-  top:3px;
+  top:5px;
   transition-duration:.25s;
   transition-property:border-color, background-color;
   vertical-align:middle;
@@ -6261,6 +6262,12 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   background-color:#f1700b;
   border-width:2px;
   box-shadow:inset 0 0 0 2px #fff;
+}
+
+[data-engrid-theme=engrid-ran2] .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item:after{
+  color:var(--color_light-gray);
+  font-size:1.3rem;
+  text-transform:none;
 }
 
 [data-engrid-theme=engrid-ran2] .give-by-select input[type=radio]+label:before{
@@ -6291,19 +6298,7 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   background-color:var(--color_primary_accent) !important;
 }
 
-[data-engrid-theme=engrid-ran2] .give-by-select .en__field--donationAmt.en__field--radio .en__field__item--other.has-value input,[data-engrid-theme=engrid-ran2] .give-by-select .en__field--donationAmt.en__field--radio .en__field__item--other:not(.en__field__item--hidden) input,[data-engrid-theme=engrid-ran2] .give-by-select .en__field--donationAmt.en__field--radio input[type=radio]:checked+label,[data-engrid-theme=engrid-ran2] .give-by-select .give-by-select .en__field--radio .en__field__item--other.has-value input,[data-engrid-theme=engrid-ran2] .give-by-select .give-by-select .en__field--radio .en__field__item--other:not(.en__field__item--hidden) input,[data-engrid-theme=engrid-ran2] .give-by-select .give-by-select .en__field--radio input[type=radio]:checked+label,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons .en__field--radio .en__field__item--other.has-value input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons .en__field--radio .en__field__item--other:not(.en__field__item--hidden) input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons .en__field--radio input[type=radio]:checked+label{
-  background-color:#f1700b;
-  border-color:#f1700b;
-  color:#fff;
-  text-transform:none;
-}
-
-[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item:after{
-  color:var(--color_light-gray);
-  font-size:1.5rem;
-}
-
-[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other.has-value input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other:not(.en__field__item--hidden) input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio input[type=radio]:checked+label{
+[data-engrid-theme=engrid-ran2] .give-by-select .en__field--donationAmt.en__field--radio .en__field__item--other.has-value input,[data-engrid-theme=engrid-ran2] .give-by-select .en__field--donationAmt.en__field--radio .en__field__item--other:not(.en__field__item--hidden) input,[data-engrid-theme=engrid-ran2] .give-by-select .en__field--donationAmt.en__field--radio input[type=radio]:checked+label,[data-engrid-theme=engrid-ran2] .give-by-select .give-by-select .en__field--radio .en__field__item--other.has-value input,[data-engrid-theme=engrid-ran2] .give-by-select .give-by-select .en__field--radio .en__field__item--other:not(.en__field__item--hidden) input,[data-engrid-theme=engrid-ran2] .give-by-select .give-by-select .en__field--radio input[type=radio]:checked+label,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons .en__field--radio .en__field__item--other.has-value input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons .en__field--radio .en__field__item--other:not(.en__field__item--hidden) input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons .en__field--radio input[type=radio]:checked+label,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other.has-value input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other:not(.en__field__item--hidden) input,[data-engrid-theme=engrid-ran2] .give-by-select .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio input[type=radio]:checked+label{
   background-color:#f1700b;
   border-color:#f1700b;
   color:#fff;

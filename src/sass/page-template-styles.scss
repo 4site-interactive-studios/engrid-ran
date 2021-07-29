@@ -10,7 +10,8 @@
     
     // TYPOGRAPHY DEFAULT
     --default_font-family:"HarmoniaSansStd", sans-serif;
-    --bold_font-family:"HarmoniaSansBlk", sans-serif;
+    // --bold_font-family:"HarmoniaSansBlk", sans-serif;
+    --bold_font-family:"HarmoniaSansStd", sans-serif;
     --root_font-size: 1.125rem;
     --default_font-size: var(--root_font-size);
     --engrid__body_padding: 0 3.5rem;
@@ -151,6 +152,7 @@
     
     .en__field__label[for=en__field_transaction_recurrpay0], .en__field__label[for=en__field_transaction_recurrpay1] {
         font-family:var(--bold_font-family);
+        font-weight:900;
         font-size: calc(0.05552em * 24);
         text-transform: none !important;
         margin:0 1.7rem 0 1.3rem;
@@ -167,7 +169,7 @@
             position: absolute;
             height: calc(1.4rem - 2px);
             width: calc(1.4rem - 2px);
-            left: -2rem;
+            left: -1.7rem;
             display: inline-block;
             vertical-align: middle;
             border: 4px solid #000000;
@@ -176,7 +178,7 @@
             cursor: pointer;
             transition-duration: 0.25s;
             transition-property: border-color, background-color;
-            top:3px;
+            top:5px;
         }
     
         .en__field__input--radio:checked + .en__field__label::before {
@@ -186,6 +188,12 @@
         }
     }
     
+    .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item:after {
+      font-size:1.3rem;
+      color:var(--color_light-gray);
+      text-transform:none;
+    }
+
     .give-by-select {
     
         input[type=radio]+label:before {
@@ -222,12 +230,6 @@
           border-color: #f1700b;
           color: #ffffff;
         }
-        
-        .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item:after {
-          font-size:1.5rem;
-          color:var(--color_light-gray);
-        }
-
     
         .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio input[type="radio"]:checked + label,
         .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other.has-value input,
@@ -712,6 +714,7 @@
       top: 1rem;
       color: #ffffff;
       width: 0;
+      font-weight:900;
     }
     
     .en__field--donationAmt .en__field__label--item, .en__field--donationAmt .en__field__item--other::before, .en__field--donationAmt .en__field__item--other input {
