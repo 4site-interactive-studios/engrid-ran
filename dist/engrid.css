@@ -2943,7 +2943,7 @@ body:not(#en__pagebuilder) .click-to-expand.expanded .click-to-expand-text-wrapp
   --button_border-color_checked:var(--button_border-color_hover);
   --submit__button_color:var(--button_color);
   --submit__button_border-color:var(--button_border-color);
-  --submit__button_backgrond-color:var(--button_background-color);
+  --submit__button_background-color:var(--button_background-color);
   --submit__button_color_hover:var(--button_color);
   --submit__button_background-color_hover:var(--button_background-color_hover);
   --submit__button_border-color_hover:var(--button_background-color_hover);
@@ -6184,7 +6184,7 @@ body:not(#en__pagebuilder) .body-banner:empty,body:not(#en__pagebuilder) .body-b
   --donation-amount__button_padding:1.25ch 1.2ch 0.75ch 1.2ch !important;
   --button_background-color_checked:var(--color_primary_accent);
   --donation-amount__button_background-color_checked:var(--color_primary_accent);
-  --submit__button_backgrond-color:var(--color_primary_accent);
+  --submit__button_background-color:var(--color_primary_accent);
   --submit__button_font-size:1.33248em;
   --give-monthly-donation-amount-appended-label:"/mo";
   --recurring-frequency__button_count:3;
