@@ -68,7 +68,7 @@
     --button_border-width: 0;
     // --button_border-color: var(--color_black);
     --button_border-radius: 0px;
-    --donation-amount__button_padding: 1.25ch 1.2ch 0.75ch 1.2ch !important;
+    --donation-amount__button_padding: 1.25ch 1.2ch 0.75ch 1.2ch;
 
     // TYPOGRAPHY BUTTON:HOVER
     // --button_color_hover: var(--button_color);
@@ -102,6 +102,12 @@
 [data-engrid-theme="engrid-ran2"]{
 
 
+    .body-top {
+      -webkit-box-shadow: 0px -150px 50px 50px rgba(0,0,0,0.1); 
+      box-shadow: 0px -150px 50px 50px rgba(0,0,0,0.1);
+      z-index:-2 !important;
+    }
+  
     .highlight {
         background-color: #f9f003;
         color: #343432;
@@ -206,19 +212,20 @@
             background-position-x: calc(50% - 25px);
             background-position-y: calc(50% - 2px);
             background-repeat: no-repeat;
-            font-size: calc(0.05552em * 18);
-            letter-spacing: 0.4px;
-            text-align: center;
-            color: #ffffff;
+            font-size: 1.1rem;
+            letter-spacing: 0;
+            // text-align: center;
+            // color: #ffffff;
             text-transform: none;
-            background-color:var(--color_primary);
-            justify-content: center;
-            font-family: var(--bold_font-family);
+            // background-color:var(--color_primary);
+            // justify-content: center;
+            // font-family: var(--bold_font-family);
+            font-weight:700;
         }
 
-        .en__field--radio .en__field__item input[type=radio]+label:checked {
-          background-color:#f1700b;
-        }
+        // .en__field--radio .en__field__item input[type=radio]+label:checked {
+          // background-color:#f1700b;
+        // }
     
         .en__field--radio .en__field__item input[type="radio"]:checked {
           background-color: var(--color_primary_accent) !important;
@@ -255,6 +262,10 @@
         }
     
     
+    }
+
+    .en__field--give-by-select.en__field--radio .en__field__item input[type=radio]:checked+label {
+      background-color:#f1700b !important;
     }
     
     .en__field__input--checkbox + .en__field__label, .en__contactDetails__rows {
@@ -304,9 +315,9 @@
         white-space: nowrap;
     }
     
-    select, select.en__field__input--select, select.en__field__input--splitselect, select.en__field__input--tripleselect {
-        height:48px;
-    }
+    // select, select.en__field__input--select, select.en__field__input--splitselect, select.en__field__input--tripleselect {
+        // height:48px;
+    // }
     
     h1 {
         text-transform:uppercase;
@@ -389,6 +400,7 @@
 
         h1{
           text-align: center;
+          margin-bottom:60px !important;
         }
       }
     
@@ -417,6 +429,13 @@
         margin-top: 4rem;
         margin-bottom: 4rem;
     }
+
+    // .content-preFooter h1 {
+      // flex-basis: 100%;
+      // line-height: 1;
+      // margin-bottom: 60px;
+    // }
+
     
      /*
     * ####################################################################################################################
@@ -649,7 +668,7 @@
           .content-preFooter.pseudo-subgrid > div {
             grid-column: cc;
           }
-      
+          
           .content-footer.pseudo-subgrid > div {
             grid-column: cc;
           }
@@ -687,7 +706,8 @@
     
     
     .radio-to-buttons_donationAmt {
-    
+
+      
         @media screen and (max-width:480px) {
             .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio input[type=radio]+label {
                 font-size: 1.2rem;
@@ -695,14 +715,20 @@
         }
     }
     
-    .radio-to-buttons_donationAmt>.en__field>.en__field__element .en__field__input--other {
-        background-color:var(--donation-amount__button_background-color);
-        font-family:var(--donation-amount__button_font-family);
-        font-size:var(--donation-amount__button_font-size);
-        color:#fff;
-        // text-align: center;
-        padding:.85rem .85rem .85rem 33%;
-        line-height:1;
+    .radio-to-buttons_donationAmt .en__field--radio.en__field--donationAmt .en__field__input--other {
+      background-color: var(--donation-amount__button_background-color);
+      // background-position-x: 40px;
+      border: var(--donation-amount__button_border-width) solid var(--donation-amount__button_border-color);
+      border-radius: var(--donation-amount__button_border-radius);
+      color: var(--donation-amount__button_color);
+      font-family: var(--donation-amount__button_font-family);
+      font-size: var(--donation-amount__button_font-size);
+      font-weight: var(--donation-amount__button_font-weight);
+      // justify-content: center;
+      line-height: var(--donation-amount__button_line-height);
+      padding: var(--donation-amount__button_padding);
+      // text-align: center;
+      padding-left:33%;
     }
     
     .en__field--donationAmt .en__field__item--other::before {

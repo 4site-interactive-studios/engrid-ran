@@ -265,8 +265,18 @@
 				<h2>Billing Information</h2>
 			</div>
 
+			
 
 			<div class="en__component en__component--formblock inline-country i1-66 i2-33 i3-33 i4-33 i5-33" style="">
+
+				<div class="en__field en__field--text en__field--153553 en__field--address1 en__mandatory">
+					<label class="en__field__label" for="en__field_supporter_address1" style="">Address</label>
+
+					<div class="en__field__element en__field__element--text">
+						<input class="en__field__input en__field__input--text" id="en__field_supporter_address1" name="supporter.address1" type="text" value="">
+					</div>
+				</div>
+
 				<div class="en__field en__field--select en__field--175402 en__field--country en__mandatory">
 					<label class="en__field__label" for="en__field_supporter_country" style="">Country</label>
 
@@ -1275,16 +1285,6 @@
 					</div>
 				</div>
 
-
-				<div class="en__field en__field--text en__field--153553 en__field--address1 en__mandatory">
-					<label class="en__field__label" for="en__field_supporter_address1" style="">Address</label>
-
-					<div class="en__field__element en__field__element--text">
-						<input class="en__field__input en__field__input--text" id="en__field_supporter_address1" name="supporter.address1" type="text" value="">
-					</div>
-				</div>
-
-
 				<div class="en__field en__field--text en__field--153554 en__field--city">
 					<label class="en__field__label" for="en__field_supporter_city" style="">City</label>
 
@@ -1594,7 +1594,7 @@
 
 
 				<div class="en__component en__component--formblock give-by-select">
-					<div class="en__field en__field--radio en__field--000000 en__field--giveBySelect en__mandatory pseudo-en-field">
+					<div class="en__field en__field--radio en__field--000000 en__field--give-by-select en__mandatory pseudo-en-field">
 						<!--<label class="en__field__label en__field__label==positionabove">Give by Select</label>-->
 
 
@@ -2015,35 +2015,6 @@
 
 <!-- Start Render Critical Javascript -->
 <script>
-  window.addEventListener("DOMContentLoaded", (event) => {
-    // Move this DOM elements before the page renders
-    let inlineMonthlyUpsell = document.querySelectorAll(
-      ".move-after-transaction-recurrfreq"
-    )[0];
-    let recurrFrequencyField = document.querySelectorAll(
-      ".en__field--recurrfreq"
-    )[0];
-    if (inlineMonthlyUpsell && recurrFrequencyField) {
-      recurrFrequencyField.insertAdjacentElement(
-        "beforeend",
-        inlineMonthlyUpsell
-      );
-    }
-
-    // Move this DOM elements before the page renders
-    let inlineDonationAmountHeader = document.querySelectorAll(
-      ".move-before-transaction-donationamt"
-    )[0];
-    let donationAmtField = document.querySelectorAll(
-      ".en__field--donationAmt"
-    )[0];
-    if (inlineDonationAmountHeader && donationAmtField) {
-      donationAmtField.insertAdjacentElement(
-        "afterbegin",
-        inlineDonationAmountHeader
-      );
-    }
-
     // 4Site's simplified image lazy loader
     var srcDefer = document.querySelectorAll("img[data-src]");
     for (var i = 0; i < srcDefer.length; i++) {
@@ -2056,19 +2027,7 @@
         srcDefer[i].removeAttribute("data-src"); // Removes the data-source
       }
     }
-  });
 </script>
-<!-- End Render Critical Javascript -->
-
-<!-- Temporary Styles During QA -->
-<style>
-  /* Correct the sizing of the H2 Header that is moved inside a form component with JS before page render */
-  [data-engrid-theme="{{theme}}"] .en__field--donationAmt h2 {
-    margin-left: 0.5rem;
-    margin-right: 0;
-    width: calc(100% - 1rem);
-  }
-</style>
 
 
     <!-- Shared Assets -->

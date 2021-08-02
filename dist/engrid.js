@@ -1,6 +1,29 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 237:
+/***/ (() => {
+
+document.onreadystatechange = function () {
+  if (document.readyState === "interactive" || document.readyState === "complete") {
+    // Add placeholder to the "other" giving amount field
+    var enFieldOtherAmt = document.querySelectorAll('.radio-to-buttons_donationAmt .en__field--radio.en__field--donationAmt .en__field__input--other')[0];
+
+    if (enFieldOtherAmt) {
+      enFieldOtherAmt.placeholder = "Other";
+    } // Add placeholder to the Mobile Phone Field
+
+
+    var enFieldMobilePhone = document.querySelectorAll('input#en__field_supporter_phoneNumber')[0];
+
+    if (enFieldMobilePhone) {
+      enFieldMobilePhone.placeholder = "000-000-0000 (optional)";
+    }
+  }
+};
+
+/***/ }),
+
 /***/ 256:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -6516,9 +6539,12 @@ var ProgressBar = function ProgressBar() {
 
 
 
+// EXTERNAL MODULE: ./src/scripts/main.js
+var main = __webpack_require__(237);
 ;// CONCATENATED MODULE: ./src/index.ts
 // import { Options, App } from "@4site/engrid-common"; // Uses ENGrid via NPM
  // Uses ENGrid via Visual Studio Workspace
+
 
 
 var options = {
