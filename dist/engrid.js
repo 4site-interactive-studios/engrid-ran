@@ -3787,6 +3787,7 @@ var App = /*#__PURE__*/function (_ENGrid) {
       new PageBackground(); // TODO: Abstract everything to the App class so we can remove custom-methods
 
       inputPlaceholder();
+      preventAutocomplete();
       watchInmemField();
       watchGiveBySelectField();
       SetEnFieldOtherAmountRadioStepValue();
@@ -4688,6 +4689,17 @@ var inputPlaceholder = function inputPlaceholder() {
     enFieldBankRoutingNumber.placeholder = "Bank Routing Number";
   }
 };
+var preventAutocomplete = function preventAutocomplete() {
+  var enFieldDonationAmt = document.querySelector(".en__field--donationAmt.en__field--withOther .en__field__input--other");
+
+  if (enFieldDonationAmt) {
+    enFieldDonationAmt.setAttribute("autocomplete", "off");
+  }
+
+  if (enFieldDonationAmt) {
+    enFieldDonationAmt.setAttribute("data-lpignore", "true");
+  }
+};
 var watchInmemField = function watchInmemField() {
   var enFieldTransactionInmem = document.getElementById("en__field_transaction_inmem");
 
@@ -4921,7 +4933,7 @@ var handleCCUpdate = function handleCCUpdate() {
 
   if (card_type && payment_text != card_type) {
     field_payment_type.value = Array.from(field_payment_type.options).filter(function (d) {
-      return card_values[card_type].indexOf(d.value.toLowerCase());
+      return card_values[card_type].includes(d.value.toLowerCase());
     })[0].value;
   }
 };
@@ -5914,21 +5926,19 @@ var SimpleCountrySelect = /*#__PURE__*/function () {
 
     classCallCheck_classCallCheck(this, SimpleCountrySelect);
 
-    var _a;
-
     this.countryWrapper = document.querySelector('.simple_country_select');
-    this.countrySelect = document.querySelector('#en__field_supporter_country');
+    this.countrySelect = document.querySelector('#en__field_supporter_country'); // @TODO Check if there is a country select AN an address1 label, otherwise we can abort the function
 
     if (this.countrySelect) {
-      var countrySelecLabel = this.countrySelect.options[this.countrySelect.selectedIndex].innerHTML;
-      var countrySelecValue = this.countrySelect.options[this.countrySelect.selectedIndex].value;
+      var countrySelectLabel = this.countrySelect.options[this.countrySelect.selectedIndex].innerHTML;
+      var countrySelectValue = this.countrySelect.options[this.countrySelect.selectedIndex].value; // @TODO Update so that it reads "(Outside X?)" where X is the Value of the Country Select. No need for long form version of it.
 
-      if (countrySelecValue == "US") {
-        countrySelecValue = " US";
+      if (countrySelectValue == "US") {
+        countrySelectValue = " US";
       }
 
-      if (countrySelecLabel == "United States") {
-        countrySelecLabel = "the United States";
+      if (countrySelectLabel == "United States") {
+        countrySelectLabel = "the United States";
       }
 
       var countryWrapper = document.querySelector('.simple_country_select');
@@ -5937,8 +5947,8 @@ var SimpleCountrySelect = /*#__PURE__*/function () {
         // Remove Country Select tab index
         this.countrySelect.tabIndex = -1; // Find the address label
 
-        var addressLabel = document.querySelector('.en__field--address1 label');
-        var addressWrapper = (_a = addressLabel.parentElement) === null || _a === void 0 ? void 0 : _a.parentElement; // EN does not enforce a labels on fields so we have to check for it
+        var addressLabel = document.querySelector('.en__field--address1 label'); // EN does not enforce a labels on fields so we have to check for it
+        // @TODO Update so that this follows the same pattern / HTML structure as the Tippy tooltips which are added to labels. REF: https://github.com/4site-interactive-studios/engrid-aiusa/blob/6e4692d4f9a28b9668d6c1bfed5622ac0cc5bdb9/src/scripts/main.js#L42
 
         if (addressLabel) {
           // Wrap the address label in a div to break out of the flexbox
@@ -5946,7 +5956,7 @@ var SimpleCountrySelect = /*#__PURE__*/function () {
           // Includes both long form and short form variants
 
           var newEl = document.createElement('span');
-          newEl.innerHTML = ' <label id="en_custom_field_simple_country_select_long" class="en__field__label"><a href="javascript:void(0)">(Outside ' + countrySelecLabel + '?)</a></label><label id="en_custom_field_simple_country_select_short" class="en__field__label"><a href="javascript:void(0)">(Outside ' + countrySelecValue + '?)</a></label>';
+          newEl.innerHTML = ' <label id="en_custom_field_simple_country_select_long" class="en__field__label"><a href="javascript:void(0)">(Outside ' + countrySelectLabel + '?)</a></label><label id="en_custom_field_simple_country_select_short" class="en__field__label"><a href="javascript:void(0)">(Outside ' + countrySelectValue + '?)</a></label>';
           newEl.querySelectorAll("a").forEach(function (el) {
             el.addEventListener("click", _this.showCountrySelect.bind(_this));
           });
@@ -6080,9 +6090,7 @@ var SrcDefer = function SrcDefer() {
 
 
   for (var _i = 0; _i < this.videoBackground.length; _i++) {
-    var video = this.videoBackground[_i];
-    video.setAttribute("loading", "lazy"); // Lets the browser determine when the asset should be downloaded
-    // Process one or more defined sources in the <video> tag
+    var video = this.videoBackground[_i]; // Process one or more defined sources in the <video> tag
 
     var videoBackgroundSource = video.querySelectorAll("source");
 
@@ -6220,12 +6228,16 @@ var PageBackground = /*#__PURE__*/function () {
   }, {
     key: "hasVideoBackground",
     value: function hasVideoBackground() {
-      return !!this.pageBackground.querySelector('video');
+      if (this.pageBackground) {
+        return !!this.pageBackground.querySelector('video');
+      }
     }
   }, {
     key: "hasImageBackground",
     value: function hasImageBackground() {
-      return !this.hasVideoBackground() && !!this.pageBackground.querySelector('img');
+      if (this.pageBackground) {
+        return !this.hasVideoBackground() && !!this.pageBackground.querySelector('img');
+      }
     }
   }]);
 
@@ -6537,6 +6549,8 @@ var ProgressBar = function ProgressBar() {
 
 
 
+
+ // Events
 
 
 // EXTERNAL MODULE: ./src/scripts/main.js

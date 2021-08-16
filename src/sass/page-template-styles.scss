@@ -430,6 +430,10 @@
         margin-bottom: 4rem;
     }
 
+
+
+
+
     // .content-preFooter h1 {
       // flex-basis: 100%;
       // line-height: 1;
@@ -776,6 +780,18 @@
         border:0 !important;
         padding:0 !important;
       }
+    }
+
+    @media screen and (max-width:880px) {
+      .body-headerOutside {
+        background-color:#000;
+      }
+
+      body:not(#en__pagebuilder)[data-engrid-layout=centercenter1col] .page-backgroundImage {
+        height: 0;
+        }
+
+  
     }
     
     @media screen and (max-width:600px) {
