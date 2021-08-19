@@ -123,9 +123,9 @@ var runtime = (function (exports) {
   // This is a polyfill for %IteratorPrototype% for environments that
   // don't natively support it.
   var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
+  define(IteratorPrototype, iteratorSymbol, function () {
     return this;
-  };
+  });
 
   var getProto = Object.getPrototypeOf;
   var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
@@ -139,8 +139,9 @@ var runtime = (function (exports) {
 
   var Gp = GeneratorFunctionPrototype.prototype =
     Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+  define(Gp, "constructor", GeneratorFunctionPrototype);
+  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
   GeneratorFunction.displayName = define(
     GeneratorFunctionPrototype,
     toStringTagSymbol,
@@ -254,9 +255,9 @@ var runtime = (function (exports) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
     return this;
-  };
+  });
   exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -449,13 +450,13 @@ var runtime = (function (exports) {
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
   // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
+  define(Gp, iteratorSymbol, function() {
     return this;
-  };
+  });
 
-  Gp.toString = function() {
+  define(Gp, "toString", function() {
     return "[object Generator]";
-  };
+  });
 
   function pushTryEntry(locs) {
     var entry = { tryLoc: locs[0] };
@@ -774,14 +775,19 @@ try {
 } catch (accidentalStrictMode) {
   // This module should not be running in strict mode, so the above
   // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, we can escape
+  // in case runtime.js accidentally runs in strict mode, in modern engines
+  // we can explicitly access globalThis. In older engines we can escape
   // strict mode using a global Function call. This could conceivably fail
   // if a Content Security Policy forbids using Function, but in that case
   // the proper solution is to fix the accidental strict mode problem. If
   // you've misconfigured your bundler to force strict mode and applied a
   // CSP to forbid Function, and you're not willing to fix either of those
   // problems, please detail your unique predicament in a GitHub issue.
-  Function("r", "regeneratorRuntime = r")(runtime);
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
 }
 
 
@@ -3738,7 +3744,7 @@ var App = /*#__PURE__*/function (_ENGrid) {
 
     _this.shouldScroll = function () {
       // If you find a error, scroll
-      if (document.querySelector('.en__errorHeader')) {
+      if (document.querySelector(".en__errorHeader")) {
         return true;
       } // Try to match the iframe referrer URL by testing valid EN Page URLs
 
@@ -3780,7 +3786,7 @@ var App = /*#__PURE__*/function (_ENGrid) {
       var _this2 = this;
 
       // Enable debug if available is the first thing
-      if (this.options.Debug || App.getUrlParameter('debug') == 'true') App.setBodyData('debug', ''); // IE Warning
+      if (this.options.Debug || App.getUrlParameter("debug") == "true") App.setBodyData("debug", ""); // IE Warning
 
       new IE(); // Page Background
 
@@ -3823,11 +3829,11 @@ var App = /*#__PURE__*/function (_ENGrid) {
       });
 
       this._form.onSubmit.subscribe(function (s) {
-        return console.log('Submit: ', s);
+        return console.log("Submit: ", s);
       });
 
       this._form.onError.subscribe(function (s) {
-        return console.log('Error:', s);
+        return console.log("Error:", s);
       });
 
       window.enOnSubmit = function () {
@@ -3928,7 +3934,7 @@ var App = /*#__PURE__*/function (_ENGrid) {
       }
 
       if (this.inIframe()) {
-        sendIframeFormStatus('submit');
+        sendIframeFormStatus("submit");
       }
     }
   }, {
@@ -3963,9 +3969,137 @@ var App = /*#__PURE__*/function (_ENGrid) {
   }, {
     key: "setDataAttributes",
     value: function setDataAttributes() {
-      // Add a body banner data attribute if it's empty
-      if (!document.querySelector('.body-banner img')) {
-        App.setBodyData('body-banner', 'empty');
+      // Add a body banner data attribute if the banner contains no image
+      // @TODO Should this account for video?
+      // @TODO Should we merge this with the script that checks the background image?
+      if (!document.querySelector(".body-banner img")) {
+        App.setBodyData("body-banner", "empty");
+      } // Add a page-alert data attribute if it is empty
+
+
+      if (document.querySelector(".page-alert *")) {
+        App.setBodyData("has-page-alert", "");
+      } else {
+        App.setBodyData("does-not-have-page-alert", "");
+      } // Add a content-header data attribute if it is empty
+
+
+      if (document.querySelector(".content-header *")) {
+        App.setBodyData("has-content-header", "");
+      } else {
+        App.setBodyData("does-not-have-content-header", "");
+      } // Add a body-headerOutside data attribute if it is empty
+
+
+      if (document.querySelector(".body-headerOutside *")) {
+        App.setBodyData("has-body-headerOutside", "");
+      } else {
+        App.setBodyData("does-not-have-body-headerOutside", "");
+      } // Add a body-header data attribute if it is empty
+
+
+      if (document.querySelector(".body-header *")) {
+        App.setBodyData("has-body-header", "");
+      } else {
+        App.setBodyData("does-not-have-body-header", "");
+      } // Add a body-title data attribute if it is empty
+
+
+      if (document.querySelector(".body-title *")) {
+        App.setBodyData("has-body-title", "");
+      } else {
+        App.setBodyData("does-not-have-body-title", "");
+      } // Add a body-banner data attribute if it is empty
+
+
+      if (document.querySelector(".body-banner *")) {
+        App.setBodyData("has-body-banner", "");
+      } else {
+        App.setBodyData("does-not-have-body-banner", "");
+      } // Add a body-bannerOverlay data attribute if it is empty
+
+
+      if (document.querySelector(".body-bannerOverlay *")) {
+        App.setBodyData("has-body-bannerOverlay", "");
+      } else {
+        App.setBodyData("does-not-have-body-bannerOverlay", "");
+      } // Add a body-top data attribute if it is empty
+
+
+      if (document.querySelector(".body-top *")) {
+        App.setBodyData("has-body-top", "");
+      } else {
+        App.setBodyData("does-not-have-body-top", "");
+      } // Add a body-main data attribute if it is empty
+
+
+      if (document.querySelector(".body-main *")) {
+        App.setBodyData("has-body-main", "");
+      } else {
+        App.setBodyData("does-not-have-body-main", "");
+      } // Add a body-bottom data attribute if it is empty
+
+
+      if (document.querySelector(".body-bottom *")) {
+        App.setBodyData("has-body-bottom", "");
+      } else {
+        App.setBodyData("does-not-have-body-bottom", "");
+      } // Add a body-footer data attribute if it is empty
+
+
+      if (document.querySelector(".body-footer *")) {
+        App.setBodyData("has-body-footer", "");
+      } else {
+        App.setBodyData("does-not-have-body-footer", "");
+      } // Add a body-footerOutside data attribute if it is empty
+
+
+      if (document.querySelector(".body-footerOutside *")) {
+        App.setBodyData("has-body-footerOutside", "");
+      } else {
+        App.setBodyData("does-not-have-body-footerOutside", "");
+      } // Add a content-footerSpacer data attribute if it is empty
+
+
+      if (document.querySelector(".content-footerSpacer *")) {
+        App.setBodyData("has-content-footerSpacer", "");
+      } else {
+        App.setBodyData("does-not-have-content-footerSpacer", "");
+      } // Add a content-preFooter data attribute if it is empty
+
+
+      if (document.querySelector(".content-preFooter *")) {
+        App.setBodyData("has-content-preFooter", "");
+      } else {
+        App.setBodyData("does-not-have-content-preFooter", "");
+      } // Add a content-footer data attribute if it is empty
+
+
+      if (document.querySelector(".content-footer *")) {
+        App.setBodyData("has-content-footer", "");
+      } else {
+        App.setBodyData("does-not-have-content-footer", "");
+      } // Add a page-backgroundImage data attribute if it is empty
+
+
+      if (document.querySelector(".page-backgroundImage *")) {
+        App.setBodyData("has-page-backgroundImage", "");
+      } else {
+        App.setBodyData("does-not-have-page-backgroundImage", "");
+      } // Add a page-backgroundImageOverlay data attribute if it is empty
+
+
+      if (document.querySelector(".page-backgroundImageOverlay *")) {
+        App.setBodyData("has-page-backgroundImageOverlay", "");
+      } else {
+        App.setBodyData("does-not-have-page-backgroundImageOverlay", "");
+      } // Add a page-customCode data attribute if it is empty
+
+
+      if (document.querySelector(".page-customCode *")) {
+        App.setBodyData("has-page-customCode", "");
+      } else {
+        App.setBodyData("does-not-have-page-customCode", "");
       }
     }
   }]);
@@ -5629,7 +5763,7 @@ var UpsellLightbox = /*#__PURE__*/function () {
       var paragraph = this.options.paragraph.replace("{new-amount}", "<span class='upsell_suggestion'></span>").replace("{old-amount}", "<span class='upsell_amount'></span>");
       var yes = this.options.yesLabel.replace("{new-amount}", "<span class='upsell_suggestion'></span>").replace("{old-amount}", "<span class='upsell_amount'></span>");
       var no = this.options.noLabel.replace("{new-amount}", "<span class='upsell_suggestion'></span>").replace("{old-amount}", "<span class='upsell_amount'></span>");
-      var markup = "\n            <div class=\"upsellLightboxContainer\" id=\"goMonthly\">\n              <!-- ideal image size is 480x650 pixels -->\n              <div class=\"background\" style=\"background-image: url('".concat(this.options.image, "');\"></div>\n              <div class=\"upsellLightboxContent\">\n              ").concat(this.options.canClose ? "<span id=\"goMonthlyClose\"></span>" : "", "\n                <h1>\n                  ").concat(title, "\n                </h1>\n                ").concat(this.options.otherAmount ? "\n                <p>\n                  <span>".concat(this.options.otherLabel, "</span>\n                  <input href=\"#\" id=\"secondOtherField\" name=\"secondOtherField\" size=\"12\" type=\"number\" inputmode=\"numeric\" step=\"1\" value=\"\">\n                </p>\n                ") : "", "\n\n                <p>\n                  ").concat(paragraph, "\n                </p>\n                <!-- YES BUTTON -->\n                <div id=\"upsellYesButton\">\n                  <a href=\"#\">\n                    <div>\n                    <span class='loader-wrapper'><span class='loader loader-quart'></span></span>\n                    <span class='label'>").concat(yes, "</span>\n                    </div>\n                  </a>\n                </div>\n                <!-- NO BUTTON -->\n                <div id=\"upsellNoButton\">\n                  <button title=\"Close (Esc)\" type=\"button\">\n                    <div>\n                    <span class='loader-wrapper'><span class='loader loader-quart'></span></span>\n                    <span class='label'>").concat(no, "</span>\n                    </div>\n                  </button>\n                </div>\n              </div>\n            </div>\n            ");
+      var markup = "\n            <div class=\"upsellLightboxContainer\" id=\"goMonthly\">\n              <!-- ideal image size is 480x650 pixels -->\n              <div class=\"background\" style=\"background-image: url('".concat(this.options.image, "');\"></div>\n              <div class=\"upsellLightboxContent\">\n              ").concat(this.options.canClose ? "<span id=\"goMonthlyClose\"></span>" : "", "\n                <h1>\n                  ").concat(title, "\n                </h1>\n                ").concat(this.options.otherAmount ? "\n                <p>\n                  <span>".concat(this.options.otherLabel, "</span>\n                  <input href=\"#\" id=\"secondOtherField\" name=\"secondOtherField\" size=\"12\" type=\"number\" inputmode=\"numeric\" step=\"1\" value=\"\">\n                </p>\n                ") : "", "\n\n                <p>\n                  ").concat(paragraph, "\n                </p>\n                <!-- YES BUTTON -->\n                <div id=\"upsellYesButton\">\n                  <a class=\"pseduo__en__submit_button\" href=\"#\">\n                    <div>\n                    <span class='loader-wrapper'><span class='loader loader-quart'></span></span>\n                    <span class='label'>").concat(yes, "</span>\n                    </div>\n                  </a>\n                </div>\n                <!-- NO BUTTON -->\n                <div id=\"upsellNoButton\">\n                  <button title=\"Close (Esc)\" type=\"button\">\n                    <div>\n                    <span class='loader-wrapper'><span class='loader loader-quart'></span></span>\n                    <span class='label'>").concat(no, "</span>\n                    </div>\n                  </button>\n                </div>\n              </div>\n            </div>\n            ");
       this.overlay.innerHTML = markup;
       var closeButton = this.overlay.querySelector("#goMonthlyClose");
       var yesButton = this.overlay.querySelector("#upsellYesButton a");
@@ -5926,8 +6060,8 @@ var SimpleCountrySelect = /*#__PURE__*/function () {
 
     classCallCheck_classCallCheck(this, SimpleCountrySelect);
 
-    this.countryWrapper = document.querySelector('.simple_country_select');
-    this.countrySelect = document.querySelector('#en__field_supporter_country'); // @TODO Check if there is a country select AN an address1 label, otherwise we can abort the function
+    this.countryWrapper = document.querySelector(".simple_country_select");
+    this.countrySelect = document.querySelector("#en__field_supporter_country"); // @TODO Check if there is a country select AN an address1 label, otherwise we can abort the function
 
     if (this.countrySelect) {
       var countrySelectLabel = this.countrySelect.options[this.countrySelect.selectedIndex].innerHTML;
@@ -5941,26 +6075,27 @@ var SimpleCountrySelect = /*#__PURE__*/function () {
         countrySelectLabel = "the United States";
       }
 
-      var countryWrapper = document.querySelector('.simple_country_select');
+      var countryWrapper = document.querySelector(".simple_country_select");
 
       if (countryWrapper) {
         // Remove Country Select tab index
         this.countrySelect.tabIndex = -1; // Find the address label
 
-        var addressLabel = document.querySelector('.en__field--address1 label'); // EN does not enforce a labels on fields so we have to check for it
+        var addressLabel = document.querySelector(".en__field--address1 label"); // EN does not enforce a labels on fields so we have to check for it
         // @TODO Update so that this follows the same pattern / HTML structure as the Tippy tooltips which are added to labels. REF: https://github.com/4site-interactive-studios/engrid-aiusa/blob/6e4692d4f9a28b9668d6c1bfed5622ac0cc5bdb9/src/scripts/main.js#L42
 
         if (addressLabel) {
-          // Wrap the address label in a div to break out of the flexbox
-          this.wrap(addressLabel, document.createElement('div')); // Add our link after the address label
+          var labelText = addressLabel.innerHTML; // Wrap the address label in a div to break out of the flexbox
+
+          this.wrap(addressLabel, document.createElement("div")); // Add our link INSIDE the address label
           // Includes both long form and short form variants
 
-          var newEl = document.createElement('span');
-          newEl.innerHTML = ' <label id="en_custom_field_simple_country_select_long" class="en__field__label"><a href="javascript:void(0)">(Outside ' + countrySelectLabel + '?)</a></label><label id="en_custom_field_simple_country_select_short" class="en__field__label"><a href="javascript:void(0)">(Outside ' + countrySelectValue + '?)</a></label>';
-          newEl.querySelectorAll("a").forEach(function (el) {
+          var newEl = document.createElement("span");
+          newEl.innerHTML = ' <label id="en_custom_field_simple_country_select_long" class="en__field__label"><a href="javascript:void(0)">(Outside ' + countrySelectLabel + '?)</a></label><label id="en_custom_field_simple_country_select_short" class="en__field__label"><a href="javascript:void(0)">(Outside ' + countrySelectValue + "?)</a></label>";
+          addressLabel.innerHTML = "".concat(labelText).concat(newEl.innerHTML);
+          addressLabel.querySelectorAll("a").forEach(function (el) {
             el.addEventListener("click", _this.showCountrySelect.bind(_this));
-          });
-          this.insertAfter(newEl, addressLabel);
+          }); //this.insertAfter(newEl, addressLabel);
         }
       }
     }
@@ -5988,7 +6123,7 @@ var SimpleCountrySelect = /*#__PURE__*/function () {
 
       e.preventDefault();
       this.countryWrapper.classList.add("country-select-visible");
-      var addressLabel = document.querySelector('.en__field--address1 label');
+      var addressLabel = document.querySelector(".en__field--address1 label");
       var addressWrapper = (_a = addressLabel.parentElement) === null || _a === void 0 ? void 0 : _a.parentElement;
       addressWrapper.classList.add("country-select-visible");
       this.countrySelect.focus(); // Reinstate Country Select tab index
@@ -6092,42 +6227,43 @@ var SrcDefer = function SrcDefer() {
   for (var _i = 0; _i < this.videoBackground.length; _i++) {
     var video = this.videoBackground[_i]; // Process one or more defined sources in the <video> tag
 
-    var videoBackgroundSource = video.querySelectorAll("source");
+    this.videoBackgroundSource = video.querySelectorAll("source");
 
-    var videoBackgroundSourcedDataSrc = this.videoBackgroundSource[_i].getAttribute("data-src");
+    if (this.videoBackgroundSource) {
+      // loop through all the sources
+      for (var j = 0; j < this.videoBackgroundSource.length; j++) {
+        var videoSource = this.videoBackgroundSource[j];
 
-    if (videoBackgroundSource) {
-      for (var _i2 = 0; _i2 < this.videoBackgroundSource.length; _i2++) {
-        // Construct the <video> tags new <source>
-        if (videoBackgroundSourcedDataSrc) {
-          this.videoBackgroundSource[_i2].setAttribute("src", videoBackgroundSourcedDataSrc);
+        if (videoSource) {
+          var videoBackgroundSourcedDataSrc = videoSource.getAttribute("data-src");
 
-          this.videoBackgroundSource[_i2].setAttribute("data-engrid-data-src-processed", "true"); // Sets an attribute to mark that it has been processed by ENGrid
+          if (videoBackgroundSourcedDataSrc) {
+            videoSource.setAttribute("src", videoBackgroundSourcedDataSrc);
+            videoSource.setAttribute("data-engrid-data-src-processed", "true"); // Sets an attribute to mark that it has been processed by ENGrid
 
-
-          this.videoBackgroundSource[_i2].removeAttribute("data-src"); // Removes the data-source
-
-        } // To get the browser to request the video asset defined we need to remove the <video> tag and re-add it
-
-
-        var videoBackgroundParent = video.parentNode; // Determine the parent of the <video> tag
-
-        var copyOfVideoBackground = video; // Copy the <video> tag
-
-        if (videoBackgroundParent && copyOfVideoBackground) {
-          videoBackgroundParent.replaceChild(copyOfVideoBackground, this.videoBackground[_i2]); // Replace the <video> with the copy of itself
-          // Update the video to auto play, mute, loop
-
-          video.muted = true; // Mute the video by default
-
-          video.controls = false; // Hide the browser controls
-
-          video.loop = true; // Loop the video
-
-          video.playsInline = true; // Encourage the user agent to display video content within the element's playback area
-
-          video.play(); // Plays the video
+            videoSource.removeAttribute("data-src"); // Removes the data-source
+          }
         }
+      } // To get the browser to request the video asset defined we need to remove the <video> tag and re-add it
+
+
+      var videoBackgroundParent = video.parentNode; // Determine the parent of the <video> tag
+
+      var copyOfVideoBackground = video; // Copy the <video> tag
+
+      if (videoBackgroundParent && copyOfVideoBackground) {
+        videoBackgroundParent.replaceChild(copyOfVideoBackground, video); // Replace the <video> with the copy of itself
+        // Update the video to auto play, mute, loop
+
+        video.muted = true; // Mute the video by default
+
+        video.controls = false; // Hide the browser controls
+
+        video.loop = true; // Loop the video
+
+        video.playsInline = true; // Encourage the user agent to display video content within the element's playback area
+
+        video.play(); // Plays the video
       }
     }
   }

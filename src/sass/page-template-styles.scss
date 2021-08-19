@@ -2,961 +2,835 @@
 // Uncomment to use and reference engrid-scrips SASS files for more CSS Custom Properties.
 
 // All CSS Custom Properties should be scoped to the theme using CSS Data Attributes.
-[data-engrid-theme="engrid-ran2"]{
+[data-engrid-theme="engrid-ran2"] {
+  // PRIMARY COLORS
+  --color_primary: #000000;
+  --color_primary_accent: #f1700b;
 
-    // PRIMARY COLORS
-    --color_primary: #000000;
-    --color_primary_accent: #f1700b;
-    
-    // TYPOGRAPHY DEFAULT
-    --default_font-family:"HarmoniaSansStd", sans-serif;
-    // --bold_font-family:"HarmoniaSansBlk", sans-serif;
-    --bold_font-family:"HarmoniaSansStd", sans-serif;
-    --root_font-size: 1.125rem;
-    --default_font-size: var(--root_font-size);
-    --engrid__body_padding: 0 3.5rem;
+  // TYPOGRAPHY DEFAULT
+  --default_font-family: "HarmoniaSansStd", sans-serif;
+  // --bold_font-family:"HarmoniaSansBlk", sans-serif;
+  --bold_font-family: "HarmoniaSansStd", sans-serif;
+  --root_font-size: 1.125rem;
+  --default_font-size: var(--root_font-size);
+  --engrid__body_padding: 0 3.5rem;
 
-    // TYPOGRAPHY H1 AND H2
-    --h1_font-family:"HarmoniaSansStd", sans-serif;
-    --h1_font-size: 3rem;
-    --h1_line-height: 1.2;
-    --h1_font-weight: 900;
-    --h2_font-size: 1.5rem;
-    --h2_font-weight: 700;
+  // TYPOGRAPHY H1 AND H2
+  --h1_font-family: "HarmoniaSansStd", sans-serif;
+  --h1_font-size: 3rem;
+  --h1_line-height: 1.2;
+  --h1_font-weight: 900;
+  --h2_font-size: 1.5rem;
+  --h2_font-weight: 700;
 
-    // LABELS
-    --label-font-family:"HarmoniaSansStd", sans-serif;
-    --label-font-size: 0.75rem;
-    --label-font-weight: 500;
-    --label-text-transform: uppercase;
-    --label-letter-spacing: 1.68px;
+  // LABELS
+  --label-font-family: "HarmoniaSansStd", sans-serif;
+  --label-font-size: 0.75rem;
+  --label-font-weight: 500;
+  --label-text-transform: uppercase;
+  --label-letter-spacing: 1.68px;
 
-    // TYPOGRAPHY P
-    --p_font-family: var(--default_font-family);
+  // TYPOGRAPHY P
+  --p_font-family: var(--default_font-family);
 
-    // TYPOGRAPHY A
-    --a_font-family: var(--default_font-family);
-    // --a_color: initial;
-    // --a_text-decoration: underline;
+  // TYPOGRAPHY A
+  --a_font-family: var(--default_font-family);
+  // --a_color: initial;
+  // --a_text-decoration: underline;
 
-    // TYPOGRAPHY A:FOCUS
-    // TYPOGRAPHY A:HOVER
-    // --a_color_hover: var(--a_color);
-    // --a_text-decoration_hover: initial;
+  // TYPOGRAPHY A:FOCUS
+  // TYPOGRAPHY A:HOVER
+  // --a_color_hover: var(--a_color);
+  // --a_text-decoration_hover: initial;
 
-    // TYPOGRAPHY INPUT
-    --input_font-family: var(--default_font-family);
-    --input_color: #000000;
-    --input_font-size: 1rem;
-    --input_background-color: var(--white);
-    --input_border-width: 1px;
-    --input_border-color: #000;
-    --input_border-radius: 0;
-    --checkbox_content_checked: "";
-    --checkbox_border-width: 2px;
-        
-    // TYPOGRAPHY INPUT:FOCUS
-    // TYPOGRAPHY INPUT:HOVER
-    --input_border-color_hover: #000;
+  // TYPOGRAPHY INPUT
+  --input_font-family: var(--default_font-family);
+  --input_color: #000000;
+  --input_font-size: 1rem;
+  --input_background-color: var(--white);
+  --input_border-width: 1px;
+  --input_border-color: #000;
+  --input_border-radius: 0;
+  --checkbox_content_checked: "";
+  --checkbox_border-width: 2px;
 
-    // TYPOGRAPHY BUTTON
-    --button_font-family: "HarmoniaSansStd", sans-serif;
-    --button_color: var(--color_white);
-    --button_font-size: 1.6rem;
-    --button_font-weight: 900;
-    // --button_background-color: #535b61;
-    --button_border-width: 0;
-    // --button_border-color: var(--color_black);
-    --button_border-radius: 0px;
-    --donation-amount__button_padding: 1.25ch 1.2ch 0.75ch 1.2ch;
+  // TYPOGRAPHY INPUT:FOCUS
+  // TYPOGRAPHY INPUT:HOVER
+  --input_border-color_hover: #000;
 
-    // TYPOGRAPHY BUTTON:HOVER
-    // --button_color_hover: var(--button_color);
-    // --button_background-color_hover: var(--color_black);
-    // --button_border-color_hover: var(--button_background-color_hover);
-    --button_background-color_checked: var(--color_primary_accent);
+  // TYPOGRAPHY BUTTON
+  --button_font-family: "HarmoniaSansStd", sans-serif;
+  --button_color: var(--color_white);
+  --button_font-size: 1.6rem;
+  --button_font-weight: 900;
+  // --button_background-color: #535b61;
+  --button_border-width: 0;
+  // --button_border-color: var(--color_black);
+  --button_border-radius: 0px;
+  --donation-amount__button_padding: 1.25ch 1.2ch 0.75ch 1.2ch;
 
-    // TYPOGRAPHY BUTTON:SELECTED
-    // --button_color_checked: var(--button_color_hover);
-    --button_background-color_checked: var(--color_primary_accent);
-    --donation-amount__button_background-color_checked: var(--color_primary_accent);
-    // --button_border-color_checked: var(--button_border-color_hover);
+  // TYPOGRAPHY BUTTON:HOVER
+  // --button_color_hover: var(--button_color);
+  // --button_background-color_hover: var(--color_black);
+  // --button_border-color_hover: var(--button_background-color_hover);
+  --button_background-color_checked: var(--color_primary_accent);
 
-    // TYPOGRAPHY SUBMIT BUTTON
-    // --submit__button_border-color: var(--button_border-color);
-    --submit__button_background-color: var(--color_primary_accent);
-    // --submit__button_padding-top: 1ch;
-    // --submit__button_padding-bottom: 1ch;
-    --submit__button_font-size: calc(0.05552em * 24);
+  // TYPOGRAPHY BUTTON:SELECTED
+  // --button_color_checked: var(--button_color_hover);
+  --button_background-color_checked: var(--color_primary_accent);
+  --donation-amount__button_background-color_checked: var(
+    --color_primary_accent
+  );
+  // --button_border-color_checked: var(--button_border-color_hover);
 
-    // DONATION PAGE
-    --give-monthly-donation-amount-appended-label: "/mo";
-    // --give-annual-donation-amount-appended-label: "/yr";  
-    --recurring-frequency__button_count: 3;
-    --donation-amount__button_count: 3;
-    --give-by-select__button_count: 2;
+  // TYPOGRAPHY SUBMIT BUTTON
+  // --submit__button_border-color: var(--button_border-color);
+  --submit__button_background-color: var(--color_primary_accent);
+  // --submit__button_padding-top: 1ch;
+  // --submit__button_padding-bottom: 1ch;
+  --submit__button_font-size: calc(0.05552em * 24);
+
+  // DONATION PAGE
+  --give-monthly-donation-amount-appended-label: "/mo";
+  // --give-annual-donation-amount-appended-label: "/yr";
+  --recurring-frequency__button_count: 3;
+  --donation-amount__button_count: 3;
+  --give-by-select__button_count: 2;
 }
 
-
 /* Add your custom theme styles here */
-[data-engrid-theme="engrid-ran2"]{
+[data-engrid-theme="engrid-ran2"] {
+  .body-title {
+    -webkit-box-shadow: 0px -150px 50px 50px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px -150px 50px 50px rgba(0, 0, 0, 0.2);
+    z-index: -2 !important;
+  }
 
+  .highlight {
+    background-color: #f9f003;
+    color: #343432;
+    padding: 1rem 0.5rem 0.25rem 0.5rem;
+    font-weight: 600;
+    display: inline-block;
+    text-align: center;
+    font-size: (0.05552em * 32);
+  }
 
-    .body-title {
-      -webkit-box-shadow: 0px -150px 50px 50px rgba(0,0,0,0.2); 
-      box-shadow: 0px -150px 50px 50px rgba(0,0,0,0.2);
-      z-index:-2 !important;
+  .highlight.big {
+    font-size: 1.3rem;
+  }
+
+  h2.highlight {
+    text-transform: uppercase;
+    padding: 12px 15px 10px 15px;
+  }
+
+  .monthly-gift-upsell-tooltip .highlight:after {
+    bottom: -12px;
+    left: 55%;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border: 20px solid transparent;
+    border-top-color: #f9f003;
+    margin-left: 30px;
+    z-index: 1;
+  }
+
+  b,
+  strong {
+    font-family: "HarmoniaSansBlk", sans-serif;
+  }
+
+  .en__field__label[for="en__field_transaction_recurrpay0"],
+  .en__field__label[for="en__field_transaction_recurrpay1"] {
+    font-family: var(--bold_font-family);
+    font-weight: 900;
+    font-size: calc(0.05552em * 24);
+    text-transform: none !important;
+    margin: 0 1.7rem 0 1.3rem;
+  }
+
+  .en__field__label[for="en__field_transaction_recurrpay0"]:focus,
+  .en__field__label[for="en__field_transaction_recurrpay1"]:focus {
+    outline: none !important;
+  }
+
+  .frequency {
+    .en__field__input--radio + .en__field__label::before {
+      content: "";
+      position: absolute;
+      height: calc(1.4rem - 2px);
+      width: calc(1.4rem - 2px);
+      left: -1.7rem;
+      display: inline-block;
+      vertical-align: middle;
+      border: 4px solid #000000;
+      box-shadow: inset 0 0 0 5px #ffffff;
+      background-color: #ffffff;
+      cursor: pointer;
+      transition-duration: 0.25s;
+      transition-property: border-color, background-color;
+      top: 5px;
     }
-  
-    .highlight {
-        background-color: #f9f003;
-        color: #343432;
-        padding: 1rem .5rem .25rem .5rem;
-        font-weight: 600;
-        display: inline-block;
-        text-align:center;
-        font-size: (0.05552em * 32);
+
+    .en__field__input--radio:checked + .en__field__label::before {
+      background-color: #f1700b;
+      box-shadow: inset 0 0 0 2px #ffffff;
+      border-width: 2px;
     }
-    
-    .highlight.big {
-        font-size: 1.3rem;
+  }
+
+  .en__field--donationAmt
+    div:not(.en__field__item--other)
+    .en__field__label--item:after {
+    font-size: 1.3rem;
+    color: var(--color_light-gray);
+    text-transform: none;
+  }
+
+  .give-by-select {
+    input[type="radio"] + label:before {
+      display: none;
     }
-    
-    h2.highlight {
-      text-transform:uppercase;
-      padding:12px 15px 10px 15px;
+
+    .en__field--radio .en__field__item input[type="radio"] + label {
+      flex-grow: 1;
+      padding: 1rem 0 1rem 2.25rem;
+      background-position-x: calc(50% - 25px);
+      background-position-y: calc(50% - 2px);
+      background-repeat: no-repeat;
+      font-size: 1.1rem;
+      letter-spacing: 0;
+      // text-align: center;
+      // color: #ffffff;
+      text-transform: none;
+      // background-color:var(--color_primary);
+      // justify-content: center;
+      // font-family: var(--bold_font-family);
+      font-weight: 700;
     }
-    
-    .monthly-gift-upsell-tooltip .highlight:after {
-        bottom: -12px;
-        left: 55%;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        border: 20px solid transparent;
-        border-top-color: #f9f003;
-        margin-left: 30px;
-        z-index: 1;
-    }
-    
-    b, strong {
-        font-family:"HarmoniaSansBlk", sans-serif;
-    }
-    
-    // .finelabels label.en__field__label {
-    //     font-size: calc(0.05552em * 12);
-    //     font-weight: 700;
-    //     font-stretch: normal;
-    //     font-style: normal;
-    //     line-height: normal;
-    //     letter-spacing: 1.68px;
-    //     text-transform: uppercase;
-    //     padding-bottom: 0;
+
+    // .en__field--radio .en__field__item input[type=radio]+label:checked {
+    // background-color:#f1700b;
     // }
-    
-    .en__field__label[for=en__field_transaction_recurrpay0], .en__field__label[for=en__field_transaction_recurrpay1] {
-        font-family:var(--bold_font-family);
-        font-weight:900;
-        font-size: calc(0.05552em * 24);
-        text-transform: none !important;
-        margin:0 1.7rem 0 1.3rem;
-    }
-    
-    .en__field__label[for=en__field_transaction_recurrpay0]:focus, .en__field__label[for=en__field_transaction_recurrpay1]:focus {
-        outline:none !important;
-    }
-    
-    .frequency {
-    
-        .en__field__input--radio + .en__field__label::before {
-            content: "";
-            position: absolute;
-            height: calc(1.4rem - 2px);
-            width: calc(1.4rem - 2px);
-            left: -1.7rem;
-            display: inline-block;
-            vertical-align: middle;
-            border: 4px solid #000000;
-            box-shadow: inset 0 0 0 5px #ffffff;
-            background-color: #ffffff;
-            cursor: pointer;
-            transition-duration: 0.25s;
-            transition-property: border-color, background-color;
-            top:5px;
-        }
-    
-        .en__field__input--radio:checked + .en__field__label::before {
-            background-color: #f1700b;
-            box-shadow: inset 0 0 0 2px #ffffff;
-            border-width: 2px;
-        }
-    }
-    
-    .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item:after {
-      font-size:1.3rem;
-      color:var(--color_light-gray);
-      text-transform:none;
+
+    .en__field--radio .en__field__item input[type="radio"]:checked {
+      background-color: var(--color_primary_accent) !important;
     }
 
-    .give-by-select {
-    
-        input[type=radio]+label:before {
-            display:none;
-        }
-    
-        .en__field--radio .en__field__item input[type="radio"] + label {
-            flex-grow: 1;
-            padding: 1rem 0 1rem 2.25rem;
-            background-position-x: calc(50% - 25px);
-            background-position-y: calc(50% - 2px);
-            background-repeat: no-repeat;
-            font-size: 1.1rem;
-            letter-spacing: 0;
-            // text-align: center;
-            // color: #ffffff;
-            text-transform: none;
-            // background-color:var(--color_primary);
-            // justify-content: center;
-            // font-family: var(--bold_font-family);
-            font-weight:700;
-        }
-
-        // .en__field--radio .en__field__item input[type=radio]+label:checked {
-          // background-color:#f1700b;
-        // }
-    
-        .en__field--radio .en__field__item input[type="radio"]:checked {
-          background-color: var(--color_primary_accent) !important;
-        }
-    
-        .radio-to-buttons .en__field--radio input[type="radio"]:checked + label, .radio-to-buttons .en__field--radio .en__field__item--other.has-value input, .radio-to-buttons .en__field--radio .en__field__item--other:not(.en__field__item--hidden) input, .give-by-select .en__field--radio input[type="radio"]:checked + label, .give-by-select .en__field--radio .en__field__item--other.has-value input, .give-by-select .en__field--radio .en__field__item--other:not(.en__field__item--hidden) input, .en__field--donationAmt.en__field--radio input[type="radio"]:checked + label, .en__field--donationAmt.en__field--radio .en__field__item--other.has-value input, .en__field--donationAmt.en__field--radio .en__field__item--other:not(.en__field__item--hidden) input {
-          text-transform: none;
-          background-color: #f1700b;
-          border-color: #f1700b;
-          color: #ffffff;
-        }
-    
-        .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio input[type="radio"]:checked + label,
-        .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other.has-value input,
-        .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio .en__field__item--other:not(.en__field__item--hidden) input {
-            text-transform: none;
-            background-color: #f1700b;
-            border-color: #f1700b;
-            color: #ffffff;
-        }
-
-        .en__field--radio input[value$="ard"] + label {
-            background-size: 24px 18px;
-            background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/card.png?v=1572545889000");
-        }
-    
-        .en__field--radio input[value$="aypal"] + label {
-            background-size: 17px 20px;
-            background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/paypal.png?v=1572545891000");
-        }
-    
-        .en__field__item {
-            width:50%;
-        }
-    
-    
+    .radio-to-buttons .en__field--radio input[type="radio"]:checked + label,
+    .radio-to-buttons .en__field--radio .en__field__item--other.has-value input,
+    .radio-to-buttons
+      .en__field--radio
+      .en__field__item--other:not(.en__field__item--hidden)
+      input,
+    .give-by-select .en__field--radio input[type="radio"]:checked + label,
+    .give-by-select .en__field--radio .en__field__item--other.has-value input,
+    .give-by-select
+      .en__field--radio
+      .en__field__item--other:not(.en__field__item--hidden)
+      input,
+    .en__field--donationAmt.en__field--radio
+      input[type="radio"]:checked
+      + label,
+    .en__field--donationAmt.en__field--radio
+      .en__field__item--other.has-value
+      input,
+    .en__field--donationAmt.en__field--radio
+      .en__field__item--other:not(.en__field__item--hidden)
+      input {
+      text-transform: none;
+      background-color: #f1700b;
+      border-color: #f1700b;
+      color: #ffffff;
     }
 
-    .en__field--give-by-select.en__field--radio .en__field__item input[type=radio]:checked+label {
-      background-color:#f1700b !important;
-    }
-    
-    .en__field__input--checkbox + .en__field__label, .en__contactDetails__rows {
-        font-size: calc(0.05552em * 18);
-        font-weight: 400;
-        text-transform: none;
-        letter-spacing: 0.4px;
-        display: inline-block;
-    }
-    
-    input[type=checkbox]+label:before {
-      margin-top:1px;
+    .radio-to-buttons_donationAmt
+      .en__field--donationAmt.en__field--radio
+      input[type="radio"]:checked
+      + label,
+    .radio-to-buttons_donationAmt
+      .en__field--donationAmt.en__field--radio
+      .en__field__item--other.has-value
+      input,
+    .radio-to-buttons_donationAmt
+      .en__field--donationAmt.en__field--radio
+      .en__field__item--other:not(.en__field__item--hidden)
+      input {
+      text-transform: none;
+      background-color: #f1700b;
+      border-color: #f1700b;
+      color: #ffffff;
     }
 
-    .en__field__input--checkbox:checked + .en__field__label::after, .en__contactDetails__select:checked + .en__contactDetails__rows::after {
-        content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='16' viewBox='0 0 21 16'><path fill='%23F57E20' fill-rule='nonzero' d='M18.76.16L6.68 12.113l-4.44-4.392a.555.555 0 0 0-.779 0L.161 9.006a.541.541 0 0 0 0 .771L6.29 15.84a.555.555 0 0 0 .78 0l13.77-13.624a.541.541 0 0 0 0-.771L19.539.16a.555.555 0 0 0-.779 0z'/></svg>");
-        position: absolute;
-        left: 5px;
-        top: 0;
-        width: 21px;
-        height: 16px;
-        color: #f1700b;
-        background-color: transparent;
-        font-size: calc(0.05552em * 18);
+    .en__field--radio input[value$="ard"] + label {
+      background-size: 24px 18px;
+      background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/card.png?v=1572545889000");
     }
-    
-    .en__field__input--checkbox + .en__field__label {
-        text-indent:-32px;
-        margin-left:32px;
+
+    .en__field--radio input[value$="aypal"] + label {
+      background-size: 17px 20px;
+      background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/paypal.png?v=1572545891000");
     }
-    
-    .en__field_supporter_country {
-        text-align:right;
+
+    .en__field__item {
+      width: 50%;
     }
-    
-    .en__field__input--radio, .en__field__input--checkbox, .en__contactDetails__select {
-        border: 0;
-        clip: rect(0 0 0 0);
-        -webkit-clip-path: inset(50%);
-        clip-path: inset(50%);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-        white-space: nowrap;
-    }
-    
-    // select, select.en__field__input--select, select.en__field__input--splitselect, select.en__field__input--tripleselect {
-        // height:48px;
-    // }
-    
+  }
+
+  .en__field--give-by-select.en__field--radio
+    .en__field__item
+    input[type="radio"]:checked
+    + label {
+    background-color: #f1700b !important;
+  }
+
+  .en__field__input--checkbox + .en__field__label,
+  .en__contactDetails__rows {
+    font-size: calc(0.05552em * 18);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.4px;
+    display: inline-block;
+  }
+
+  input[type="checkbox"] + label:before {
+    margin-top: 1px;
+  }
+
+  .en__field__input--checkbox:checked + .en__field__label::after,
+  .en__contactDetails__select:checked + .en__contactDetails__rows::after {
+    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='16' viewBox='0 0 21 16'><path fill='%23F57E20' fill-rule='nonzero' d='M18.76.16L6.68 12.113l-4.44-4.392a.555.555 0 0 0-.779 0L.161 9.006a.541.541 0 0 0 0 .771L6.29 15.84a.555.555 0 0 0 .78 0l13.77-13.624a.541.541 0 0 0 0-.771L19.539.16a.555.555 0 0 0-.779 0z'/></svg>");
+    position: absolute;
+    left: 5px;
+    top: 0;
+    width: 21px;
+    height: 16px;
+    color: #f1700b;
+    background-color: transparent;
+    font-size: calc(0.05552em * 18);
+  }
+
+  .en__field__input--checkbox + .en__field__label {
+    text-indent: -32px;
+    margin-left: 32px;
+  }
+
+  .en__field_supporter_country {
+    text-align: right;
+  }
+
+  .en__field__input--radio,
+  .en__field__input--checkbox,
+  .en__contactDetails__select {
+    border: 0;
+    clip: rect(0 0 0 0);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+  }
+
+  // select, select.en__field__input--select, select.en__field__input--splitselect, select.en__field__input--tripleselect {
+  // height:48px;
+  // }
+
+  h1 {
+    text-transform: uppercase;
+    margin: 4rem 0 0.5rem 0 !important;
+  }
+
+  .pre-footer-card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 260px;
+    justify-content: center;
+  }
+
+  .pre-footer-card {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    padding: 0rem 1rem 2rem 1rem;
+  }
+
+  .footer-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 30px 0px;
+    flex-wrap: wrap;
+  }
+
+  .footer-wrapper .footer-menu {
+    padding: 0 2rem;
+    font-weight: var(--bold_font-family);
+  }
+
+  .footer-wrapper .footer-copy {
+    padding: 1rem;
+    max-width: 452px;
+  }
+
+  .footer-wrapper .footer-badges {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .content-footer {
+    background-color: #000;
+  }
+
+  .footer-wrapper .footer-copy p {
+    border-left: 1px solid #fff;
+    padding-left: 65px;
+    font-size: calc(0.05552em * 14);
+  }
+
+  .footer-wrapper .footer-menu a {
+    display: block;
+    color: #fff;
+    font-size: calc(0.05552em * 16);
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .content-preFooter {
+    grid-column: pc;
+    background-size: contain;
+    background-color: #ffffff;
+    background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/pre-footer-donation-background.png");
+    background-position: bottom left;
+    background-repeat: no-repeat;
+  }
+
+  .content-preFooter.pseudo-subgrid > div {
+    grid-column: cc;
+
     h1 {
-        text-transform:uppercase;
-        margin:4rem 0 .5rem 0 !important;
+      text-align: center;
+      margin-bottom: 60px !important;
     }
-    
-    .pre-footer-card-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        width: 90%;
-        margin: 0 auto;
-        margin-bottom: 260px;
-        justify-content: center;
-    }
-    
-    .pre-footer-card {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        width: 100%;
-        max-width: 350px;
-        padding: 0rem 1rem 2rem 1rem;
-    }
-    
-    .footer-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #fff;
-        padding: 30px 0px;
-        flex-wrap: wrap;
-    }
-    
-    .footer-wrapper .footer-menu {
-        padding: 0 2rem;
-        font-weight:var(--bold_font-family);
-    }
-    
-    .footer-wrapper .footer-copy {
-        padding: 1rem;
-        max-width: 452px;
-    }
-    
-    .footer-wrapper .footer-badges {
-        padding: 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .content-footer {
-        background-color: #000;
-    }
-    
-    .footer-wrapper .footer-copy p {
-        border-left: 1px solid #fff;
-        padding-left: 65px;
-        font-size:calc(0.05552em * 14);
-    }
-    
-    .footer-wrapper .footer-menu a {
-        display: block;
-        color: #fff;
-        font-size: calc(0.05552em * 16);
-        font-weight: bold;
-        text-decoration: none;
-    }
-    
-    .content-preFooter {
-        grid-column: pc;
-        background-size: contain;
-        background-color: #ffffff;
-        background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/pre-footer-donation-background.png");
-        background-position: bottom left;
-        background-repeat: no-repeat;
-      }
+  }
 
-      .content-preFooter.pseudo-subgrid > div {
-        grid-column: cc;
+  .en__component--advrow .body-header::before,
+  .en__component--advrow .body-banner::before,
+  .en__component--advrow .body-top::before,
+  .en__component--advrow .body-side::before,
+  .en__component--advrow .body-main::before,
+  .en__component--advrow .body-bottom::before,
+  .en__component--advrow .body-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -2;
+    box-shadow: 0 36px 50px 0 rgba(0, 0, 0, 0.2),
+      0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  }
 
-        h1{
-          text-align: center;
-          margin-bottom:60px !important;
-        }
-      }
-    
-    
-      .en__component--advrow .body-header::before, .en__component--advrow .body-banner::before, .en__component--advrow .body-top::before, .en__component--advrow .body-side::before, .en__component--advrow .body-main::before, .en__component--advrow .body-bottom::before, .en__component--advrow .body-footer::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: -2;
-        box-shadow: 0 36px 50px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
-      }
-    
-      .page-backgroundImage:before {
-          position:absolute !important;
-          background-position: top left !important;
-          background-repeat: no-repeat;
-          z-index: -13;
-          background-size: cover;
-          height:120vh;
-      }
-    
-      .body-headerOutside {
-        margin-top: 4rem;
-        margin-bottom: 4rem;
-    }
+  .page-backgroundImage:before {
+    position: absolute !important;
+    background-position: top left !important;
+    background-repeat: no-repeat;
+    z-index: -13;
+    background-size: cover;
+    height: 120vh;
+  }
 
+  .body-headerOutside {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+  }
 
-
-
-
-    // .content-preFooter h1 {
-      // flex-basis: 100%;
-      // line-height: 1;
-      // margin-bottom: 60px;
-    // }
-
-    
-     /*
+  /*
     * ####################################################################################################################
     * Layout - Center ANY
     * ####################################################################################################################
     */
-    
-    /*
+
+  /*
     * ##########################################################
     * # ENGRID - Mobile First Styling
     * # LAYOUT - Center ANY
     * ##########################################################
     */
-    
-    @media screen and (max-width: 360px) {
-        // Remove down arrow when giving frequency wraps
-         .monthly-gift-upsell-tooltip .highlight:after {
-          display: none;
-        }
+
+  @media screen and (max-width: 360px) {
+    // Remove down arrow when giving frequency wraps
+    .monthly-gift-upsell-tooltip .highlight:after {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    // Remove "Give By Select" icons on small screens
+    .give-by-select
+      .en__field--radio
+      .en__field__item
+      input[type="radio"]
+      + label {
+      background-image: none;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    h1 {
+      font-size: calc((0.05552em * 48) * 0.85);
+    }
+
+    h2,
+    .en__field--donationAmt .en__field__label--item,
+    .en__field--donationAmt .en__field__item--other::before,
+    .en__field--donationAmt .en__field__item--other input,
+    .give-by-select .en__field--radio label,
+    .en__field--recurrpay label.en__field__label,
+    .highlight.big {
+      font-size: calc((0.05552em * 24) * 0.9);
+    }
+
+    body h3,
+    .pre-footer-card p,
+    .pre-footer-card.footer-wrapper .footer-menu a {
+      font-size: calc((0.05552em * 16) * 1);
+    }
+
+    label.en__field__label {
+      font-size: calc((0.05552em * 12) * 0.95);
+    }
+
+    .en__field__label--item .en__field__input--checkbox + .en__field__label,
+    .en__contactDetails__rows,
+    .give-by-select
+      .en__field--radio
+      .en__field__item
+      input[type="radio"]
+      + label {
+      font-size: calc((0.05552em * 18) * 1);
+    }
+  }
+
+  @media screen and (max-width: 599px) {
+    body {
+      font-size: 94%;
+    }
+
+    .radio-to-buttons_donationAmt {
+      --donation-amount__button_count: 2;
+    }
+
+    .en__field--donationAmt .en__field__element--radio .en__field__item {
+      width: calc(50% - 0.5rem);
+    }
+  }
+
+  h1 {
+    margin-top: 5px;
+  }
+
+  [data-engrid-layout="centerleft1col"],
+  [data-engrid-layout="centercenter1col"],
+  [data-engrid-layout="centercenter2col"],
+  [data-engrid-layout="centerright1col"] {
+    .page-alert,
+    .content-header,
+    .body-banner,
+    .body-bannerOverlay,
+    .body-side,
+    .body-footerOutside,
+    .page-backgroundImageOverlay {
+      // display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      white-space: nowrap;
+      -webkit-clip-path: inset(100%);
+      clip-path: inset(100%);
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
+
+    .body-headerOutside {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      grid-column: bc;
+    }
+
+    .content-preFooter {
+      grid-column: pc;
+      background-size: contain;
+    }
+
+    .content-preFooter.pseudo-subgrid > div {
+      grid-column: bc;
+    }
+
+    .body-footer {
+      margin-bottom: 5rem;
+    }
+  }
+
+  .content-footer.pseudo-subgrid > div {
+    grid-column: cc;
+  }
+
+  body:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
+  body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
+  body:not(#en__pagebuilder)[data-engrid-layout="centercenter2col"],
+  body:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
+    // Specified on child dom elements so that if there are none, then the parent div collapses its vertical height.
+    .content-preFooter > div {
+      min-height: 710px;
+    }
+
+    /* This should use a more robust solution for adding a gradient overlay to the background image, but below the overlay text */
+    .page-backgroundImage::before {
+      content: "";
+      background-image: radial-gradient(
+        circle at 50% 0,
+        rgba(0, 0, 0, 0.3),
+        transparent 53%
+      );
+      z-index: -3;
+      grid-column: pc;
+    }
+    .page-backgroundImageOverlay {
+      grid-row: page-start / body-main-end;
+      background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(rgba(0, 0, 0, 0.3)),
+        color-stop(30%, transparent)
+      );
+      background-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3) 0%,
+        transparent 30%
+      );
+    }
+  }
+
+  body#en__pagebuilder[data-engrid-layout="centerleft1col"],
+  body#en__pagebuilder[data-engrid-layout="centercenter1col"],
+  body#en__pagebuilder[data-engrid-layout="centercenter2col"],
+  body#en__pagebuilder[data-engrid-layout="centerright1col"] {
+    .page-backgroundImage > div,
+    .page-backgroundImageOverlay > div {
+      grid-column: bc;
+    }
+  }
+
+ /*
+  * ##########################################################
+  * # ENGRID - BODY Column Breakpoint Styling
+  * # LAYOUT - Center ANY - [class^="layout-center"][class$="1col"]
+  * ##########################################################
+  */
+
+  /* Sum of all MIN values of the Body Columns */
+  @media screen and (min-width: 600px) {
+    [data-engrid-layout="centerleft1col"],
+    [data-engrid-layout="centercenter1col"],
+    [data-engrid-layout="centercenter2col"],
+    [data-engrid-layout="centerright1col"] {
+      .en__component--advrow .body-header,
+      .en__component--advrow .body-banner,
+      .en__component--advrow .body-bannerOverlay,
+      .en__component--advrow .body-top,
+      .en__component--advrow .body-side,
+      .en__component--advrow .body-main,
+      .en__component--advrow .body-bottom,
+      .en__component--advrow .body-footer {
+        padding-left: 3.5rem;
+        padding-right: 3.5rem;
       }
-      
-      @media screen and (max-width: 400px) {
-        // Remove "Give By Select" icons on small screens
-        
-          .give-by-select
-          .en__field--radio
-          .en__field__item
-          input[type="radio"]
-          + label {
-          background-image: none;
-          padding-left: 0;
-          padding-right: 0;
-        }
-      
-         h1 {
-          font-size: calc((0.05552em * 48) * 0.85);
-        }
-         h2,
-         .en__field--donationAmt .en__field__label--item,
-         .en__field--donationAmt .en__field__item--other::before,
-         .en__field--donationAmt .en__field__item--other input,
-         .give-by-select .en__field--radio label,
-         .en__field--recurrpay label.en__field__label,
-         .highlight.big {
-          font-size: calc((0.05552em * 24) * 0.9);
-        }
-        body  h3,
-         .pre-footer-card p,
-         .pre-footer-card.footer-wrapper .footer-menu a {
-          font-size: calc((0.05552em * 16) * 1);
-        }
-         label.en__field__label {
-          font-size: calc((0.05552em * 12) * 0.95);
-        }
-      
-        
-          .en__field__label--item
-          
-          .en__field__input--checkbox
-          + .en__field__label,
-         .en__contactDetails__rows,
-        
-          .give-by-select
-          .en__field--radio
-          .en__field__item
-          input[type="radio"]
-          + label {
-          font-size: calc((0.05552em * 18) * 1);
-        }
-    
+
+      .en__component--advrow .body-header {
+        padding-top: 4rem;
       }
-      
-      @media screen and (max-width: 599px) {
-        body  {
-          font-size: 94%;
-        }
-      
-        .radio-to-buttons_donationAmt {
-          --donation-amount__button_count:2;
-        }
-    
-         .en__field--donationAmt .en__field__element--radio .en__field__item {
-          width: calc(50% - 0.5rem);
-        }
+
+      .en__component--advrow .body-footer {
+        padding-bottom: 4rem;
       }
-      
-      h1 {
-        margin-top: 5px;
+
+      .body-headerOutside {
+        margin-top: 4rem;
+        margin-bottom: 4rem;
       }
-      
-      [data-engrid-layout="centerleft1col"],
-      [data-engrid-layout="centercenter1col"],
-      [data-engrid-layout="centercenter2col"],
-      [data-engrid-layout="centerright1col"] {
-        .page-alert,
-        .content-header,
-        .body-banner,
-        .body-bannerOverlay,
-        .body-side,
-        .body-footerOutside,
-        .page-backgroundImageOverlay {
-          // display: none;
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          margin: -1px;
-          border: 0;
-          padding: 0;
-          white-space: nowrap;
-          -webkit-clip-path: inset(100%);
-          clip-path: inset(100%);
-          clip: rect(0 0 0 0);
-          overflow: hidden;
-        }
-      
-        .body-headerOutside {
-          margin-top: 2rem;
-          margin-bottom: 2rem;
-          grid-column: bc;
-        }
-      
-        .content-preFooter {
-          grid-column: pc;
-          background-size: contain;
-        }
-      
-        .content-preFooter.pseudo-subgrid > div {
-          grid-column: bc;
-        }
-      
-        .body-footer {
-          margin-bottom: 5rem;
-        }
+
+      [class^="body-"] {
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+      }
+
+      .content-preFooter.pseudo-subgrid > div {
+        grid-column: cc;
       }
 
       .content-footer.pseudo-subgrid > div {
         grid-column: cc;
       }
-      
-      body:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
-      body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
-      body:not(#en__pagebuilder)[data-engrid-layout="centercenter2col"],
-      body:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
-        // Specified on child dom elements so that if there are none, then the parent div collapses its vertical height.
-        .content-preFooter > div {
-          min-height: 710px;
-        }
-      
-        /* This should use a more robust solution for adding a gradient overlay to the background image, but below the overlay text */
-        .page-backgroundImage::before {
-          content: "";
-          background-image: radial-gradient(
-            circle at 50% 0,
-            rgba(0, 0, 0, 0.3),
-            transparent 53%
-          );
-          z-index: -3;
-          grid-column: pc;
-        }
-        .page-backgroundImageOverlay {
-          grid-row: page-start / body-main-end;
-          background-image: -webkit-gradient(
-            linear,
-            left top,
-            left bottom,
-            from(rgba(0, 0, 0, 0.3)),
-            color-stop(30%, transparent)
-          );
-          background-image: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.3) 0%,
-            transparent 30%
-          );
-        }
-      }
-      
-      body#en__pagebuilder[data-engrid-layout="centerleft1col"],
-      body#en__pagebuilder[data-engrid-layout="centercenter1col"],
-      body#en__pagebuilder[data-engrid-layout="centercenter2col"],
-      body#en__pagebuilder[data-engrid-layout="centerright1col"] {
-        .page-backgroundImage > div,
-        .page-backgroundImageOverlay > div {
-          grid-column: bc;
-        }
-      }
-      
-      /*
-      * ##########################################################
-      * # ENGRID - BODY Column Breakpoint Styling
-      * # LAYOUT - Center ANY - [class^="layout-center"][class$="1col"]
-      * ##########################################################
-      */
-      
-      /* Sum of all MIN values of the Body Columns */
-      @media screen and (min-width: 600px) {
-       [data-engrid-layout="centerleft1col"],
-       [data-engrid-layout="centercenter1col"],
-       [data-engrid-layout="centercenter2col"],
-       [data-engrid-layout="centerright1col"] {
-          .en__component--advrow .body-header,
-          .en__component--advrow .body-banner,
-          .en__component--advrow .body-bannerOverlay,
-          .en__component--advrow .body-top,
-          .en__component--advrow .body-side,
-          .en__component--advrow .body-main,
-          .en__component--advrow .body-bottom,
-          .en__component--advrow .body-footer {
-            padding-left: 3.5rem;
-            padding-right: 3.5rem;
-          }
-      
-          .en__component--advrow .body-header {
-            padding-top: 4rem;
-          }
-      
-          .en__component--advrow .body-footer {
-            padding-bottom: 4rem;
-          }
-      
-          .body-headerOutside {
-            margin-top: 4rem;
-            margin-bottom: 4rem;
-          }
-      
-          [class^="body-"] {
-            border-left: 1px solid black;
-            border-right: 1px solid black;
-          }
-    
-          .content-preFooter.pseudo-subgrid > div {
-            grid-column: cc;
-          }
-          
-          .content-footer.pseudo-subgrid > div {
-            grid-column: cc;
-          }
-        }
-      }
-      
-      /*
-      * ##########################################################
-      * # ENGRID - Content Column Breakpoint Styling
-      * # LAYOUT - Center ANY - [class^="layout-center"][class$="1col"]
-      * ##########################################################
-      */
-      
-      /* Sum of all MAX values of the Body Columns + 1px */
-      @media screen and (min-width: $one_col_content-column_max-width) {
-        //[data-engrid-layout="centerleft1col"],
-        //[data-engrid-layout="centercenter1col"],
-        //[data-engrid-layout="centercenter2col"],
-        //[data-engrid-layout="centerright1col"] {
-        //   .content-preFooter {
-        //     background-size: cover;
-        //   }
-        // }
-      
-        body:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
-        body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
-        body:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
-          // Specified on child dom elements so that if there are none, then the parent div collapses its vertical height.
-          .content-preFooter > div {
-            min-height: 1010px;
-          }
-        }
-      }
-       
-    
-    
-    .radio-to-buttons_donationAmt {
+    }
+  }
 
-      
-        @media screen and (max-width:480px) {
-            .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio input[type=radio]+label {
-                font-size: 1.2rem;
-            }
-        }
-    }
-    
-    .radio-to-buttons_donationAmt .en__field--radio.en__field--donationAmt .en__field__input--other {
-      background-color: var(--donation-amount__button_background-color);
-      // background-position-x: 40px;
-      border: var(--donation-amount__button_border-width) solid var(--donation-amount__button_border-color);
-      border-radius: var(--donation-amount__button_border-radius);
-      color: var(--donation-amount__button_color);
-      font-family: var(--donation-amount__button_font-family);
-      font-size: var(--donation-amount__button_font-size);
-      font-weight: var(--donation-amount__button_font-weight);
-      // justify-content: center;
-      line-height: var(--donation-amount__button_line-height);
-      padding: var(--donation-amount__button_padding);
-      // text-align: center;
-      padding-left:33%;
-    }
-    
-    .en__field--donationAmt .en__field__item--other::before {
-      display: block;
-      content: "$";
-      position: relative;
-      height: 0;
-      left: calc((100% / 3) - 1.2rem);
-      top: 1rem;
-      color: #ffffff;
-      width: 0;
-      font-weight:900;
-    }
-    
-    .en__field--donationAmt .en__field__label--item, .en__field--donationAmt .en__field__item--other::before, .en__field--donationAmt .en__field__item--other input {
-      font-family: var(--bold_font-family);
-      font-size: var(--donation-amount__button_font-size);
-    }
-    
-    .en__field--donationAmt .en__field__item--other:focus {
-      background-color: var(--color_primary_accent) !important;
-    }
-    
-    .en__submit .button, .en__submit button {
-        background-color:var(--color_primary_accent);
-        margin-bottom:2rem;
-        text-transform: capitalize;
-    }
-    
-    .content-preFooter {
-        z-index:-6 !important;
-    }  
-    
-    }
-    
-    body:not(#en__pagebuilder)[data-engrid-layout=centercenter1col] .page-backgroundImage {
-        -webkit-clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
-        clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
-        height: 120vh;
-        background-color: #487c0f;
-        }
-    
-    @media screen and (max-width:980px) {
-      .footer-wrapper .footer-copy p {
-        border:0 !important;
-        padding:0 !important;
-      }
-    }
+ /*
+  * ##########################################################
+  * # ENGRID - Content Column Breakpoint Styling
+  * # LAYOUT - Center ANY - [class^="layout-center"][class$="1col"]
+  * ##########################################################
+  */
 
-    @media screen and (max-width:880px) {
-      .body-headerOutside {
-        background-color:#000;
-      }
-
-      body:not(#en__pagebuilder)[data-engrid-layout=centercenter1col] .page-backgroundImage {
-        height: 0;
-        }
-
-  
-    }
-    
-    @media screen and (max-width:600px) {
-        // body:not(#en__pagebuilder)[data-engrid-layout=centercenter1col] .page-backgroundImage {
-        //     height:auto;
-        // }
-    
-        .footer-logo {
-          margin-bottom: 1rem;
-        }
-    
-        .body-headerOutside {
-        margin-top: 2rem !important;
-        margin-bottom: 2rem !important;
-      }
-    }
-    
-    @media screen and (max-width:460px) {
-        .footer-menu {
-          font-size:.75rem;
-          padding-top:1rem;
-        }
-    
-        .footer-wrapper .footer-copy p {
-          text-align: center;
-        }
-    }
-    
-    body:not(#en__pagebuilder) .page-backgroundImageOverlay {display: none;}
-    
-    /* Force visibility for the background image/video all the way down to the smallest screen sizes */
-    /* Overrides: https://github.com/4site-interactive-studios/engrid-scripts/blob/8811d0e3e882b5e9009875f7155cb40e66124093/packages/styles/src/_engrid-background-image.scss#L131 */
-    // [data-engrid-body-banner="empty"][data-engrid-page-background="image"],
-    // [data-engrid-page-background="video"] {
-    //   .page-backgroundImage,
-    //   .page-backgroundImageOverlay {
-    //     &::before {
-    //       content: " " !important;
-    //     }
+  /* Sum of all MAX values of the Body Columns + 1px */
+  @media screen and (min-width: $one_col_content-column_max-width) {
+    //[data-engrid-layout="centerleft1col"],
+    //[data-engrid-layout="centercenter1col"],
+    //[data-engrid-layout="centercenter2col"],
+    //[data-engrid-layout="centerright1col"] {
+    //   .content-preFooter {
+    //     background-size: cover;
     //   }
     // }
 
+    body:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
+    body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
+    body:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
+      // Specified on child dom elements so that if there are none, then the parent div collapses its vertical height.
+      .content-preFooter > div {
+        min-height: 1010px;
+      }
+    }
+  }
 
-// The most broadly used CSS Custom Properties for quick theming.
-// Uncomment to use and reference engrid-scrips SASS files for more CSS Custom Properties.
-// All CSS Custom Properties should be scoped to the theme using CSS Data Attributes.
-[data-engrid-theme="organizational-name"]{
-    // TYPOGRAPHY DEFAULT
-    // --default_font-family: var(--native-fonts__sans-serif);
-    // --default_color: initial;
-    // --default_font-size: var(--root_font-size);
-    // --default_font-weight: initial;
-    // --default_line-height: initial;
+  .radio-to-buttons_donationAmt {
+    @media screen and (max-width: 480px) {
+      .radio-to-buttons_donationAmt
+        .en__field--donationAmt.en__field--radio
+        input[type="radio"]
+        + label {
+        font-size: 1.2rem;
+      }
+    }
+  }
 
-    // TYPOGRAPHY H1
-    // --h1_font-family: var(--default_font-family);
-    // --h1_color: initial;
-    // --h1_font-size: calc(var(--root_font-size) * var(--scale-up_160pct));
-    // --h1_font-weight: initial;
-    // --h1_line-height: initial;
-        
-    // TYPOGRAPHY P
-    // --p_font-family: var(--default_font-family);
-    // --p_color: initial;
-    // --p_font-size: var(--root_font-size);
-    // --p_font-weight: initial;
-    // --p_line-height: initial;
+  .radio-to-buttons_donationAmt
+    .en__field--radio.en__field--donationAmt
+    .en__field__input--other {
+    background-color: var(--donation-amount__button_background-color);
+    // background-position-x: 40px;
+    border: var(--donation-amount__button_border-width) solid
+      var(--donation-amount__button_border-color);
+    border-radius: var(--donation-amount__button_border-radius);
+    color: var(--donation-amount__button_color);
+    font-family: var(--donation-amount__button_font-family);
+    font-size: var(--donation-amount__button_font-size);
+    font-weight: var(--donation-amount__button_font-weight);
+    // justify-content: center;
+    line-height: var(--donation-amount__button_line-height);
+    padding: var(--donation-amount__button_padding);
+    // text-align: center;
+    padding-left: 33%;
+  }
 
-    // TYPOGRAPHY A
-    // --a_font-family: var(--default_font-family);
-    // --a_color: initial;
-    // --a_text-decoration: underline;
+  .en__field--donationAmt .en__field__item--other::before {
+    display: block;
+    content: "$";
+    position: relative;
+    height: 0;
+    left: calc((100% / 3) - 1.2rem);
+    top: 1rem;
+    color: #ffffff;
+    width: 0;
+    font-weight: 900;
+  }
 
-    // TYPOGRAPHY A:FOCUS
-    // TYPOGRAPHY A:HOVER
-    // --a_color_hover: var(--a_color);
-    // --a_text-decoration_hover: initial;
+  .en__field--donationAmt .en__field__label--item,
+  .en__field--donationAmt .en__field__item--other::before,
+  .en__field--donationAmt .en__field__item--other input {
+    font-family: var(--bold_font-family);
+    font-size: var(--donation-amount__button_font-size);
+  }
 
-    // TYPOGRAPHY INPUT
-    // --input_font-family: var(--default_font-family);
-    // --input_color: #000000;
-    // --input_font-size: var(--root_font-size);
-    // --input_font-weight: initial;
-    // --input_line-height: initial;
-    // --input_background-color: #fafafa;
-    // --input_border-width: 1px;
-    // --input_border-color: #dfdfe1;
-    // --input_border-radius: 6px;
-    // --input_placeholder-color: var(--color_light-gray);
-    // --input_box-shadow: inset 0 2px 2px -1px rgba(74, 74, 104, 0.1);
-        
-    // TYPOGRAPHY INPUT:FOCUS
-    // TYPOGRAPHY INPUT:HOVER
-    // --input_color_hover: var(--input_color);
-    // --input_background-color_hover: var(--input_background-color);
-    // --input_border-color_hover: #767677;
-    // --input_border-bottom-color_hover: var(--input_border-color_hover);
-    // --input_box-shadow_hover: --input_box-shadow;
+  .en__field--donationAmt .en__field__item--other:focus {
+    background-color: var(--color_primary_accent) !important;
+  }
 
-    // TYPOGRAPHY BUTTON
-    // --button_font-family: var(--default_font-family);
-    // --button_color: var(--color_white);
-    // --button_font-size: var(--root_font-size);
-    // --button_font-weight: initial;
-    // --button_line-height: initial;
-    // --button_background-color: #535b61;
-    // --button_border-width: 1px;
-    // --button_border-color: var(--color_black);
-    // --button_border-radius: 6px;
+  .en__submit .button,
+  .en__submit button {
+    background-color: var(--color_primary_accent);
+    margin-bottom: 2rem;
+    text-transform: capitalize;
+  }
 
-    // TYPOGRAPHY BUTTON:HOVER
-    // --button_color_hover: var(--button_color);
-    // --button_background-color_hover: var(--color_black);
-    // --button_border-color_hover: var(--button_background-color_hover);
-
-    // TYPOGRAPHY BUTTON:SELECTED
-    // --button_color_checked: var(--button_color_hover);
-    // --button_background-color_checked: var(--button_background-color_hover);
-    // --button_border-color_checked: var(--button_border-color_hover);
-
-    // DONATION PAGE
-    // --give-monthly-donation-amount-appended-label: "/mo";
-    // --give-annual-donation-amount-appended-label: "/yr";  
-    // --recurring-frequency__button_count: 4;
-    // --donation-amount__button_count: 4;
-    // --give-by-select__button_count: 4;
+  .content-preFooter {
+    z-index: -6 !important;
+  }
 }
 
-/* Add your custom theme styles here */
-[data-engrid-theme="organizational-name"]{
-    @mixin until-mobile-l {
-        // STYLES
-    }
-
-    @mixin from-mobile-l {
-        // STYLES
-    }
-
-    @mixin simplified-header {
-        // STLES
-    }
-
-    // Example Breakpoints Stylings (See engrid-scripts > _engrid-breakpoints.scss for more breakpoints)
-    &[data-engrid-layout] {
-        @include mq($until: mobile-l){
-            @include until-mobile-l;
-        }
-
-        @include mq($from: mobile-l){
-            @include from-mobile-l;
-        }
-    }
-    
-    // Example of Shared Layout Stylings
-    &[data-engrid-layout="centerleft1col"]{
-        @media screen and (max-width: $centerleft1col_content-column_min-width) {
-            @include simplified-header;
-        }
-    }
-
-    &[data-engrid-layout="centerright1col"]{
-        @media screen and (max-width: $centerright1col_content-column_min-width) {
-            @include simplified-header;
-        }
-    }
-
+body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"]
+  .page-backgroundImage {
+  -webkit-clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
+  clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
+  height: 120vh;
+  background-color: #487c0f;
 }
 
+@media screen and (max-width: 980px) {
+  .footer-wrapper .footer-copy p {
+    border: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .body-headerOutside {
+    background-color: #000;
+  }
+
+  body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"]
+    .page-backgroundImage {
+    height: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .footer-logo {
+    margin-bottom: 1rem;
+  }
+
+  .body-headerOutside {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .footer-menu {
+    font-size: 0.75rem;
+    padding-top: 1rem;
+  }
+
+  .footer-wrapper .footer-copy p {
+    text-align: center;
+  }
+}
