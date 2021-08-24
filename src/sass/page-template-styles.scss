@@ -24,11 +24,11 @@
   --h2_font-weight: 700;
 
   // LABELS
-  --label-font-family: "HarmoniaSansStd", sans-serif;
-  --label-font-size: 0.75rem;
-  --label-font-weight: 500;
-  --label-text-transform: uppercase;
-  --label-letter-spacing: 1.68px;
+  --label_font-family: "HarmoniaSansStd", sans-serif;
+  --label_font-size: 0.75rem;
+  --label_font-weight: 500;
+  --label_text-transform: uppercase;
+  --label_letter-spacing: 1.68px;
 
   // TYPOGRAPHY P
   --p_font-family: var(--default_font-family);
@@ -51,12 +51,62 @@
   --input_border-width: 1px;
   --input_border-color: #000;
   --input_border-radius: 0;
-  --checkbox_content_checked: "";
-  --checkbox_border-width: 2px;
+  // --checkbox_content_checked: "";
+  // --checkbox_border-width: 2px;
 
   // TYPOGRAPHY INPUT:FOCUS
   // TYPOGRAPHY INPUT:HOVER
   --input_border-color_hover: #000;
+
+  // TYPOGRAPHY RADIO
+  // --radio_content: "";
+  // --radio_color: var(--input_color);
+  // --radio_background-color: var(--input_background-color);
+  --radio_border-width: 2px;
+  // --radio_border-color: var(--input_border-color);
+  // --radio_border-radius: 50%;
+  // --radio_box-shadow: none;
+  // --radio_width: 1.4rem;
+  // --radio_height: 1.4rem;
+  --radio_top: -2px;
+
+  // TYPOGRAPHY RADIO INPUT:FOCUS
+  // TYPOGRAPHY RADIO INPUT:HOVER
+  // --radio_color_hover: var(--radio_color);
+  // --radio_background-color_hover: var(--radio_background-color);
+  // --radio_border-color_hover: var(--input_border-color_hover);
+  // --radio_box-shadow_hover: inset 0 0 0 6px #f5f5f5;
+
+  // TYPOGRAPHY RADIO INPUT:SELECTED
+  // --radio_color_selected: var(--radio_color_hover);
+  --radio_background-color_selected: #f1700b;
+  // --radio_border-color_selected: inset 0 0 0 2px #ffffff;
+  --radio_box-shadow_selected: inset 0 0 0 2px #ffffff;
+
+  // TYPOGRAPHY CHECKBOX
+  // --checkbox_color: var(--color_black);
+  // --checkbox_background-color: var(--radio_background-color);
+  --checkbox_border-width: 2px;
+  // --checkbox_border-color: var(--radio_border-color);
+  // --checkbox_border-radius: var(--input_border-radius);
+  // --checkbox_font-weight: 700;
+  // --checkbox_width: 1.4rem;
+  // --checkbox_height: 1.4rem;
+  --checkbox_top: -1px;
+  --checkbox_padding-top: 2px;
+  --checkbox_padding-left: 9px;
+
+  // TYPOGRAPHY CHECKBOX INPUT:FOCUS
+  // TYPOGRAPHY CHECKBOX INPUT:HOVER
+  // --checkbox_color_hover: var(--checkbox_color);
+  // --checkbox_background-color_hover: var(--radio_background-color_hover);
+  // --checkbox_border-color_hover: var(--radio_border-color_hover);
+
+  // TYPOGRAPHY CHECKBOX INPUT:CHECKED
+  --checkbox_content_checked: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='16' viewBox='0 0 21 16'><path fill='%23F57E20' fill-rule='nonzero' d='M18.76.16L6.68 12.113l-4.44-4.392a.555.555 0 0 0-.779 0L.161 9.006a.541.541 0 0 0 0 .771L6.29 15.84a.555.555 0 0 0 .78 0l13.77-13.624a.541.541 0 0 0 0-.771L19.539.16a.555.555 0 0 0-.779 0z'/></svg>"); // ✓
+  --checkbox_color_checked: #f1700b;
+  // --checkbox_background-color_checked: var(--radio_background-color_hover);
+  // --checkbox_border-color_checked: var(--color_black);
 
   // TYPOGRAPHY BUTTON
   --button_font-family: "HarmoniaSansStd", sans-serif;
@@ -100,10 +150,27 @@
 
 /* Add your custom theme styles here */
 [data-engrid-theme="engrid-ran2"] {
-  .body-title {
-    -webkit-box-shadow: 0px -150px 50px 50px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px -150px 50px 50px rgba(0, 0, 0, 0.2);
-    z-index: -2 !important;
+
+  &#en__pagebuilder {
+    .page-alert,
+    .content-header,
+    .body-bannerOverlay,
+    .body-side,
+    .body-footerOutside,
+    .page-backgroundImageOverlay {
+      // display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      white-space: nowrap;
+      -webkit-clip-path: inset(100%);
+      clip-path: inset(100%);
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
   }
 
   .highlight {
@@ -127,7 +194,7 @@
 
   .monthly-gift-upsell-tooltip .highlight:after {
     bottom: -12px;
-    left: 55%;
+    left: 59%;
     content: " ";
     height: 0;
     width: 0;
@@ -150,7 +217,6 @@
     font-weight: 900;
     font-size: calc(0.05552em * 24);
     text-transform: none !important;
-    margin: 0 1.7rem 0 1.3rem;
   }
 
   .en__field__label[for="en__field_transaction_recurrpay0"]:focus,
@@ -158,37 +224,33 @@
     outline: none !important;
   }
 
-  .frequency {
-    .en__field__input--radio + .en__field__label::before {
-      content: "";
-      position: absolute;
-      height: calc(1.4rem - 2px);
-      width: calc(1.4rem - 2px);
-      left: -1.7rem;
-      display: inline-block;
-      vertical-align: middle;
-      border: 4px solid #000000;
-      box-shadow: inset 0 0 0 5px #ffffff;
-      background-color: #ffffff;
-      cursor: pointer;
-      transition-duration: 0.25s;
-      transition-property: border-color, background-color;
-      top: 5px;
-    }
+  // .frequency {
+  //   .en__field__input--radio + .en__field__label:before {
+  //     content: "";
+  //     position: absolute;
+  //     height: calc(1.4rem - 2px);
+  //     width: calc(1.4rem - 2px);
+  //     left: -1.7rem;
+  //     display: inline-block;
+  //     vertical-align: middle;
+  //     border: 4px solid #000000;
+  //     box-shadow: inset 0 0 0 5px #ffffff;
+  //     background-color: #ffffff;
+  //     cursor: pointer;
+  //     transition-duration: 0.25s;
+  //     transition-property: border-color, background-color;
+  //     top: 5px;
+  //   }
 
-    .en__field__input--radio:checked + .en__field__label::before {
-      background-color: #f1700b;
-      box-shadow: inset 0 0 0 2px #ffffff;
-      border-width: 2px;
-    }
-  }
+  //   .en__field__input--radio:checked + .en__field__label:before {
+  //     background-color: #f1700b;
+  //     box-shadow: inset 0 0 0 2px #ffffff;
+  //     border-width: 2px;
+  //   }
+  // }
 
-  .en__field--donationAmt
-    div:not(.en__field__item--other)
-    .en__field__label--item:after {
-    font-size: 1.3rem;
-    color: var(--color_light-gray);
-    text-transform: none;
+  .en__field--recurrpay.en__field--radio input[type=radio]+label:before{
+    --radio_top: -3px;
   }
 
   .give-by-select {
@@ -290,34 +352,35 @@
 
   .en__field__input--checkbox + .en__field__label,
   .en__contactDetails__rows {
-    font-size: calc(0.05552em * 18);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0.4px;
-    display: inline-block;
+    // font-size: calc(0.05552em * 18);
+    // font-weight: 400;
+    // text-transform: none;
+    // letter-spacing: 0.4px;
+    // display: inline-block;
+    // align-items: flex-start;
   }
 
-  input[type="checkbox"] + label:before {
-    margin-top: 1px;
-  }
+  // input[type="checkbox"] + label:before {
+  //   margin-top: 1px;
+  // }
 
-  .en__field__input--checkbox:checked + .en__field__label::after,
-  .en__contactDetails__select:checked + .en__contactDetails__rows::after {
-    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='16' viewBox='0 0 21 16'><path fill='%23F57E20' fill-rule='nonzero' d='M18.76.16L6.68 12.113l-4.44-4.392a.555.555 0 0 0-.779 0L.161 9.006a.541.541 0 0 0 0 .771L6.29 15.84a.555.555 0 0 0 .78 0l13.77-13.624a.541.541 0 0 0 0-.771L19.539.16a.555.555 0 0 0-.779 0z'/></svg>");
-    position: absolute;
-    left: 5px;
-    top: 0;
-    width: 21px;
-    height: 16px;
-    color: #f1700b;
-    background-color: transparent;
-    font-size: calc(0.05552em * 18);
-  }
+  // .en__field__input--checkbox:checked + .en__field__label:after,
+  // .en__contactDetails__select:checked + .en__contactDetails__rows:after {
+  //   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='16' viewBox='0 0 21 16'><path fill='%23F57E20' fill-rule='nonzero' d='M18.76.16L6.68 12.113l-4.44-4.392a.555.555 0 0 0-.779 0L.161 9.006a.541.541 0 0 0 0 .771L6.29 15.84a.555.555 0 0 0 .78 0l13.77-13.624a.541.541 0 0 0 0-.771L19.539.16a.555.555 0 0 0-.779 0z'/></svg>");
+  //   position: absolute;
+  //   left: 5px;
+  //   top: 0;
+  //   width: 21px;
+  //   height: 16px;
+  //   color: #f1700b;
+  //   background-color: transparent;
+  //   font-size: calc(0.05552em * 18);
+  // }
 
-  .en__field__input--checkbox + .en__field__label {
-    text-indent: -32px;
-    margin-left: 32px;
-  }
+  // .en__field__input--checkbox + .en__field__label {
+  //   text-indent: -32px;
+  //   margin-left: 32px;
+  // }
 
   .en__field_supporter_country {
     text-align: right;
@@ -345,7 +408,7 @@
 
   h1 {
     text-transform: uppercase;
-    margin: 4rem 0 0.5rem 0 !important;
+    // margin: 4rem 0 0.5rem 0 !important;
   }
 
   .pre-footer-card-wrapper {
@@ -412,10 +475,10 @@
 
   .content-preFooter {
     grid-column: pc;
-    background-size: contain;
+    background-size: 100%;
     background-color: #ffffff;
     background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/pre-footer-donation-background.png");
-    background-position: bottom left;
+    background-position: 0 100.1%; // The fractional percent helps in instances where rounding causes a little bit of the background to bleed through
     background-repeat: no-repeat;
   }
 
@@ -428,36 +491,8 @@
     }
   }
 
-  .en__component--advrow .body-header::before,
-  .en__component--advrow .body-banner::before,
-  .en__component--advrow .body-top::before,
-  .en__component--advrow .body-side::before,
-  .en__component--advrow .body-main::before,
-  .en__component--advrow .body-bottom::before,
-  .en__component--advrow .body-footer::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -2;
-    box-shadow: 0 36px 50px 0 rgba(0, 0, 0, 0.2),
-      0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
-  }
-
-  .page-backgroundImage:before {
-    position: absolute !important;
-    background-position: top left !important;
-    background-repeat: no-repeat;
-    z-index: -13;
-    background-size: cover;
-    height: 120vh;
-  }
-
   .body-headerOutside {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+    --engrid__body-headerOutside_padding: 4rem;
   }
 
   /*
@@ -498,7 +533,7 @@
 
     h2,
     .en__field--donationAmt .en__field__label--item,
-    .en__field--donationAmt .en__field__item--other::before,
+    .en__field--donationAmt .en__field__item--other:before,
     .en__field--donationAmt .en__field__item--other input,
     .give-by-select .en__field--radio label,
     .en__field--recurrpay label.en__field__label,
@@ -506,7 +541,7 @@
       font-size: calc((0.05552em * 24) * 0.9);
     }
 
-    body h3,
+    h3,
     .pre-footer-card p,
     .pre-footer-card.footer-wrapper .footer-menu a {
       font-size: calc((0.05552em * 16) * 1);
@@ -528,9 +563,7 @@
   }
 
   @media screen and (max-width: 599px) {
-    body {
-      font-size: 94%;
-    }
+    font-size: 94%; // There has to be a better way to do this
 
     .radio-to-buttons_donationAmt {
       --donation-amount__button_count: 2;
@@ -541,44 +574,37 @@
     }
   }
 
-  h1 {
-    margin-top: 5px;
-  }
+  // h1 {
+  //   margin-top: 5px;
+  // }
 
   [data-engrid-layout="centerleft1col"],
   [data-engrid-layout="centercenter1col"],
   [data-engrid-layout="centercenter2col"],
   [data-engrid-layout="centerright1col"] {
-    .page-alert,
-    .content-header,
-    .body-banner,
-    .body-bannerOverlay,
-    .body-side,
-    .body-footerOutside,
-    .page-backgroundImageOverlay {
-      // display: none;
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      border: 0;
-      padding: 0;
-      white-space: nowrap;
-      -webkit-clip-path: inset(100%);
-      clip-path: inset(100%);
-      clip: rect(0 0 0 0);
-      overflow: hidden;
-    }
+    // .page-alert,
+    // .content-header,
+    // .body-banner,
+    // .body-bannerOverlay,
+    // .body-side,
+    // .body-footerOutside,
+    // .page-backgroundImageOverlay {
+    //   // display: none;
+    //   position: absolute;
+    //   width: 1px;
+    //   height: 1px;
+    //   margin: -1px;
+    //   border: 0;
+    //   padding: 0;
+    //   white-space: nowrap;
+    //   -webkit-clip-path: inset(100%);
+    //   clip-path: inset(100%);
+    //   clip: rect(0 0 0 0);
+    //   overflow: hidden;
+    // }
 
     .body-headerOutside {
-      margin-top: 2rem;
-      margin-bottom: 2rem;
       grid-column: bc;
-    }
-
-    .content-preFooter {
-      grid-column: pc;
-      background-size: contain;
     }
 
     .content-preFooter.pseudo-subgrid > div {
@@ -594,26 +620,26 @@
     grid-column: cc;
   }
 
-  body:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
-  body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
-  body:not(#en__pagebuilder)[data-engrid-layout="centercenter2col"],
-  body:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
+  &:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
+  &:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
+  &:not(#en__pagebuilder)[data-engrid-layout="centercenter2col"],
+  &:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
     // Specified on child dom elements so that if there are none, then the parent div collapses its vertical height.
     .content-preFooter > div {
       min-height: 710px;
     }
 
     /* This should use a more robust solution for adding a gradient overlay to the background image, but below the overlay text */
-    .page-backgroundImage::before {
-      content: "";
-      background-image: radial-gradient(
-        circle at 50% 0,
-        rgba(0, 0, 0, 0.3),
-        transparent 53%
-      );
-      z-index: -3;
-      grid-column: pc;
-    }
+    // .page-backgroundImage:after {
+    //   content: "";
+    //   background-image: radial-gradient(
+    //     circle at 50% 0,
+    //     rgba(0, 0, 0, 0.3),
+    //     transparent 53%
+    //   );
+    //   z-index: -3;
+    //   grid-column: pc;
+    // }
     .page-backgroundImageOverlay {
       grid-row: page-start / body-main-end;
       background-image: -webkit-gradient(
@@ -631,10 +657,10 @@
     }
   }
 
-  body#en__pagebuilder[data-engrid-layout="centerleft1col"],
-  body#en__pagebuilder[data-engrid-layout="centercenter1col"],
-  body#en__pagebuilder[data-engrid-layout="centercenter2col"],
-  body#en__pagebuilder[data-engrid-layout="centerright1col"] {
+  &#en__pagebuilder[data-engrid-layout="centerleft1col"],
+  &#en__pagebuilder[data-engrid-layout="centercenter1col"],
+  &#en__pagebuilder[data-engrid-layout="centercenter2col"],
+  &#en__pagebuilder[data-engrid-layout="centerright1col"] {
     .page-backgroundImage > div,
     .page-backgroundImageOverlay > div {
       grid-column: bc;
@@ -674,11 +700,6 @@
         padding-bottom: 4rem;
       }
 
-      .body-headerOutside {
-        margin-top: 4rem;
-        margin-bottom: 4rem;
-      }
-
       [class^="body-"] {
         border-left: 1px solid black;
         border-right: 1px solid black;
@@ -703,18 +724,21 @@
 
   /* Sum of all MAX values of the Body Columns + 1px */
   @media screen and (min-width: $one_col_content-column_max-width) {
-    //[data-engrid-layout="centerleft1col"],
-    //[data-engrid-layout="centercenter1col"],
-    //[data-engrid-layout="centercenter2col"],
-    //[data-engrid-layout="centerright1col"] {
-    //   .content-preFooter {
-    //     background-size: cover;
-    //   }
-    // }
+    &:not(#en__pagebuilder)[data-engrid-layout="leftleft1col"],
+    &:not(#en__pagebuilder)[data-engrid-layout="rightright1col"]{
+      .body-headerOutside{
+        background-color: black;
+        --engrid__body-headerOutside_padding: 2rem;
+      }
 
-    body:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
-    body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
-    body:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
+      .content-footer{
+        display: block;
+      }
+    }
+
+    &:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
+    &:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
+    &:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
       // Specified on child dom elements so that if there are none, then the parent div collapses its vertical height.
       .content-preFooter > div {
         min-height: 1010px;
@@ -752,7 +776,7 @@
     padding-left: 33%;
   }
 
-  .en__field--donationAmt .en__field__item--other::before {
+  .en__field--donationAmt .en__field__item--other:before {
     display: block;
     content: "$";
     position: relative;
@@ -765,7 +789,7 @@
   }
 
   .en__field--donationAmt .en__field__label--item,
-  .en__field--donationAmt .en__field__item--other::before,
+  .en__field--donationAmt .en__field__item--other:before,
   .en__field--donationAmt .en__field__item--other input {
     font-family: var(--bold_font-family);
     font-size: var(--donation-amount__button_font-size);
@@ -783,54 +807,143 @@
   }
 
   .content-preFooter {
-    z-index: -6 !important;
-  }
-}
-
-body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"]
-  .page-backgroundImage {
-  -webkit-clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
-  clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
-  height: 120vh;
-  background-color: #487c0f;
-}
-
-@media screen and (max-width: 980px) {
-  .footer-wrapper .footer-copy p {
-    border: 0 !important;
-    padding: 0 !important;
-  }
-}
-
-@media screen and (max-width: 880px) {
-  .body-headerOutside {
-    background-color: #000;
+    // z-index: -6 !important;
   }
 
-  body:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"]
-    .page-backgroundImage {
-    height: 0;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .footer-logo {
-    margin-bottom: 1rem;
-  }
-
-  .body-headerOutside {
-    margin-top: 2rem !important;
-    margin-bottom: 2rem !important;
-  }
-}
-
-@media screen and (max-width: 460px) {
-  .footer-menu {
-    font-size: 0.75rem;
-    padding-top: 1rem;
+  .en__field--text.en__field--validationFailed input,
+  .en__field--email.en__field--validationFailed input,
+  .en__field--telephone.en__field--validationFailed input,
+  .en__field--number.en__field--validationFailed input,
+  .en__field--textarea.en__field--validationFailed textarea,
+  .en__field--select.en__field--validationFailed select,
+  .en__field--password.en__field--validationFailed input,
+  .en__field--calendar.en__field--validationFailed input{
+    &:only-of-type{
+      margin-bottom: 0 !important;
+    }
   }
 
-  .footer-wrapper .footer-copy p {
-    text-align: center;
+  @media screen and (max-width: 980px) {
+    .footer-wrapper .footer-copy p {
+      border: 0 !important;
+      padding: 0 !important;
+    }
+  }
+
+  @media screen and (max-width: 880px) {
+    .body-headerOutside {
+      --engrid__body-headerOutside_background-color: #000000;
+      --engrid__body-headerOutside_padding: 2rem;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    --engrid__body_padding: 0 1.5rem;
+
+    .footer-logo {
+      margin-bottom: 1rem;
+    }
+
+    .body-headerOutside {
+      --engrid__body-headerOutside_padding: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 460px) {
+    .footer-menu {
+      font-size: 0.75rem;
+      padding-top: 1rem;
+    }
+
+    .footer-wrapper .footer-copy p {
+      text-align: center;
+    }
+  }
+
+  @media screen and (min-width: $one_col_content-column_min-width) {
+    &:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
+    &:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
+    &:not(#en__pagebuilder)[data-engrid-layout="centerright1col"]{
+      .en__component--advrow .body-header:before,
+      .en__component--advrow .body-banner:before,
+      .en__component--advrow .body-top:before,
+      .en__component--advrow .body-side:before,
+      .en__component--advrow .body-main:before,
+      .en__component--advrow .body-bottom:before,
+      .en__component--advrow .body-footer:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -2;
+        box-shadow: 0 36px 50px 0 rgba(0, 0, 0, 0.2),
+          0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+      }
+
+      .page-backgroundImage {
+        -webkit-clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
+        clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
+        height: 120vh;
+        background-color: #487c0f;
+
+        &:before {
+          position: absolute !important;
+          background-position: top left !important;
+          background-repeat: no-repeat;
+          z-index: -13;
+          background-size: cover;
+          height: 120vh;
+        }
+      }
+
+      .body-header{
+        padding-top: 2rem;
+      }
+  
+      .body-footer{
+        padding-bottom: 1rem;
+        margin-bottom: 5rem;
+      }
+    } 
+  }
+  
+  @media screen and (min-width: $two_col_content-column_min-width) {
+    &:not(#en__pagebuilder)[data-engrid-layout="centercenter2col"]{
+      .body-title,
+      .body-banner,
+      .body-bannerOverlay,
+      .body-top {
+        --engrid__body-title_background-color: #f5f5f5;
+        --engrid__body-banner_background-color: #f5f5f5;
+        --engrid__body-top_background-color: #f5f5f5;
+      }
+
+      .page-backgroundImage {
+        -webkit-clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
+        clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
+        height: 120vh;
+        background-color: #487c0f;
+  
+        &:before {
+          position: absolute !important;
+          background-position: top left !important;
+          background-repeat: no-repeat;
+          z-index: -13;
+          background-size: cover;
+          height: 120vh;
+        }
+      }
+  
+      .body-header{
+        padding-top: 2rem;
+      }
+  
+      .body-footer{
+        padding-bottom: 1rem;
+        margin-bottom: 5rem;
+      }
+    }
   }
 }
