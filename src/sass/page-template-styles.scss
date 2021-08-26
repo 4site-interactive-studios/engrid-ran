@@ -865,6 +865,7 @@
     &:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
     &:not(#en__pagebuilder)[data-engrid-layout="centerright1col"]{
       .en__component--advrow .body-header:before,
+      .en__component--advrow .body-title:before,
       .en__component--advrow .body-banner:before,
       .en__component--advrow .body-top:before,
       .en__component--advrow .body-side:before,
