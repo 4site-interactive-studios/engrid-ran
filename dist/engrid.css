@@ -7032,7 +7032,7 @@ input[type=radio]+label{
     height:120vh;
   }
   [data-engrid-theme=engrid-ran2]:not(#en__pagebuilder)[data-engrid-layout=centercenter1col] .page-backgroundImage:before,[data-engrid-theme=engrid-ran2]:not(#en__pagebuilder)[data-engrid-layout=centerleft1col] .page-backgroundImage:before,[data-engrid-theme=engrid-ran2]:not(#en__pagebuilder)[data-engrid-layout=centerright1col] .page-backgroundImage:before{
-    background-position:0 0 !important;
+    background-position:top;
     background-repeat:no-repeat;
     background-size:cover;
     height:120vh;
@@ -7061,7 +7061,7 @@ input[type=radio]+label{
     height:120vh;
   }
   [data-engrid-theme=engrid-ran2]:not(#en__pagebuilder)[data-engrid-layout=centercenter2col] .page-backgroundImage:before{
-    background-position:0 0 !important;
+    background-position:top;
     background-repeat:no-repeat;
     background-size:cover;
     height:120vh;

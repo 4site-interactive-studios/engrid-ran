@@ -891,7 +891,7 @@
 
         &:before {
           position: absolute !important;
-          background-position: top left !important;
+          background-position: top center;
           background-repeat: no-repeat;
           z-index: -13;
           background-size: cover;
@@ -929,7 +929,7 @@
   
         &:before {
           position: absolute !important;
-          background-position: top left !important;
+          background-position: top center;
           background-repeat: no-repeat;
           z-index: -13;
           background-size: cover;
