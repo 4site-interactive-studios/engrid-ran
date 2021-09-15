@@ -1,4 +1,3 @@
-<!-- Minify before placing in <head> or before </body> REF: https://jscompress.com/ -->
 <script>
 // ENGrid Legacy Support for Page Title (see: engrid-scripts/header-js.html)
 
@@ -25,7 +24,8 @@ function legacyPageTitle(){
 }
 </script>
 
+<!-- Minified version of above script: https://jscompress.com/ -->
 <script>
-// ENGrid Legacy Support for Page Title (see: engrid-scripts/header-js.html)	
+// ENGrid Legacy Support for Page Title (see: engrid-scripts/header-js.html)
 "loading"===document.readyState?document.addEventListener("DOMContentLoaded",()=>{this.legacyPageTitle()}):this.legacyPageTitle();function legacyPageTitle(){var a=document.querySelector(".body-title"),b=document.querySelector(".body-top h1"),c=document.querySelector(".body-banner");!a&&b&&c&&(console.log("Legacy page detected. Title (H1) has been extracted from .body-top and moved into the newly created .body-title section"),a=document.createElement("div"),a.setAttribute("class","en__component en__component en__component--column en__component--advcolumn body-title"),a.appendChild(b),c.insertAdjacentElement("beforebegin",a))}
 </script>
