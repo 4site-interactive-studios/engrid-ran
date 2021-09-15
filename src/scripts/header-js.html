@@ -1,0 +1,31 @@
+<!-- Minify before placing in <head> or before </body> REF: https://jscompress.com/ -->
+<script>
+// ENGrid Legacy Support for Page Title (see: engrid-scripts/header-js.html)
+
+if (document.readyState !== "loading") {
+	this.legacyPageTitle();
+} else {
+	document.addEventListener("DOMContentLoaded", () => {
+		this.legacyPageTitle();
+	});
+}
+
+function legacyPageTitle(){
+	var section_body_title = document.querySelector('.body-title');
+	var page_title = document.querySelector('.body-top h1'); // Get the first H1 in the body-top
+	var section_body_banner = document.querySelector('.body-banner');
+
+	if(!section_body_title && page_title && section_body_banner){
+		console.log('Legacy page detected. Title (H1) has been extracted from .body-top and moved into the newly created .body-title section')
+		section_body_title = document.createElement('div'); // Create a new div to house the body title
+		section_body_title.setAttribute('class', 'en__component en__component en__component--column en__component--advcolumn body-title'); // Add classes to the new div
+		section_body_title.appendChild(page_title); // Insert the title into the new div
+		section_body_banner.insertAdjacentElement('beforebegin', section_body_title); // Add the new .body-title section just before the .body-banner section
+	}
+}
+</script>
+
+<script>
+// ENGrid Legacy Support for Page Title (see: engrid-scripts/header-js.html)	
+"loading"===document.readyState?document.addEventListener("DOMContentLoaded",()=>{this.legacyPageTitle()}):this.legacyPageTitle();function legacyPageTitle(){var a=document.querySelector(".body-title"),b=document.querySelector(".body-top h1"),c=document.querySelector(".body-banner");!a&&b&&c&&(console.log("Legacy page detected. Title (H1) has been extracted from .body-top and moved into the newly created .body-title section"),a=document.createElement("div"),a.setAttribute("class","en__component en__component en__component--column en__component--advcolumn body-title"),a.appendChild(b),c.insertAdjacentElement("beforebegin",a))}
+</script>
