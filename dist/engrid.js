@@ -6455,11 +6455,23 @@ var setRecurrFreq = function setRecurrFreq() {
   }); // Uncheck the checkbox when frequency != checkbox value
 
   this._frequency.onFrequencyChange.subscribe(function () {
-    var freq = _this._frequency.frequency.toUpperCase();
+    var currentFrequency = _this._frequency.frequency.toUpperCase();
+    /*
+    (document.getElementsByName(this.checkboxName) as NodeListOf<HTMLInputElement>).forEach((element) => {
+        if (element.checked && element.value.toUpperCase() != freq) {
+            element.checked = false;
+        }
+    });
+    */
+
 
     document.getElementsByName(_this.checkboxName).forEach(function (element) {
-      if (element.checked && element.value.toUpperCase() != freq) {
+      var elementFrequency = element.value.toUpperCase();
+
+      if (element.checked && elementFrequency !== currentFrequency) {
         element.checked = false;
+      } else if (!element.checked && elementFrequency === currentFrequency) {
+        element.checked = true;
       }
     });
   });
