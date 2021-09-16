@@ -6428,7 +6428,7 @@ var setRecurrFreq = function setRecurrFreq() {
   var currentFrequency = engrid_ENGrid.getFieldValue('transaction.recurrfreq').toUpperCase(); // Watch checkboxes with the name checkboxName
 
   document.getElementsByName(this.checkboxName).forEach(function (element) {
-    // set checked status per currently-set frequency
+    // Set checked status per currently-set frequency
     var frequency = element.value.toUpperCase();
 
     if (frequency === currentFrequency) {
@@ -6458,7 +6458,7 @@ var setRecurrFreq = function setRecurrFreq() {
     var freq = _this._frequency.frequency.toUpperCase();
 
     document.getElementsByName(_this.checkboxName).forEach(function (element) {
-      if (element.checked && element.value != freq) {
+      if (element.checked && element.value.toUpperCase() != freq) {
         element.checked = false;
       }
     });
