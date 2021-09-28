@@ -21,7 +21,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, September 28, 2021 @ 14:40:51 ET
+ *  Date: Tuesday, September 28, 2021 @ 14:44:04 ET
  *  By: bryancasler
  *  ENGrid styles: v0.3.38
  *  ENGrid scripts: v0.3.39
@@ -7239,6 +7239,10 @@ body:not([data-engrid-debug]) #debug-bar{
 
 [data-engrid-theme=engrid-ran2] .en__field__label[for=en__field_transaction_recurrpay0]:focus,[data-engrid-theme=engrid-ran2] .en__field__label[for=en__field_transaction_recurrpay1]:focus{
   outline:none !important;
+}
+
+[data-engrid-theme=engrid-ran2] .body-title h1{
+  text-align:center;
 }
 
 [data-engrid-theme=engrid-ran2] .en__field--recurrpay.en__field--radio input[type=radio]+label:before{

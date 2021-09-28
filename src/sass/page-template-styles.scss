@@ -224,6 +224,11 @@
     outline: none !important;
   }
 
+  // Center the Title
+  .body-title h1{
+    text-align: center;
+  }
+
   // .frequency {
   //   .en__field__input--radio + .en__field__label:before {
   //     content: "";
