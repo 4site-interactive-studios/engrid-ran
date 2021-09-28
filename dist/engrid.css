@@ -21,7 +21,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, September 28, 2021 @ 14:49:59 ET
+ *  Date: Tuesday, September 28, 2021 @ 16:19:18 ET
  *  By: bryancasler
  *  ENGrid styles: v0.3.38
  *  ENGrid scripts: v0.3.39
@@ -7168,15 +7168,15 @@ body:not([data-engrid-debug]) #debug-bar{
   --button_border-radius:0px;
   --donation-amount__button_padding:1.25ch 1.2ch 0.75ch 1.2ch;
   --button_background-color_checked:var(--color_primary_accent);
-  --donation-amount__button_background-color_checked:var(
-    --color_primary_accent
-  );
+  --donation-amount__button_background-color_checked:var(--color_primary_accent);
   --submit__button_background-color:var(--color_primary_accent);
   --submit__button_font-size:1.33248em;
   --give-monthly-donation-amount-appended-label:"/mo";
   --recurring-frequency__button_count:3;
   --donation-amount__button_count:3;
   --give-by-select__button_count:2;
+  --highlight__background-color:#f9f003;
+  --highlight__color:#343432;
 }
 
 [data-engrid-theme=engrid-ran2]#en__pagebuilder .body-bannerOverlay,[data-engrid-theme=engrid-ran2]#en__pagebuilder .body-footerOutside,[data-engrid-theme=engrid-ran2]#en__pagebuilder .body-side,[data-engrid-theme=engrid-ran2]#en__pagebuilder .content-header,[data-engrid-theme=engrid-ran2]#en__pagebuilder .page-alert,[data-engrid-theme=engrid-ran2]#en__pagebuilder .page-backgroundImageOverlay{
@@ -7193,28 +7193,15 @@ body:not([data-engrid-debug]) #debug-bar{
   width:1px;
 }
 
-[data-engrid-theme=engrid-ran2] .highlight{
-  background-color:#f9f003;
-  color:#343432;
-  display:inline-block;
-  font-size:1.77664em;
-  font-weight:600;
+[data-engrid-theme=engrid-ran2] .monthly-gift-upsell-tooltip .highlight{
+  font-size:1.3rem;
   padding:1rem .5rem .25rem;
   text-align:center;
 }
 
-[data-engrid-theme=engrid-ran2] .highlight.big{
-  font-size:1.3rem;
-}
-
-[data-engrid-theme=engrid-ran2] h2.highlight{
-  padding:12px 15px 10px;
-  text-transform:uppercase;
-}
-
 [data-engrid-theme=engrid-ran2] .monthly-gift-upsell-tooltip .highlight:after{
   border:20px solid transparent;
-  border-top-color:#f9f003;
+  border-top:20px solid var(--highlight__background-color);
   bottom:-12px;
   content:" ";
   height:0;
@@ -7319,6 +7306,11 @@ input[type=radio]:checked+label{
   background-color:#f1700b !important;
 }
 
+[data-engrid-theme=engrid-ran2] .en__field--monthly_upsell_checkbox .highlight{
+  display:inline-block;
+  padding:.7rem .5rem .55rem;
+}
+
 [data-engrid-theme=engrid-ran2] .en__field_supporter_country{
   text-align:right;
 }
@@ -7341,12 +7333,30 @@ input[type=radio]:checked+label{
   text-transform:uppercase;
 }
 
+[data-engrid-theme=engrid-ran2] .highlight{
+  font-weight:600;
+}
+
 [data-engrid-theme=engrid-ran2] .pre-footer-card-wrapper{
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
   margin:0 auto 260px;
-  width:90%;
+}
+
+[data-engrid-theme=engrid-ran2] .pre-footer-card-wrapper .highlight{
+  display:inline-block;
+  font-size:1.77664em;
+  text-align:center;
+}
+
+[data-engrid-theme=engrid-ran2] .pre-footer-card-wrapper .highlight.big{
+  font-size:1.3rem;
+}
+
+[data-engrid-theme=engrid-ran2] .pre-footer-card-wrapper h2.highlight{
+  padding:1rem 1rem .7rem;
+  text-transform:uppercase;
 }
 
 [data-engrid-theme=engrid-ran2] .pre-footer-card{
