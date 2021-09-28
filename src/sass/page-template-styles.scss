@@ -229,6 +229,11 @@
     text-align: center;
   }
 
+  // If an <img> is added to the .page-background via the WYSIWYG, it will be wrapped in a <p> tag. Remove the margin from that <p> tag.
+  .page-backgroundImage p:only-child{
+    margin: 0;
+  }
+
   // .frequency {
   //   .en__field__input--radio + .en__field__label:before {
   //     content: "";
