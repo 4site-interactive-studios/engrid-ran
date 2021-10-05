@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, September 28, 2021 @ 16:19:18 ET
+ *  Date: Tuesday, October 5, 2021 @ 15:48:52 ET
  *  By: bryancasler
  *  ENGrid styles: v0.3.38
  *  ENGrid scripts: v0.3.39
@@ -33,23 +33,29 @@
 /***/ 747:
 /***/ (() => {
 
-document.onreadystatechange = function () {
-  if (document.readyState === "interactive" || document.readyState === "complete") {
-    // Add placeholder to the "other" giving amount field
-    var enFieldOtherAmt = document.querySelectorAll('.radio-to-buttons_donationAmt .en__field--radio.en__field--donationAmt .en__field__input--other')[0];
-
-    if (enFieldOtherAmt) {
-      enFieldOtherAmt.placeholder = "Other";
-    } // Add placeholder to the Mobile Phone Field
-
-
-    var enFieldMobilePhone = document.querySelectorAll('input#en__field_supporter_phoneNumber')[0];
-
-    if (enFieldMobilePhone) {
-      enFieldMobilePhone.placeholder = "000-000-0000 (optional)";
-    }
-  }
+// Fires scripts ASAP, but not before DOMContentLoaded
+// Accounts for the circumstance where the DOMContentLoaded event has already triggered
+var DOMReady = function DOMReady(callback) {
+  document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
 };
+
+DOMReady(function () {
+  console.log("ENGrid client scripts are executing"); // Add your client scripts here
+  // Add placeholder to the "other" giving amount field
+
+  var enFieldOtherAmt = document.querySelectorAll('.radio-to-buttons_donationAmt .en__field--radio.en__field--donationAmt .en__field__input--other')[0];
+
+  if (enFieldOtherAmt) {
+    enFieldOtherAmt.placeholder = "Other";
+  } // Add placeholder to the Mobile Phone Field
+
+
+  var enFieldMobilePhone = document.querySelectorAll('input#en__field_supporter_phoneNumber')[0];
+
+  if (enFieldMobilePhone) {
+    enFieldMobilePhone.placeholder = "000-000-0000 (optional)";
+  }
+});
 
 /***/ }),
 
