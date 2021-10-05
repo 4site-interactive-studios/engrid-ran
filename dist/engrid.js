@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, October 5, 2021 @ 15:48:52 ET
+ *  Date: Tuesday, October 5, 2021 @ 17:40:05 ET
  *  By: bryancasler
  *  ENGrid styles: v0.3.38
  *  ENGrid scripts: v0.3.39
@@ -7027,7 +7027,6 @@ var main = __webpack_require__(747);
  // Uses ENGrid via Visual Studio Workspace
 
 
-
 var options = {
   applePay: false,
   CapitalizeFields: true,
@@ -7048,6 +7047,7 @@ var options = {
   }
 };
 new App(options);
+
 })();
 
 /******/ })()
