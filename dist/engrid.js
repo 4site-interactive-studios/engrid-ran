@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, October 5, 2021 @ 17:59:50 ET
- *  By: fe
+ *  Date: Tuesday, October 5, 2021 @ 20:26:07 ET
+ *  By: bryancasler
  *  ENGrid styles: v0.3.38
  *  ENGrid scripts: v0.3.39
  *
@@ -7969,6 +7969,9 @@ var options = {
   SkipToMainContentLink: true,
   SrcDefer: true,
   ProgressBar: true,
+  NeverBounceAPI: "public_520ace707aaa95300c65f742af9fb095",
+  NeverBounceDateField: "supporter.NOT_TAGGED_36",
+  NeverBounceStatusField: "supporter.NOT_TAGGED_35",
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: function onLoad() {
     return customScript();
