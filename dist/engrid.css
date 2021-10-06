@@ -21,7 +21,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, October 5, 2021 @ 20:26:07 ET
+ *  Date: Tuesday, October 5, 2021 @ 21:00:09 ET
  *  By: bryancasler
  *  ENGrid styles: v0.3.38
  *  ENGrid scripts: v0.3.39
@@ -7462,6 +7462,11 @@ input[type=radio]:checked+label{
 
 [data-engrid-theme=engrid-ran2] .body-headerOutside{
   --engrid__body-headerOutside_padding:4rem;
+}
+
+[data-engrid-theme=engrid-ran2] .radio-to-buttons_donationAmt .en__field--recurrfreq .en__field__item label{
+  font-size:1.33248em;
+  font-weight:900;
 }
 
 @media screen and (max-width:360px){

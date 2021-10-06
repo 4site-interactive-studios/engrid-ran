@@ -353,38 +353,6 @@
     padding: 0.7rem 0.5rem 0.55rem 0.5rem;
   }
 
-  .en__field__input--checkbox + .en__field__label,
-  .en__contactDetails__rows {
-    // font-size: calc(0.05552em * 18);
-    // font-weight: 400;
-    // text-transform: none;
-    // letter-spacing: 0.4px;
-    // display: inline-block;
-    // align-items: flex-start;
-  }
-
-  // input[type="checkbox"] + label:before {
-  //   margin-top: 1px;
-  // }
-
-  // .en__field__input--checkbox:checked + .en__field__label:after,
-  // .en__contactDetails__select:checked + .en__contactDetails__rows:after {
-  //   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='16' viewBox='0 0 21 16'><path fill='%23F57E20' fill-rule='nonzero' d='M18.76.16L6.68 12.113l-4.44-4.392a.555.555 0 0 0-.779 0L.161 9.006a.541.541 0 0 0 0 .771L6.29 15.84a.555.555 0 0 0 .78 0l13.77-13.624a.541.541 0 0 0 0-.771L19.539.16a.555.555 0 0 0-.779 0z'/></svg>");
-  //   position: absolute;
-  //   left: 5px;
-  //   top: 0;
-  //   width: 21px;
-  //   height: 16px;
-  //   color: #f1700b;
-  //   background-color: transparent;
-  //   font-size: calc(0.05552em * 18);
-  // }
-
-  // .en__field__input--checkbox + .en__field__label {
-  //   text-indent: -32px;
-  //   margin-left: 32px;
-  // }
-
   .en__field_supporter_country {
     text-align: right;
   }
@@ -405,13 +373,9 @@
     white-space: nowrap;
   }
 
-  // select, select.en__field__input--select, select.en__field__input--splitselect, select.en__field__input--tripleselect {
-  // height:48px;
-  // }
 
   h1 {
     text-transform: uppercase;
-    // margin: 4rem 0 0.5rem 0 !important;
   }
 
   .highlight{
@@ -517,6 +481,14 @@
     --engrid__body-headerOutside_padding: 4rem;
   }
 
+  .radio-to-buttons_donationAmt .en__field--recurrfreq .en__field__item label{
+    font-weight: 900;
+    font-size: calc(0.05552em * 24);
+  }
+
+
+  
+
   /*
     * ####################################################################################################################
     * Layout - Center ANY
@@ -604,26 +576,6 @@
   [data-engrid-layout="centercenter1col"],
   [data-engrid-layout="centercenter2col"],
   [data-engrid-layout="centerright1col"] {
-    // .page-alert,
-    // .content-header,
-    // .body-banner,
-    // .body-bannerOverlay,
-    // .body-side,
-    // .body-footerOutside,
-    // .page-backgroundImageOverlay {
-    //   // display: none;
-    //   position: absolute;
-    //   width: 1px;
-    //   height: 1px;
-    //   margin: -1px;
-    //   border: 0;
-    //   padding: 0;
-    //   white-space: nowrap;
-    //   -webkit-clip-path: inset(100%);
-    //   clip-path: inset(100%);
-    //   clip: rect(0 0 0 0);
-    //   overflow: hidden;
-    // }
 
     .body-headerOutside {
       grid-column: bc;
@@ -651,17 +603,6 @@
       min-height: 710px;
     }
 
-    /* This should use a more robust solution for adding a gradient overlay to the background image, but below the overlay text */
-    // .page-backgroundImage:after {
-    //   content: "";
-    //   background-image: radial-gradient(
-    //     circle at 50% 0,
-    //     rgba(0, 0, 0, 0.3),
-    //     transparent 53%
-    //   );
-    //   z-index: -3;
-    //   grid-column: pc;
-    // }
     .page-backgroundImageOverlay {
       grid-row: page-start / body-main-end;
       background-image: -webkit-gradient(
