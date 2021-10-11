@@ -152,6 +152,10 @@
 /* Add your custom theme styles here */
 [data-engrid-theme="engrid-ran2"] {
 
+  &[data-engrid-embedded]{
+    --engrid__embedded_body_padding: 0 1.5rem;
+  }
+
   &#en__pagebuilder {
     .page-alert,
     .content-header,
