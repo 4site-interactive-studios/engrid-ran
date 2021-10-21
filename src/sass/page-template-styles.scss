@@ -156,7 +156,7 @@
     --engrid__embedded_body_padding: 0 1.5rem;
   }
 
-  &#en__pagebuilder {
+  &:not([data-engrid-layout="debug"])#en__pagebuilder {
     .page-alert,
     .content-header,
     .body-bannerOverlay,
