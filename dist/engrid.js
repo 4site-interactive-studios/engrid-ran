@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, October 21, 2021 @ 17:16:32 ET
+ *  Date: Thursday, October 21, 2021 @ 17:26:33 ET
  *  By: bryancasler
  *  ENGrid styles: v0.5.1
  *  ENGrid scripts: v0.5.1
@@ -13057,7 +13057,6 @@ const options = {
   SkipToMainContentLink: true,
   SrcDefer: true,
   ProgressBar: true,
-  RememberMe: false,
   NeverBounceAPI: "public_520ace707aaa95300c65f742af9fb095",
   NeverBounceDateField: "supporter.NOT_TAGGED_36",
   NeverBounceStatusField: "supporter.NOT_TAGGED_35",
