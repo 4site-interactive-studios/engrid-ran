@@ -17,6 +17,7 @@ const options: Options = {
   NeverBounceAPI: "public_520ace707aaa95300c65f742af9fb095",
   NeverBounceDateField: "supporter.NOT_TAGGED_36",
   NeverBounceStatusField: "supporter.NOT_TAGGED_35",
+  NeverBounceDateFormat: "YYYYMMDD",
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => customScript(),
   onResize: () => console.log("Starter Theme Window Resized"),
