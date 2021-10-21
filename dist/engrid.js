@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, October 20, 2021 @ 22:33:28 ET
+ *  Date: Thursday, October 21, 2021 @ 23:31:03 ET
  *  By: fe
  *  ENGrid styles: v0.4.7
- *  ENGrid scripts: v0.4.7
+ *  ENGrid scripts: v0.4.8
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -8073,7 +8073,7 @@ class PageBackground {
 
 
 class NeverBounce {
-    constructor(apiKey, dateField = null, statusField = null, dateFormat = "MM/DD/YYYY") {
+    constructor(apiKey, dateField = null, statusField = null, dateFormat) {
         this.apiKey = apiKey;
         this.dateField = dateField;
         this.statusField = statusField;
@@ -8414,6 +8414,7 @@ const options = {
   NeverBounceAPI: "public_520ace707aaa95300c65f742af9fb095",
   NeverBounceDateField: "supporter.NOT_TAGGED_36",
   NeverBounceStatusField: "supporter.NOT_TAGGED_35",
+  NeverBounceDateFormat: "YYYYMMDD",
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => customScript(),
   onResize: () => console.log("Starter Theme Window Resized")
