@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, March 9, 2022 @ 19:55:10 ET
+ *  Date: Thursday, March 10, 2022 @ 12:21:41 ET
  *  By: fernando
  *  ENGrid styles: v0.10.12
- *  ENGrid scripts: v0.10.13
+ *  ENGrid scripts: v0.10.14
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -14267,7 +14267,6 @@ class NeverBounce {
                 this.init();
             });
         }
-        this.init();
         this.form.onValidate.subscribe(() => (this.form.validate = this.validate()));
     }
     init() {
