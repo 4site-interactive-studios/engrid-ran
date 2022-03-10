@@ -1,5 +1,5 @@
 {
-  "name": "@4site/engrid",
+  "name": "@4site/engrid-ran",
   "version": "2.0.0",
   "private": false,
   "description": "Page Template Framework for Engaging Networks",
@@ -24,50 +24,50 @@
   ],
   "author": "4Site Studios",
   "license": "Unlicense",
-  "url": "https://github.com/4site-interactive-studios/engrid",
+  "url": "https://github.com/4site-interactive-studios/engrid-ran",
   "devDependencies": {
     "@4site/engrid-common": "*",
     "@4site/engrid-styles": "*",
-    "@babel/core": "^7.14.3",
-    "@babel/plugin-proposal-class-properties": "7.13.0",
-    "@babel/plugin-proposal-object-rest-spread": "7.14.2",
-    "@babel/plugin-transform-runtime": "^7.14.3",
-    "@babel/preset-env": "^7.14.2",
-    "@babel/preset-typescript": "7.13.0",
-    "babel-loader": "^8.2.2",
+    "@babel/core": "^7.17.5",
+    "@babel/plugin-proposal-class-properties": "7.16.7",
+    "@babel/plugin-proposal-object-rest-spread": "7.17.3",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "7.16.7",
+    "babel-loader": "^8.2.3",
     "breakpoint-sass": "^2.7.1",
     "breakpoint-slicer": "^2.0.0",
-    "css-loader": "^5.2.6",
-    "css-minimizer-webpack-plugin": "^3.0.2",
+    "css-loader": "^6.6.0",
+    "css-minimizer-webpack-plugin": "^3.4.1",
     "file-loader": "^6.2.0",
-    "fork-ts-checker-webpack-plugin": "6.2.12",
-    "mini-css-extract-plugin": "^1.6.2",
-    "node-sass": "^6.0.1",
+    "fork-ts-checker-webpack-plugin": "^7.2.1",
+    "mini-css-extract-plugin": "^2.5.3",
+    "sass": "^1.49.9",
     "popper.js": "^1.16.1",
-    "postcss-loader": "^6.1.0",
-    "postcss-preset-env": "^6.7.0",
-    "prettier": "2.4.1",
-    "sass-loader": "^12.1.0",
-    "style-loader": "^3.0.0",
-    "typescript": "^3.9.7",
-    "webpack": "^5.37.0",
-    "webpack-cli": "^4.7.0",
-    "webpack-merge": "^5.7.3"
+    "postcss-loader": "^6.2.1",
+    "postcss-preset-env": "^7.4.1",
+    "prettier": "2.5.1",
+    "sass-loader": "^12.6.0",
+    "style-loader": "^3.3.1",
+    "typescript": "^4.6.2",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
+    "@babel/runtime": "^7.17.2",
     "babel": "^6.23.0",
-    "clean-webpack-plugin": "^3.0.0",
-    "sanitize.css": "^12.0.1",
+    "clean-webpack-plugin": "^4.0.0",
+    "sanitize.css": "^13.0.0",
     "strongly-typed-events": "^1.7.3",
-    "terser-webpack-plugin": "^5.2.3"
+    "terser-webpack-plugin": "^5.3.1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/4site-interactive-studios/engrid.git"
+    "url": "git+https://github.com/4site-interactive-studios/engrid-ran.git"
   },
   "bugs": {
-    "url": "https://github.com/4site-interactive-studios/engrid/issues"
+    "url": "https://github.com/4site-interactive-studios/engrid-ran/issues"
   },
-  "homepage": "https://github.com/4site-interactive-studios/engrid#readme"
+  "homepage": "https://github.com/4site-interactive-studios/engrid-ran#readme"
 }
