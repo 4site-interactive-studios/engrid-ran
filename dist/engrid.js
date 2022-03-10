@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, March 10, 2022 @ 12:21:41 ET
+ *  Date: Thursday, March 10, 2022 @ 12:32:07 ET
  *  By: fernando
  *  ENGrid styles: v0.10.12
- *  ENGrid scripts: v0.10.14
+ *  ENGrid scripts: v0.10.15
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -14434,11 +14434,6 @@ class NeverBounce {
         var _a;
         (_a = referenceNode === null || referenceNode === void 0 ? void 0 : referenceNode.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(el, referenceNode.nextSibling);
     }
-    //  to insert HTML before a DIV
-    insertBefore(el, referenceNode) {
-        var _a;
-        (_a = referenceNode === null || referenceNode === void 0 ? void 0 : referenceNode.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(el, referenceNode);
-    }
     //  to Wrap HTML around a DIV
     wrap(el, wrapper) {
         var _a;
@@ -14447,7 +14442,7 @@ class NeverBounce {
     }
     validate() {
         var _a;
-        if (!this.emailField || !this.shouldRun) {
+        if (!this.emailField || !this.shouldRun || !this.nbLoaded) {
             this.logger.log("validate(): Should Not Run. Returning true.");
             return true;
         }
