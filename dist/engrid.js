@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, March 15, 2022 @ 11:11:08 ET
+ *  Date: Tuesday, March 15, 2022 @ 11:46:59 ET
  *  By: fernando
  *  ENGrid styles: v0.10.12
- *  ENGrid scripts: v0.10.16
+ *  ENGrid scripts: v0.10.17
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -14251,7 +14251,7 @@ class NeverBounce {
         window._NBSettings = {
             apiKey: this.apiKey,
             autoFieldHookup: false,
-            inputLatency: 2000,
+            inputLatency: 1500,
             displayPoweredBy: false,
             loadingMessage: "Validating...",
             softRejectMessage: "Invalid email",
@@ -14262,10 +14262,23 @@ class NeverBounce {
         if (this.emailField) {
             if (this.emailField.value)
                 this.shouldRun = false;
-            this.emailField.addEventListener("keyup", (e) => {
-                this.shouldRun = true;
-                this.init();
+            this.emailField.addEventListener("change", (e) => {
+                var _a;
+                if (!this.nbLoaded) {
+                    this.shouldRun = true;
+                    this.init();
+                    if ((_a = this.emailField) === null || _a === void 0 ? void 0 : _a.value) {
+                        setTimeout(function () {
+                            window._nb.fields
+                                .get(document.querySelector("[data-nb-id]"))[0]
+                                .forceUpdate();
+                        }, 100);
+                    }
+                }
             });
+            window.setTimeout(() => {
+                this.init();
+            }, 1000);
         }
         this.form.onValidate.subscribe(() => (this.form.validate = this.validate()));
     }
@@ -14333,14 +14346,6 @@ class NeverBounce {
                 }
                 engrid_ENGrid.enableSubmit();
             });
-            if (field.value) {
-                NBClass.logger.log(field);
-                setTimeout(function () {
-                    window._nb.fields
-                        .get(document.querySelector("[data-nb-id]"))[0]
-                        .forceUpdate();
-                }, 100);
-            }
         });
         // Never Bounce: Register field with the widget and broadcast nb:registration event
         window._nb.fields.registerListener(NBClass.emailField, true);
