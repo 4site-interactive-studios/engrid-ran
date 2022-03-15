@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, March 10, 2022 @ 12:32:07 ET
+ *  Date: Tuesday, March 15, 2022 @ 11:11:08 ET
  *  By: fernando
  *  ENGrid styles: v0.10.12
- *  ENGrid scripts: v0.10.15
+ *  ENGrid scripts: v0.10.16
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -14251,7 +14251,7 @@ class NeverBounce {
         window._NBSettings = {
             apiKey: this.apiKey,
             autoFieldHookup: false,
-            inputLatency: 500,
+            inputLatency: 2000,
             displayPoweredBy: false,
             loadingMessage: "Validating...",
             softRejectMessage: "Invalid email",
