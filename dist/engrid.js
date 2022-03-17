@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, March 15, 2022 @ 11:46:59 ET
+ *  Date: Thursday, March 17, 2022 @ 17:43:16 ET
  *  By: fernando
  *  ENGrid styles: v0.10.12
- *  ENGrid scripts: v0.10.17
+ *  ENGrid scripts: v0.10.19
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -10793,6 +10793,9 @@ class engrid_ENGrid {
                 case "supporterhub":
                     return "SUPPORTERHUB";
                     break;
+                case "unsubscribe":
+                    return "UNSUBSCRIBE";
+                    break;
                 default:
                     return "DONATION";
             }
@@ -13310,11 +13313,14 @@ class UpsellLightbox {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/show-hide-radio-checkboxes.js
+
 class ShowHideRadioCheckboxes {
     constructor(elements, classes) {
+        this.logger = new EngridLogger("ShowHideRadioCheckboxes", "black", "lightblue", "👁");
         this.elements = document.getElementsByName(elements);
         this.classes = classes;
         this.hideAll();
+        this.logger.log("New:", this.classes, this.elements);
         for (let i = 0; i < this.elements.length; i++) {
             let element = this.elements[i];
             if (element.checked) {
@@ -13338,8 +13344,10 @@ class ShowHideRadioCheckboxes {
         let inputValue = item.value.replace(/\s/g, "");
         document.querySelectorAll("." + this.classes + inputValue).forEach((el) => {
             // Consider toggling "hide" class so these fields can be displayed when in a debug state
-            if (el instanceof HTMLElement)
+            if (el instanceof HTMLElement) {
                 el.style.display = "none";
+                this.logger.log("Hiding", el);
+            }
         });
     }
     // Show Single Element Div
@@ -13347,8 +13355,10 @@ class ShowHideRadioCheckboxes {
         let inputValue = item.value.replace(/\s/g, "");
         document.querySelectorAll("." + this.classes + inputValue).forEach((el) => {
             // Consider toggling "hide" class so these fields can be displayed when in a debug state
-            if (el instanceof HTMLElement)
+            if (el instanceof HTMLElement) {
                 el.style.display = "";
+                this.logger.log("Showing", el);
+            }
         });
         if (item.type == "checkbox" && !item.checked) {
             this.hide(item);
