@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, April 21, 2022 @ 13:01:30 ET
+ *  Date: Thursday, April 21, 2022 @ 14:58:17 ET
  *  By: fernando
  *  ENGrid styles: v0.11.9
- *  ENGrid scripts: v0.11.9
+ *  ENGrid scripts: v0.11.13
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -11329,6 +11329,8 @@ class App extends engrid_ENGrid {
         new PageBackground();
         this.setDataAttributes();
         engrid_ENGrid.setBodyData("data-engrid-scripts-js-loading", "finished");
+        window.EngridVersion = AppVersion;
+        this.logger.success(`VERSION: ${AppVersion}`);
     }
     onLoad() {
         if (this.options.onLoad) {
@@ -15369,6 +15371,9 @@ class ExpandRegionName {
     }
 }
 
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
+const AppVersion = "0.11.13";
+
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
 
@@ -15411,6 +15416,8 @@ class ExpandRegionName {
 
 
 // Events
+
+// Version
 
 
 ;// CONCATENATED MODULE: ./src/scripts/main.js
