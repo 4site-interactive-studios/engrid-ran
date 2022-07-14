@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, July 14, 2022 @ 15:23:19 ET
- *  By: fernando
+ *  Date: Thursday, July 14, 2022 @ 17:51:06 ET
+ *  By: bryancasler
  *  ENGrid styles: v0.13.0
  *  ENGrid scripts: v0.13.5
  *
@@ -16985,7 +16985,7 @@ const options = {
     status_field: "supporter.NOT_TAGGED_40",
     countries: ["us"],
     phone_enable: true,
-    phone_preferred_countries: ["us", "ca", "gb"],
+    phone_preferred_countries: ["us", "ca", "gb", "jp", "au"],
     phone_record_field: "supporter.NOT_TAGGED_45",
     phone_date_field: "supporter.NOT_TAGGED_44",
     phone_status_field: "supporter.NOT_TAGGED_43"
