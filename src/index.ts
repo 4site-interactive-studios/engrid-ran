@@ -10,6 +10,11 @@ const options: Options = {
   CurrencySymbol: "$",
   DecimalSeparator: ".",
   ThousandsSeparator: ",",
+  MinAmount: 5,
+  MaxAmount: 100000,
+  MinAmountMessage: "Amount must be at least $5 - Contact us for assistance",
+  MaxAmountMessage:
+    "Amount must be less than $100,000 - Contact us for assistance",
   MediaAttribution: true,
   SkipToMainContentLink: true,
   SrcDefer: true,
