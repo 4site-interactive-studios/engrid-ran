@@ -123,12 +123,13 @@
   // --button_color_hover: var(--button_color);
   // --button_background-color_hover: var(--color_black);
   // --button_border-color_hover: var(--button_background-color_hover);
-  --button_background-color_checked: var(--color_primary_accent);
 
   // TYPOGRAPHY BUTTON:SELECTED
   // --button_color_checked: var(--button_color_hover);
   --button_background-color_checked: var(--color_primary_accent);
-  --donation-amount__button_background-color_checked: var(--color_primary_accent);
+  --donation-amount__button_background-color_checked: var(
+    --color_primary_accent
+  );
   // --button_border-color_checked: var(--button_border-color_hover);
 
   // TYPOGRAPHY SUBMIT BUTTON
@@ -151,8 +152,7 @@
 
 /* Add your custom theme styles here */
 [data-engrid-theme="engrid-ran2"] {
-
-  &[data-engrid-embedded]{
+  &[data-engrid-embedded] {
     --engrid__embedded_body_padding: 0 1.5rem;
   }
 
@@ -178,11 +178,11 @@
     }
   }
 
-  .monthly-gift-upsell-tooltip .highlight{
+  .monthly-gift-upsell-tooltip .highlight {
     font-size: 1.3rem;
-    padding: 1rem .5rem .25rem;
+    padding: 1rem 0.5rem 0.25rem;
     text-align: center;
-    
+
     &:after {
       bottom: -12px;
       left: 59%;
@@ -217,12 +217,12 @@
   }
 
   // Center the Title
-  .body-title h1{
+  .body-title h1 {
     text-align: center;
   }
 
   // If an <img> is added to the .page-background via the WYSIWYG, it will be wrapped in a <p> tag. Remove the margin from that <p> tag.
-  .page-backgroundImage p:only-child{
+  .page-backgroundImage p:only-child {
     margin: 0;
   }
 
@@ -251,7 +251,7 @@
   //   }
   // }
 
-  .en__field--recurrpay.en__field--radio input[type=radio]+label:before{
+  .en__field--recurrpay.en__field--radio input[type="radio"] + label:before {
     --radio_top: -3px;
   }
 
@@ -352,7 +352,7 @@
     background-color: #f1700b !important;
   }
 
-  .en__field--monthly_upsell_checkbox .highlight{
+  .en__field--monthly_upsell_checkbox .highlight {
     display: inline-block;
     padding: 0.7rem 0.5rem 0.55rem 0.5rem;
   }
@@ -377,12 +377,11 @@
     white-space: nowrap;
   }
 
-
   h1 {
     text-transform: uppercase;
   }
 
-  .highlight{
+  .highlight {
     font-weight: 600;
   }
 
@@ -398,16 +397,15 @@
       text-align: center;
       font-size: (0.05552em * 32);
     }
-  
+
     .highlight.big {
       font-size: 1.3rem;
     }
-  
+
     h2.highlight {
       text-transform: uppercase;
       padding: 1rem 1rem 0.7rem 1rem;
     }
-
   }
 
   .pre-footer-card {
@@ -485,13 +483,10 @@
     --engrid__body-headerOutside_padding: 4rem;
   }
 
-  .radio-to-buttons_donationAmt .en__field--recurrfreq .en__field__item label{
+  .radio-to-buttons_donationAmt .en__field--recurrfreq .en__field__item label {
     font-weight: 900;
     font-size: calc(0.05552em * 24);
   }
-
-
-  
 
   /*
     * ####################################################################################################################
@@ -580,7 +575,6 @@
   [data-engrid-layout="centercenter1col"],
   [data-engrid-layout="centercenter2col"],
   [data-engrid-layout="centerright1col"] {
-
     .body-headerOutside {
       grid-column: bc;
     }
@@ -634,7 +628,7 @@
     }
   }
 
- /*
+  /*
   * ##########################################################
   * # ENGRID - BODY Column Breakpoint Styling
   * # LAYOUT - Center ANY - [class^="layout-center"][class$="1col"]
@@ -682,7 +676,7 @@
     }
   }
 
- /*
+  /*
   * ##########################################################
   * # ENGRID - Content Column Breakpoint Styling
   * # LAYOUT - Center ANY - [class^="layout-center"][class$="1col"]
@@ -692,13 +686,13 @@
   /* Sum of all MAX values of the Body Columns + 1px */
   @media screen and (min-width: $one_col_content-column_max-width) {
     &:not(#en__pagebuilder)[data-engrid-layout="leftleft1col"],
-    &:not(#en__pagebuilder)[data-engrid-layout="rightright1col"]{
-      .body-headerOutside{
+    &:not(#en__pagebuilder)[data-engrid-layout="rightright1col"] {
+      .body-headerOutside {
         background-color: black;
         --engrid__body-headerOutside_padding: 2rem;
       }
 
-      .content-footer{
+      .content-footer {
         display: block;
       }
     }
@@ -773,9 +767,9 @@
     text-transform: capitalize;
   }
 
-  .content-preFooter {
-    // z-index: -6 !important;
-  }
+  // .content-preFooter {
+  //   // z-index: -6 !important;
+  // }
 
   .en__field--text.en__field--validationFailed input,
   .en__field--email.en__field--validationFailed input,
@@ -784,8 +778,8 @@
   .en__field--textarea.en__field--validationFailed textarea,
   .en__field--select.en__field--validationFailed select,
   .en__field--password.en__field--validationFailed input,
-  .en__field--calendar.en__field--validationFailed input{
-    &:only-of-type{
+  .en__field--calendar.en__field--validationFailed input {
+    &:only-of-type {
       margin-bottom: 0 !important;
     }
   }
@@ -830,7 +824,7 @@
   @media screen and (min-width: $one_col_content-column_min-width) {
     &:not(#en__pagebuilder)[data-engrid-layout="centerleft1col"],
     &:not(#en__pagebuilder)[data-engrid-layout="centercenter1col"],
-    &:not(#en__pagebuilder)[data-engrid-layout="centerright1col"]{
+    &:not(#en__pagebuilder)[data-engrid-layout="centerright1col"] {
       .en__component--advrow .body-header:before,
       .en__component--advrow .body-title:before,
       .en__component--advrow .body-banner:before,
@@ -866,19 +860,19 @@
         }
       }
 
-      .body-header{
+      .body-header {
         padding-top: 2rem;
       }
-  
-      .body-footer{
+
+      .body-footer {
         padding-bottom: 1rem;
         margin-bottom: 5rem;
       }
-    } 
+    }
   }
-  
+
   @media screen and (min-width: $two_col_content-column_min-width) {
-    &:not(#en__pagebuilder)[data-engrid-layout="centercenter2col"]{
+    &:not(#en__pagebuilder)[data-engrid-layout="centercenter2col"] {
       .body-title,
       .body-banner,
       .body-bannerOverlay,
@@ -893,7 +887,7 @@
         clip-path: polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
         height: 120vh;
         background-color: #487c0f;
-  
+
         &:before {
           position: absolute !important;
           background-position: top center;
@@ -903,15 +897,18 @@
           height: 120vh;
         }
       }
-  
-      .body-header{
+
+      .body-header {
         padding-top: 2rem;
       }
-  
-      .body-footer{
+
+      .body-footer {
         padding-bottom: 1rem;
         margin-bottom: 5rem;
       }
     }
+  }
+  .en__field__plaid {
+    text-align: center;
   }
 }
