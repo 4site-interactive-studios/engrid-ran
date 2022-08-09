@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, August 8, 2022 @ 22:07:58 ET
+ *  Date: Tuesday, August 9, 2022 @ 18:22:34 ET
  *  By: fernando
  *  ENGrid styles: v0.13.13
- *  ENGrid scripts: v0.13.13
+ *  ENGrid scripts: v0.13.14
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -10287,6 +10287,7 @@ const OptionsDefaults = {
     CapitalizeFields: false,
     ClickToExpand: true,
     CurrencySymbol: "$",
+    CurrencyCode: "USD",
     AddCurrencySymbol: true,
     ThousandsSeparator: "",
     DecimalSeparator: ".",
@@ -11014,6 +11015,28 @@ class engrid_ENGrid {
             element.offsetHeight ||
             element.getClientRects().length);
     }
+    static getCurrencySymbol() {
+        const currencyField = engrid_ENGrid.getField("transaction.paycurrency");
+        if (currencyField) {
+            const currencyArray = {
+                USD: "$",
+                EUR: "€",
+                GBP: "£",
+                AUD: "$",
+                CAD: "$",
+                JPY: "¥",
+            };
+            return currencyArray[currencyField.value] || "$";
+        }
+        return engrid_ENGrid.getOption("CurrencySymbol") || "$";
+    }
+    static getCurrencyCode() {
+        const currencyField = engrid_ENGrid.getField("transaction.paycurrency");
+        if (currencyField) {
+            return currencyField.value || "USD";
+        }
+        return engrid_ENGrid.getOption("CurrencyCode") || "USD";
+    }
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/events/donation-frequency.js
@@ -11276,9 +11299,15 @@ class App extends engrid_ENGrid {
         if (this.options.Debug || App.getUrlParameter("debug") == "true")
             // Enable debug if available is the first thing
             App.setBodyData("debug", "");
-        new InputPlaceholders();
-        new InputClasses();
-        // legacy.enInput.init();
+        // TODO: Abstract everything to the App class so we can remove custom-methods
+        inputPlaceholder();
+        preventAutocomplete();
+        watchInmemField();
+        watchGiveBySelectField();
+        simpleUnsubscribe();
+        contactDetailLabels();
+        easyEdit();
+        enInput.init();
         new ShowHideRadioCheckboxes("transaction.giveBySelect", "giveBySelect-");
         new ShowHideRadioCheckboxes("transaction.inmem", "inmem-");
         new ShowHideRadioCheckboxes("transaction.recurrpay", "recurrpay-");
@@ -11339,6 +11368,8 @@ class App extends engrid_ENGrid {
                 return this._form.validatePromise;
             return true;
         };
+        // Live Currency
+        new LiveCurrency();
         // iFrame Logic
         new iFrame();
         // Live Variables
@@ -11411,8 +11442,6 @@ class App extends engrid_ENGrid {
             new TranslateFields();
         // Data Layer Events
         new DataLayer();
-        // Give By Select
-        new GiveBySelect();
         this.setDataAttributes();
         engrid_ENGrid.setBodyData("data-engrid-scripts-js-loading", "finished");
         window.EngridVersion = AppVersion;
@@ -11540,6 +11569,10 @@ class App extends engrid_ENGrid {
                 App.setBodyData("country", countrySelect.value);
             });
         }
+        const otherAmountDiv = document.querySelector(".en__field--donationAmt .en__field__item--other");
+        if (otherAmountDiv) {
+            otherAmountDiv.setAttribute("data-currency-symbol", App.getCurrencySymbol());
+        }
     }
 }
 
@@ -11565,7 +11598,7 @@ class AmountLabel {
     // Fix Amount Labels
     fixAmountLabels() {
         let amounts = document.querySelectorAll(".en__field--donationAmt label");
-        const currencySymbol = engrid_ENGrid.getOption("CurrencySymbol") || "";
+        const currencySymbol = engrid_ENGrid.getCurrencySymbol() || "";
         amounts.forEach((element) => {
             if (!isNaN(element.innerText)) {
                 element.innerText = currencySymbol + element.innerText;
@@ -11950,128 +11983,822 @@ class ClickToExpand {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/input-placeholders.js
-// Component that adds input placeholders
-
-class InputPlaceholders {
-    constructor() {
-        if (this.shouldRun()) {
-            this.run();
-        }
-    }
-    shouldRun() {
-        return engrid_ENGrid.hasBodyData("add-input-placeholders");
-    }
-    run() {
-        // Personal Information
-        this.addPlaceholder("input#en__field_supporter_firstName", "First Name");
-        this.addPlaceholder("input#en__field_supporter_lastName", "Last Name");
-        this.addPlaceholder("input#en__field_supporter_emailAddress", "Email Address");
-        this.addPlaceholder("input#en__field_supporter_phoneNumber", "Phone Number (Optional)");
-        this.addPlaceholder(".en__mandatory input#en__field_supporter_phoneNumber", "Phone Number");
-        this.addPlaceholder("input#en__field_supporter_phoneNumber2", "000-000-0000 (Optional)");
-        this.addPlaceholder(".en__mandatory input#en__field_supporter_phoneNumber2", "000-000-0000");
-        // Address
-        this.addPlaceholder("input#en__field_supporter_country", "Country");
-        this.addPlaceholder("input#en__field_supporter_address1", "Street Address");
-        this.addPlaceholder("input#en__field_supporter_address2", "Apt., ste., bldg.");
-        this.addPlaceholder("input#en__field_supporter_city", "City");
-        this.addPlaceholder("input#en__field_supporter_region", "Region");
-        this.addPlaceholder("input#en__field_supporter_postcode", "Zip Code");
-        // Donation
-        this.addPlaceholder(".en__field--donationAmt.en__field--withOther .en__field__input--other", "Other");
-        this.addPlaceholder("input#en__field_transaction_ccnumber", "•••• •••• •••• ••••");
-        this.addPlaceholder("input#en__field_transaction_ccexpire", "MM / YY");
-        this.addPlaceholder("input#en__field_transaction_ccvv", "CVV");
-        this.addPlaceholder("input#en__field_supporter_bankAccountNumber", "Bank Account Number");
-        this.addPlaceholder("input#en__field_supporter_bankRoutingNumber", "Bank Routing Number");
-        // In Honor
-        this.addPlaceholder("input#en__field_transaction_honname", "Honoree Name");
-        this.addPlaceholder("input#en__field_transaction_infname", "Recipient Name");
-        this.addPlaceholder("input#en__field_transaction_infemail", "Recipient Email Address");
-        this.addPlaceholder("input#en__field_transaction_infcountry", "Country");
-        this.addPlaceholder("input#en__field_transaction_infadd1", "Recipient Street Address");
-        this.addPlaceholder("input#en__field_transaction_infadd2", "Recipient Apt., ste., bldg.");
-        this.addPlaceholder("input#en__field_transaction_infcity", "Recipient City");
-        this.addPlaceholder("input#en__field_transaction_infpostcd", "Recipient Postal Code");
-        // Miscillaneous
-        this.addPlaceholder("input#en__field_transaction_gftrsn", "Reason for your gift");
-        // Shipping Information
-        this.addPlaceholder("input#en__field_transaction_shipfname", "Shipping First Name");
-        this.addPlaceholder("input#en__field_transaction_shiplname", "Shipping Last Name");
-        this.addPlaceholder("input#en__field_transaction_shipemail", "Shipping Email Address");
-        this.addPlaceholder("input#en__field_transaction_shipcountry", "Shipping Country");
-        this.addPlaceholder("input#en__field_transaction_shipadd1", "Shipping Street Address");
-        this.addPlaceholder("input#en__field_transaction_shipadd2", "Shipping Apt., ste., bldg.");
-        this.addPlaceholder("input#en__field_transaction_shipcity", "Shipping City");
-        this.addPlaceholder("input#en__field_transaction_shipregion", "Shipping Region");
-        this.addPlaceholder("input#en__field_transaction_shippostcode", "Shipping Postal Code");
-        // Billing Infromation
-        this.addPlaceholder("input#en__field_supporter_billingCountry", "Billing Country");
-        this.addPlaceholder("input#en__field_supporter_billingAddress1", "Billing Street Address");
-        this.addPlaceholder("input#en__field_supporter_billingAddress2", "Billing Apt., ste., bldg.");
-        this.addPlaceholder("input#en__field_supporter_billingCity", "Billing City");
-        this.addPlaceholder("input#en__field_supporter_billingRegion", "Billing Region");
-        this.addPlaceholder("input#en__field_supporter_billingPostcode", "Billing Postal Code");
-    }
-    addPlaceholder(selector, placeholder) {
-        const fieldEl = document.querySelector(selector);
-        if (fieldEl) {
-            fieldEl.placeholder = placeholder;
-        }
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/input-classes.js
-// Component that adds
-
-class InputClasses {
-    constructor() {
-        this.logger = new EngridLogger("InputClasses", "yellow", "#333", "🌈");
-        this.formInputs = document.querySelectorAll(".en__field--text, .en__field--email:not(.en__field--checkbox), .en__field--telephone, .en__field--number, .en__field--textarea, .en__field--select, .en__field--checkbox");
-        if (this.shouldRun()) {
-            this.run();
-        }
-    }
-    shouldRun() {
-        return this.formInputs.length > 0;
-    }
-    run() {
-        this.formInputs.forEach((el) => {
-            const input = el.querySelector("input, textarea, select");
-            if (input && input.value) {
-                el.classList.add("has-value");
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/custom-methods.js
+const body = document.body;
+const enGrid = document.getElementById("engrid");
+const enInput = (() => {
+    /************************************
+     * Globablly Scoped Constants and Variables
+     ***********************************/
+    // @TODO Needs to be expanded to bind other EN elements (checkbox, radio) and compound elements (split-text, split-select, select with other input, etc...)
+    // @TODO A "Not" condition is needed for #en__field_transaction_email because someone could name their email opt in "Email" and it will get the .en_field--email class generated for it
+    // get DOM elements
+    const init = () => {
+        const formInput = document.querySelectorAll(".en__field--text, .en__field--email:not(.en__field--checkbox), .en__field--telephone, .en__field--number, .en__field--textarea, .en__field--select, .en__field--checkbox");
+        Array.from(formInput).forEach((e) => {
+            // @TODO Currently checkboxes always return as having a value, since they do but they're just not checked. Need to update and account for that, should also do Radio's while we're at it
+            let element = e.querySelector("input, textarea, select");
+            if (element && element.value) {
+                e.classList.add("has-value");
             }
-            this.bindEvents(el);
+            bindEvents(e);
         });
-    }
-    bindEvents(el) {
-        const input = el.querySelector("input, textarea, select");
-        if (!input) {
-            return;
+    };
+    return {
+        init: init,
+    };
+})();
+const bindEvents = (e) => {
+    /* @TODO */
+    /************************************
+     * INPUT, TEXTAREA, AND SELECT ACTIVITY CLASSES (FOCUS AND BLUR)
+     * NOTE: STILL NEEDS WORK TO FUNCTION ON "SPLIT" CUSTOM EN FIELDS
+     * REF: https://developer.mozilla.org/en-US/docs/Web/API/Element/blur_event
+     ***********************************/
+    // Occurs when an input field gets focus
+    const handleFocus = (e) => {
+        const target = e.target;
+        if (target && target.parentNode && target.parentNode.parentNode) {
+            const targetWrapper = target.parentNode.parentNode;
+            targetWrapper.classList.add("has-focus");
         }
-        input.addEventListener("focus", () => {
-            this.log("Focus added", input);
-            el.classList.add("has-focus");
-        });
-        input.addEventListener("blur", () => {
-            this.log("Focus removed", input);
-            el.classList.remove("has-focus");
-        });
-        input.addEventListener("input", () => {
-            if (input.value) {
-                this.log("Value added", input);
-                el.classList.add("has-value");
+    };
+    // Occurs when a user leaves an input field
+    const handleBlur = (e) => {
+        const target = e.target;
+        if (target && target.parentNode && target.parentNode.parentNode) {
+            const targetWrapper = target.parentNode.parentNode;
+            targetWrapper.classList.remove("has-focus");
+            if (target.value) {
+                targetWrapper.classList.add("has-value");
             }
             else {
-                this.log("Value removed", input);
-                el.classList.remove("has-value");
+                targetWrapper.classList.remove("has-value");
             }
+        }
+    };
+    // Occurs when a user changes the selected option of a <select> element
+    const handleChange = (e) => {
+        const target = e.target;
+        if (target && target.parentNode && target.parentNode.parentNode) {
+            const targetWrapper = target.parentNode.parentNode;
+            targetWrapper.classList.add("has-value");
+        }
+    };
+    // Occurs when a text or textarea element gets user input
+    const handleInput = (e) => {
+        const target = e.target;
+        if (target && target.parentNode && target.parentNode.parentNode) {
+            const targetWrapper = target.parentNode.parentNode;
+            targetWrapper.classList.add("has-value");
+        }
+    };
+    // Occurs when the web browser autofills a form fields
+    // REF: engrid-autofill.scss
+    // REF: https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
+    const onAutoFillStart = (e) => {
+        e.parentNode.parentNode.classList.add("is-autofilled", "has-value");
+    };
+    const onAutoFillCancel = (e) => e.parentNode.parentNode.classList.remove("is-autofilled", "has-value");
+    const onAnimationStart = (e) => {
+        const target = e.target;
+        const animation = e.animationName;
+        switch (animation) {
+            case "onAutoFillStart":
+                return onAutoFillStart(target);
+            case "onAutoFillCancel":
+                return onAutoFillCancel(target);
+        }
+    };
+    const enField = e.querySelector("input, textarea, select");
+    if (enField) {
+        enField.addEventListener("focus", handleFocus);
+        enField.addEventListener("blur", handleBlur);
+        enField.addEventListener("change", handleChange);
+        enField.addEventListener("input", handleInput);
+        enField.addEventListener("animationstart", onAnimationStart);
+    }
+};
+const removeClassesByPrefix = (el, prefix) => {
+    for (var i = el.classList.length - 1; i >= 0; i--) {
+        if (el.classList[i].startsWith(prefix)) {
+            el.classList.remove(el.classList[i]);
+        }
+    }
+};
+const debugBar = () => {
+    if (window.location.href.indexOf("debug") != -1 ||
+        location.hostname === "localhost" ||
+        location.hostname === "127.0.0.1") {
+        body.classList.add("debug");
+        if (enGrid) {
+            enGrid.insertAdjacentHTML("beforebegin", '<span id="debug-bar">' +
+                '<span id="info-wrapper">' +
+                "<span>DEBUG BAR</span>" +
+                "</span>" +
+                '<span id="buttons-wrapper">' +
+                '<span id="debug-close">X</span>' +
+                "</span>" +
+                "</span>");
+        }
+        if (window.location.search.indexOf("mode=DEMO") > -1) {
+            const infoWrapper = document.getElementById("info-wrapper");
+            const buttonsWrapper = document.getElementById("buttons-wrapper");
+            if (infoWrapper) {
+                // console.log(window.performance);
+                const now = new Date().getTime();
+                const initialPageLoad = (now - performance.timing.navigationStart) / 1000;
+                const domInteractive = initialPageLoad + (now - performance.timing.domInteractive) / 1000;
+                infoWrapper.insertAdjacentHTML("beforeend", "<span>Initial Load: " +
+                    initialPageLoad +
+                    "s</span>" +
+                    "<span>DOM Interactive: " +
+                    domInteractive +
+                    "s</span>");
+                if (buttonsWrapper) {
+                    buttonsWrapper.insertAdjacentHTML("afterbegin", '<button id="layout-toggle" type="button">Layout Toggle</button>' +
+                        '<button id="page-edit" type="button">Edit in PageBuilder (BETA)</button>');
+                }
+            }
+        }
+        if (window.location.href.indexOf("debug") != -1 ||
+            location.hostname === "localhost" ||
+            location.hostname === "127.0.0.1") {
+            const buttonsWrapper = document.getElementById("buttons-wrapper");
+            if (buttonsWrapper) {
+                buttonsWrapper.insertAdjacentHTML("afterbegin", '<button id="layout-toggle" type="button">Layout Toggle</button>' +
+                    '<button id="fancy-errors-toggle" type="button">Toggle Fancy Errors</button>');
+            }
+        }
+        if (document.getElementById("fancy-errors-toggle")) {
+            const debugTemplateButton = document.getElementById("fancy-errors-toggle");
+            if (debugTemplateButton) {
+                debugTemplateButton.addEventListener("click", function () {
+                    fancyErrorsToggle();
+                }, false);
+            }
+        }
+        if (document.getElementById("layout-toggle")) {
+            const debugTemplateButton = document.getElementById("layout-toggle");
+            if (debugTemplateButton) {
+                debugTemplateButton.addEventListener("click", function () {
+                    layoutToggle();
+                }, false);
+            }
+        }
+        if (document.getElementById("page-edit")) {
+            const debugTemplateButton = document.getElementById("page-edit");
+            if (debugTemplateButton) {
+                debugTemplateButton.addEventListener("click", function () {
+                    pageEdit();
+                }, false);
+            }
+        }
+        if (document.getElementById("debug-close")) {
+            const debugTemplateButton = document.getElementById("debug-close");
+            if (debugTemplateButton) {
+                debugTemplateButton.addEventListener("click", function () {
+                    debugClose();
+                }, false);
+            }
+        }
+        const fancyErrorsToggle = () => {
+            if (enGrid) {
+                enGrid.classList.toggle("fancy-errors");
+            }
+        };
+        const pageEdit = () => {
+            window.location.href = window.location.href + "?edit";
+        };
+        const layoutToggle = () => {
+            if (enGrid) {
+                if (enGrid.classList.contains("layout-centercenter1col")) {
+                    removeClassesByPrefix(enGrid, "layout-");
+                    enGrid.classList.add("layout-centerright1col");
+                }
+                else if (enGrid.classList.contains("layout-centerright1col")) {
+                    removeClassesByPrefix(enGrid, "layout-");
+                    enGrid.classList.add("layout-centerleft1col");
+                }
+                else if (enGrid.classList.contains("layout-centerleft1col")) {
+                    removeClassesByPrefix(enGrid, "layout-");
+                    enGrid.classList.add("layout-embedded");
+                }
+                else if (enGrid.classList.contains("layout-embedded")) {
+                    removeClassesByPrefix(enGrid, "layout-");
+                    enGrid.classList.add("layout-centercenter1col");
+                }
+                else {
+                    console.log("While trying to switch layouts, something unexpected happen.");
+                }
+            }
+        };
+        const debugClose = () => {
+            body.classList.remove("debug");
+            const debugBar = document.getElementById("debug-bar");
+            if (debugBar) {
+                debugBar.style.display = "none";
+            }
+        };
+    }
+};
+const inputPlaceholder = () => {
+    // Personal Information
+    let enFieldFirstName = document.querySelector("input#en__field_supporter_firstName");
+    let enFieldLastName = document.querySelector("input#en__field_supporter_lastName");
+    let enFieldEmailAddress = document.querySelector("input#en__field_supporter_emailAddress");
+    let enFieldPhoneNumber = document.querySelector("input#en__field_supporter_phoneNumber");
+    let enFieldPhoneNumberRequired = document.querySelector(".en__mandatory > * > input#en__field_supporter_phoneNumber");
+    let enFieldPhoneNumber2 = document.querySelector("input#en__field_supporter_phoneNumber2");
+    let enFieldPhoneNumber2Required = document.querySelector(".en__mandatory > * > input#en__field_supporter_phoneNumber2");
+    // Address
+    let enFieldCountry = document.querySelector("input#en__field_supporter_country");
+    let enFieldAddress1 = document.querySelector("input#en__field_supporter_address1");
+    let enFieldAddress2 = document.querySelector("input#en__field_supporter_address2");
+    let enFieldCity = document.querySelector("input#en__field_supporter_city");
+    let enFieldRegion = document.querySelector("input#en__field_supporter_region");
+    let enFieldPostcode = document.querySelector("input#en__field_supporter_postcode");
+    // Donation
+    let enFieldDonationAmt = document.querySelector(".en__field--donationAmt.en__field--withOther .en__field__input--other");
+    let enFieldCcnumber = document.querySelector("input#en__field_transaction_ccnumber");
+    let enFieldCcexpire = document.querySelector("input#en__field_transaction_ccexpire");
+    let enFieldCcvv = document.querySelector("input#en__field_transaction_ccvv");
+    let enFieldBankAccountNumber = document.querySelector("input#en__field_supporter_bankAccountNumber");
+    let enFieldBankRoutingNumber = document.querySelector("input#en__field_supporter_bankRoutingNumber");
+    // In Honor
+    let enFieldHonname = document.querySelector("input#en__field_transaction_honname");
+    let enFieldInfname = document.querySelector("input#en__field_transaction_infname");
+    let enFieldInfemail = document.querySelector("input#en__field_transaction_infemail");
+    let enFieldInfcountry = document.querySelector("input#en__field_transaction_infcountry");
+    let enFieldInfadd1 = document.querySelector("input#en__field_transaction_infadd1");
+    let enFieldInfadd2 = document.querySelector("input#en__field_transaction_infadd2");
+    let enFieldInfcity = document.querySelector("input#en__field_transaction_infcity");
+    let enFieldInfpostcd = document.querySelector("input#en__field_transaction_infpostcd");
+    // Miscillaneous
+    let enFieldGftrsn = document.querySelector("input#en__field_transaction_gftrsn");
+    // Shipping Infromation
+    let enFieldShippingFirstName = document.querySelector("input#en__field_transaction_shipfname");
+    let enFieldShippingLastName = document.querySelector("input#en__field_transaction_shiplname");
+    let enFieldShippingEmailAddress = document.querySelector("input#en__field_transaction_shipemail");
+    let enFieldShippingCountry = document.querySelector("input#en__field_transaction_shipcountry");
+    let enFieldShippingAddress1 = document.querySelector("input#en__field_transaction_shipadd1");
+    let enFieldShippingAddress2 = document.querySelector("input#en__field_transaction_shipadd2");
+    let enFieldShippingCity = document.querySelector("input#en__field_transaction_shipcity");
+    let enFieldShippingRegion = document.querySelector("input#en__field_transaction_shipregion");
+    let enFieldShippingPostcode = document.querySelector("input#en__field_transaction_shippostcode");
+    // Billing Infromation
+    let enFieldBillingCountry = document.querySelector("input#en__field_supporter_billingCountry");
+    let enFieldBillingAddress1 = document.querySelector("input#en__field_supporter_billingAddress1");
+    let enFieldBillingAddress2 = document.querySelector("input#en__field_supporter_billingAddress2");
+    let enFieldBillingCity = document.querySelector("input#en__field_supporter_billingCity");
+    let enFieldBillingRegion = document.querySelector("input#en__field_supporter_billingRegion");
+    let enFieldBillingPostcode = document.querySelector("input#en__field_supporter_billingPostcode");
+    // CHANGE FIELD INPUT TYPES
+    if (enFieldDonationAmt) {
+        enFieldDonationAmt.setAttribute("inputmode", "decimal");
+    }
+    // ADD THE MISSING LABEL FOR IMPROVED ACCESSABILITY
+    if (enFieldDonationAmt) {
+        enFieldDonationAmt.setAttribute("aria-label", "Enter your custom donation amount");
+    }
+    // ADD FIELD PLACEHOLDERS
+    const enAddInputPlaceholder = document.querySelector("[data-engrid-add-input-placeholders]");
+    // Personal Information
+    if (enAddInputPlaceholder && enFieldFirstName) {
+        enFieldFirstName.placeholder = "First Name";
+    }
+    if (enAddInputPlaceholder && enFieldLastName) {
+        enFieldLastName.placeholder = "Last Name";
+    }
+    if (enAddInputPlaceholder && enFieldEmailAddress) {
+        enFieldEmailAddress.placeholder = "Email Address";
+    }
+    if (enAddInputPlaceholder &&
+        enFieldPhoneNumber &&
+        enFieldPhoneNumberRequired) {
+        enFieldPhoneNumber.placeholder = "Phone Number";
+    }
+    else if (enAddInputPlaceholder &&
+        enFieldPhoneNumber &&
+        !enFieldPhoneNumberRequired) {
+        enFieldPhoneNumber.placeholder = "Phone Number (Optional)";
+    }
+    if (enAddInputPlaceholder &&
+        enFieldPhoneNumber2 &&
+        enFieldPhoneNumber2Required) {
+        enFieldPhoneNumber2.placeholder = "000-000-0000";
+    }
+    else if (enAddInputPlaceholder &&
+        enFieldPhoneNumber2 &&
+        !enFieldPhoneNumber2Required) {
+        enFieldPhoneNumber2.placeholder = "000-000-0000 (Optional)";
+    }
+    // Address
+    if (enAddInputPlaceholder && enFieldCountry) {
+        enFieldCountry.placeholder = "Country";
+    }
+    if (enAddInputPlaceholder && enFieldAddress1) {
+        enFieldAddress1.placeholder = "Street Address";
+    }
+    if (enAddInputPlaceholder && enFieldAddress2) {
+        enFieldAddress2.placeholder = "Apt., ste., bldg.";
+    }
+    if (enAddInputPlaceholder && enFieldCity) {
+        enFieldCity.placeholder = "City";
+    }
+    if (enAddInputPlaceholder && enFieldRegion) {
+        enFieldRegion.placeholder = "Region";
+    }
+    if (enAddInputPlaceholder && enFieldPostcode) {
+        enFieldPostcode.placeholder = "Postal Code";
+    }
+    // Donation
+    if (enAddInputPlaceholder && enFieldDonationAmt) {
+        enFieldDonationAmt.placeholder = "Other";
+    }
+    if (enAddInputPlaceholder && enFieldCcnumber) {
+        enFieldCcnumber.placeholder = "•••• •••• •••• ••••";
+    }
+    if (enAddInputPlaceholder && enFieldCcexpire) {
+        enFieldCcexpire.placeholder = "MM / YY";
+    }
+    if (enAddInputPlaceholder && enFieldCcvv) {
+        enFieldCcvv.placeholder = "CVV";
+    }
+    if (enAddInputPlaceholder && enFieldBankAccountNumber) {
+        enFieldBankAccountNumber.placeholder = "Bank Account Number";
+    }
+    if (enAddInputPlaceholder && enFieldBankRoutingNumber) {
+        enFieldBankRoutingNumber.placeholder = "Bank Routing Number";
+    }
+    // In Honor
+    if (enAddInputPlaceholder && enFieldHonname) {
+        enFieldHonname.placeholder = "Honoree Name";
+    }
+    if (enAddInputPlaceholder && enFieldInfname) {
+        enFieldInfname.placeholder = "Recipient Name";
+    }
+    if (enAddInputPlaceholder && enFieldInfemail) {
+        enFieldInfemail.placeholder = "Recipient Email Address";
+    }
+    if (enAddInputPlaceholder && enFieldInfcountry) {
+        enFieldInfcountry.placeholder = "Country";
+    }
+    if (enAddInputPlaceholder && enFieldInfadd1) {
+        enFieldInfadd1.placeholder = "Recipient Street Address";
+    }
+    if (enAddInputPlaceholder && enFieldInfadd2) {
+        enFieldInfadd2.placeholder = "Recipient Apt., ste., bldg.";
+    }
+    if (enAddInputPlaceholder && enFieldInfcity) {
+        enFieldInfcity.placeholder = "Recipient City";
+    }
+    if (enAddInputPlaceholder && enFieldInfpostcd) {
+        enFieldInfpostcd.placeholder = "Recipient Postal Code";
+    }
+    // Miscillaneous
+    if (enAddInputPlaceholder && enFieldGftrsn) {
+        enFieldGftrsn.placeholder = "Reason for your gift";
+    }
+    // Shipping Infromation
+    if (enAddInputPlaceholder && enFieldShippingFirstName) {
+        enFieldShippingFirstName.placeholder = "Shipping First Name";
+    }
+    if (enAddInputPlaceholder && enFieldShippingLastName) {
+        enFieldShippingLastName.placeholder = "Shipping Last Name";
+    }
+    if (enAddInputPlaceholder && enFieldShippingEmailAddress) {
+        enFieldShippingEmailAddress.placeholder = "Shipping Email Address";
+    }
+    if (enAddInputPlaceholder && enFieldShippingCountry) {
+        enFieldShippingCountry.placeholder = "Shipping Country";
+    }
+    if (enAddInputPlaceholder && enFieldShippingAddress1) {
+        enFieldShippingAddress1.placeholder = "Shipping Street Address";
+    }
+    if (enAddInputPlaceholder && enFieldShippingAddress2) {
+        enFieldShippingAddress2.placeholder = "Shipping Apt., ste., bldg.";
+    }
+    if (enAddInputPlaceholder && enFieldShippingCity) {
+        enFieldShippingCity.placeholder = "Shipping City";
+    }
+    if (enAddInputPlaceholder && enFieldShippingRegion) {
+        enFieldShippingRegion.placeholder = "Shipping Region";
+    }
+    if (enAddInputPlaceholder && enFieldShippingPostcode) {
+        enFieldShippingPostcode.placeholder = "Shipping Postal Code";
+    }
+    // Billing Information
+    if (enAddInputPlaceholder && enFieldBillingCountry) {
+        enFieldBillingCountry.placeholder = "Billing Country";
+    }
+    if (enAddInputPlaceholder && enFieldBillingAddress1) {
+        enFieldBillingAddress1.placeholder = "Billing Street Address";
+    }
+    if (enAddInputPlaceholder && enFieldBillingAddress2) {
+        enFieldBillingAddress2.placeholder = "Billing Apt., ste., bldg.";
+    }
+    if (enAddInputPlaceholder && enFieldBillingCity) {
+        enFieldBillingCity.placeholder = "Billing City";
+    }
+    if (enAddInputPlaceholder && enFieldBillingRegion) {
+        enFieldBillingRegion.placeholder = "Billing Region";
+    }
+    if (enAddInputPlaceholder && enFieldBillingPostcode) {
+        enFieldBillingPostcode.placeholder = "Billing Postal Code";
+    }
+};
+const preventAutocomplete = () => {
+    let enFieldDonationAmt = document.querySelector(".en__field--donationAmt.en__field--withOther .en__field__input--other");
+    if (enFieldDonationAmt) {
+        enFieldDonationAmt.setAttribute("autocomplete", "off");
+    }
+    if (enFieldDonationAmt) {
+        enFieldDonationAmt.setAttribute("data-lpignore", "true");
+    }
+};
+const watchInmemField = () => {
+    const enFieldTransactionInmem = document.getElementById("en__field_transaction_inmem");
+    const handleEnFieldTransactionInmemChange = (e) => {
+        if (enGrid) {
+            if (enFieldTransactionInmem.checked) {
+                enGrid.classList.add("has-give-in-honor");
+            }
+            else {
+                enGrid.classList.remove("has-give-in-honor");
+            }
+        }
+    };
+    // Check Give In Honor State on Page Load
+    if (enFieldTransactionInmem && enGrid) {
+        // Run on page load
+        if (enFieldTransactionInmem.checked) {
+            enGrid.classList.add("has-give-in-honor");
+        }
+        else {
+            enGrid.classList.remove("has-give-in-honor");
+        }
+        // Run on change
+        enFieldTransactionInmem.addEventListener("change", handleEnFieldTransactionInmemChange);
+    }
+};
+// @TODO Refactor (low priority)
+const watchGiveBySelectField = () => {
+    const enFieldGiveBySelect = document.querySelector(".en__field--give-by-select");
+    const transactionGiveBySelect = document.getElementsByName("transaction.giveBySelect");
+    const enFieldPaymentType = document.querySelector("#en__field_transaction_paymenttype");
+    let enFieldGiveBySelectCurrentValue = document.querySelector('input[name="transaction.giveBySelect"]:checked');
+    const prefix = "has-give-by-";
+    const handleEnFieldGiveBySelect = (e) => {
+        enFieldGiveBySelectCurrentValue = document.querySelector('input[name="transaction.giveBySelect"]:checked');
+        console.log("enFieldGiveBySelectCurrentValue:", enFieldGiveBySelectCurrentValue);
+        if (enFieldGiveBySelectCurrentValue &&
+            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "card") {
+            if (enGrid) {
+                removeClassesByPrefix(enGrid, prefix);
+                enGrid.classList.add("has-give-by-card");
+            }
+            // enFieldPaymentType.value = "card";
+            handleCCUpdate();
+        }
+        else if (enFieldGiveBySelectCurrentValue &&
+            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "ach") {
+            if (enGrid) {
+                removeClassesByPrefix(enGrid, prefix);
+                enGrid.classList.add("has-give-by-ach");
+            }
+            enFieldPaymentType.value = "ACH";
+        }
+        else if (enFieldGiveBySelectCurrentValue &&
+            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "paypal") {
+            if (enGrid) {
+                removeClassesByPrefix(enGrid, prefix);
+                enGrid.classList.add("has-give-by-paypal");
+            }
+            enFieldPaymentType.value = "paypal";
+        }
+        else if (enFieldGiveBySelectCurrentValue &&
+            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "applepay") {
+            if (enGrid) {
+                removeClassesByPrefix(enGrid, prefix);
+                enGrid.classList.add("has-give-by-applepay");
+            }
+            enFieldPaymentType.value = "applepay";
+        }
+        const event = new Event("change");
+        enFieldPaymentType.dispatchEvent(event);
+    };
+    // Check Giving Frequency on page load
+    if (enFieldGiveBySelect) {
+        enFieldGiveBySelectCurrentValue = document.querySelector('input[name="transaction.giveBySelect"]:checked');
+        if (enFieldGiveBySelectCurrentValue &&
+            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "card") {
+            if (enGrid) {
+                removeClassesByPrefix(enGrid, prefix);
+                enGrid.classList.add("has-give-by-card");
+            }
+            // enFieldPaymentType.value = "card";
+            handleCCUpdate();
+        }
+        else if (enFieldGiveBySelectCurrentValue &&
+            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "ach") {
+            if (enGrid) {
+                removeClassesByPrefix(enGrid, prefix);
+                enGrid.classList.add("has-give-by-check");
+            }
+            enFieldPaymentType.value = "ACH";
+        }
+        else if (enFieldGiveBySelectCurrentValue &&
+            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "paypal") {
+            if (enGrid) {
+                removeClassesByPrefix(enGrid, prefix);
+                enGrid.classList.add("has-give-by-paypal");
+            }
+            enFieldPaymentType.value = "paypal";
+        }
+        else if (enFieldGiveBySelectCurrentValue &&
+            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "applepay") {
+            if (enGrid) {
+                removeClassesByPrefix(enGrid, prefix);
+                enGrid.classList.add("has-give-by-applepay");
+            }
+            enFieldPaymentType.value = "applepay";
+        }
+    }
+    // Watch each Giving Frequency radio input for a change
+    if (transactionGiveBySelect) {
+        Array.from(transactionGiveBySelect).forEach((e) => {
+            let element = e;
+            element.addEventListener("change", handleEnFieldGiveBySelect);
         });
     }
-    log(message, input) {
-        this.logger.log(`${message} on ${input.name}: ${input.value}`);
+};
+/*
+ * Input fields as reference variables
+ */
+const field_credit_card = document.getElementById("en__field_transaction_ccnumber");
+const field_payment_type = document.getElementById("en__field_transaction_paymenttype");
+let field_expiration_parts = document.querySelectorAll(".en__field--ccexpire .en__field__input--splitselect");
+const field_country = document.getElementById("en__field_supporter_country");
+let field_expiration_month = field_expiration_parts[0];
+let field_expiration_year = field_expiration_parts[1];
+/*
+ * Helpers
+ */
+// current_month and current_year used by handleExpUpdate()
+let d = new Date();
+var current_month = d.getMonth() + 1; // month options in expiration dropdown are indexed from 1
+var current_year = d.getFullYear() - 2000;
+// getCardType used by handleCCUpdate()
+const getCardType = (cc_partial) => {
+    let key_character = cc_partial.charAt(0);
+    const prefix = "live-card-type-";
+    const field_credit_card_classes = field_credit_card.className
+        .split(" ")
+        .filter((c) => !c.startsWith(prefix));
+    switch (key_character) {
+        case "0":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-invalid");
+            return false;
+        case "1":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-invalid");
+            return false;
+        case "2":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-invalid");
+            return false;
+        case "3":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-amex");
+            return "amex";
+        case "4":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-visa");
+            return "visa";
+        case "5":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-mastercard");
+            return "mastercard";
+        case "6":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-discover");
+            return "discover";
+        case "7":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-invalid");
+            return false;
+        case "8":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-invalid");
+            return false;
+        case "9":
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-invalid");
+            return false;
+        default:
+            field_credit_card.className = field_credit_card_classes.join(" ").trim();
+            field_credit_card.classList.add("live-card-type-na");
+            return false;
     }
+};
+/*
+ * Handlers
+ */
+const handleCCUpdate = () => {
+    const card_type = getCardType(field_credit_card.value);
+    const card_values = {
+        amex: ["amex", "american express", "americanexpress", "amx", "ax"],
+        visa: ["visa", "vi"],
+        mastercard: ["mastercard", "master card", "mc"],
+        discover: ["discover", "di"],
+    };
+    const selected_card_value = card_type
+        ? Array.from(field_payment_type.options).filter((d) => card_values[card_type].includes(d.value.toLowerCase()))[0].value
+        : "";
+    if (field_payment_type.value != selected_card_value) {
+        field_payment_type.value = selected_card_value;
+        const paymentTypeChangeEvent = new Event("change", { bubbles: true });
+        field_payment_type.dispatchEvent(paymentTypeChangeEvent);
+    }
+};
+const handleExpUpdate = (e) => {
+    // handle if year is changed to current year (disable all months less than current month)
+    // handle if month is changed to less than current month (disable current year)
+    if (e == "month") {
+        let selected_month = parseInt(field_expiration_month.value);
+        let disable = selected_month < current_month;
+        console.log("month disable", disable, typeof disable, selected_month, current_month);
+        for (let i = 0; i < field_expiration_year.options.length; i++) {
+            // disable or enable current year
+            if (parseInt(field_expiration_year.options[i].value) <= current_year) {
+                if (disable) {
+                    //@TODO Couldn't get working in TypeScript
+                    field_expiration_year.options[i].setAttribute("disabled", "disabled");
+                }
+                else {
+                    field_expiration_year.options[i].disabled = false;
+                }
+            }
+        }
+    }
+    else if (e == "year") {
+        let selected_year = parseInt(field_expiration_year.value);
+        let disable = selected_year == current_year;
+        console.log("year disable", disable, typeof disable, selected_year, current_year);
+        for (let i = 0; i < field_expiration_month.options.length; i++) {
+            // disable or enable all months less than current month
+            if (parseInt(field_expiration_month.options[i].value) < current_month) {
+                if (disable) {
+                    //@TODO Couldn't get working in TypeScript
+                    field_expiration_month.options[i].setAttribute("disabled", "disabled");
+                }
+                else {
+                    field_expiration_month.options[i].disabled = false;
+                }
+            }
+        }
+    }
+};
+/*
+ * Event Listeners
+ */
+if (field_credit_card) {
+    field_credit_card.addEventListener("keyup", function () {
+        handleCCUpdate();
+    });
+    field_credit_card.addEventListener("paste", function () {
+        handleCCUpdate();
+    });
+    field_credit_card.addEventListener("blur", function () {
+        handleCCUpdate();
+    });
+}
+if (field_expiration_month && field_expiration_year) {
+    field_expiration_month.addEventListener("change", function () {
+        handleExpUpdate("month");
+    });
+    field_expiration_year.addEventListener("change", function () {
+        handleExpUpdate("year");
+    });
+}
+// EN Polyfill to support "label" clicking on Advocacy Recipient "labels"
+const contactDetailLabels = () => {
+    const contact = document.querySelectorAll(".en__contactDetails__rows");
+    // @TODO Needs refactoring. Has to be a better way to do this.
+    const recipientChange = (e) => {
+        let recipientRow = e.target;
+        // console.log("recipientChange: recipientRow: ", recipientRow);
+        let recipientRowWrapper = recipientRow.parentNode;
+        // console.log("recipientChange: recipientRowWrapper: ", recipientRowWrapper);
+        let recipientRowsWrapper = recipientRowWrapper.parentNode;
+        // console.log("recipientChange: recipientRowsWrapper: ", recipientRowsWrapper);
+        let contactDetails = recipientRowsWrapper.parentNode;
+        // console.log("recipientChange: contactDetails: ", contactDetails);
+        let contactDetailsCheckbox = contactDetails.querySelector("input");
+        // console.log("recipientChange: contactDetailsCheckbox: ", contactDetailsCheckbox);
+        if (contactDetailsCheckbox.checked) {
+            contactDetailsCheckbox.checked = false;
+        }
+        else {
+            contactDetailsCheckbox.checked = true;
+        }
+    };
+    if (contact) {
+        Array.from(contact).forEach((e) => {
+            let element = e;
+            element.addEventListener("click", recipientChange);
+        });
+    }
+};
+// @TODO Adds a URL path "/edit" that can be used to easily arrive at the editable version of the current page. Should automatically detect if the client is using us.e-activist or e-activist and adjust accoridngly. Should also pass in page number and work for all page types without each needing to be specified.
+// @TODO Remove hard coded client values
+const easyEdit = () => {
+    const liveURL = window.location.href;
+    let editURL = "";
+    if (liveURL.search("edit") !== -1) {
+        if (liveURL.includes("https://act.ran.org/page/")) {
+            editURL = liveURL.replace("https://act.ran.org/page/", "https://us.e-activist.com/index.html#pages/");
+            editURL = editURL.replace("/donate/1", "/edit");
+            editURL = editURL.replace("/action/1", "/edit");
+            editURL = editURL.replace("/data/1", "/edit");
+            window.location.href = editURL;
+        }
+    }
+};
+// If you go to and Engaging Networks Unsubscribe page anonymously
+// then the fields are in their default states. If you go to it via an email
+// link that authenticates who you are, it then populates the fields with corresponding
+// values from your account. This means to unsubscribe the user has to uncheck the
+// newsletter checkbox(s) before submitting.
+const simpleUnsubscribe = () => {
+    // console.log("simpleUnsubscribe fired");
+    // Check if we're on an Unsubscribe / Manage Subscriptions page
+    if (window.location.href.indexOf("/subscriptions") != -1) {
+        // console.log("On an subscription management page");
+        // Check if any form elements on this page have the "forceUncheck" class
+        const forceUncheck = document.querySelectorAll(".forceUncheck");
+        if (forceUncheck) {
+            // console.log("Found forceUnchecl dom elements", forceUncheck);
+            // Step through each DOM element with forceUncheck looking for checkboxes
+            Array.from(forceUncheck).forEach((e) => {
+                let element = e;
+                // console.log("Checking this formComponent for checkboxes", element);
+                // In the forceUncheck form component, find any checboxes
+                let uncheckCheckbox = element.querySelectorAll("input[type='checkbox']");
+                if (uncheckCheckbox) {
+                    // Step through each Checkbox in the forceUncheck form component
+                    Array.from(uncheckCheckbox).forEach((f) => {
+                        let checkbox = f;
+                        // console.log("Unchecking this checkbox", checkbox);
+                        // Uncheck the checbox
+                        checkbox.checked = false;
+                    });
+                }
+            });
+        }
+    }
+};
+// Watch the Region Field for changes. If there is only one option, hide it.
+// @TODO Should this be expanded where if a select only has one option it's always hidden?
+const country_select = document.getElementById("en__field_supporter_country");
+const region_select = document.getElementById("en__field_supporter_region");
+if (country_select) {
+    country_select.addEventListener("change", () => {
+        setTimeout(() => {
+            if (region_select.options.length == 1 &&
+                region_select.options[0].value == "other") {
+                region_select.classList.add("hide");
+            }
+            else {
+                region_select.classList.remove("hide");
+            }
+        }, 100);
+    });
+}
+// @TODO "Footer in Viewport Check" should be made its own TS file
+const contentFooter = document.querySelector(".content-footer");
+const isInViewport = (e) => {
+    const distance = e.getBoundingClientRect();
+    // console.log("Footer: ", distance);
+    return (distance.top >= 0 &&
+        distance.left >= 0 &&
+        distance.bottom <=
+            (window.innerHeight || document.documentElement.clientHeight) &&
+        distance.right <=
+            (window.innerWidth || document.documentElement.clientWidth));
+};
+// Checks to see if the page is so short, the footer is above the fold. If the footer is above the folde we'll use this class to ensure at a minimum the page fills the full viewport height.
+if (contentFooter && isInViewport(contentFooter)) {
+    document
+        .getElementsByTagName("BODY")[0]
+        .setAttribute("data-engrid-footer-above-fold", "");
+}
+else {
+    document
+        .getElementsByTagName("BODY")[0]
+        .setAttribute("data-engrid-footer-below-fold", "");
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/iframe.js
@@ -12352,7 +13079,7 @@ class LiveVariables {
     }
     getAmountTxt(amount = 0) {
         var _a, _b, _c, _d;
-        const symbol = (_a = this.options.CurrencySymbol) !== null && _a !== void 0 ? _a : "$";
+        const symbol = (_a = engrid_ENGrid.getCurrencySymbol()) !== null && _a !== void 0 ? _a : "$";
         const dec_separator = (_b = this.options.DecimalSeparator) !== null && _b !== void 0 ? _b : ".";
         const thousands_separator = (_c = this.options.ThousandsSeparator) !== null && _c !== void 0 ? _c : "";
         const dec_places = amount % 1 == 0 ? 0 : (_d = this.options.DecimalPlaces) !== null && _d !== void 0 ? _d : 2;
@@ -12361,7 +13088,7 @@ class LiveVariables {
     }
     getUpsellAmountTxt(amount = 0) {
         var _a, _b, _c, _d;
-        const symbol = (_a = this.options.CurrencySymbol) !== null && _a !== void 0 ? _a : "$";
+        const symbol = (_a = engrid_ENGrid.getCurrencySymbol()) !== null && _a !== void 0 ? _a : "$";
         const dec_separator = (_b = this.options.DecimalSeparator) !== null && _b !== void 0 ? _b : ".";
         const thousands_separator = (_c = this.options.ThousandsSeparator) !== null && _c !== void 0 ? _c : "";
         const dec_places = amount % 1 == 0 ? 0 : (_d = this.options.DecimalPlaces) !== null && _d !== void 0 ? _d : 2;
@@ -12760,7 +13487,7 @@ class UpsellLightbox {
     }
     getAmountTxt(amount = 0) {
         var _a, _b, _c, _d;
-        const symbol = (_a = engrid_ENGrid.getOption("CurrencySymbol")) !== null && _a !== void 0 ? _a : "$";
+        const symbol = (_a = engrid_ENGrid.getCurrencySymbol()) !== null && _a !== void 0 ? _a : "$";
         const dec_separator = (_b = engrid_ENGrid.getOption("DecimalSeparator")) !== null && _b !== void 0 ? _b : ".";
         const thousands_separator = (_c = engrid_ENGrid.getOption("ThousandsSeparator")) !== null && _c !== void 0 ? _c : "";
         const dec_places = amount % 1 == 0 ? 0 : (_d = engrid_ENGrid.getOption("DecimalPlaces")) !== null && _d !== void 0 ? _d : 2;
@@ -14500,11 +15227,6 @@ class OtherAmount {
         });
         const otherAmountField = document.querySelector("[name='transaction.donationAmt.other'");
         if (otherAmountField) {
-            otherAmountField.setAttribute("inputmode", "decimal");
-            // ADD THE MISSING LABEL FOR IMPROVED ACCESSABILITY
-            otherAmountField.setAttribute("aria-label", "Enter your custom donation amount");
-            otherAmountField.setAttribute("autocomplete", "off");
-            otherAmountField.setAttribute("data-lpignore", "true");
             otherAmountField.addEventListener("change", (e) => {
                 const target = e.target;
                 const amount = target.value;
@@ -14622,7 +15344,7 @@ class EngridLogger {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/min-max-amount.js
-// This script checks if the donations amounts are numbers and if they are, appends the correct currency symbol
+// This script adds an erros message to the page if the amount is greater than the max amount or less than the min amount.
 
 class MinMaxAmount {
     constructor() {
@@ -16269,51 +16991,88 @@ class TidyContact {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/give-by-select.js
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/live-currency.js
+// This script enables live currency symbol and code to the page.
 
-class GiveBySelect {
+class LiveCurrency {
     constructor() {
-        this.logger = new EngridLogger("GiveBySelect", "#FFF", "#333", "🐇");
-        this.enFieldGiveBySelect = document.querySelector(".en__field--give-by-select");
-        this.transactionGiveBySelect = document.getElementsByName("transaction.giveBySelect");
-        if (!this.enFieldGiveBySelect || !this.transactionGiveBySelect)
+        this.logger = new EngridLogger("LiveCurrency", "#1901b1", "#feb47a", "💲");
+        this.elementsFound = false;
+        this._amount = DonationAmount.getInstance();
+        this._frequency = DonationFrequency.getInstance();
+        this.searchElements();
+        if (!this.shouldRun())
             return;
-        this.transactionGiveBySelect.forEach((giveBySelect) => {
-            giveBySelect.addEventListener("change", () => {
-                this.logger.log("Changed to " + giveBySelect.value);
-                this.watchGiveBySelect();
-            });
-        });
+        this.updateCurrency();
+        this.addEventListeners();
     }
-    watchGiveBySelect() {
-        const enFieldPaymentType = document.querySelector("#en__field_transaction_paymenttype");
-        const enFieldGiveBySelectCurrentValue = document.querySelector('input[name="transaction.giveBySelect"]:checked');
-        if (enFieldGiveBySelectCurrentValue) {
-            switch (enFieldGiveBySelectCurrentValue.value.toLowerCase()) {
-                case "ach":
-                    enFieldPaymentType.value = "ACH";
-                    break;
-                case "paypal":
-                    enFieldPaymentType.value = "paypal";
-                    break;
-                case "applepay":
-                    enFieldPaymentType.value = "applepay";
-                    break;
-                case "card":
-                    enFieldPaymentType.value = "";
-                    break;
-                default:
-                    this.logger.log(`No match for ${enFieldGiveBySelectCurrentValue.value}`);
-                    break;
-            }
-            const event = new Event("change");
-            enFieldPaymentType.dispatchEvent(event);
+    searchElements() {
+        const enElements = document.querySelectorAll(`
+      .en__component--copyblock,
+      .en__component--codeblock,
+      .en__field label,
+      .en__submit
+      `);
+        if (enElements.length > 0) {
+            this.elementsFound = true;
+            const currency = engrid_ENGrid.getCurrencySymbol();
+            const currencyCode = engrid_ENGrid.getCurrencyCode();
+            const currencyElement = `<span class="engrid-currency-symbol">${currency}</span>`;
+            const currencyCodeElement = `<span class="engrid-currency-code">${currencyCode}</span>`;
+            enElements.forEach((item) => {
+                if (item instanceof HTMLElement &&
+                    (item.innerHTML.includes("[$]") || item.innerHTML.includes("[$$$]"))) {
+                    this.logger.log("Old Value:", item.innerHTML);
+                    const currencyRegex = /\[\$\]/g;
+                    const currencyCodeRegex = /\[\$\$\$\]/g;
+                    item.innerHTML = item.innerHTML.replace(currencyCodeRegex, currencyCodeElement);
+                    item.innerHTML = item.innerHTML.replace(currencyRegex, currencyElement);
+                    this.logger.log("New Value:", item.innerHTML);
+                }
+            });
         }
+    }
+    shouldRun() {
+        return this.elementsFound;
+    }
+    addEventListeners() {
+        this._amount.onAmountChange.subscribe(() => {
+            setTimeout(() => {
+                this.updateCurrency();
+            }, 10);
+        });
+        this._frequency.onFrequencyChange.subscribe(() => {
+            setTimeout(() => {
+                this.searchElements();
+                this.updateCurrency();
+            }, 10);
+        });
+        const currencyField = engrid_ENGrid.getField("transaction.paycurrency");
+        if (currencyField) {
+            currencyField.addEventListener("change", () => {
+                setTimeout(() => {
+                    this.updateCurrency();
+                    this._amount.load();
+                    const otherAmountDiv = document.querySelector(".en__field--donationAmt .en__field__item--other");
+                    if (otherAmountDiv) {
+                        otherAmountDiv.setAttribute("data-currency-symbol", engrid_ENGrid.getCurrencySymbol());
+                    }
+                }, 10);
+            });
+        }
+    }
+    updateCurrency() {
+        document.querySelectorAll(".engrid-currency-symbol").forEach((item) => {
+            item.innerHTML = engrid_ENGrid.getCurrencySymbol();
+        });
+        document.querySelectorAll(".engrid-currency-code").forEach((item) => {
+            item.innerHTML = engrid_ENGrid.getCurrencyCode();
+        });
     }
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.13.13";
+const AppVersion = "0.13.14";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
@@ -16395,6 +17154,7 @@ const options = {
   CapitalizeFields: true,
   ClickToExpand: true,
   CurrencySymbol: "$",
+  CurrencyCode: "USD",
   DecimalSeparator: ".",
   ThousandsSeparator: ",",
   MinAmount: 5,

@@ -739,7 +739,7 @@
 
   .en__field--donationAmt .en__field__item--other:before {
     display: block;
-    content: "$";
+    content: attr(data-currency-symbol);
     position: relative;
     height: 0;
     left: calc((100% / 3) - 1.2rem);

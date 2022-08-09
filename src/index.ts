@@ -8,6 +8,7 @@ const options: Options = {
   CapitalizeFields: true,
   ClickToExpand: true,
   CurrencySymbol: "$",
+  CurrencyCode: "USD",
   DecimalSeparator: ".",
   ThousandsSeparator: ",",
   MinAmount: 5,
