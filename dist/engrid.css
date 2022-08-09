@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, August 8, 2022 @ 17:43:11 ET
+ *  Date: Monday, August 8, 2022 @ 22:07:58 ET
  *  By: fernando
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.13
@@ -7518,6 +7518,14 @@ body:not([data-engrid-debug]) #debug-bar{
   position:absolute;
   top:-10px;
   width:0;
+}
+[data-engrid-theme=engrid-ran2] select#en__field_transaction_paycurrency{
+  border:none;
+  box-shadow:none;
+  margin:0 auto;
+  max-width:212px;
+  padding-bottom:0;
+  padding-top:0;
 }
 body{
   opacity:1;

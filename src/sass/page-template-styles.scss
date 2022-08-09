@@ -935,4 +935,12 @@
     top: -10px;
     left: calc(50% - 10px);
   }
+  select#en__field_transaction_paycurrency {
+    border: none;
+    box-shadow: none;
+    max-width: 212px;
+    margin: 0 auto;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
