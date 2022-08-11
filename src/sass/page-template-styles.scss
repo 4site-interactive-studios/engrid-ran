@@ -8,15 +8,15 @@
   --color_primary_accent: #f1700b;
 
   // TYPOGRAPHY DEFAULT
-  --default_font-family: "HarmoniaSansStd", sans-serif;
+  --default_font-family: "HarmoniaSansPro", sans-serif;
   // --bold_font-family:"HarmoniaSansBlk", sans-serif;
-  --bold_font-family: "HarmoniaSansStd", sans-serif;
+  --bold_font-family: "HarmoniaSansPro", sans-serif;
   --root_font-size: 1.125rem;
   --default_font-size: var(--root_font-size);
   --engrid__body_padding: 0 3.5rem;
 
   // TYPOGRAPHY H1 AND H2
-  --h1_font-family: "HarmoniaSansStd", sans-serif;
+  --h1_font-family: "HarmoniaSansPro", sans-serif;
   --h1_font-size: 3rem;
   --h1_line-height: 1.2;
   --h1_font-weight: 900;
@@ -24,7 +24,7 @@
   --h2_font-weight: 700;
 
   // LABELS
-  --label_font-family: "HarmoniaSansStd", sans-serif;
+  --label_font-family: "HarmoniaSansPro", sans-serif;
   --label_font-size: 0.75rem;
   --label_font-weight: 500;
   --label_text-transform: uppercase;
@@ -109,7 +109,7 @@
   // --checkbox_border-color_checked: var(--color_black);
 
   // TYPOGRAPHY BUTTON
-  --button_font-family: "HarmoniaSansStd", sans-serif;
+  --button_font-family: "HarmoniaSansPro", sans-serif;
   --button_color: var(--color_white);
   --button_font-size: 1.5rem;
   --button_font-weight: 900;
