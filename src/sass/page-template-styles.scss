@@ -995,11 +995,7 @@
     --give-by-select__button_count: 3;
   }
 
-  [data-engrid-theme="engrid-ran2"]
-    .give-by-select
-    .en__field--radio
-    input[value="ACH"]
-    + label {
+  .give-by-select .en__field--radio input[value="ACH"] + label {
     background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/icon-check-white.svg?v=1659560244000);
     background-size: 24px 18px;
   }

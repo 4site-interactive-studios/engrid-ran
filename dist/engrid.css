@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, August 15, 2022 @ 17:14:38 ET
+ *  Date: Monday, August 15, 2022 @ 18:21:21 ET
  *  By: fernando
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.14
@@ -7579,7 +7579,7 @@ body:not([data-engrid-debug]) #debug-bar{
 [data-engrid-theme=engrid-ran2] .en__field--give-by-select>.en__field__element .en__field__item{
   --give-by-select__button_count:3;
 }
-[data-engrid-theme=engrid-ran2] [data-engrid-theme=engrid-ran2] .give-by-select .en__field--radio input[value=ACH]+label{
+[data-engrid-theme=engrid-ran2] .give-by-select .en__field--radio input[value=ACH]+label{
   background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/icon-check-white.svg?v=1659560244000);
   background-size:24px 18px;
 }
