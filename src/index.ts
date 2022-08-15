@@ -40,5 +40,17 @@ const options: Options = {
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => customScript(),
   onResize: () => console.log("Starter Theme Window Resized"),
+  onValidate: () => {
+    const country = App.getFieldValue("supporter.country");
+    // If country is not US or CA, then remove the region field value
+    if (
+      !["us", "usa", "united states", "ca", "canada"].includes(
+        country.toLowerCase()
+      )
+    ) {
+      App.setFieldValue("supporter.region", "");
+      console.log("Region field cleared");
+    }
+  },
 };
 new App(options);

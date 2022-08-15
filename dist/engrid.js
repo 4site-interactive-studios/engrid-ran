@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, August 9, 2022 @ 18:22:34 ET
+ *  Date: Friday, August 12, 2022 @ 15:27:37 ET
  *  By: fernando
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.14
@@ -17184,7 +17184,15 @@ const options = {
   },
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => customScript(),
-  onResize: () => console.log("Starter Theme Window Resized")
+  onResize: () => console.log("Starter Theme Window Resized"),
+  onValidate: () => {
+    const country = App.getFieldValue("supporter.country"); // If country is not US or CA, then remove the region field value
+
+    if (!["us", "usa", "united states", "ca", "canada"].includes(country.toLowerCase())) {
+      App.setFieldValue("supporter.region", "");
+      console.log("Region field cleared");
+    }
+  }
 };
 new App(options);
 })();

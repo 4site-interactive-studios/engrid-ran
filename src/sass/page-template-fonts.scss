@@ -23,33 +23,61 @@
 // }
 
 @font-face {
-    font-family: "HarmoniaSansStd";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: local("HarmoniaSansStd"), local("HarmoniaSansStd-Regular"), url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansStd-Regular.otf") format("opentype");
-}
-  
-@font-face {
-    font-family: "HarmoniaSansStd";
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: local("HarmoniaSansStd Medium"), local("HarmoniaSansStd-Medium"), url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansStd-SemiBd.otf") format("opentype");
+  font-family: "HarmoniaSansPro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("HarmoniaSansPro"), local("HarmoniaSansPro-Regular"),
+    url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansProRegular.woff2")
+      format("woff2");
 }
 
 @font-face {
-    font-family: "HarmoniaSansStd";
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: local("HarmoniaSansStd Bold"), local("HarmoniaSansStd-Bold"), url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansStd-Bold.otf") format("opentype");
+  font-family: "HarmoniaSansPro";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local("HarmoniaSansPro"), local("HarmoniaSansPro-Italic"),
+    url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansProItalic.woff2")
+      format("woff2");
 }
 
 @font-face {
-    font-family: "HarmoniaSansStd";
-    font-style: normal;
-    font-weight: 900;
-    font-display: swap;
-    src: local("HarmoniaSansStd Black"), local("HarmoniaSansStd-Black"), url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansStd-Black.otf") format("opentype");
+  font-family: "HarmoniaSansPro";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: local("HarmoniaSansPro"), local("HarmoniaSansPro-Bold-Italic"),
+    url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansProBoldItalic.woff2")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "HarmoniaSansPro";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: local("HarmoniaSansPro Light"), local("HarmoniaSansPro-Light"),
+    url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansProLight.woff2")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "HarmoniaSansPro";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("HarmoniaSansPro Bold"), local("HarmoniaSansPro-Bold"),
+    url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansProBold.woff2")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "HarmoniaSansPro";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: local("HarmoniaSansPro Black"), local("HarmoniaSansPro-Black"),
+    url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansProBlack.woff2")
+      format("woff2");
 }
