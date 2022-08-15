@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, August 12, 2022 @ 15:27:37 ET
+ *  Date: Monday, August 15, 2022 @ 17:14:38 ET
  *  By: fernando
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.14
@@ -17141,7 +17141,33 @@ const customScript = function () {
 
   if (enFieldMobilePhone) {
     enFieldMobilePhone.placeholder = "000-000-0000 (optional)";
+  } // Digital Wallets Moving Parts
+
+
+  const digitalWalletWrapper = document.querySelector(".merge-with-give-by-select #en__digitalWallet");
+  const digitalWalletFirstChild = document.querySelector("#en__digitalWallet");
+  const giveBySelect = document.querySelector(".give-by-select");
+
+  if (digitalWalletWrapper && giveBySelect) {
+    giveBySelect.appendChild(digitalWalletWrapper);
+    digitalWalletFirstChild.insertAdjacentHTML("beforeend", "<div class='digital-divider'><span class='divider-left'></span><p class='divider-center'>or enter manually</p><span class='divider-right'></span></div>");
   }
+
+  let digitalWalletsExist;
+  setTimeout(function () {
+    digitalWalletsExist = document.querySelectorAll(".en__digitalWallet__container > *");
+
+    if (digitalWalletsExist.length > 0) {
+      giveBySelect.setAttribute("show-wallets", "");
+    }
+  }, 500);
+  setTimeout(function () {
+    digitalWalletsExist = document.querySelectorAll(".en__digitalWallet__container > *");
+
+    if (digitalWalletsExist.length > 0) {
+      giveBySelect.setAttribute("show-wallets", "");
+    }
+  }, 2500);
 };
 ;// CONCATENATED MODULE: ./src/index.ts
  // Uses ENGrid via NPM

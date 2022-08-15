@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, August 12, 2022 @ 15:27:37 ET
+ *  Date: Monday, August 15, 2022 @ 17:14:38 ET
  *  By: fernando
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.14
@@ -7540,6 +7540,48 @@ body:not([data-engrid-debug]) #debug-bar{
   max-width:212px;
   padding-bottom:0;
   padding-top:0;
+}
+[data-engrid-theme=engrid-ran2] #en__pagebuilder .merge-with-give-by-select{
+  background-color:#ff00001a !important;
+}
+[data-engrid-theme=engrid-ran2] .give-by-select:not([show-wallets]) #en__digitalWallet .digital-divider{
+  display:none;
+}
+[data-engrid-theme=engrid-ran2] #en__digitalWallet{
+  margin-bottom:0 !important;
+  order:-1;
+  padding-top:15px !important;
+}
+[data-engrid-theme=engrid-ran2] .en__digitalWallet__button{
+  margin-top:0 !important;
+}
+[data-engrid-theme=engrid-ran2] .en__digitalWallet__container{
+  margin-bottom:0 !important;
+}
+[data-engrid-theme=engrid-ran2] .digital-divider{
+  align-items:center;
+  color:#9b9b94;
+  display:flex;
+  margin-bottom:calc(var(--fields_spacing-block) - 4px);
+  padding-left:var(--fields_spacing-inline);
+  padding-right:var(--fields_spacing-inline);
+  width:100%;
+}
+[data-engrid-theme=engrid-ran2] .divider-left,[data-engrid-theme=engrid-ran2] .divider-right{
+  background:#dfdfd7;
+  content:"";
+  flex:1 1;
+  height:1px;
+}
+[data-engrid-theme=engrid-ran2] .divider-center{
+  margin:0 .5rem;
+}
+[data-engrid-theme=engrid-ran2] .en__field--give-by-select>.en__field__element .en__field__item{
+  --give-by-select__button_count:3;
+}
+[data-engrid-theme=engrid-ran2] [data-engrid-theme=engrid-ran2] .give-by-select .en__field--radio input[value=ACH]+label{
+  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/icon-check-white.svg?v=1659560244000);
+  background-size:24px 18px;
 }
 body{
   opacity:1;
