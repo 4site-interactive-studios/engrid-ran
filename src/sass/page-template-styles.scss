@@ -9,8 +9,6 @@
 
   // TYPOGRAPHY DEFAULT
   --default_font-family: "HarmoniaSansPro", sans-serif;
-  // --bold_font-family:"HarmoniaSansBlk", sans-serif;
-  --bold_font-family: "HarmoniaSansPro", sans-serif;
   --root_font-size: 1.125rem;
   --default_font-size: var(--root_font-size);
   --engrid__body_padding: 0 3.5rem;
@@ -198,14 +196,8 @@
     }
   }
 
-  b,
-  strong {
-    font-family: "HarmoniaSansBlk", sans-serif;
-  }
-
   .en__field__label[for="en__field_transaction_recurrpay0"],
   .en__field__label[for="en__field_transaction_recurrpay1"] {
-    font-family: var(--bold_font-family);
     font-weight: 900;
     font-size: calc(0.05552em * 24);
     text-transform: none !important;
@@ -273,7 +265,6 @@
       text-transform: none;
       // background-color:var(--color_primary);
       // justify-content: center;
-      // font-family: var(--bold_font-family);
       font-weight: 700;
     }
 
@@ -428,7 +419,6 @@
 
   .footer-wrapper .footer-menu {
     padding: 0 2rem;
-    font-weight: var(--bold_font-family);
   }
 
   .footer-wrapper .footer-copy {
@@ -752,7 +742,6 @@
   .en__field--donationAmt .en__field__label--item,
   .en__field--donationAmt .en__field__item--other:before,
   .en__field--donationAmt .en__field__item--other input {
-    font-family: var(--bold_font-family);
     font-size: var(--donation-amount__button_font-size);
   }
 

@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, August 15, 2022 @ 18:21:21 ET
- *  By: fernando
+ *  Date: Monday, August 15, 2022 @ 21:05:42 ET
+ *  By: bryancasler
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.14
  *
@@ -7026,7 +7026,6 @@ body:not([data-engrid-debug]) #debug-bar{
   --color_primary:#000;
   --color_primary_accent:#f1700b;
   --default_font-family:"HarmoniaSansPro", sans-serif;
-  --bold_font-family:"HarmoniaSansPro", sans-serif;
   --root_font-size:1.125rem;
   --default_font-size:var(--root_font-size);
   --engrid__body_padding:0 3.5rem;
@@ -7115,11 +7114,7 @@ body:not([data-engrid-debug]) #debug-bar{
   width:0;
   z-index:1;
 }
-[data-engrid-theme=engrid-ran2] b,[data-engrid-theme=engrid-ran2] strong{
-  font-family:HarmoniaSansBlk,sans-serif;
-}
 [data-engrid-theme=engrid-ran2] .en__field__label[for=en__field_transaction_recurrpay0],[data-engrid-theme=engrid-ran2] .en__field__label[for=en__field_transaction_recurrpay1]{
-  font-family:var(--bold_font-family);
   font-size:1.33248em;
   font-weight:900;
   text-transform:none !important;
@@ -7234,7 +7229,6 @@ body:not([data-engrid-debug]) #debug-bar{
   padding:30px 0;
 }
 [data-engrid-theme=engrid-ran2] .footer-wrapper .footer-menu{
-  font-weight:var(--bold_font-family);
   padding:0 2rem;
 }
 [data-engrid-theme=engrid-ran2] .footer-wrapper .footer-copy{
@@ -7401,7 +7395,6 @@ body:not([data-engrid-debug]) #debug-bar{
   width:0;
 }
 [data-engrid-theme=engrid-ran2] .en__field--donationAmt .en__field__item--other input,[data-engrid-theme=engrid-ran2] .en__field--donationAmt .en__field__item--other:before,[data-engrid-theme=engrid-ran2] .en__field--donationAmt .en__field__label--item{
-  font-family:var(--bold_font-family);
   font-size:var(--donation-amount__button_font-size);
 }
 [data-engrid-theme=engrid-ran2] .en__field--donationAmt .en__field__item--other:focus{
