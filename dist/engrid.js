@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, August 15, 2022 @ 21:05:42 ET
- *  By: bryancasler
+ *  Date: Thursday, August 18, 2022 @ 21:59:18 ET
+ *  By: fernando
  *  ENGrid styles: v0.13.13
- *  ENGrid scripts: v0.13.14
+ *  ENGrid scripts: v0.13.15
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -11343,8 +11343,8 @@ class App extends engrid_ENGrid {
                 this._amount.load();
             }, 150);
         });
-        this._form.onSubmit.subscribe((s) => this.logger.success("Submit: " + s));
-        this._form.onError.subscribe((s) => this.logger.danger("Error: " + s));
+        this._form.onSubmit.subscribe((s) => this.logger.success("Submit: " + JSON.stringify(s)));
+        this._form.onError.subscribe((s) => this.logger.danger("Error: " + JSON.stringify(s)));
         window.enOnSubmit = () => {
             this._form.submit = true;
             this._form.submitPromise = false;
@@ -11477,7 +11477,7 @@ class App extends engrid_ENGrid {
     }
     // Use this function to add any Data Attributes to the Body tag
     setDataAttributes() {
-        // Add the Page Type as a Data Attribute on the video
+        // Add the Page Type as a Data Attribute on the Body Tag
         if (engrid_ENGrid.checkNested(window, "pageJson", "pageType")) {
             App.setBodyData("page-type", window.pageJson.pageType);
             this.logger.log("Page Type: " + window.pageJson.pageType);
@@ -11485,6 +11485,8 @@ class App extends engrid_ENGrid {
         else {
             this.logger.log("Page Type: Not Found");
         }
+        // Add the currency code as a Data Attribute on the Body Tag
+        App.setBodyData("currency-code", App.getCurrencyCode());
         // Add a body banner data attribute if the banner contains no image or video
         if (!document.querySelector(".body-banner img, .body-banner video")) {
             App.setBodyData("body-banner", "empty");
@@ -17057,6 +17059,7 @@ class LiveCurrency {
                     if (otherAmountDiv) {
                         otherAmountDiv.setAttribute("data-currency-symbol", engrid_ENGrid.getCurrencySymbol());
                     }
+                    engrid_ENGrid.setBodyData("currency-code", engrid_ENGrid.getCurrencyCode());
                 }, 10);
             });
         }
@@ -17072,7 +17075,7 @@ class LiveCurrency {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.13.14";
+const AppVersion = "0.13.15";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
