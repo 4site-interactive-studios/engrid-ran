@@ -990,12 +990,24 @@
     background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/icon-check-white.svg?v=1659560244000);
     background-size: 24px 18px;
   }
-  .show-currency-code-USD {
+  .show-USD,
+  .show-USD-monthly,
+  .show-USD-onetime {
     display: none;
   }
-  &[data-engrid-currency-code="USD"][data-engrid-transaction-recurring="y"] {
-    .show-currency-code-USD {
+  &[data-engrid-currency-code="USD"] {
+    .show-USD {
       display: block;
+    }
+    &[data-engrid-transaction-recurring="y"] {
+      .show-USD-monthly {
+        display: block;
+      }
+    }
+    &[data-engrid-transaction-recurring="n"] {
+      .show-USD-onetime {
+        display: block;
+      }
     }
   }
 }
