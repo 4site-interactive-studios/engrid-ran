@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, September 12, 2022 @ 14:58:51 ET
+ *  Date: Monday, October 3, 2022 @ 17:06:22 ET
  *  By: fernando
- *  ENGrid styles: v0.13.13
- *  ENGrid scripts: v0.13.15
+ *  ENGrid styles: v0.13.19
+ *  ENGrid scripts: v0.13.23
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -10663,6 +10663,9 @@ class engrid_ENGrid {
     static get debug() {
         return !!this.getOption("Debug");
     }
+    static get demo() {
+        return this.getUrlParameter("mode") === "DEMO";
+    }
     // Return any parameter from the URL
     static getUrlParameter(name) {
         const searchParams = new URLSearchParams(window.location.search);
@@ -10866,10 +10869,10 @@ class engrid_ENGrid {
         scriptTag.src = url;
         scriptTag.onload = onload;
         if (head) {
-            document.getElementsByTagName("head")[0].appendChild(scriptTag);
+            document.head.appendChild(scriptTag);
             return;
         }
-        document.getElementsByTagName("body")[0].appendChild(scriptTag);
+        document.body.appendChild(scriptTag);
         return;
     }
     // Format a number
@@ -11353,6 +11356,7 @@ class App extends engrid_ENGrid {
                 return false;
             if (this._form.submitPromise)
                 return this._form.submitPromise;
+            this.logger.success("enOnSubmit Success");
             return true;
         };
         window.enOnError = () => {
@@ -11366,6 +11370,7 @@ class App extends engrid_ENGrid {
                 return false;
             if (this._form.validatePromise)
                 return this._form.validatePromise;
+            this.logger.success("Validation Passed");
             return true;
         };
         // Live Currency
@@ -11426,6 +11431,7 @@ class App extends engrid_ENGrid {
         new OtherAmount();
         new MinMaxAmount();
         new Ticker();
+        new A11y();
         new AddNameToMessage();
         new ExpandRegionName();
         // Page Background
@@ -11575,6 +11581,17 @@ class App extends engrid_ENGrid {
         if (otherAmountDiv) {
             otherAmountDiv.setAttribute("data-currency-symbol", App.getCurrencySymbol());
         }
+        // Add a payment type data attribute
+        const paymentTypeSelect = App.getField("transaction.paymenttype");
+        if (paymentTypeSelect) {
+            App.setBodyData("payment-type", paymentTypeSelect.value);
+            paymentTypeSelect.addEventListener("change", () => {
+                App.setBodyData("payment-type", paymentTypeSelect.value);
+            });
+        }
+        // Add demo data attribute
+        if (App.demo)
+            App.setBodyData("demo", "");
     }
 }
 
@@ -11775,6 +11792,54 @@ class ApplePay {
         }
         this._form.submit = true;
         return true;
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/a11y.js
+// a11y means accessibility
+// This Component is supposed to be used as a helper for Arria Attributes & Other Accessibility Features
+class A11y {
+    constructor() {
+        this.addRequired();
+        this.addLabel();
+        this.addGroupRole();
+    }
+    addGroupRole() {
+        // Add role="group" to all EN Radio fields
+        const radioFields = document.querySelectorAll(".en__field--radio");
+        radioFields.forEach((field) => {
+            field.setAttribute("role", "group");
+            // Add random ID to the label
+            const label = field.querySelector("label");
+            if (label) {
+                label.setAttribute("id", `en__field__label--${Math.random().toString(36).slice(2, 7)}`);
+                field.setAttribute("aria-labelledby", label.id);
+            }
+        });
+    }
+    addRequired() {
+        const mandatoryFields = document.querySelectorAll(".en__mandatory .en__field__input");
+        mandatoryFields.forEach((field) => {
+            field.setAttribute("aria-required", "true");
+        });
+    }
+    addLabel() {
+        const otherAmount = document.querySelector(".en__field__input--otheramount");
+        if (otherAmount) {
+            otherAmount.setAttribute("aria-label", "Enter your custom donation amount");
+        }
+        // Split selects usually don't have a label, so let's make the first option the label
+        const splitSelects = document.querySelectorAll(".en__field__input--splitselect");
+        splitSelects.forEach((select) => {
+            var _a, _b, _c, _d;
+            const firstOption = select.querySelector("option");
+            if (firstOption &&
+                firstOption.value === "" &&
+                !((_b = (_a = firstOption.textContent) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === null || _b === void 0 ? void 0 : _b.includes("select")) &&
+                !((_d = (_c = firstOption.textContent) === null || _c === void 0 ? void 0 : _c.toLowerCase()) === null || _d === void 0 ? void 0 : _d.includes("choose"))) {
+                select.setAttribute("aria-label", firstOption.textContent || "");
+            }
+        });
     }
 }
 
@@ -12793,14 +12858,10 @@ const isInViewport = (e) => {
 };
 // Checks to see if the page is so short, the footer is above the fold. If the footer is above the folde we'll use this class to ensure at a minimum the page fills the full viewport height.
 if (contentFooter && isInViewport(contentFooter)) {
-    document
-        .getElementsByTagName("BODY")[0]
-        .setAttribute("data-engrid-footer-above-fold", "");
+    document.body.setAttribute("data-engrid-footer-above-fold", "");
 }
 else {
-    document
-        .getElementsByTagName("BODY")[0]
-        .setAttribute("data-engrid-footer-below-fold", "");
+    document.body.setAttribute("data-engrid-footer-below-fold", "");
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/iframe.js
@@ -12844,6 +12905,11 @@ class iFrame {
                 this.sendIframeFormStatus("chained");
                 this.hideFormComponents();
                 this.addChainedBanner();
+            }
+            // Remove the skip link markup when inside an iFrame
+            const skipLink = document.querySelector(".skip-link");
+            if (skipLink) {
+                skipLink.remove();
             }
         }
         else {
@@ -13275,7 +13341,7 @@ class UpsellLightbox {
                     </p>
                   </div>
                   <div class="upsellOtherAmountInput">
-                    <input href="#" id="secondOtherField" name="secondOtherField" size="12" type="number" inputmode="numeric" step="1" value="" autocomplete="off">
+                    <input href="#" id="secondOtherField" name="secondOtherField" type="text" value="" inputmode="decimal" aria-label="Enter your custom donation amount" autocomplete="off" data-lpignore="true" aria-required="true" size="12">
                     <small>Minimum ${this.getAmountTxt(this.options.minAmount)}</small>
                   </div>
                 </div>
@@ -14547,7 +14613,7 @@ class NeverBounce {
                 this.init();
             }, 1000);
         }
-        this.form.onValidate.subscribe(() => (this.form.validate = this.validate()));
+        this.form.onValidate.subscribe(this.validate.bind(this));
     }
     init() {
         if (this.nbLoaded || !this.shouldRun)
@@ -14570,9 +14636,7 @@ class NeverBounce {
             '<div id="nb-feedback" class="en__field__error nb-hidden">Enter a valid email.</div>';
         this.insertAfter(nbCustomMessageHTML, this.emailField);
         const NBClass = this;
-        document
-            .getElementsByTagName("body")[0]
-            .addEventListener("nb:registered", function (event) {
+        document.body.addEventListener("nb:registered", function (event) {
             const field = document.querySelector('[data-nb-id="' + event.detail.id + '"]');
             field.addEventListener("nb:loading", function (e) {
                 engrid_ENGrid.disableSubmit("Validating Your Email");
@@ -14714,19 +14778,20 @@ class NeverBounce {
     }
     validate() {
         var _a;
-        if (!this.emailField || !this.shouldRun || !this.nbLoaded) {
+        const nbResult = engrid_ENGrid.getFieldValue("nb-result");
+        if (!this.emailField || !this.shouldRun || !this.nbLoaded || !nbResult) {
             this.logger.log("validate(): Should Not Run. Returning true.");
-            return true;
+            return;
         }
         if (this.nbStatus) {
-            this.nbStatus.value = engrid_ENGrid.getFieldValue("nb-result");
+            this.nbStatus.value = nbResult;
         }
-        if (!["catchall", "unknown", "valid"].includes(engrid_ENGrid.getFieldValue("nb-result"))) {
+        if (!["catchall", "unknown", "valid"].includes(nbResult)) {
             this.setEmailStatus("required");
             (_a = this.emailField) === null || _a === void 0 ? void 0 : _a.focus();
-            return false;
+            this.logger.log("NB-Result:", engrid_ENGrid.getFieldValue("nb-result"));
+            this.form.validate = false;
         }
-        return true;
     }
 }
 
@@ -17075,10 +17140,11 @@ class LiveCurrency {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.13.15";
+const AppVersion = "0.13.23";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
+
 
 
 
@@ -17210,6 +17276,15 @@ const options = {
     phone_record_field: "supporter.NOT_TAGGED_45",
     phone_date_field: "supporter.NOT_TAGGED_44",
     phone_status_field: "supporter.NOT_TAGGED_43"
+  },
+  RememberMe: {
+    checked: true,
+    remoteUrl: "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
+    fieldOptInSelectorTarget: 'h2, input[name="supporter.emailAddress"]',
+    fieldOptInSelectorTargetLocation: "after",
+    fieldClearSelectorTarget: 'label[for="en__field_supporter_firstName"], label[for="en__field_supporter_emailAddress"]',
+    fieldClearSelectorTargetLocation: "after",
+    fieldNames: ["supporter.firstName", "supporter.lastName", "supporter.address1", "supporter.address2", "supporter.city", "supporter.country", "supporter.region", "supporter.postcode", "supporter.emailAddress"]
   },
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => customScript(),
