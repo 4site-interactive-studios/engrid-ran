@@ -41,10 +41,11 @@ const options: Options = {
     checked: true,
     remoteUrl:
       "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
-    fieldOptInSelectorTarget: 'h2, input[name="supporter.emailAddress"]',
+    fieldOptInSelectorTarget:
+      "div.en__field--telephone, div.en__field--email, div.en__field--lastName",
     fieldOptInSelectorTargetLocation: "after",
     fieldClearSelectorTarget:
-      'label[for="en__field_supporter_firstName"], label[for="en__field_supporter_emailAddress"]',
+      "div.en__field--firstName div, div.en__field--email div",
     fieldClearSelectorTargetLocation: "after",
     fieldNames: [
       "supporter.firstName",
