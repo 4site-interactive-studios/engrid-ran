@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, October 4, 2022 @ 15:23:08 ET
+ *  Date: Tuesday, October 11, 2022 @ 16:58:59 ET
  *  By: bryancasler
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -7588,6 +7588,10 @@ body:not([data-engrid-debug]) #debug-bar{
 [data-engrid-theme=engrid-ran2][data-engrid-currency-code=USD] .show-USD,[data-engrid-theme=engrid-ran2][data-engrid-currency-code=USD][data-engrid-transaction-recurring=n] .show-USD-onetime,[data-engrid-theme=engrid-ran2][data-engrid-currency-code=USD][data-engrid-transaction-recurring=y] .show-USD-monthly{
   display:block;
 }
+[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]{
+  --fields_spacing-inline:2px;
+  --fields_spacing-block:2px;
+}
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]#en__pagebuilder .monthly-upsell-message p{
   max-height:none;
   overflow:visible;
@@ -7707,55 +7711,15 @@ body:not([data-engrid-debug]) #debug-bar{
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .radio-to-buttons_donationAmt{
   --donation-amount__button_count:2;
 }
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .radio-to-buttons_donationAmt .en__field--radio.en__field--withOther.en__field--donationAmt .en__field__item--other{
-  flex-basis:100%;
-  position:relative;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .radio-to-buttons_donationAmt .en__field--radio.en__field--withOther.en__field--donationAmt .en__field__item--other:before{
-  color:var(--h1_color);
-  content:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="11" height="20" fill="none" viewBox="0 0 11 20"><path fill="%23ffffff" d="M10.268 12.176c-.097-.327-.214-.612-.352-.853-.138-.242-.335-.478-.591-.71-.257-.23-.488-.416-.692-.557-.205-.142-.486-.3-.843-.475s-.64-.305-.848-.39c-.208-.086-.51-.203-.904-.352-.35-.134-.61-.236-.782-.307-.17-.07-.396-.17-.675-.301-.279-.13-.487-.246-.625-.346-.137-.1-.284-.223-.44-.368-.157-.145-.267-.3-.33-.463-.063-.164-.095-.343-.095-.536 0-.506.223-.919.67-1.239.446-.32 1.023-.48 1.73-.48.312 0 .63.043.954.129.324.085.6.182.831.29.231.108.449.227.654.357.204.13.35.229.435.296.085.067.14.111.162.134.097.074.197.1.301.078.112-.008.197-.067.257-.179l.904-1.63c.09-.148.07-.29-.056-.423-.044-.045-.1-.097-.167-.157s-.212-.167-.436-.323c-.223-.157-.46-.296-.708-.419-.25-.123-.573-.247-.972-.374-.397-.126-.809-.212-1.233-.256V.357c0-.104-.033-.19-.1-.257C6.25.034 6.164 0 6.06 0H4.553c-.096 0-.18.035-.25.106-.071.07-.107.154-.107.251v2.01c-1.168.222-2.117.72-2.846 1.495-.729.773-1.094 1.674-1.094 2.7 0 .306.032.596.095.87.063.276.142.524.235.743.093.22.225.435.396.648.171.212.333.394.485.546.153.153.352.311.597.475.246.163.456.296.631.396.175.1.408.216.698.346.29.13.519.229.686.296.168.066.396.16.687.278.401.157.7.278.893.363.193.086.439.205.736.357.298.153.515.292.653.419.138.126.262.283.374.469.112.186.168.383.168.591 0 .588-.23 1.042-.687 1.361-.457.32-.988.48-1.59.48-.275 0-.55-.03-.826-.089-.967-.193-1.871-.658-2.712-1.395l-.022-.022c-.067-.082-.157-.115-.268-.1-.12.014-.205.06-.257.134l-1.15 1.506c-.111.149-.104.302.023.458.037.044.102.112.195.2.093.09.266.23.52.42.252.19.527.368.825.535.298.168.675.333 1.133.497.458.163.932.279 1.423.346v1.953c0 .097.035.18.106.251.07.07.154.106.251.106h1.507c.104 0 .19-.033.257-.1s.1-.153.1-.257V17.69c1.183-.194 2.145-.702 2.885-1.524.74-.822 1.11-1.802 1.11-2.94 0-.373-.048-.722-.146-1.05z"/></svg>');
-  font-size:20px;
-  font-weight:700;
-  height:20px;
-  left:19px;
-  line-height:0;
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:11px;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .radio-to-buttons_donationAmt .en__field--radio.en__field--withOther.en__field--donationAmt .en__field__item--other:after{
-  color:#fff;
-  content:"USD";
-  display:block;
-  font-size:12px;
-  font-weight:500;
-  height:0;
-  line-height:0;
-  opacity:.8;
-  position:absolute;
-  right:19px;
-  top:50%;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .radio-to-buttons_donationAmt .en__field--radio.en__field--withOther.en__field--donationAmt .en__field__item--other input{
-  background-image:none !important;
-  padding-left:39px;
-  padding-right:58px;
-}
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .monthly-upsell-message{
   position:relative;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .monthly-upsell-message p{
-  color:#0d4ebf;
-  font-family:Kalam,sans-serif;
-  font-size:14px;
-  font-weight:400;
-  line-height:1.43;
   margin-bottom:15px;
   margin-top:5px;
   max-height:0;
   overflow:hidden;
-  padding:0 5px;
+  padding:0;
   transition:max-height .3s ease-in-out;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .monthly-upsell-message p strong{
@@ -7829,7 +7793,7 @@ body:not([data-engrid-debug]) #debug-bar{
   display:flex;
   justify-content:space-between;
   position:absolute;
-  width:260px;
+  width:100%;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] form.en__component>.en__component .section-navigation button{
   align-items:center;
@@ -7859,7 +7823,7 @@ body:not([data-engrid-debug]) #debug-bar{
   font-weight:400;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] form.en__component>.en__component .section-navigation button.section-navigation__previous{
-  color:#0041a8;
+  color:#6a9924;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] form.en__component>.en__component .section-navigation button.section-navigation__previous:before{
   background-color:#eff6fe;
@@ -7896,7 +7860,7 @@ body:not([data-engrid-debug]) #debug-bar{
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] form.en__component>.en__component .section-count{
   bottom:-30px;
-  color:#0d4ebf;
+  color:#6a9924;
   font-size:10px;
   font-stretch:normal;
   font-style:normal;
@@ -7910,33 +7874,9 @@ body:not([data-engrid-debug]) #debug-bar{
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] form.en__component>.en__component>.en__component{
   min-width:auto;
 }
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field .en__field__element.en__field__element--checkbox .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field .en__field__element.en__field__element--imgselect .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field .en__field__element.en__field__element--radio .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field .en__field__element.en__field__element--rating .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field .en__field__element.en__field__element--splitselect .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field .en__field__element.en__field__element--splittext .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field .en__field__element.en__field__element--tripleselect .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field .en__field__element.en__field__element--tripletext .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field .en__field__element.en__field__element--withOther .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field .en__field__element.en__field__element--checkbox .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field .en__field__element.en__field__element--imgselect .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field .en__field__element.en__field__element--radio .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field .en__field__element.en__field__element--rating .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field .en__field__element.en__field__element--splitselect .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field .en__field__element.en__field__element--splittext .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field .en__field__element.en__field__element--tripleselect .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field .en__field__element.en__field__element--tripletext .en__field__item,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field .en__field__element.en__field__element--withOther .en__field__item{
-  padding:2px;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field:not(.en__field--validationFailed) .en__field__element>input,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field:not(.en__field--validationFailed) .en__field__element>select,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field:not(.en__field--validationFailed) .en__field__element>textarea,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field:not(.en__field--validationFailed) .en__field__element>input,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field:not(.en__field--validationFailed) .en__field__element>select,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field:not(.en__field--validationFailed) .en__field__element>textarea{
-  margin-bottom:3px;
-  margin-top:3px;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock .en__field,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock .en__field{
-  margin-bottom:0;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock>*,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock>*{
-  padding-left:0;
-  padding-right:0;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--formblock,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__component--svblock{
-  margin-left:0;
-  margin-right:0;
-}
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__field--ccnumber input{
   background-position:50%;
   background-size:30px !important;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__field--ccexpire .en__field__element--splitselect{
-  margin-right:0 !important;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__field--ccvv .en__field__element{
-  padding-left:3px;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__field--checkbox>label{
   display:none !important;
@@ -7946,7 +7886,7 @@ body:not([data-engrid-debug]) #debug-bar{
   text-align:center;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] h4.title-line{
-  color:#0041a8;
+  color:#6a9924;
   font-family:Roboto,sans-serif;
   font-size:14px;
   font-weight:400;
@@ -8011,7 +7951,7 @@ body:not([data-engrid-debug]) #debug-bar{
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep][data-engrid-embedded] form.en__component>.en__component{
   height:100vh;
-  padding:45px;
+  padding:45px 40px;
   width:350px;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep][data-engrid-embedded] form.en__component>.en__component>.en__component{
@@ -8085,7 +8025,6 @@ body:not([data-engrid-debug]) #debug-bar{
   white-space:nowrap;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep][data-thank-you] p{
-  color:#007cf9;
   font-size:16px;
   font-stretch:normal;
   font-style:normal;
@@ -8095,7 +8034,6 @@ body:not([data-engrid-debug]) #debug-bar{
   text-align:left;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep][data-thank-you] p.small{
-  color:#007cf9;
   font-size:12px;
   font-weight:500;
   line-height:1.5;
@@ -8157,6 +8095,19 @@ body:not([data-engrid-debug]) #debug-bar{
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__field--emailAddress #petaEmailValidator .close:after{
   transform:rotate(-45deg);
+}
+[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] #en__field_transaction_paycurrency{
+  font-size:14px;
+}
+[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .en__field--recurrfreq .en__field__item label{
+  font-size:1.33248em;
+  font-weight:900;
+}
+[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .highlight{
+  padding:.5rem 1rem;
+}
+[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .highlight:after,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .highlight:before{
+  display:none;
 }
 body{
   opacity:1;
