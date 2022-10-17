@@ -37,6 +37,28 @@ const options: Options = {
     phone_date_field: "supporter.NOT_TAGGED_44",
     phone_status_field: "supporter.NOT_TAGGED_43",
   },
+  RememberMe: {
+    checked: true,
+    remoteUrl:
+      "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
+    fieldOptInSelectorTarget:
+      "div.en__field--telephone, div.en__field--email, div.en__field--lastName",
+    fieldOptInSelectorTargetLocation: "after",
+    fieldClearSelectorTarget:
+      "div.en__field--firstName div, div.en__field--email div",
+    fieldClearSelectorTargetLocation: "after",
+    fieldNames: [
+      "supporter.firstName",
+      "supporter.lastName",
+      "supporter.address1",
+      "supporter.address2",
+      "supporter.city",
+      "supporter.country",
+      "supporter.region",
+      "supporter.postcode",
+      "supporter.emailAddress",
+    ],
+  },
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => customScript(),
   onResize: () => console.log("Starter Theme Window Resized"),
