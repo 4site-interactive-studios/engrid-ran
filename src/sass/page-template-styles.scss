@@ -1231,19 +1231,18 @@
       .summary-table {
         display: flex;
         flex-wrap: wrap;
-        color: #007cf9;
         font-size: 12px;
         dt {
           width: 100px;
           font-weight: 700;
-          border-bottom: 1px solid #d9ebff;
+          border-bottom: 1px solid #2e2e2c33;
           padding: 5px 0;
         }
         dd {
           margin-left: auto;
           width: calc(100% - 100px);
           text-align: right;
-          border-bottom: 1px solid #d9ebff;
+          border-bottom: 1px solid #2e2e2c33;
           padding: 5px 0;
         }
       }
