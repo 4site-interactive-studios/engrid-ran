@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, November 3, 2022 @ 18:08:54 ET
+ *  Date: Thursday, November 3, 2022 @ 18:20:28 ET
  *  By: bryancasler
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -7592,7 +7592,15 @@ body:not([data-engrid-debug]) #debug-bar{
   --fields_spacing-inline:2px;
   --fields_spacing-block:2px;
 }
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]#en__pagebuilder .monthly-upsell-message p{
+[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]#en__pagebuilder .en__component--row,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]:not(#en__pagebuilder):not([data-engrid-embedded]) .en__component--row{
+  background-color:#fff;
+  margin-left:auto;
+  margin-right:auto;
+  padding-left:40px;
+  padding-right:40px;
+  width:430px;
+}
+[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]#en__pagebuilder .monthly-upsell-message p,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]:not(#en__pagebuilder):not([data-engrid-embedded]) .monthly-upsell-message p{
   max-height:none;
   overflow:visible;
 }

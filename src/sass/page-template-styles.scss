@@ -1015,9 +1015,21 @@
     --fields_spacing-inline: 2px;
     --fields_spacing-block: 2px;
 
-    &#en__pagebuilder .monthly-upsell-message p {
-      overflow: visible;
-      max-height: initial;
+    &#en__pagebuilder,
+    &:not(#en__pagebuilder):not([data-engrid-embedded]) {
+      .en__component--row {
+        width: 430px;
+        padding-left: 40px;
+        padding-right: 40px;
+        background-color: #ffffff;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .monthly-upsell-message p {
+        overflow: visible;
+        max-height: initial;
+      }
     }
     @keyframes float {
       0% {
