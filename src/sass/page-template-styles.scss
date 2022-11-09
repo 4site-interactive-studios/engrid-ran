@@ -146,6 +146,8 @@
 
   --highlight__background-color: #f9f003;
   --highlight__color: #343432;
+  --ran__green: #6a9914;
+  --icon__color: var(--ran__green);
 }
 
 /* Add your custom theme styles here */
@@ -1014,6 +1016,7 @@
   &[data-engrid-subtheme="multistep"] {
     --fields_spacing-inline: 2px;
     --fields_spacing-block: 2px;
+    --p_font-size: 16px;
 
     &#en__pagebuilder,
     &:not(#en__pagebuilder):not([data-engrid-embedded]) {
@@ -1024,11 +1027,6 @@
         background-color: #ffffff;
         margin-left: auto;
         margin-right: auto;
-      }
-
-      .monthly-upsell-message p {
-        overflow: visible;
-        max-height: initial;
       }
     }
     @keyframes float {
@@ -1077,163 +1075,12 @@
         transform: scale(0.8);
       }
     }
-    // The most broadly used CSS Custom Properties for quick theming.
-    // Uncomment to use and reference engrid-scrips SASS files for more CSS Custom Properties.
-    // All CSS Custom Properties should be scoped to the theme using CSS Data Attributes.
-    & {
-      // --color_primary: #007cf9;
-
-      // // TYPOGRAPHY DEFAULT
-      // --default_font-family: "Roboto", sans-serif;
-      // --default_color: #4f606c;
-      // --default_font-size: 16px;
-      // // --default_font-weight: initial;
-      // --default_line-height: 1.63;
-
-      // --select_border-color_hover: var(--color_primary);
-      // --select_color_hover: var(--color_primary);
-      // // TYPOGRAPHY H1
-      // --h1_font-family: "Roboto", sans-serif;
-      // --h1_color: #6a9924;
-      // --h1_font-size: 22px;
-      // --h1_font-weight: bold;
-      // --h1_text-align: center;
-      // // --h1_line-height: initial;
-
-      // // TYPOGRAPHY H2
-      // --h2_color: #6a9924;
-      // --h2_font-size: 22px;
-      // --h2_font-weight: bold;
-      // // --h2_line-height: initial;
-
-      // // TYPOGRAPHY P
-      // // --p_font-family: var(--default_font-family);
-      // --p_color: #4f606c;
-      // --p_font-size: 12px;
-      // --p_font-weight: 400;
-      // --p_line-height: 1.33;
-
-      // // TYPOGRAPHY A
-      // // --a_font-family: var(--default_font-family);
-      // // --a_color: initial;
-      // // --a_text-decoration: underline;
-
-      // // TYPOGRAPHY A:FOCUS
-      // // TYPOGRAPHY A:HOVER
-      // // --a_color_hover: var(--a_color);
-      // // --a_text-decoration_hover: initial;
-
-      // --fields_spacing-inline: 3px;
-      // --fields_spacing-block: 3px;
-
-      // // TYPOGRAPHY INPUT
-      // // --input_font-family: var(--default_font-family);
-      // --input_color: #6a9924;
-      // --input_font-size: 16px;
-      // // --input_font-weight: initial;
-      // // --input_line-height: initial;
-      // --input_background-color: #eff6fe;
-      // // --input_border-width: 1px;
-      // --input_border-color: #eff6fe;
-      // --input_border-radius: 4px;
-      // --input_placeholder-color: #074f9275;
-      // --input_box-shadow: none;
-      // --input_padding: 12px 20px;
-
-      // // TYPOGRAPHY INPUT:FOCUS
-      // // TYPOGRAPHY INPUT:HOVER
-      // // --input_color_hover: var(--input_color);
-      // // --input_background-color_hover: var(--input_background-color);
-      // // --input_border-color_hover: #767677;
-      // // --input_border-bottom-color_hover: var(--input_border-color_hover);
-      // // --input_box-shadow_hover: --input_box-shadow;
-
-      // // TYPOGRAPHY BUTTON
-      // // --button_font-family: var(--default_font-family);
-      // --button_color: var(--input_color);
-      --button_font-size: var(--root_font-size);
-      // --button_font-weight: 600;
-      // // --button_line-height: initial;
-      // --button_background-color: var(--input_background-color);
-      // // --button_border-width: 1px;
-      // --button_border-color: var(--input_border-color);
-      // --button_border-radius: 6px;
-      // --button_text-transform: normal;
-      // --button_padding: 15px 0.2ch;
-
-      // // TYPOGRAPHY BUTTON:HOVER
-      // // --button_color_hover: var(--button_color);
-      // --button_background-color_hover: var(--button_background-color);
-      // --button_border-color_hover: var(--button_border-color);
-
-      // // TYPOGRAPHY BUTTON:SELECTED
-      // --button_color_checked: #ffffff;
-      // --button_background-color_checked: #6a9924;
-      // // --button_border-color_checked: var(--button_border-color_hover);
-
-      // --submit__button_color: var(--button_color_checked);
-      // --submit__button_border-color: var(--button_background-color_checked);
-      // --submit__button_border-radius: 6px;
-      // --submit__button_background-color: var(--button_background-color_checked);
-      // --submit__button_font-weight: var(--button_font-weight);
-      // --submit__button_color_hover: #ffffff;
-      // --submit__button_background-color_hover: #000000;
-      // --submit__button_border-color_hover: #000000;
-
-      // // DONATION PAGE
-      // // --give-monthly-donation-amount-appended-label: "/mo";
-      // // --give-annual-donation-amount-appended-label: "/yr";
-      // // --recurring-frequency__button_count: 4;
-      // // --donation-amount__button_count: 4;
-      // // --give-by-select__button_count: 4;
-      // --recurring-frequency__button_text-transform: none;
-      // --recurring-frequency__button_font-size: 16px;
-      // --recurring-frequency__button_border-radius: 6px;
-      // --donation-amount__button_padding: 10px 0.2ch;
-      // --donation-amount__button_border-color: var(--color_primary);
-      // --donation-amount__button_background-color_hover: var(--color_primary);
-      // --donation-amount__button_color_hover: #fff;
-      // --donation-amount__button_background-color_checked: var(
-      //   --button_background-color_checked
-      // );
-      // --donation-amount__button_border-color_checked: var(
-      //   --button_background-color_checked
-      // );
-      // --donation-amount__button_border-radius: 4px;
-      // --donation-amount__button_color: #6a9924;
-      // --donation-amount__button_color_checked: var(--button_color_checked);
-      // --donation-amount__button_font-weight: var(--button_font-weight);
-      // --donation-amount__button_font-size: 20px;
-      // --recurring-frequency__button_background-color_checked: #6a9924;
-      // --recurring-frequency__button_border-color_checked: var(
-      //   --button_background-color_checked
-      // );
-      // --recurring-frequency__button_border-color: var(--color_primary);
-      // --recurring-frequency__button_border-color_hover: var(--color_primary);
-      // --recurring-frequency__button_color: #6a9924;
-      // --recurring-frequency__button_color_hover: #6a9924;
-      // --recurring-frequency__button_color_checked: var(--button_color_checked);
-      // --recurring-frequency__button_font-weight: normal;
-      // --recurring-frequency__button_padding: 14px 0.2ch;
-      // --submit__button_padding-top: 1.75ch;
-      // --submit__button_padding-bottom: 1.75ch;
-
-      // --checkbox_font-size: 12px;
-      // --checkbox_font-weight: normal;
-      // --checkbox_border-radius: 5px;
-      // --checkbox_background-color_checked: var(--color_primary);
-      // --checkbox_border-color_checked: var(--color_primary);
-      // --checkbox_color_checked: #ffffff;
-
-      // --error__color: #c92533;
-      // --error__color_faded: #fff8f7;
-      // --error__background-color: #fff8f7;
-
-      --engrid__body-main_padding: 0;
-    }
 
     /* Add your custom theme styles here */
     & {
+      --button_font-size: var(--root_font-size);
+      --engrid__body-main_padding: 0;
+
       .mt-10 {
         margin-top: 10px;
       }
@@ -1364,7 +1211,7 @@
           // font-size: 14px;
           // line-height: 1.43;
           // font-family: "Kalam", sans-serif;
-          // color: #6a9924;
+          // color: var(--ran__green);
           // font-weight: 400;
           padding: 0px;
           margin-top: 5px;
@@ -1383,7 +1230,7 @@
           }
         }
         svg {
-          color: #6a9924;
+          color: var(--ran__green);
           position: absolute;
           top: -65px;
           width: 55px;
@@ -1500,7 +1347,7 @@
               font-weight: 400;
             }
             &.section-navigation__previous {
-              color: #6a9924;
+              color: var(--ran__green);
               &::before {
                 content: "";
                 position: absolute;
@@ -1549,7 +1396,7 @@
           font-stretch: normal;
           font-style: normal;
           letter-spacing: 0.84px;
-          color: #6a9924;
+          color: var(--ran__green);
           span {
             font-weight: bold;
           }
@@ -1703,7 +1550,7 @@
         position: relative;
         text-align: center;
         width: 100%;
-        color: #6a9924;
+        color: var(--ran__green);
         span {
           display: inline-block;
           background-color: #fff;
@@ -1711,7 +1558,7 @@
           padding-right: 10px;
         }
         &:before {
-          background-color: #bfe5f5;
+          background-color: var(--ran__green);
           content: "\a0";
           height: 1px;
           overflow: hidden;

@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, November 3, 2022 @ 18:20:28 ET
+ *  Date: Wednesday, November 9, 2022 @ 17:03:47 ET
  *  By: bryancasler
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -17691,11 +17691,13 @@ class DonationLightboxForm {
 
     if (paymentOpts) {
       this.clickPaymentOptions(paymentOpts);
-    }
+    } // this.putArrowUpSVG();
+    // this.bounceArrow(this.frequency.getInstance().frequency);
+    // DonationFrequency.getInstance().onFrequencyChange.subscribe((s) =>
+    //   this.bounceArrow(s)
+    // );
 
-    this.putArrowUpSVG();
-    this.bounceArrow(this.frequency.getInstance().frequency);
-    DonationFrequency.getInstance().onFrequencyChange.subscribe(s => this.bounceArrow(s));
+
     DonationFrequency.getInstance().onFrequencyChange.subscribe(() => this.changeSubmitButton());
     DonationAmount.getInstance().onAmountChange.subscribe(() => this.changeSubmitButton());
     this.changeSubmitButton();
@@ -18204,19 +18206,18 @@ class DonationLightboxForm {
 
     return true;
   } // Bounce Arrow Up and Down
+  // bounceArrow(freq) {
+  //   const arrow = document.querySelector(".monthly-upsell-message");
+  //   if (arrow && freq === "onetime") {
+  //     arrow.classList.add("bounce");
+  //     // setTimeout(() => {
+  //     //   arrow.classList.remove("bounce");
+  //     // }, 1000);
+  //   } else {
+  //     arrow.classList.remove("bounce");
+  //   }
+  // }
 
-
-  bounceArrow(freq) {
-    const arrow = document.querySelector(".monthly-upsell-message");
-
-    if (arrow && freq === "onetime") {
-      arrow.classList.add("bounce"); // setTimeout(() => {
-      //   arrow.classList.remove("bounce");
-      // }, 1000);
-    } else {
-      arrow.classList.remove("bounce");
-    }
-  }
 
   changeSubmitButton() {
     const submit = document.querySelector(".section-navigation__submit");
@@ -18252,41 +18253,40 @@ class DonationLightboxForm {
       });
     });
   } // Append arrow SVG to the monthly upsell message
-
-
-  putArrowUpSVG() {
-    const arrow = document.querySelector(".monthly-upsell-message");
-
-    if (arrow) {
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      svg.classList.add(this.setArrowPosition());
-      svg.classList.add("monthly-upsell-message__arrow");
-      svg.setAttribute("viewBox", "0 0 55 40");
-      svg.setAttribute("fill", "none");
-      svg.innerHTML = `<path d="M.804 32.388c4.913-1.273 9.461-3.912 14.556-4.458 1-.09 1.183 1.183.728 1.73-.637.727-1.456 1.819-2.365 2.728 2.547.182 4.913 1.092 7.46 1.638 2.366.546 4.73.182 6.914-.637-.546-.546-1-1.183-1.546-1.82-3.64-5.185-5.914-22.198 3.548-23.38 5.368-.729 10.28 6.095 10.553 10.917.364 6.368-3.457 11.736-8.643 14.92 2.184 1.456 4.822 2.184 7.642 2.365 5.914.273 10.1-3.639 12.1-8.915 3.64-9.644.546-22.836-9.825-26.566-.455-.182-.455-.91.09-.91 13.01.182 14.83 19.56 11.555 28.567-3.73 10.28-16.012 12.464-23.745 6.46-.637.273-1.365.636-2.093.819-5.003 1.728-9.461-.728-14.283-1.274.637 1.183 1.273 2.456 2.183 3.548.637.819.091 2.184-1.091 1.82C9.628 38.483 4.624 37.392.44 34.39c-.637-.546-.637-1.82.364-2.002zm29.295 0c1.091-.636 2.183-1.364 3.093-2.183 6.277-5.277 7.187-15.103-.637-19.47-3.64-2.001-5.731 2.457-6.46 5.277-1.091 4.094-.454 8.825 1.274 12.646a19.738 19.738 0 0 0 2.73 3.73zm-19.652 1.183c-.09 0-.182-.182-.182-.273.273-1 1.092-1.82 2.002-2.638-2.911.819-5.64 2.092-8.552 3.002 2.73 1.456 5.732 2.365 8.825 3.275-.546-1-1-2.001-1.82-2.82-.182-.182-.273-.364-.273-.546z" fill="currentColor"/>`;
-      arrow.appendChild(svg);
-    }
-  } // Return the arrow position
-
-
-  setArrowPosition() {
-    const frequencyWrapper = document.querySelector(".en__field--recurrfreq .en__field__element--radio");
-
-    if (frequencyWrapper) {
-      const left = frequencyWrapper.querySelector('.en__field__item:first-child input[value="MONTHLY"]');
-      const right = frequencyWrapper.querySelector('.en__field__item:last-child input[value="MONTHLY"]');
-
-      if (left) {
-        return "left";
-      }
-
-      if (right) {
-        return "right";
-      }
-    }
-
-    return null;
-  } // Return true if you are in Canada, checking 3 conditions
+  // putArrowUpSVG() {
+  //   const arrow = document.querySelector(".monthly-upsell-message");
+  //   if (arrow) {
+  //     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  //     svg.classList.add(this.setArrowPosition());
+  //     svg.classList.add("monthly-upsell-message__arrow");
+  //     svg.setAttribute("viewBox", "0 0 55 40");
+  //     svg.setAttribute("fill", "none");
+  //     svg.innerHTML = `<path d="M.804 32.388c4.913-1.273 9.461-3.912 14.556-4.458 1-.09 1.183 1.183.728 1.73-.637.727-1.456 1.819-2.365 2.728 2.547.182 4.913 1.092 7.46 1.638 2.366.546 4.73.182 6.914-.637-.546-.546-1-1.183-1.546-1.82-3.64-5.185-5.914-22.198 3.548-23.38 5.368-.729 10.28 6.095 10.553 10.917.364 6.368-3.457 11.736-8.643 14.92 2.184 1.456 4.822 2.184 7.642 2.365 5.914.273 10.1-3.639 12.1-8.915 3.64-9.644.546-22.836-9.825-26.566-.455-.182-.455-.91.09-.91 13.01.182 14.83 19.56 11.555 28.567-3.73 10.28-16.012 12.464-23.745 6.46-.637.273-1.365.636-2.093.819-5.003 1.728-9.461-.728-14.283-1.274.637 1.183 1.273 2.456 2.183 3.548.637.819.091 2.184-1.091 1.82C9.628 38.483 4.624 37.392.44 34.39c-.637-.546-.637-1.82.364-2.002zm29.295 0c1.091-.636 2.183-1.364 3.093-2.183 6.277-5.277 7.187-15.103-.637-19.47-3.64-2.001-5.731 2.457-6.46 5.277-1.091 4.094-.454 8.825 1.274 12.646a19.738 19.738 0 0 0 2.73 3.73zm-19.652 1.183c-.09 0-.182-.182-.182-.273.273-1 1.092-1.82 2.002-2.638-2.911.819-5.64 2.092-8.552 3.002 2.73 1.456 5.732 2.365 8.825 3.275-.546-1-1-2.001-1.82-2.82-.182-.182-.273-.364-.273-.546z" fill="currentColor"/>`;
+  //     arrow.appendChild(svg);
+  //   }
+  // }
+  // Return the arrow position
+  // setArrowPosition() {
+  //   const frequencyWrapper = document.querySelector(
+  //     ".en__field--recurrfreq .en__field__element--radio"
+  //   );
+  //   if (frequencyWrapper) {
+  //     const left = frequencyWrapper.querySelector(
+  //       '.en__field__item:first-child input[value="MONTHLY"]'
+  //     );
+  //     const right = frequencyWrapper.querySelector(
+  //       '.en__field__item:last-child input[value="MONTHLY"]'
+  //     );
+  //     if (left) {
+  //       return "left";
+  //     }
+  //     if (right) {
+  //       return "right";
+  //     }
+  //   }
+  //   return null;
+  // }
+  // Return true if you are in Canada, checking 3 conditions
   // 1 - You are using a Canadian ip address
   // 2 - You choose Canada as your country
   // 3 - Your browser language is en-CA

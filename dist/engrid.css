@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, November 3, 2022 @ 18:20:28 ET
+ *  Date: Wednesday, November 9, 2022 @ 17:03:47 ET
  *  By: bryancasler
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -7083,6 +7083,8 @@ body:not([data-engrid-debug]) #debug-bar{
   --give-by-select__button_count:2;
   --highlight__background-color:#f9f003;
   --highlight__color:#343432;
+  --ran__green:#6a9914;
+  --icon__color:var(--ran__green);
 }
 [data-engrid-theme=engrid-ran2][data-engrid-embedded]{
   --engrid__embedded_body_padding:0 1.5rem;
@@ -7591,6 +7593,7 @@ body:not([data-engrid-debug]) #debug-bar{
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]{
   --fields_spacing-inline:2px;
   --fields_spacing-block:2px;
+  --p_font-size:16px;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]#en__pagebuilder .en__component--row,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]:not(#en__pagebuilder):not([data-engrid-embedded]) .en__component--row{
   background-color:#fff;
@@ -7599,10 +7602,6 @@ body:not([data-engrid-debug]) #debug-bar{
   padding-left:40px;
   padding-right:40px;
   width:430px;
-}
-[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]#en__pagebuilder .monthly-upsell-message p,[data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep]:not(#en__pagebuilder):not([data-engrid-embedded]) .monthly-upsell-message p{
-  max-height:none;
-  overflow:visible;
 }
 @keyframes float{
   0%{
@@ -7739,7 +7738,7 @@ body:not([data-engrid-debug]) #debug-bar{
   transition:background-position-x 1s ease-in-out;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] .monthly-upsell-message svg{
-  color:#6a9924;
+  color:var(--ran__green);
   display:none;
   height:40px;
   opacity:0;
@@ -7830,7 +7829,7 @@ body:not([data-engrid-debug]) #debug-bar{
   font-weight:400;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] form.en__component>.en__component .section-navigation button.section-navigation__previous{
-  color:#6a9924;
+  color:var(--ran__green);
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] form.en__component>.en__component .section-navigation button.section-navigation__previous:before{
   background-color:#eff6fe;
@@ -7867,7 +7866,7 @@ body:not([data-engrid-debug]) #debug-bar{
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] form.en__component>.en__component .section-count{
   bottom:-30px;
-  color:#6a9924;
+  color:var(--ran__green);
   font-size:10px;
   font-stretch:normal;
   font-style:normal;
@@ -7893,7 +7892,7 @@ body:not([data-engrid-debug]) #debug-bar{
   text-align:center;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] h4.title-line{
-  color:#6a9924;
+  color:var(--ran__green);
   font-family:Roboto,sans-serif;
   font-size:14px;
   font-weight:400;
@@ -7910,7 +7909,7 @@ body:not([data-engrid-debug]) #debug-bar{
   padding-right:10px;
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] h4.title-line:before{
-  background-color:#bfe5f5;
+  background-color:var(--ran__green);
   content:" ";
   height:1px;
   left:0;
