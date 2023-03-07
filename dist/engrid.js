@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, December 2, 2022 @ 16:29:25 ET
+ *  Date: Tuesday, March 7, 2023 @ 14:15:37 ET
  *  By: fernando
- *  ENGrid styles: v0.13.19
- *  ENGrid scripts: v0.13.30
+ *  ENGrid styles: v0.13.39
+ *  ENGrid scripts: v0.13.39
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -10340,6 +10340,7 @@ const UpsellOptionsDefaults = {
     canClose: true,
     submitOnClose: false,
     disablePaymentMethods: [],
+    skipUpsell: false,
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/interfaces/translate-options.js
@@ -10398,10 +10399,25 @@ class Loader {
     // Returns true if ENgrid should reload (that means the current ENgrid is not the right one)
     // Returns false if ENgrid should not reload (that means the current ENgrid is the right one)
     reload() {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d;
+        const assets = this.getOption("assets");
         const isLoaded = engrid_ENGrid.getBodyData("loaded");
-        let assets = this.getOption("assets");
+        const shouldSkipCss = this.getOption("engridcss") === "false";
+        const shouldSkipJs = this.getOption("engridjs") === "false";
         if (isLoaded || !assets) {
+            if (shouldSkipCss && this.cssElement) {
+                this.logger.log("engridcss=false | Removing original stylesheet:", this.cssElement);
+                this.cssElement.remove();
+            }
+            if (shouldSkipJs && this.jsElement) {
+                this.logger.log("engridjs=false | Removing original script:", this.jsElement);
+                this.jsElement.remove();
+            }
+            if (shouldSkipJs) {
+                this.logger.log("engridjs=false | Skipping JS load.");
+                this.logger.success("LOADED");
+                return true;
+            }
             this.logger.success("LOADED");
             return false;
         }
@@ -10450,15 +10466,35 @@ class Loader {
                         assets +
                         "/dist/engrid.css";
         }
-        this.setCssFile(engrid_css_url);
-        this.setJsFile(engrid_js_url);
-        (_e = this.jsElement) === null || _e === void 0 ? void 0 : _e.remove();
+        if (shouldSkipCss && this.cssElement) {
+            this.logger.log("engridcss=false | Removing original stylesheet:", this.cssElement);
+            this.cssElement.remove();
+        }
+        if (shouldSkipCss && engrid_css_url && engrid_css_url !== '') {
+            this.logger.log("engridcss=false | Skipping injection of stylesheet:", engrid_css_url);
+        }
+        if (!shouldSkipCss) {
+            this.setCssFile(engrid_css_url);
+        }
+        if (shouldSkipJs && this.jsElement) {
+            this.logger.log("engridjs=false | Removing original script:", this.jsElement);
+            this.jsElement.remove();
+        }
+        if (shouldSkipJs && engrid_js_url && engrid_js_url !== '') {
+            this.logger.log("engridjs=false | Skipping injection of script:", engrid_js_url);
+        }
+        if (!shouldSkipJs) {
+            this.setJsFile(engrid_js_url);
+        }
+        // If custom assets aren't defined, we don't need to reload.
+        if (!assets) {
+            return false;
+        }
         return true;
     }
     getOption(key) {
         const urlParam = engrid_ENGrid.getUrlParameter(key);
-        // Only "assets" can be set in URL
-        if (urlParam && key === "assets") {
+        if (urlParam && ["assets", "engridcss", "engridjs"].includes(key)) {
             return urlParam;
         }
         else if (window.EngridLoader && window.EngridLoader.hasOwnProperty(key)) {
@@ -10470,10 +10506,15 @@ class Loader {
         return null;
     }
     setCssFile(url) {
+        if (url === '') {
+            return;
+        }
         if (this.cssElement) {
+            this.logger.log("Replacing stylesheet:", url);
             this.cssElement.setAttribute("href", url);
         }
         else {
+            this.logger.log("Injecting stylesheet:", url);
             const link = document.createElement("link");
             link.setAttribute("rel", "stylesheet");
             link.setAttribute("type", "text/css");
@@ -10483,6 +10524,10 @@ class Loader {
         }
     }
     setJsFile(url) {
+        if (url === '') {
+            return;
+        }
+        this.logger.log("Injecting script:", url);
         const script = document.createElement("script");
         script.setAttribute("src", url);
         document.head.appendChild(script);
@@ -10569,7 +10614,10 @@ class DonationAmount {
                 }
                 else if (element.name == other) {
                     const cleanedAmount = engrid_ENGrid.cleanAmount(element.value);
-                    element.value = cleanedAmount.toString();
+                    element.value =
+                        cleanedAmount % 1 != 0
+                            ? cleanedAmount.toFixed(2)
+                            : cleanedAmount.toString();
                     this.amount = cleanedAmount;
                 }
             }
@@ -11392,6 +11440,8 @@ class App extends engrid_ENGrid {
         new DataHide();
         // Autosubmit script
         new Autosubmit();
+        // Adjust display of event tickets.
+        new EventTickets();
         // On the end of the script, after all subscribers defined, let's load the current value
         this._amount.load();
         this._frequency.load();
@@ -12540,6 +12590,14 @@ const watchGiveBySelectField = () => {
             enFieldPaymentType.value = "ACH";
         }
         else if (enFieldGiveBySelectCurrentValue &&
+            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "check") {
+            if (enGrid) {
+                removeClassesByPrefix(enGrid, prefix);
+                enGrid.classList.add("has-give-by-check");
+            }
+            enFieldPaymentType.value = "check";
+        }
+        else if (enFieldGiveBySelectCurrentValue &&
             enFieldGiveBySelectCurrentValue.value.toLowerCase() == "paypal") {
             if (enGrid) {
                 removeClassesByPrefix(enGrid, prefix);
@@ -12878,7 +12936,7 @@ class iFrame {
             // Add the data-engrid-embedded attribute when inside an iFrame if it wasn't already added by a script in the Page Template
             engrid_ENGrid.setBodyData("embedded", "");
             // Fire the resize event
-            this.logger.log("First Resize");
+            this.logger.log("iFrame Event - Begin Resizing");
             this.sendIframeHeight();
             // Listen for the resize event
             window.addEventListener("resize", this.sendIframeHeight.bind(this));
@@ -12891,7 +12949,7 @@ class iFrame {
                 }, "*");
                 // On click fire the resize event
                 document.addEventListener("click", (e) => {
-                    this.logger.log("Event - click");
+                    this.logger.log("iFrame Event - click");
                     setTimeout(() => {
                         this.sendIframeHeight();
                     }, 100);
@@ -12899,12 +12957,12 @@ class iFrame {
             });
             // Listen for the form submit event
             this._form.onSubmit.subscribe((e) => {
-                this.logger.log("Event - onSubmit");
+                this.logger.log("iFrame Event - onSubmit");
                 this.sendIframeFormStatus("submit");
             });
             // If the iFrame is Chained, check if the form has data
             if (this.isChained() && this.hasPayment()) {
-                this.logger.log("Chained iFrame");
+                this.logger.log("iFrame Event - Chained iFrame");
                 this.sendIframeFormStatus("chained");
                 this.hideFormComponents();
                 this.addChainedBanner();
@@ -12932,7 +12990,7 @@ class iFrame {
                             left: 0,
                             behavior: "smooth",
                         });
-                        this.logger.log("Scrolling Window To " + scrollTo);
+                        this.logger.log("iFrame Event - Scrolling Window to " + scrollTo);
                     }
                 }
             });
@@ -12940,7 +12998,7 @@ class iFrame {
     }
     sendIframeHeight() {
         let height = document.body.offsetHeight;
-        this.logger.log("Sending iFrame height of: " + height + "px"); // check the message is being sent correctly
+        this.logger.log("iFrame Event - Sending iFrame height of: " + height + "px"); // check the message is being sent correctly
         window.parent.postMessage({
             frameHeight: height,
             pageNumber: engrid_ENGrid.getPageNumber(),
@@ -12995,7 +13053,7 @@ class iFrame {
         return payment || ccnumber;
     }
     hideFormComponents() {
-        this.logger.log("Hiding Form Components");
+        this.logger.log("iFrame Event - Hiding Form Components");
         const en__component = document.querySelectorAll(".body-main > div");
         en__component.forEach((component, index) => {
             if (component.classList.contains("hide") === false &&
@@ -13010,7 +13068,7 @@ class iFrame {
         this.sendIframeHeight();
     }
     showFormComponents() {
-        this.logger.log("Showing Form Components");
+        this.logger.log("iFrame Event - Showing Form Components");
         const en__component = document.querySelectorAll(".body-main > div.hide-chained");
         en__component.forEach((component) => {
             component.classList.remove("hide-iframe");
@@ -13020,7 +13078,7 @@ class iFrame {
     }
     addChainedBanner() {
         var _a, _b;
-        this.logger.log("Adding Chained Banner");
+        this.logger.log("iFrame Event - Adding Chained Banner");
         const banner = document.createElement("div");
         const lastComponent = document.querySelector(".body-main > div:last-of-type");
         banner.classList.add("en__component");
@@ -13408,10 +13466,17 @@ class UpsellLightbox {
         // if it's a first page of a Donation page
         return (
         // !hideModal &&
-        "EngridUpsell" in window &&
+        !this.shouldSkip() &&
+            "EngridUpsell" in window &&
             !!window.pageJson &&
             window.pageJson.pageNumber == 1 &&
             ["donation", "premiumgift"].includes(window.pageJson.pageType));
+    }
+    shouldSkip() {
+        if ("EngridUpsell" in window && window.EngridUpsell.skipUpsell) {
+            return true;
+        }
+        return this.options.skipUpsell;
     }
     popupOtherField() {
         var _a, _b;
@@ -13471,6 +13536,7 @@ class UpsellLightbox {
         // there's no suggestion for this donation amount,
         // we should not open
         if (freq == "onetime" &&
+            !this.shouldSkip() &&
             !this.options.disablePaymentMethods.includes(paymenttype.toLowerCase()) &&
             !this.overlay.classList.contains("is-submitting") &&
             upsellAmount > 0) {
@@ -15331,7 +15397,10 @@ class OtherAmount {
                             otherAmountTransformation: `${amount} => ${cleanAmount}`,
                         });
                     }
-                    target.value = cleanAmount.toString();
+                    target.value =
+                        cleanAmount % 1 != 0
+                            ? cleanAmount.toFixed(2)
+                            : cleanAmount.toString();
                 }
             });
         }
@@ -17224,11 +17293,40 @@ class Autosubmit {
     }
 }
 
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/event-tickets.js
+class EventTickets {
+    constructor() {
+        // --------------------------------------------
+        // Format ticket amounts as currency.
+        const ticketCostElements = document.getElementsByClassName("en__ticket__field--cost");
+        const ticketCurrencyElements = document.getElementsByClassName("en__ticket__currency");
+        for (const ticketCurrencyElement of ticketCurrencyElements) {
+            ticketCurrencyElement.classList.add("en__ticket__currency__hidden");
+        }
+        for (const ticketCostElement of ticketCostElements) {
+            const ticketAmountElement = ticketCostElement.getElementsByClassName("en__ticket__price")[0];
+            const ticketCurrencyElement = ticketCostElement.getElementsByClassName("en__ticket__currency")[0];
+            const formatterOptions = {
+                style: "currency",
+                currency: ticketCurrencyElement.innerText
+            };
+            let ticketAmountAsCurrency = Intl.NumberFormat(undefined, formatterOptions)
+                .format(Number(ticketAmountElement.innerText));
+            if (ticketAmountAsCurrency.slice(-3) === '.00') {
+                ticketAmountAsCurrency = ticketAmountAsCurrency.slice(0, -3);
+            }
+            ticketAmountElement.innerText = ticketAmountAsCurrency;
+        }
+        ;
+    }
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.13.30";
+const AppVersion = "0.13.39";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
+
 
 
 
@@ -17381,7 +17479,7 @@ const options = {
   NeverBounceStatusField: "supporter.NOT_TAGGED_35",
   NeverBounceDateFormat: "YYYYMMDD",
   TidyContact: {
-    cid: 3,
+    cid: "659b7129-73d0-4601-af4c-8942c4730f65",
     // us_zip_divider: "-",
     record_field: "supporter.NOT_TAGGED_41",
     date_field: "supporter.NOT_TAGGED_39",
