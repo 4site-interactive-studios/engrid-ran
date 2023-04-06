@@ -1815,3 +1815,441 @@
     }
   }
 }
+
+/*
+ * ##########################################################
+ * # NEW RAN3 THEME STYLING
+ * ##########################################################
+ */
+[data-engrid-theme="engrid-ran3"] {
+  // PRIMARY COLORS
+  --color_primary: #000000;
+  --color_primary_accent: #f1700b;
+
+  // TYPOGRAPHY DEFAULT
+  --default_font-family: "HarmoniaSansPro", sans-serif;
+  --root_font-size: 1.125rem;
+  --default_font-size: var(--root_font-size);
+  --engrid__body_padding: 0 3.5rem;
+
+  // TYPOGRAPHY H1 AND H2
+  --h1_font-family: "HarmoniaSansPro", sans-serif;
+  --h1_font-size: 3rem;
+  --h1_line-height: 1.2;
+  --h1_font-weight: 900;
+  --h2_font-size: 1.5rem;
+  --h2_font-weight: 700;
+
+  // LABELS
+  --label_font-family: "HarmoniaSansPro", sans-serif;
+  --label_font-size: 0.75rem;
+  --label_font-weight: 500;
+  --label_text-transform: uppercase;
+  --label_letter-spacing: 1.68px;
+
+  // TYPOGRAPHY P
+  --p_font-family: var(--default_font-family);
+
+  // TYPOGRAPHY A
+  --a_font-family: var(--default_font-family);
+  // --a_color: initial;
+  // --a_text-decoration: underline;
+
+  // TYPOGRAPHY A:FOCUS
+  // TYPOGRAPHY A:HOVER
+  // --a_color_hover: var(--a_color);
+  // --a_text-decoration_hover: initial;
+
+  // TYPOGRAPHY INPUT
+  --input_font-family: var(--default_font-family);
+  --input_color: #000000;
+  --input_background-color: var(--white);
+  --input_border-width: 2px;
+  --input_border-color: #000;
+  --input_border-radius: 0;
+  // --checkbox_content_checked: "";
+  // --checkbox_border-width: 2px;
+
+  // TYPOGRAPHY INPUT:FOCUS
+  // TYPOGRAPHY INPUT:HOVER
+  --input_border-color_hover: #000;
+
+  // TYPOGRAPHY RADIO
+  // --radio_content: "";
+  // --radio_color: var(--input_color);
+  // --radio_background-color: var(--input_background-color);
+  --radio_border-width: 2px;
+  // --radio_border-color: var(--input_border-color);
+  // --radio_border-radius: 50%;
+  // --radio_box-shadow: none;
+  // --radio_width: 1.4rem;
+  // --radio_height: 1.4rem;
+  --radio_top: -2px;
+
+  // TYPOGRAPHY RADIO INPUT:FOCUS
+  // TYPOGRAPHY RADIO INPUT:HOVER
+  // --radio_color_hover: var(--radio_color);
+  // --radio_background-color_hover: var(--radio_background-color);
+  // --radio_border-color_hover: var(--input_border-color_hover);
+  // --radio_box-shadow_hover: inset 0 0 0 6px #f5f5f5;
+
+  // TYPOGRAPHY RADIO INPUT:SELECTED
+  // --radio_color_selected: var(--radio_color_hover);
+  --radio_background-color_selected: #f1700b;
+  // --radio_border-color_selected: inset 0 0 0 2px #ffffff;
+  --radio_box-shadow_selected: inset 0 0 0 2px #ffffff;
+
+  // TYPOGRAPHY CHECKBOX
+  // --checkbox_color: var(--color_black);
+  // --checkbox_background-color: var(--radio_background-color);
+  --checkbox_border-width: 2px;
+  // --checkbox_border-color: var(--radio_border-color);
+  // --checkbox_border-radius: var(--input_border-radius);
+  // --checkbox_font-weight: 700;
+  --checkbox_top: -1px;
+  --checkbox_height: 24px;
+  --checkbox_width: 24px;
+  --checkbox_padding-left: 0;
+  --checkbox_padding-top: 6px;
+
+  // TYPOGRAPHY CHECKBOX INPUT:FOCUS
+  // TYPOGRAPHY CHECKBOX INPUT:HOVER
+  // --checkbox_color_hover: var(--checkbox_color);
+  // --checkbox_background-color_hover: var(--radio_background-color_hover);
+  // --checkbox_border-color_hover: var(--radio_border-color_hover);
+
+  // TYPOGRAPHY CHECKBOX INPUT:CHECKED
+  --checkbox_content_checked: url('data:image/svg+xml;utf8,<svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="0.675049" y="5.99976" width="1.38462" height="8.30769" transform="rotate(-45 0.675049 5.99976)" fill="black"/><rect x="16.3459" y="0.125488" width="1.38462" height="15.2308" transform="rotate(45 16.3459 0.125488)" fill="black"/></svg>'); // ✓
+  --checkbox_color_checked: #f1700b;
+  // --checkbox_background-color_checked: var(--radio_background-color_hover);
+  // --checkbox_border-color_checked: var(--color_black);
+
+  // TYPOGRAPHY BUTTON
+  --button_font-family: "Futura", sans-serif;
+  --button_color: var(--color_white);
+  --button_font-size: 1.5rem;
+  --button_font-weight: 900;
+  // --button_background-color: #535b61;
+  --button_border-width: 0;
+  // --button_border-color: var(--color_black);
+  --button_border-radius: 0px;
+  --donation-amount__button_padding: 1.25ch 1.2ch 0.75ch 1.2ch;
+
+  // TYPOGRAPHY BUTTON:HOVER
+  // --button_color_hover: var(--button_color);
+  // --button_background-color_hover: var(--color_black);
+  // --button_border-color_hover: var(--button_background-color_hover);
+
+  // TYPOGRAPHY BUTTON:SELECTED
+  // --button_color_checked: var(--button_color_hover);
+  --button_background-color_checked: var(--color_primary_accent);
+  --donation-amount__button_background-color_checked: var(
+    --color_primary_accent
+  );
+  // --button_border-color_checked: var(--button_border-color_hover);
+
+  // TYPOGRAPHY SUBMIT BUTTON
+  // --submit__button_border-color: var(--button_border-color);
+  --submit__button_background-color: var(--color_primary_accent);
+  // --submit__button_padding-top: 1ch;
+  // --submit__button_padding-bottom: 1ch;
+  --submit__button_font-size: calc(0.05552em * 24);
+
+  // DONATION PAGE
+  --give-monthly-donation-amount-appended-label: "/mo";
+  // --give-annual-donation-amount-appended-label: "/yr";
+  --recurring-frequency__button_count: 3;
+  --donation-amount__button_count: 3;
+  --give-by-select__button_count: 2;
+
+  --highlight__background-color: #f9f003;
+  --highlight__color: #343432;
+  --ran__green: #6a9914;
+  --icon__color: var(--ran__green);
+
+  &[data-engrid-subtheme="multistep"] {
+    /* DONATION AMOUNT BUTTONS */
+    --donation-amount__button_color: #000000;
+    --donation-amount__button_background-color: #e3ecd3;
+    --donation-amount__button_border-color: #e3ecd3;
+    --donation-amount__button_color_hover: #ffffff;
+    --donation-amount__button_background-color_hover: #78a22f;
+    --donation-amount__button_border-color_hover: #78a22f;
+    --donation-amount__button_color_checked: #ffffff;
+    --donation-amount__button_background-color_checked: #78a22f;
+    --donation-amount__button_font-size: 1.4rem;
+    --donation-amount__button_count: 3;
+    --donation-amount__button_padding: 14px 0px 10px;
+
+    /* OTHER AMOUNT FIELD */
+    .radio-to-buttons_donationAmt {
+      .en__field__item.en__field__item--other {
+        flex-basis: 100%;
+        position: relative;
+      }
+
+      .en__field__item--other:before {
+        content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="11" height="20" fill="none" viewBox="0 0 11 20"><path fill="%23000000" d="M10.268 12.176c-.097-.327-.214-.612-.352-.853-.138-.242-.335-.478-.591-.71-.257-.23-.488-.416-.692-.557-.205-.142-.486-.3-.843-.475s-.64-.305-.848-.39c-.208-.086-.51-.203-.904-.352-.35-.134-.61-.236-.782-.307-.17-.07-.396-.17-.675-.301-.279-.13-.487-.246-.625-.346-.137-.1-.284-.223-.44-.368-.157-.145-.267-.3-.33-.463-.063-.164-.095-.343-.095-.536 0-.506.223-.919.67-1.239.446-.32 1.023-.48 1.73-.48.312 0 .63.043.954.129.324.085.6.182.831.29.231.108.449.227.654.357.204.13.35.229.435.296.085.067.14.111.162.134.097.074.197.1.301.078.112-.008.197-.067.257-.179l.904-1.63c.09-.148.07-.29-.056-.423-.044-.045-.1-.097-.167-.157s-.212-.167-.436-.323c-.223-.157-.46-.296-.708-.419-.25-.123-.573-.247-.972-.374-.397-.126-.809-.212-1.233-.256V.357c0-.104-.033-.19-.1-.257C6.25.034 6.164 0 6.06 0H4.553c-.096 0-.18.035-.25.106-.071.07-.107.154-.107.251v2.01c-1.168.222-2.117.72-2.846 1.495-.729.773-1.094 1.674-1.094 2.7 0 .306.032.596.095.87.063.276.142.524.235.743.093.22.225.435.396.648.171.212.333.394.485.546.153.153.352.311.597.475.246.163.456.296.631.396.175.1.408.216.698.346.29.13.519.229.686.296.168.066.396.16.687.278.401.157.7.278.893.363.193.086.439.205.736.357.298.153.515.292.653.419.138.126.262.283.374.469.112.186.168.383.168.591 0 .588-.23 1.042-.687 1.361-.457.32-.988.48-1.59.48-.275 0-.55-.03-.826-.089-.967-.193-1.871-.658-2.712-1.395l-.022-.022c-.067-.082-.157-.115-.268-.1-.12.014-.205.06-.257.134l-1.15 1.506c-.111.149-.104.302.023.458.037.044.102.112.195.2.093.09.266.23.52.42.252.19.527.368.825.535.298.168.675.333 1.133.497.458.163.932.279 1.423.346v1.953c0 .097.035.18.106.251.07.07.154.106.251.106h1.507c.104 0 .19-.033.257-.1s.1-.153.1-.257V17.69c1.183-.194 2.145-.702 2.885-1.524.74-.822 1.11-1.802 1.11-2.94 0-.373-.048-.722-.146-1.05z"/></svg>');
+        font-size: 20px;
+        font-weight: 700;
+        height: 20px;
+        left: 19px;
+        line-height: 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 11px;
+      }
+
+      .en__field__item--other:after {
+        color: #000000;
+        content: "USD";
+        display: block;
+        font-size: 12px;
+        font-weight: bold;
+        height: 0;
+        line-height: 0;
+        position: absolute;
+        right: 21px;
+        top: 50%;
+      }
+
+      .en__field__item--other input {
+        padding: 16px 58px 10px 39px;
+        background-color: #e3ecd3;
+        color: #000000;
+        box-shadow: none;
+      }
+
+      .en__field--withOther--active
+        .en__field__item
+        input.en__field__input--other {
+        background-color: #e3ecd3;
+        color: #000000;
+        border-color: #e3ecd3;
+      }
+
+      .en__field__label--item:after {
+        font-size: 40% !important;
+        align-self: center;
+        margin-left: 0 !important;
+        letter-spacing: -1px;
+      }
+    }
+
+    /* RECURRING FREQUENCY BUTTONS */
+    --recurring-frequency__button_color: #000000;
+    --recurring-frequency__button_background-color: #e3ecd3;
+    --recurring-frequency__button_border-color: #e3ecd3;
+    --recurring-frequency__button_color_hover: #ffffff;
+    --recurring-frequency__button_background-color_hover: #78a22f;
+    --recurring-frequency__button_border-color_hover: #78a22f;
+    --recurring-frequency__button_color_checked: #ffffff;
+    --recurring-frequency__button_background-color_checked: #78a22f;
+    --recurring-frequency__button_border-color_checked: #78a22f;
+    //--recurring-frequency__button_font-family: "HarmoniaSansPro", sans-serif;
+    --recurring-frequency__button_font-size: 1rem;
+    --recurring-frequency__button_count: 2;
+    --recurring-frequency__button_padding: 20px 14px;
+
+    .radio-to-buttons_recurrfreq
+      .en__field--recurrfreq
+      .en__field__item:last-of-type
+      label {
+      position: relative;
+      &:after {
+        content: url('data:image/svg+xml;utf8,<svg width="55" height="40" viewBox="0 0 55 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.80373 32.3883C5.71656 31.1148 10.2653 28.4764 15.3603 27.9304C16.3609 27.8395 16.543 29.1131 16.0881 29.6591C15.4514 30.3869 14.6324 31.4785 13.7227 32.3883C16.2702 32.5704 18.6356 33.48 21.183 34.0261C23.5485 34.5719 25.9139 34.208 28.0972 33.3892C27.5514 32.8433 27.0966 32.2065 26.5506 31.5697C22.9116 26.3839 20.6372 9.37092 30.0988 8.1882C35.4665 7.46038 40.3793 14.2838 40.6523 19.1056C41.0162 25.4741 37.1951 30.8418 32.0093 34.0261C34.1928 35.4817 36.8312 36.2096 39.6515 36.3914C45.5651 36.6644 49.7501 32.7524 51.7516 27.4755C55.3906 17.8318 52.2974 4.6399 41.9258 0.909784C41.4709 0.727828 41.4709 0 42.0168 0C55.0267 0.181957 56.8463 19.5604 53.5711 28.5672C49.8409 38.8478 37.5589 41.0314 29.8257 35.0267C29.1888 35.2996 28.461 35.6635 27.7332 35.8455C22.7295 37.5741 18.2716 35.1177 13.4497 34.5719C14.0866 35.7547 14.7234 37.0282 15.6332 38.1201C16.2701 38.9389 15.7242 40.3036 14.5415 39.9395C9.62863 38.4839 4.62482 37.3921 0.439816 34.3898C-0.197182 33.844 -0.197182 32.5704 0.80373 32.3883ZM30.0986 32.3883C31.1904 31.7515 32.2821 31.0236 33.1919 30.2048C39.4694 24.9281 40.3792 15.1024 32.555 10.7355C28.9159 8.73393 26.8236 13.1919 26.0956 16.0122C25.0038 20.1062 25.6407 24.8371 27.3693 28.6582C28.1881 30.1138 29.0979 31.2966 30.0986 32.3883ZM10.4474 33.571C10.3565 33.571 10.2653 33.3891 10.2653 33.2981C10.5383 32.2973 11.3572 31.4785 12.2669 30.6597C9.35555 31.4785 6.62635 32.7522 3.71503 33.662C6.44424 35.1177 9.44668 36.0274 12.5398 36.9372C11.9939 35.9365 11.5392 34.9356 10.7204 34.1168C10.5383 33.9349 10.4474 33.753 10.4474 33.571Z" fill="black"/></svg> ');
+        position: absolute;
+        right: -35px;
+        top: -3px;
+      }
+    }
+
+    /* GENERIC BUTTONS */
+    --button_color: #ffffff;
+    --button_font-size: 1.5rem;
+    --button_font-weight: 900;
+    --button_background-color: #f1700b;
+    --button_border-width: 0;
+    --button_border-radius: 0px;
+
+    /* GENERIC INPUT STYLES */
+    --fields_spacing-inline: 3px;
+    --fields_spacing-block: 3px;
+    --input_padding: 9px 10px 6px;
+    --input_font-size: 18px;
+    --checkbox_font-size: 14px;
+    --checkbox_color_checked: #000;
+
+    /* EMBEDDED SECTIONS STYLING */
+    height: 100vh;
+    form.en__component {
+      margin: 0 auto;
+      display: grid;
+      grid-auto-flow: column;
+
+      & > .en__component {
+        height: 100vh;
+        width: 350px;
+        padding: 45px 40px;
+
+        & > .en__component {
+          height: 100%;
+        }
+      }
+
+      .en__component--row
+        > .en__component--column
+        .en__component:first-of-type
+        > *:first-child {
+        margin-top: 0;
+        padding-top: 0;
+      }
+
+      .en__component--row
+        > .en__component--column
+        .en__component:last-of-type
+        > *:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+    /* END EMBEDDED SECTIONS STYLING */
+
+    /* FURTHER CUSTOMISATIONS */
+    .en__field--recurrfreq > .en__field__label,
+    .en__field--donationAmt > .en__field__label {
+      display: none;
+    }
+
+    .engrid-currency-symbol {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-right: -2px;
+      margin-top: 3px;
+    }
+
+    .en__field--donationAmt .en__field__label--item {
+      align-items: flex-start;
+    }
+
+    .en__component--column--1 h1 {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-count {
+      position: absolute;
+      right: 0;
+      bottom: -30px;
+      font-size: 10px;
+      font-stretch: normal;
+      font-style: normal;
+      letter-spacing: 0.84px;
+      color: black;
+      span {
+        font-weight: bold;
+      }
+    }
+
+    .credit-card-flags {
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    &[data-engrid-transaction-recurring-frequency="onetime"] {
+      .monthly-upsell-message p {
+        max-height: 100px;
+      }
+    }
+
+    .monthly-upsell-message p {
+      font-family: "Kalam", cursive;
+      line-height: 20px;
+      font-size: 16px;
+      max-height: 0;
+      overflow: hidden;
+      margin-top: 5px;
+      padding: 0;
+      transition: max-height 0.2s ease-in-out;
+    }
+
+    .en__submit {
+      display: none;
+    }
+
+    /* SECTION NAVIGATION */
+    .section-navigation {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      button {
+        position: relative;
+        height: 50px;
+        min-width: 60px;
+        padding: 0 12px;
+        border-radius: var(--button_border-radius);
+        color: var(--button_color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-family: "Roboto", sans-serif;
+        font-size: 20px;
+        font-weight: var(--button_font-weight);
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: 0.84px;
+        margin-bottom: 0;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        small {
+          font-size: 10px;
+          font-weight: 400;
+        }
+        &.section-navigation__previous {
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: var(--button_background-color);
+            opacity: 0.3;
+            transition: opacity 0.2s;
+          }
+          &:hover {
+            &::before {
+              opacity: 0.5;
+            }
+          }
+        }
+
+        &.section-navigation__submit,
+        &.section-navigation__next {
+          background-color: var(--button_background-color);
+          opacity: 1;
+          width: 190px;
+          svg {
+            transition: 0.3s transform ease-in-out;
+            transform: translateX(15px);
+          }
+          &:hover {
+            background-color: var(--button_background-color);
+            svg {
+              transform: translateX(30px);
+            }
+          }
+        }
+        &[data-section-id="0"] {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
