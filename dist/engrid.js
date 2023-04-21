@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, April 6, 2023 @ 13:54:04 ET
- *  By: fernando
- *  ENGrid styles: v0.13.52
- *  ENGrid scripts: v0.13.52
+ *  Date: Wednesday, April 19, 2023 @ 08:50:19 ET
+ *  By: michael
+ *  ENGrid styles: v0.13.13
+ *  ENGrid scripts: v0.13.15
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -2594,6 +2594,443 @@ module.exports = self;
 		module.exports=self;
 	} else {}
 }.call(this));
+
+
+/***/ }),
+
+/***/ 523:
+/***/ ((module) => {
+
+/* smoothscroll v0.4.4 - 2019 - Dustan Kasten, Jeremias Menichelli - MIT License */
+(function () {
+  'use strict';
+
+  // polyfill
+  function polyfill() {
+    // aliases
+    var w = window;
+    var d = document;
+
+    // return if scroll behavior is supported and polyfill is not forced
+    if (
+      'scrollBehavior' in d.documentElement.style &&
+      w.__forceSmoothScrollPolyfill__ !== true
+    ) {
+      return;
+    }
+
+    // globals
+    var Element = w.HTMLElement || w.Element;
+    var SCROLL_TIME = 468;
+
+    // object gathering original scroll methods
+    var original = {
+      scroll: w.scroll || w.scrollTo,
+      scrollBy: w.scrollBy,
+      elementScroll: Element.prototype.scroll || scrollElement,
+      scrollIntoView: Element.prototype.scrollIntoView
+    };
+
+    // define timing method
+    var now =
+      w.performance && w.performance.now
+        ? w.performance.now.bind(w.performance)
+        : Date.now;
+
+    /**
+     * indicates if a the current browser is made by Microsoft
+     * @method isMicrosoftBrowser
+     * @param {String} userAgent
+     * @returns {Boolean}
+     */
+    function isMicrosoftBrowser(userAgent) {
+      var userAgentPatterns = ['MSIE ', 'Trident/', 'Edge/'];
+
+      return new RegExp(userAgentPatterns.join('|')).test(userAgent);
+    }
+
+    /*
+     * IE has rounding bug rounding down clientHeight and clientWidth and
+     * rounding up scrollHeight and scrollWidth causing false positives
+     * on hasScrollableSpace
+     */
+    var ROUNDING_TOLERANCE = isMicrosoftBrowser(w.navigator.userAgent) ? 1 : 0;
+
+    /**
+     * changes scroll position inside an element
+     * @method scrollElement
+     * @param {Number} x
+     * @param {Number} y
+     * @returns {undefined}
+     */
+    function scrollElement(x, y) {
+      this.scrollLeft = x;
+      this.scrollTop = y;
+    }
+
+    /**
+     * returns result of applying ease math function to a number
+     * @method ease
+     * @param {Number} k
+     * @returns {Number}
+     */
+    function ease(k) {
+      return 0.5 * (1 - Math.cos(Math.PI * k));
+    }
+
+    /**
+     * indicates if a smooth behavior should be applied
+     * @method shouldBailOut
+     * @param {Number|Object} firstArg
+     * @returns {Boolean}
+     */
+    function shouldBailOut(firstArg) {
+      if (
+        firstArg === null ||
+        typeof firstArg !== 'object' ||
+        firstArg.behavior === undefined ||
+        firstArg.behavior === 'auto' ||
+        firstArg.behavior === 'instant'
+      ) {
+        // first argument is not an object/null
+        // or behavior is auto, instant or undefined
+        return true;
+      }
+
+      if (typeof firstArg === 'object' && firstArg.behavior === 'smooth') {
+        // first argument is an object and behavior is smooth
+        return false;
+      }
+
+      // throw error when behavior is not supported
+      throw new TypeError(
+        'behavior member of ScrollOptions ' +
+          firstArg.behavior +
+          ' is not a valid value for enumeration ScrollBehavior.'
+      );
+    }
+
+    /**
+     * indicates if an element has scrollable space in the provided axis
+     * @method hasScrollableSpace
+     * @param {Node} el
+     * @param {String} axis
+     * @returns {Boolean}
+     */
+    function hasScrollableSpace(el, axis) {
+      if (axis === 'Y') {
+        return el.clientHeight + ROUNDING_TOLERANCE < el.scrollHeight;
+      }
+
+      if (axis === 'X') {
+        return el.clientWidth + ROUNDING_TOLERANCE < el.scrollWidth;
+      }
+    }
+
+    /**
+     * indicates if an element has a scrollable overflow property in the axis
+     * @method canOverflow
+     * @param {Node} el
+     * @param {String} axis
+     * @returns {Boolean}
+     */
+    function canOverflow(el, axis) {
+      var overflowValue = w.getComputedStyle(el, null)['overflow' + axis];
+
+      return overflowValue === 'auto' || overflowValue === 'scroll';
+    }
+
+    /**
+     * indicates if an element can be scrolled in either axis
+     * @method isScrollable
+     * @param {Node} el
+     * @param {String} axis
+     * @returns {Boolean}
+     */
+    function isScrollable(el) {
+      var isScrollableY = hasScrollableSpace(el, 'Y') && canOverflow(el, 'Y');
+      var isScrollableX = hasScrollableSpace(el, 'X') && canOverflow(el, 'X');
+
+      return isScrollableY || isScrollableX;
+    }
+
+    /**
+     * finds scrollable parent of an element
+     * @method findScrollableParent
+     * @param {Node} el
+     * @returns {Node} el
+     */
+    function findScrollableParent(el) {
+      while (el !== d.body && isScrollable(el) === false) {
+        el = el.parentNode || el.host;
+      }
+
+      return el;
+    }
+
+    /**
+     * self invoked function that, given a context, steps through scrolling
+     * @method step
+     * @param {Object} context
+     * @returns {undefined}
+     */
+    function step(context) {
+      var time = now();
+      var value;
+      var currentX;
+      var currentY;
+      var elapsed = (time - context.startTime) / SCROLL_TIME;
+
+      // avoid elapsed times higher than one
+      elapsed = elapsed > 1 ? 1 : elapsed;
+
+      // apply easing to elapsed time
+      value = ease(elapsed);
+
+      currentX = context.startX + (context.x - context.startX) * value;
+      currentY = context.startY + (context.y - context.startY) * value;
+
+      context.method.call(context.scrollable, currentX, currentY);
+
+      // scroll more if we have not reached our destination
+      if (currentX !== context.x || currentY !== context.y) {
+        w.requestAnimationFrame(step.bind(w, context));
+      }
+    }
+
+    /**
+     * scrolls window or element with a smooth behavior
+     * @method smoothScroll
+     * @param {Object|Node} el
+     * @param {Number} x
+     * @param {Number} y
+     * @returns {undefined}
+     */
+    function smoothScroll(el, x, y) {
+      var scrollable;
+      var startX;
+      var startY;
+      var method;
+      var startTime = now();
+
+      // define scroll context
+      if (el === d.body) {
+        scrollable = w;
+        startX = w.scrollX || w.pageXOffset;
+        startY = w.scrollY || w.pageYOffset;
+        method = original.scroll;
+      } else {
+        scrollable = el;
+        startX = el.scrollLeft;
+        startY = el.scrollTop;
+        method = scrollElement;
+      }
+
+      // scroll looping over a frame
+      step({
+        scrollable: scrollable,
+        method: method,
+        startTime: startTime,
+        startX: startX,
+        startY: startY,
+        x: x,
+        y: y
+      });
+    }
+
+    // ORIGINAL METHODS OVERRIDES
+    // w.scroll and w.scrollTo
+    w.scroll = w.scrollTo = function() {
+      // avoid action when no arguments are passed
+      if (arguments[0] === undefined) {
+        return;
+      }
+
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0]) === true) {
+        original.scroll.call(
+          w,
+          arguments[0].left !== undefined
+            ? arguments[0].left
+            : typeof arguments[0] !== 'object'
+              ? arguments[0]
+              : w.scrollX || w.pageXOffset,
+          // use top prop, second argument if present or fallback to scrollY
+          arguments[0].top !== undefined
+            ? arguments[0].top
+            : arguments[1] !== undefined
+              ? arguments[1]
+              : w.scrollY || w.pageYOffset
+        );
+
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      smoothScroll.call(
+        w,
+        d.body,
+        arguments[0].left !== undefined
+          ? ~~arguments[0].left
+          : w.scrollX || w.pageXOffset,
+        arguments[0].top !== undefined
+          ? ~~arguments[0].top
+          : w.scrollY || w.pageYOffset
+      );
+    };
+
+    // w.scrollBy
+    w.scrollBy = function() {
+      // avoid action when no arguments are passed
+      if (arguments[0] === undefined) {
+        return;
+      }
+
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0])) {
+        original.scrollBy.call(
+          w,
+          arguments[0].left !== undefined
+            ? arguments[0].left
+            : typeof arguments[0] !== 'object' ? arguments[0] : 0,
+          arguments[0].top !== undefined
+            ? arguments[0].top
+            : arguments[1] !== undefined ? arguments[1] : 0
+        );
+
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      smoothScroll.call(
+        w,
+        d.body,
+        ~~arguments[0].left + (w.scrollX || w.pageXOffset),
+        ~~arguments[0].top + (w.scrollY || w.pageYOffset)
+      );
+    };
+
+    // Element.prototype.scroll and Element.prototype.scrollTo
+    Element.prototype.scroll = Element.prototype.scrollTo = function() {
+      // avoid action when no arguments are passed
+      if (arguments[0] === undefined) {
+        return;
+      }
+
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0]) === true) {
+        // if one number is passed, throw error to match Firefox implementation
+        if (typeof arguments[0] === 'number' && arguments[1] === undefined) {
+          throw new SyntaxError('Value could not be converted');
+        }
+
+        original.elementScroll.call(
+          this,
+          // use left prop, first number argument or fallback to scrollLeft
+          arguments[0].left !== undefined
+            ? ~~arguments[0].left
+            : typeof arguments[0] !== 'object' ? ~~arguments[0] : this.scrollLeft,
+          // use top prop, second argument or fallback to scrollTop
+          arguments[0].top !== undefined
+            ? ~~arguments[0].top
+            : arguments[1] !== undefined ? ~~arguments[1] : this.scrollTop
+        );
+
+        return;
+      }
+
+      var left = arguments[0].left;
+      var top = arguments[0].top;
+
+      // LET THE SMOOTHNESS BEGIN!
+      smoothScroll.call(
+        this,
+        this,
+        typeof left === 'undefined' ? this.scrollLeft : ~~left,
+        typeof top === 'undefined' ? this.scrollTop : ~~top
+      );
+    };
+
+    // Element.prototype.scrollBy
+    Element.prototype.scrollBy = function() {
+      // avoid action when no arguments are passed
+      if (arguments[0] === undefined) {
+        return;
+      }
+
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0]) === true) {
+        original.elementScroll.call(
+          this,
+          arguments[0].left !== undefined
+            ? ~~arguments[0].left + this.scrollLeft
+            : ~~arguments[0] + this.scrollLeft,
+          arguments[0].top !== undefined
+            ? ~~arguments[0].top + this.scrollTop
+            : ~~arguments[1] + this.scrollTop
+        );
+
+        return;
+      }
+
+      this.scroll({
+        left: ~~arguments[0].left + this.scrollLeft,
+        top: ~~arguments[0].top + this.scrollTop,
+        behavior: arguments[0].behavior
+      });
+    };
+
+    // Element.prototype.scrollIntoView
+    Element.prototype.scrollIntoView = function() {
+      // avoid smooth behavior if not required
+      if (shouldBailOut(arguments[0]) === true) {
+        original.scrollIntoView.call(
+          this,
+          arguments[0] === undefined ? true : arguments[0]
+        );
+
+        return;
+      }
+
+      // LET THE SMOOTHNESS BEGIN!
+      var scrollableParent = findScrollableParent(this);
+      var parentRects = scrollableParent.getBoundingClientRect();
+      var clientRects = this.getBoundingClientRect();
+
+      if (scrollableParent !== d.body) {
+        // reveal element inside parent
+        smoothScroll.call(
+          this,
+          scrollableParent,
+          scrollableParent.scrollLeft + clientRects.left - parentRects.left,
+          scrollableParent.scrollTop + clientRects.top - parentRects.top
+        );
+
+        // reveal parent in viewport unless is fixed
+        if (w.getComputedStyle(scrollableParent).position !== 'fixed') {
+          w.scrollBy({
+            left: parentRects.left,
+            top: parentRects.top,
+            behavior: 'smooth'
+          });
+        }
+      } else {
+        // reveal element in viewport
+        w.scrollBy({
+          left: clientRects.left,
+          top: clientRects.top,
+          behavior: 'smooth'
+        });
+      }
+    };
+  }
+
+  if (true) {
+    // commonjs
+    module.exports = { polyfill: polyfill };
+  } else {}
+
+}());
 
 
 /***/ }),
@@ -10205,6 +10642,18 @@ tippy.setDefaultProps({
 /******/ 		__webpack_require__.amdO = {};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -10302,7 +10751,6 @@ const OptionsDefaults = {
     NeverBounceDateField: null,
     NeverBounceStatusField: null,
     NeverBounceDateFormat: "MM/DD/YYYY",
-    FreshAddress: false,
     ProgressBar: false,
     AutoYear: false,
     TranslateFields: true,
@@ -10310,16 +10758,6 @@ const OptionsDefaults = {
     RememberMe: false,
     TidyContact: false,
     RegionLongFormat: "",
-    CountryDisable: [],
-    PageLayouts: [
-        "leftleft1col",
-        "centerleft1col",
-        "centercenter1col",
-        "centercenter2col",
-        "centerright1col",
-        "rightright1col",
-        "none",
-    ],
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/interfaces/upsell-options.js
@@ -10350,8 +10788,6 @@ const UpsellOptionsDefaults = {
     minAmount: 0,
     canClose: true,
     submitOnClose: false,
-    disablePaymentMethods: [],
-    skipUpsell: false,
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/interfaces/translate-options.js
@@ -10410,29 +10846,10 @@ class Loader {
     // Returns true if ENgrid should reload (that means the current ENgrid is not the right one)
     // Returns false if ENgrid should not reload (that means the current ENgrid is the right one)
     reload() {
-        var _a, _b, _c, _d;
-        const assets = this.getOption("assets");
+        var _a, _b, _c, _d, _e;
         const isLoaded = engrid_ENGrid.getBodyData("loaded");
-        let shouldSkipCss = this.getOption("engridcss") === "false";
-        let shouldSkipJs = this.getOption("engridjs") === "false";
+        let assets = this.getOption("assets");
         if (isLoaded || !assets) {
-            if (shouldSkipCss && this.cssElement) {
-                this.logger.log("engridcss=false | Removing original stylesheet:", this.cssElement);
-                this.cssElement.remove();
-            }
-            if (shouldSkipJs && this.jsElement) {
-                this.logger.log("engridjs=false | Removing original script:", this.jsElement);
-                this.jsElement.remove();
-            }
-            if (shouldSkipCss) {
-                this.logger.log("engridcss=false | adding top banner CSS");
-                this.addENgridCSSUnloadedCSS();
-            }
-            if (shouldSkipJs) {
-                this.logger.log("engridjs=false | Skipping JS load.");
-                this.logger.success("LOADED");
-                return true;
-            }
             this.logger.success("LOADED");
             return false;
         }
@@ -10481,39 +10898,15 @@ class Loader {
                         assets +
                         "/dist/engrid.css";
         }
-        if (shouldSkipCss && this.cssElement) {
-            this.logger.log("engridcss=false | Removing original stylesheet:", this.cssElement);
-            this.cssElement.remove();
-        }
-        if (shouldSkipCss && engrid_css_url && engrid_css_url !== "") {
-            this.logger.log("engridcss=false | Skipping injection of stylesheet:", engrid_css_url);
-        }
-        if (shouldSkipCss) {
-            this.logger.log("engridcss=false | adding top banner CSS");
-            this.addENgridCSSUnloadedCSS();
-        }
-        else {
-            this.setCssFile(engrid_css_url);
-        }
-        if (shouldSkipJs && this.jsElement) {
-            this.logger.log("engridjs=false | Removing original script:", this.jsElement);
-            this.jsElement.remove();
-        }
-        if (shouldSkipJs && engrid_js_url && engrid_js_url !== "") {
-            this.logger.log("engridjs=false | Skipping injection of script:", engrid_js_url);
-        }
-        if (!shouldSkipJs) {
-            this.setJsFile(engrid_js_url);
-        }
-        // If custom assets aren't defined, we don't need to reload.
-        if (!assets) {
-            return false;
-        }
+        this.setCssFile(engrid_css_url);
+        this.setJsFile(engrid_js_url);
+        (_e = this.jsElement) === null || _e === void 0 ? void 0 : _e.remove();
         return true;
     }
     getOption(key) {
         const urlParam = engrid_ENGrid.getUrlParameter(key);
-        if (urlParam && ["assets", "engridcss", "engridjs"].includes(key)) {
+        // Only "assets" can be set in URL
+        if (urlParam && key === "assets") {
             return urlParam;
         }
         else if (window.EngridLoader && window.EngridLoader.hasOwnProperty(key)) {
@@ -10525,15 +10918,10 @@ class Loader {
         return null;
     }
     setCssFile(url) {
-        if (url === "") {
-            return;
-        }
         if (this.cssElement) {
-            this.logger.log("Replacing stylesheet:", url);
             this.cssElement.setAttribute("href", url);
         }
         else {
-            this.logger.log("Injecting stylesheet:", url);
             const link = document.createElement("link");
             link.setAttribute("rel", "stylesheet");
             link.setAttribute("type", "text/css");
@@ -10543,50 +10931,9 @@ class Loader {
         }
     }
     setJsFile(url) {
-        if (url === "") {
-            return;
-        }
-        this.logger.log("Injecting script:", url);
         const script = document.createElement("script");
         script.setAttribute("src", url);
         document.head.appendChild(script);
-    }
-    addENgridCSSUnloadedCSS() {
-        document.body.insertAdjacentHTML("beforeend", `<style>
-        html,
-        body {
-            background-color: #ffffff;
-        }
-
-        body {
-            opacity: 1;
-            margin: 0;
-        }
-
-        body:before {
-            content: "ENGRID CSS UNLOADED";
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            background-color: #ffff00;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            font-family: sans-serif;
-            font-weight: 600;
-        }
-
-        .en__component--advrow {
-            flex-direction: column;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .en__component--advrow * {
-            max-width: 100%;
-            height: auto;
-        }
-      </style>`);
     }
 }
 
@@ -10670,10 +11017,7 @@ class DonationAmount {
                 }
                 else if (element.name == other) {
                     const cleanedAmount = engrid_ENGrid.cleanAmount(element.value);
-                    element.value =
-                        cleanedAmount % 1 != 0
-                            ? cleanedAmount.toFixed(2)
-                            : cleanedAmount.toString();
+                    element.value = cleanedAmount.toString();
                     this.amount = cleanedAmount;
                 }
             }
@@ -10768,9 +11112,6 @@ class engrid_ENGrid {
     static get debug() {
         return !!this.getOption("Debug");
     }
-    static get demo() {
-        return this.getUrlParameter("mode") === "DEMO";
-    }
     // Return any parameter from the URL
     static getUrlParameter(name) {
         const searchParams = new URLSearchParams(window.location.search);
@@ -10800,7 +11141,7 @@ class engrid_ENGrid {
         return new FormData(this.enForm).getAll(name).join(",");
     }
     // Set a value to any field. If it's a dropdown, radio or checkbox, it selects the proper option matching the value
-    static setFieldValue(name, value, parseENDependencies = true, dispatchEvents = false) {
+    static setFieldValue(name, value, parseENDependencies = true) {
         if (value === engrid_ENGrid.getFieldValue(name))
             return;
         document.getElementsByName(name).forEach((field) => {
@@ -10811,29 +11152,20 @@ class engrid_ENGrid {
                         for (const option of field.options) {
                             if (option.value == value) {
                                 option.selected = true;
-                                if (dispatchEvents) {
-                                    field.dispatchEvent(new Event("change", { bubbles: true }));
-                                }
                             }
                         }
                         break;
                     case "checkbox":
                     case "radio":
+                        // @TODO: Try to trigger the onChange event
                         if (field.value == value) {
                             field.checked = true;
-                            if (dispatchEvents) {
-                                field.dispatchEvent(new Event("change", { bubbles: true }));
-                            }
                         }
                         break;
                     case "textarea":
                     case "text":
                     default:
                         field.value = value;
-                        if (dispatchEvents) {
-                            field.dispatchEvent(new Event("change", { bubbles: true }));
-                            field.dispatchEvent(new Event("blur", { bubbles: true }));
-                        }
                 }
                 field.setAttribute("engrid-value-changed", "");
             }
@@ -10915,16 +11247,6 @@ class engrid_ENGrid {
             return window.pageJson.campaignPageId;
         return 0;
     }
-    // Return the client ID
-    static getClientID() {
-        if ("pageJson" in window)
-            return window.pageJson.clientId;
-        return 0;
-    }
-    //returns 'us or 'ca' based on the client ID
-    static getDataCenter() {
-        return engrid_ENGrid.getClientID() >= 10000 ? "us" : "ca";
-    }
     // Return the current page type
     static getPageType() {
         if ("pageJson" in window && "pageType" in window.pageJson) {
@@ -10954,9 +11276,6 @@ class engrid_ENGrid {
                     break;
                 case "unsubscribe":
                     return "UNSUBSCRIBE";
-                    break;
-                case "tweetpage":
-                    return "TWEETPAGE";
                     break;
                 default:
                     return "UNKNOWN";
@@ -10996,10 +11315,10 @@ class engrid_ENGrid {
         scriptTag.src = url;
         scriptTag.onload = onload;
         if (head) {
-            document.head.appendChild(scriptTag);
+            document.getElementsByTagName("head")[0].appendChild(scriptTag);
             return;
         }
-        document.body.appendChild(scriptTag);
+        document.getElementsByTagName("body")[0].appendChild(scriptTag);
         return;
     }
     // Format a number
@@ -11166,38 +11485,6 @@ class engrid_ENGrid {
             return currencyField.value || "USD";
         }
         return engrid_ENGrid.getOption("CurrencyCode") || "USD";
-    }
-    static addHtml(html, target = "body", position = "before") {
-        var _a, _b;
-        const targetElement = document.querySelector(target);
-        if (typeof html === "object") {
-            html = html.outerHTML;
-        }
-        if (targetElement) {
-            const htmlElement = document.createRange().createContextualFragment(html);
-            if (position === "before") {
-                (_a = targetElement.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(htmlElement, targetElement);
-            }
-            else {
-                (_b = targetElement.parentNode) === null || _b === void 0 ? void 0 : _b.insertBefore(htmlElement, targetElement.nextSibling);
-            }
-        }
-    }
-    static removeHtml(target) {
-        const targetElement = document.querySelector(target);
-        if (targetElement) {
-            targetElement.remove();
-        }
-    }
-    static slugify(text) {
-        return text
-            .toString()
-            .toLowerCase()
-            .replace(/\s+/g, "-") // Replace spaces with -
-            .replace(/[^\w\-]+/g, "") // Remove all non-word chars
-            .replace(/\-\-+/g, "-") // Replace multiple - with single -
-            .replace(/^-+/, "") // Trim - from start of text
-            .replace(/-+$/, ""); // Trim - from end of text
     }
 }
 
@@ -11515,7 +11802,6 @@ class App extends engrid_ENGrid {
                 return false;
             if (this._form.submitPromise)
                 return this._form.submitPromise;
-            this.logger.success("enOnSubmit Success");
             return true;
         };
         window.enOnError = () => {
@@ -11529,7 +11815,6 @@ class App extends engrid_ENGrid {
                 return false;
             if (this._form.validatePromise)
                 return this._form.validatePromise;
-            this.logger.success("Validation Passed");
             return true;
         };
         // Live Currency
@@ -11548,12 +11833,6 @@ class App extends engrid_ENGrid {
         new DataReplace();
         // ENgrid Hide Script
         new DataHide();
-        // Autosubmit script
-        new Autosubmit();
-        // Adjust display of event tickets.
-        new EventTickets();
-        // Swap Amounts
-        new SwapAmounts();
         // On the end of the script, after all subscribers defined, let's load the current value
         this._amount.load();
         this._frequency.load();
@@ -11592,14 +11871,10 @@ class App extends engrid_ENGrid {
             new RememberMe(this.options.RememberMe);
         if (this.options.NeverBounceAPI)
             new NeverBounce(this.options.NeverBounceAPI, this.options.NeverBounceDateField, this.options.NeverBounceStatusField, this.options.NeverBounceDateFormat);
-        // FreshAddress
-        if (this.options.FreshAddress)
-            new FreshAddress();
         new ShowIfAmount();
         new OtherAmount();
         new MinMaxAmount();
         new Ticker();
-        new A11y();
         new AddNameToMessage();
         new ExpandRegionName();
         // Page Background
@@ -11608,30 +11883,15 @@ class App extends engrid_ENGrid {
         new UrlToForm();
         // Required if Visible Fields
         new RequiredIfVisible();
-        //Debug hidden fields
-        if (this.options.Debug)
-            new DebugHiddenFields();
         // TidyContact
         if (this.options.TidyContact)
             new TidyContact();
         // Translate Fields
         if (this.options.TranslateFields)
             new TranslateFields();
-        // Country Disable
-        new CountryDisable();
-        // Premium Gift Features
-        new PremiumGift();
         // Data Layer Events
         new DataLayer();
         this.setDataAttributes();
-        //Debug panel
-        if (this.options.Debug ||
-            window.sessionStorage.hasOwnProperty(DebugPanel.debugSessionStorageKey)) {
-            new DebugPanel(this.options.PageLayouts);
-        }
-        if (engrid_ENGrid.getUrlParameter("development") === "branding") {
-            new BrandingHtml().show();
-        }
         engrid_ENGrid.setBodyData("data-engrid-scripts-js-loading", "finished");
         window.EngridVersion = AppVersion;
         this.logger.success(`VERSION: ${AppVersion}`);
@@ -11659,11 +11919,6 @@ class App extends engrid_ENGrid {
         }
     }
     onError() {
-        // Smooth Scroll to the first .en__field--validationFailed element
-        const firstError = document.querySelector(".en__field--validationFailed");
-        if (firstError) {
-            firstError.scrollIntoView({ behavior: "smooth" });
-        }
         if (this.options.onError) {
             this.logger.danger("Client onError Triggered");
             this.options.onError();
@@ -11769,17 +12024,6 @@ class App extends engrid_ENGrid {
         if (otherAmountDiv) {
             otherAmountDiv.setAttribute("data-currency-symbol", App.getCurrencySymbol());
         }
-        // Add a payment type data attribute
-        const paymentTypeSelect = App.getField("transaction.paymenttype");
-        if (paymentTypeSelect) {
-            App.setBodyData("payment-type", paymentTypeSelect.value);
-            paymentTypeSelect.addEventListener("change", () => {
-                App.setBodyData("payment-type", paymentTypeSelect.value);
-            });
-        }
-        // Add demo data attribute
-        if (App.demo)
-            App.setBodyData("demo", "");
     }
 }
 
@@ -11980,54 +12224,6 @@ class ApplePay {
         }
         this._form.submit = true;
         return true;
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/a11y.js
-// a11y means accessibility
-// This Component is supposed to be used as a helper for Arria Attributes & Other Accessibility Features
-class A11y {
-    constructor() {
-        this.addRequired();
-        this.addLabel();
-        this.addGroupRole();
-    }
-    addGroupRole() {
-        // Add role="group" to all EN Radio fields
-        const radioFields = document.querySelectorAll(".en__field--radio");
-        radioFields.forEach((field) => {
-            field.setAttribute("role", "group");
-            // Add random ID to the label
-            const label = field.querySelector("label");
-            if (label) {
-                label.setAttribute("id", `en__field__label--${Math.random().toString(36).slice(2, 7)}`);
-                field.setAttribute("aria-labelledby", label.id);
-            }
-        });
-    }
-    addRequired() {
-        const mandatoryFields = document.querySelectorAll(".en__mandatory .en__field__input");
-        mandatoryFields.forEach((field) => {
-            field.setAttribute("aria-required", "true");
-        });
-    }
-    addLabel() {
-        const otherAmount = document.querySelector(".en__field__input--otheramount");
-        if (otherAmount) {
-            otherAmount.setAttribute("aria-label", "Enter your custom donation amount");
-        }
-        // Split selects usually don't have a label, so let's make the first option the label
-        const splitSelects = document.querySelectorAll(".en__field__input--splitselect");
-        splitSelects.forEach((select) => {
-            var _a, _b, _c, _d;
-            const firstOption = select.querySelector("option");
-            if (firstOption &&
-                firstOption.value === "" &&
-                !((_b = (_a = firstOption.textContent) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === null || _b === void 0 ? void 0 : _b.includes("select")) &&
-                !((_d = (_c = firstOption.textContent) === null || _c === void 0 ? void 0 : _c.toLowerCase()) === null || _d === void 0 ? void 0 : _d.includes("choose"))) {
-                select.setAttribute("aria-label", firstOption.textContent || "");
-            }
-        });
     }
 }
 
@@ -12725,14 +12921,6 @@ const watchGiveBySelectField = () => {
             enFieldPaymentType.value = "ACH";
         }
         else if (enFieldGiveBySelectCurrentValue &&
-            enFieldGiveBySelectCurrentValue.value.toLowerCase() == "check") {
-            if (enGrid) {
-                removeClassesByPrefix(enGrid, prefix);
-                enGrid.classList.add("has-give-by-check");
-            }
-            enFieldPaymentType.value = "check";
-        }
-        else if (enFieldGiveBySelectCurrentValue &&
             enFieldGiveBySelectCurrentValue.value.toLowerCase() == "paypal") {
             if (enGrid) {
                 removeClassesByPrefix(enGrid, prefix);
@@ -13054,10 +13242,14 @@ const isInViewport = (e) => {
 };
 // Checks to see if the page is so short, the footer is above the fold. If the footer is above the folde we'll use this class to ensure at a minimum the page fills the full viewport height.
 if (contentFooter && isInViewport(contentFooter)) {
-    document.body.setAttribute("data-engrid-footer-above-fold", "");
+    document
+        .getElementsByTagName("BODY")[0]
+        .setAttribute("data-engrid-footer-above-fold", "");
 }
 else {
-    document.body.setAttribute("data-engrid-footer-below-fold", "");
+    document
+        .getElementsByTagName("BODY")[0]
+        .setAttribute("data-engrid-footer-below-fold", "");
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/iframe.js
@@ -13071,7 +13263,7 @@ class iFrame {
             // Add the data-engrid-embedded attribute when inside an iFrame if it wasn't already added by a script in the Page Template
             engrid_ENGrid.setBodyData("embedded", "");
             // Fire the resize event
-            this.logger.log("iFrame Event - Begin Resizing");
+            this.logger.log("First Resize");
             this.sendIframeHeight();
             // Listen for the resize event
             window.addEventListener("resize", this.sendIframeHeight.bind(this));
@@ -13084,7 +13276,7 @@ class iFrame {
                 }, "*");
                 // On click fire the resize event
                 document.addEventListener("click", (e) => {
-                    this.logger.log("iFrame Event - click");
+                    this.logger.log("Event - click");
                     setTimeout(() => {
                         this.sendIframeHeight();
                     }, 100);
@@ -13092,20 +13284,15 @@ class iFrame {
             });
             // Listen for the form submit event
             this._form.onSubmit.subscribe((e) => {
-                this.logger.log("iFrame Event - onSubmit");
+                this.logger.log("Event - onSubmit");
                 this.sendIframeFormStatus("submit");
             });
             // If the iFrame is Chained, check if the form has data
             if (this.isChained() && this.hasPayment()) {
-                this.logger.log("iFrame Event - Chained iFrame");
+                this.logger.log("Chained iFrame");
                 this.sendIframeFormStatus("chained");
                 this.hideFormComponents();
                 this.addChainedBanner();
-            }
-            // Remove the skip link markup when inside an iFrame
-            const skipLink = document.querySelector(".skip-link");
-            if (skipLink) {
-                skipLink.remove();
             }
         }
         else {
@@ -13125,7 +13312,7 @@ class iFrame {
                             left: 0,
                             behavior: "smooth",
                         });
-                        this.logger.log("iFrame Event - Scrolling Window to " + scrollTo);
+                        this.logger.log("Scrolling Window To " + scrollTo);
                     }
                 }
             });
@@ -13133,7 +13320,7 @@ class iFrame {
     }
     sendIframeHeight() {
         let height = document.body.offsetHeight;
-        this.logger.log("iFrame Event - Sending iFrame height of: " + height + "px"); // check the message is being sent correctly
+        this.logger.log("Sending iFrame height of: " + height + "px"); // check the message is being sent correctly
         window.parent.postMessage({
             frameHeight: height,
             pageNumber: engrid_ENGrid.getPageNumber(),
@@ -13188,7 +13375,7 @@ class iFrame {
         return payment || ccnumber;
     }
     hideFormComponents() {
-        this.logger.log("iFrame Event - Hiding Form Components");
+        this.logger.log("Hiding Form Components");
         const en__component = document.querySelectorAll(".body-main > div");
         en__component.forEach((component, index) => {
             if (component.classList.contains("hide") === false &&
@@ -13203,7 +13390,7 @@ class iFrame {
         this.sendIframeHeight();
     }
     showFormComponents() {
-        this.logger.log("iFrame Event - Showing Form Components");
+        this.logger.log("Showing Form Components");
         const en__component = document.querySelectorAll(".body-main > div.hide-chained");
         en__component.forEach((component) => {
             component.classList.remove("hide-iframe");
@@ -13213,7 +13400,7 @@ class iFrame {
     }
     addChainedBanner() {
         var _a, _b;
-        this.logger.log("iFrame Event - Adding Chained Banner");
+        this.logger.log("Adding Chained Banner");
         const banner = document.createElement("div");
         const lastComponent = document.querySelector(".body-main > div:last-of-type");
         banner.classList.add("en__component");
@@ -13321,6 +13508,7 @@ class LiveVariables {
         this._fees.onFeeChange.subscribe(() => this.changeLiveAmount());
         this._fees.onFeeChange.subscribe(() => this.changeLiveUpsellAmount());
         this._fees.onFeeChange.subscribe(() => this.changeSubmitButton());
+        this._frequency.onFrequencyChange.subscribe(() => this.swapAmounts());
         this._frequency.onFrequencyChange.subscribe(() => this.changeLiveFrequency());
         this._frequency.onFrequencyChange.subscribe(() => this.changeRecurrency());
         this._frequency.onFrequencyChange.subscribe(() => this.changeSubmitButton());
@@ -13428,6 +13616,28 @@ class LiveVariables {
             recurrpay.dispatchEvent(event);
         }
     }
+    swapAmounts() {
+        if ("EngridAmounts" in window &&
+            this._frequency.frequency in window.EngridAmounts) {
+            const loadEnAmounts = (amountArray) => {
+                let ret = [];
+                for (let amount in amountArray.amounts) {
+                    ret.push({
+                        selected: amountArray.amounts[amount] === amountArray.default,
+                        label: amount,
+                        value: amountArray.amounts[amount].toString(),
+                    });
+                }
+                return ret;
+            };
+            window.EngagingNetworks.require._defined.enjs.swapList("donationAmt", loadEnAmounts(window.EngridAmounts[this._frequency.frequency]), {
+                ignoreCurrentValue: !window.EngagingNetworks.require._defined.enjs.checkSubmissionFailed(),
+            });
+            this._amount.load();
+            if (engrid_ENGrid.getOption("Debug"))
+                console.log("Amounts Swapped To", window.EngridAmounts[this._frequency.frequency]);
+        }
+    }
     // Watch for a clicks on monthly-upsell link
     upsold(e) {
         // Find and select monthly giving
@@ -13514,7 +13724,7 @@ class UpsellLightbox {
                     </p>
                   </div>
                   <div class="upsellOtherAmountInput">
-                    <input href="#" id="secondOtherField" name="secondOtherField" type="text" value="" inputmode="decimal" aria-label="Enter your custom donation amount" autocomplete="off" data-lpignore="true" aria-required="true" size="12">
+                    <input href="#" id="secondOtherField" name="secondOtherField" size="12" type="number" inputmode="numeric" step="1" value="" autocomplete="off">
                     <small>Minimum ${this.getAmountTxt(this.options.minAmount)}</small>
                   </div>
                 </div>
@@ -13578,17 +13788,10 @@ class UpsellLightbox {
         // if it's a first page of a Donation page
         return (
         // !hideModal &&
-        !this.shouldSkip() &&
-            "EngridUpsell" in window &&
+        "EngridUpsell" in window &&
             !!window.pageJson &&
             window.pageJson.pageNumber == 1 &&
             ["donation", "premiumgift"].includes(window.pageJson.pageType));
-    }
-    shouldSkip() {
-        if ("EngridUpsell" in window && window.EngridUpsell.skipUpsell) {
-            return true;
-        }
-        return this.options.skipUpsell;
     }
     popupOtherField() {
         var _a, _b;
@@ -13642,14 +13845,11 @@ class UpsellLightbox {
     shouldOpen() {
         const freq = this._frequency.frequency;
         const upsellAmount = this.getUpsellAmount();
-        const paymenttype = engrid_ENGrid.getFieldValue("transaction.paymenttype") || "";
         // If frequency is not onetime or
         // the modal is already opened or
         // there's no suggestion for this donation amount,
         // we should not open
         if (freq == "onetime" &&
-            !this.shouldSkip() &&
-            !this.options.disablePaymentMethods.includes(paymenttype.toLowerCase()) &&
             !this.overlay.classList.contains("is-submitting") &&
             upsellAmount > 0) {
             this.logger.log("Upsell Frequency " + this._frequency.frequency);
@@ -14776,10 +14976,8 @@ class NeverBounce {
         };
         engrid_ENGrid.loadJS("https://cdn.neverbounce.com/widget/dist/NeverBounce.js");
         if (this.emailField) {
-            if (this.emailField.value) {
-                this.logger.log("E-mail Field Found");
+            if (this.emailField.value)
                 this.shouldRun = false;
-            }
             this.emailField.addEventListener("change", (e) => {
                 var _a;
                 if (!this.nbLoaded) {
@@ -14795,24 +14993,14 @@ class NeverBounce {
                 }
             });
             window.setTimeout(() => {
-                if (this.emailField && this.emailField.value) {
-                    this.logger.log("E-mail Filled Programatically");
-                    this.shouldRun = false;
-                }
                 this.init();
             }, 1000);
         }
-        this.form.onValidate.subscribe(this.validate.bind(this));
+        this.form.onValidate.subscribe(() => (this.form.validate = this.validate()));
     }
     init() {
-        if (!this.shouldRun) {
-            this.logger.log("Should Not Run");
+        if (this.nbLoaded || !this.shouldRun)
             return;
-        }
-        if (this.nbLoaded) {
-            this.logger.log("Already Loaded");
-            return;
-        }
         this.logger.log("Init Function");
         if (this.dateField && document.getElementsByName(this.dateField).length)
             this.nbDate = document.querySelector("[name='" + this.dateField + "']");
@@ -14831,7 +15019,9 @@ class NeverBounce {
             '<div id="nb-feedback" class="en__field__error nb-hidden">Enter a valid email.</div>';
         this.insertAfter(nbCustomMessageHTML, this.emailField);
         const NBClass = this;
-        document.body.addEventListener("nb:registered", function (event) {
+        document
+            .getElementsByTagName("body")[0]
+            .addEventListener("nb:registered", function (event) {
             const field = document.querySelector('[data-nb-id="' + event.detail.id + '"]');
             field.addEventListener("nb:loading", function (e) {
                 engrid_ENGrid.disableSubmit("Validating Your Email");
@@ -14973,197 +15163,19 @@ class NeverBounce {
     }
     validate() {
         var _a;
-        const nbResult = engrid_ENGrid.getFieldValue("nb-result");
-        if (!this.emailField || !this.shouldRun || !this.nbLoaded || !nbResult) {
+        if (!this.emailField || !this.shouldRun || !this.nbLoaded) {
             this.logger.log("validate(): Should Not Run. Returning true.");
-            return;
-        }
-        if (this.nbStatus) {
-            this.nbStatus.value = nbResult;
-        }
-        if (!["catchall", "unknown", "valid"].includes(nbResult)) {
-            this.setEmailStatus("required");
-            (_a = this.emailField) === null || _a === void 0 ? void 0 : _a.focus();
-            this.logger.log("NB-Result:", engrid_ENGrid.getFieldValue("nb-result"));
-            this.form.validate = false;
-        }
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/freshaddress.js
-// According to the FreshAddress documentation, you need to add the following code to your page:
-// jQuery library.
-// <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-// FreshAddress client-side integration library
-// <script src="//api.freshaddress.biz/js/lib/freshaddress-client-7.0.min.js?token=[TOKEN HERE]"></script>
-//
-// I know. jQuery. But it's not my fault. It's FreshAddress's fault.
-
-
-class FreshAddress {
-    constructor() {
-        this.form = EnForm.getInstance();
-        this.emailField = null;
-        this.emailWrapper = document.querySelector(".en__field--emailAddress");
-        this.faDate = null;
-        this.faStatus = null;
-        this.faMessage = null;
-        this.logger = new EngridLogger("FreshAddress", "#039bc4", "#dfdfdf", "📧");
-        this.shouldRun = true;
-        this.options = engrid_ENGrid.getOption("FreshAddress");
-        if (this.options === false || !window.FreshAddress)
-            return;
-        this.emailField = document.getElementById("en__field_supporter_emailAddress");
-        if (this.emailField) {
-            this.createFields();
-            this.addEventListeners();
-            if (this.emailField.value) {
-                this.logger.log("E-mail Field Found");
-                this.shouldRun = false;
-            }
-            window.setTimeout(() => {
-                if (this.emailField && this.emailField.value) {
-                    this.logger.log("E-mail Filled Programatically");
-                    this.shouldRun = false;
-                }
-            }, 1000);
-        }
-        else {
-            this.logger.log("E-mail Field Not Found");
-        }
-    }
-    createFields() {
-        if (!this.options)
-            return;
-        this.options.dateField = this.options.dateField || "fa_date";
-        this.faDate = engrid_ENGrid.getField(this.options.dateField);
-        if (!this.faDate) {
-            this.logger.log("Date Field Not Found. Creating...");
-            engrid_ENGrid.createHiddenInput(this.options.dateField, "");
-            this.faDate = engrid_ENGrid.getField(this.options.dateField);
-        }
-        this.options.statusField = this.options.statusField || "fa_status";
-        this.faStatus = engrid_ENGrid.getField(this.options.statusField);
-        if (!this.faStatus) {
-            this.logger.log("Status Field Not Found. Creating...");
-            engrid_ENGrid.createHiddenInput(this.options.statusField, "");
-            this.faStatus = engrid_ENGrid.getField(this.options.statusField);
-        }
-        this.options.messageField = this.options.messageField || "fa_message";
-        this.faMessage = engrid_ENGrid.getField(this.options.messageField);
-        if (!this.faMessage) {
-            this.logger.log("Message Field Not Found. Creating...");
-            engrid_ENGrid.createHiddenInput(this.options.messageField, "");
-            this.faMessage = engrid_ENGrid.getField(this.options.messageField);
-        }
-    }
-    writeToFields(status, message) {
-        if (!this.options)
-            return;
-        this.faDate.value = engrid_ENGrid.formatDate(new Date(), this.options.dateFieldFormat || "yyyy-MM-dd");
-        this.faStatus.value = status;
-        this.faMessage.value = message;
-        this.emailWrapper.dataset.freshaddressSafetosendstatus =
-            status.toLowerCase();
-    }
-    addEventListeners() {
-        var _a;
-        if (!this.options)
-            return;
-        // Add event listeners to fields
-        (_a = this.emailField) === null || _a === void 0 ? void 0 : _a.addEventListener("change", () => {
-            var _a;
-            if (!this.shouldRun) {
-                this.logger.log("Skipping E-mail Validation");
-                return;
-            }
-            this.logger.log("Validating " + ((_a = this.emailField) === null || _a === void 0 ? void 0 : _a.value));
-            this.callAPI();
-        });
-        // Add event listener to submit
-        this.form.onValidate.subscribe(this.validate.bind(this));
-    }
-    callAPI() {
-        var _a;
-        if (!this.options || !window.FreshAddress)
-            return;
-        if (!this.shouldRun)
-            return;
-        const email = (_a = this.emailField) === null || _a === void 0 ? void 0 : _a.value;
-        const options = { emps: false, rtc_timeout: 1200 };
-        engrid_ENGrid.disableSubmit("Validating Your Email");
-        const ret = window.FreshAddress.validateEmail(email, options).then((response) => {
-            this.logger.log("Validate API Response", JSON.parse(JSON.stringify(response)));
-            return this.validateResponse(response);
-        });
-    }
-    validateResponse(data) {
-        var _a;
-        /* ERROR HANDLING: Let through in case of a service error. Enable form submission. */
-        if (data.isServiceError()) {
-            this.logger.log("Service Error");
-            this.writeToFields("Service Error", data.getErrorResponse());
             return true;
         }
-        /* CHECK RESULT: */
-        if (data.isValid()) {
-            // Set response message. No action required.
-            this.writeToFields("Valid", data.getComment());
-            engrid_ENGrid.removeError(this.emailWrapper);
-            if (data.hasSuggest()) {
-                // Valid, with Suggestion
-                engrid_ENGrid.setError(this.emailWrapper, `Did you mean ${data.getSuggEmail()}?`);
-                this.emailField.value = data.getSuggEmail();
-            }
+        if (this.nbStatus) {
+            this.nbStatus.value = engrid_ENGrid.getFieldValue("nb-result");
         }
-        else if (data.isError()) {
-            // Error Condition 1 - the service should always respond with finding E/W/V
-            this.writeToFields("Invalid", data.getErrorResponse());
-            engrid_ENGrid.setError(this.emailWrapper, data.getErrorResponse());
+        if (!["catchall", "unknown", "valid"].includes(engrid_ENGrid.getFieldValue("nb-result"))) {
+            this.setEmailStatus("required");
             (_a = this.emailField) === null || _a === void 0 ? void 0 : _a.focus();
-            if (data.hasSuggest()) {
-                // Error, with Suggestion
-                engrid_ENGrid.setError(this.emailWrapper, `Did you mean ${data.getSuggEmail()}?`);
-                this.emailField.value = data.getSuggEmail();
-                this.writeToFields("Error", data.getErrorResponse());
-            }
+            return false;
         }
-        else if (data.isWarning()) {
-            this.writeToFields("Invalid", data.getErrorResponse());
-            engrid_ENGrid.setError(this.emailWrapper, data.getErrorResponse());
-            if (data.hasSuggest()) {
-                // Warning, with Suggestion
-                engrid_ENGrid.setError(this.emailWrapper, `Did you mean ${data.getSuggEmail()}?`);
-                this.emailField.value = data.getSuggEmail();
-                this.writeToFields("Warning", data.getErrorResponse());
-            }
-        }
-        else {
-            // Error Condition 2 - the service should always respond with finding E/W/V
-            this.writeToFields("API Error", "Unknown Error");
-        }
-        engrid_ENGrid.enableSubmit();
-    }
-    validate() {
-        var _a;
-        engrid_ENGrid.removeError(this.emailWrapper);
-        if (!this.options) {
-            this.form.validate = true;
-            return;
-        }
-        if (!this.shouldRun) {
-            this.form.validate = true;
-            return;
-        }
-        if (this.faStatus.value === "Invalid") {
-            this.form.validate = false;
-            window.setTimeout(() => {
-                engrid_ENGrid.setError(this.emailWrapper, this.faMessage.value);
-            }, 100);
-            (_a = this.emailField) === null || _a === void 0 ? void 0 : _a.focus();
-            return;
-        }
-        this.form.validate = true;
+        return true;
     }
 }
 
@@ -15258,7 +15270,7 @@ class RememberMe {
         if (this.useRemote()) {
             this.createIframe(() => {
                 if (this.iframe && this.iframe.contentWindow) {
-                    this.iframe.contentWindow.postMessage(JSON.stringify({ key: this.cookieName, operation: "read" }), "*");
+                    this.iframe.contentWindow.postMessage({ key: this.cookieName, operation: "read" }, "*");
                     this._form.onSubmit.subscribe(() => {
                         if (this.rememberMeOptIn) {
                             this.readFields();
@@ -15267,17 +15279,11 @@ class RememberMe {
                     });
                 }
             }, (event) => {
-                let data;
                 if (event.data &&
-                    typeof event.data === "string" &&
-                    this.isJson(event.data)) {
-                    data = JSON.parse(event.data);
-                }
-                if (data &&
-                    data.key &&
-                    data.value !== undefined &&
-                    data.key === this.cookieName) {
-                    this.updateFieldData(data.value);
+                    event.data.key &&
+                    event.data.value !== undefined &&
+                    event.data.key === this.cookieName) {
+                    this.updateFieldData(event.data.value);
                     this.writeFields();
                     let hasFieldData = Object.keys(this.fieldData).length > 0;
                     if (!hasFieldData) {
@@ -15433,12 +15439,7 @@ class RememberMe {
             this.iframe = iframe;
             document.body.appendChild(this.iframe);
             this.iframe.addEventListener("load", () => iframeLoaded(), false);
-            window.addEventListener("message", (event) => {
-                var _a;
-                if (((_a = this.iframe) === null || _a === void 0 ? void 0 : _a.contentWindow) === event.source) {
-                    messageReceived(event);
-                }
-            }, false);
+            window.addEventListener("message", (event) => messageReceived(event), false);
         }
     }
     clearCookie() {
@@ -15451,12 +15452,12 @@ class RememberMe {
     }
     saveCookieToRemote() {
         if (this.iframe && this.iframe.contentWindow) {
-            this.iframe.contentWindow.postMessage(JSON.stringify({
+            this.iframe.contentWindow.postMessage({
                 key: this.cookieName,
-                value: this.fieldData,
+                value: JSON.stringify(this.fieldData),
                 operation: "write",
                 expires: this.cookieExpirationDays,
-            }), "*");
+            }, "*");
         }
     }
     readCookie() {
@@ -15539,15 +15540,6 @@ class RememberMe {
                 }
             }
         }
-    }
-    isJson(str) {
-        try {
-            JSON.parse(str);
-        }
-        catch (e) {
-            return false;
-        }
-        return true;
     }
 }
 
@@ -15698,10 +15690,7 @@ class OtherAmount {
                             otherAmountTransformation: `${amount} => ${cleanAmount}`,
                         });
                     }
-                    target.value =
-                        cleanAmount % 1 != 0
-                            ? cleanAmount.toFixed(2)
-                            : cleanAmount.toString();
+                    target.value = cleanAmount.toString();
                 }
             });
         }
@@ -15771,37 +15760,37 @@ class EngridLogger {
         if (!engrid_ENGrid.debug) {
             return () => { };
         }
-        return console.log.bind(window.console, "%c" + this.emoji + " " + this.prefix + " %s", `color: ${this.color}; background-color: ${this.background}; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
+        return console.log.bind(window.console, "%c" + this.emoji + " " + this.prefix + " %s", `color: ${this.color}; background: ${this.background}; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
     }
     get success() {
         if (!engrid_ENGrid.debug) {
             return () => { };
         }
-        return console.log.bind(window.console, "%c ✅ " + this.prefix + " %s", `color: green; background-color: white; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
+        return console.log.bind(window.console, "%c ✅ " + this.prefix + " %s", `color: green; background: white; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
     }
     get danger() {
         if (!engrid_ENGrid.debug) {
             return () => { };
         }
-        return console.log.bind(window.console, "%c ⛔️ " + this.prefix + " %s", `color: red; background-color: white; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
+        return console.log.bind(window.console, "%c ⛔️ " + this.prefix + " %s", `color: red; background: white; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
     }
     get warn() {
         if (!engrid_ENGrid.debug) {
             return () => { };
         }
-        return console.warn.bind(window.console, "%c" + this.emoji + " " + this.prefix + " %s", `color: ${this.color}; background-color: ${this.background}; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
+        return console.warn.bind(window.console, "%c" + this.emoji + " " + this.prefix + " %s", `color: ${this.color}; background: ${this.background}; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
     }
     get dir() {
         if (!engrid_ENGrid.debug) {
             return () => { };
         }
-        return console.dir.bind(window.console, "%c" + this.emoji + " " + this.prefix + " %s", `color: ${this.color}; background-color: ${this.background}; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
+        return console.dir.bind(window.console, "%c" + this.emoji + " " + this.prefix + " %s", `color: ${this.color}; background: ${this.background}; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
     }
     get error() {
         if (!engrid_ENGrid.debug) {
             return () => { };
         }
-        return console.error.bind(window.console, "%c" + this.emoji + " " + this.prefix + " %s", `color: ${this.color}; background-color: ${this.background}; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
+        return console.error.bind(window.console, "%c" + this.emoji + " " + this.prefix + " %s", `color: ${this.color}; background: ${this.background}; font-size: 1.2em; padding: 4px; border-radius: 2px; font-family: monospace;`);
     }
 }
 
@@ -15946,16 +15935,6 @@ class DataLayer {
         this.onLoad();
         this._form.onSubmit.subscribe(() => this.onSubmit());
     }
-    transformJSON(value) {
-        if (typeof value === "string") {
-            return value.toUpperCase().split(" ").join("-").replace(":-", "-");
-        }
-        else if (typeof value === "boolean") {
-            value = value ? "TRUE" : "FALSE";
-            return value;
-        }
-        return "";
-    }
     onLoad() {
         if (engrid_ENGrid.getGiftProcess()) {
             this.logger.log("EN_SUCCESSFUL_DONATION");
@@ -15968,27 +15947,6 @@ class DataLayer {
             this.dataLayer.push({
                 event: "EN_PAGE_VIEW",
             });
-        }
-        if (window.pageJson) {
-            const pageJson = window.pageJson;
-            for (const property in pageJson) {
-                if (Number.isInteger(pageJson[property])) {
-                    this.dataLayer.push({
-                        event: `EN_PAGEJSON_${property.toUpperCase()}-${pageJson[property]}`,
-                    });
-                    this.dataLayer.push({
-                        [`'EN_PAGEJSON_${property.toUpperCase()}'`]: pageJson[property],
-                    });
-                }
-                else {
-                    this.dataLayer.push({
-                        event: `EN_PAGEJSON_${property.toUpperCase()}-${this.transformJSON(pageJson[property])}`,
-                    });
-                    this.dataLayer.push({
-                        [`'EN_PAGEJSON_${property.toUpperCase()}'`]: this.transformJSON(pageJson[property]),
-                    });
-                }
-            }
         }
     }
     onSubmit() {
@@ -17493,7 +17451,6 @@ class LiveCurrency {
         this.elementsFound = false;
         this._amount = DonationAmount.getInstance();
         this._frequency = DonationFrequency.getInstance();
-        this._fees = ProcessingFees.getInstance();
         this.searchElements();
         if (!this.shouldRun())
             return;
@@ -17530,11 +17487,6 @@ class LiveCurrency {
         return this.elementsFound;
     }
     addEventListeners() {
-        this._fees.onFeeChange.subscribe(() => {
-            setTimeout(() => {
-                this.updateCurrency();
-            }, 10);
-        });
         this._amount.onAmountChange.subscribe(() => {
             setTimeout(() => {
                 this.updateCurrency();
@@ -17562,828 +17514,20 @@ class LiveCurrency {
         }
     }
     updateCurrency() {
-        const currencySymbolElements = document.querySelectorAll(".engrid-currency-symbol");
-        const currencyCodeElements = document.querySelectorAll(".engrid-currency-code");
-        if (currencySymbolElements.length > 0) {
-            currencySymbolElements.forEach((item) => {
-                item.innerHTML = engrid_ENGrid.getCurrencySymbol();
-            });
-        }
-        if (currencyCodeElements.length > 0) {
-            currencyCodeElements.forEach((item) => {
-                item.innerHTML = engrid_ENGrid.getCurrencyCode();
-            });
-        }
-        this.logger.log(`Currency updated for ${currencySymbolElements.length + currencyCodeElements.length} elements`);
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/autosubmit.js
-// Automatically submits the page if a URL argument is present
-
-class Autosubmit {
-    constructor() {
-        this.logger = new EngridLogger("Autosubmit", "#f0f0f0", "#ff0000", "🚀");
-        this._form = EnForm.getInstance();
-        if (engrid_ENGrid.checkNested(window.EngagingNetworks, "require", "_defined", "enjs", "checkSubmissionFailed") &&
-            !window.EngagingNetworks.require._defined.enjs.checkSubmissionFailed() &&
-            engrid_ENGrid.getUrlParameter("autosubmit") === "Y") {
-            this.logger.log("Autosubmitting Form");
-            this._form.submitForm();
-        }
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/event-tickets.js
-class EventTickets {
-    constructor() {
-        // --------------------------------------------
-        // Format ticket amounts as currency.
-        const ticketCostElements = document.getElementsByClassName("en__ticket__field--cost");
-        const ticketCurrencyElements = document.getElementsByClassName("en__ticket__currency");
-        for (const ticketCurrencyElement of ticketCurrencyElements) {
-            ticketCurrencyElement.classList.add("en__ticket__currency__hidden");
-        }
-        for (const ticketCostElement of ticketCostElements) {
-            const ticketAmountElement = ticketCostElement.getElementsByClassName("en__ticket__price")[0];
-            const ticketCurrencyElement = ticketCostElement.getElementsByClassName("en__ticket__currency")[0];
-            const formatterOptions = {
-                style: "currency",
-                currency: ticketCurrencyElement.innerText
-            };
-            let ticketAmountAsCurrency = Intl.NumberFormat(undefined, formatterOptions)
-                .format(Number(ticketAmountElement.innerText));
-            if (ticketAmountAsCurrency.slice(-3) === '.00') {
-                ticketAmountAsCurrency = ticketAmountAsCurrency.slice(0, -3);
-            }
-            ticketAmountElement.innerText = ticketAmountAsCurrency;
-        }
-        ;
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/swap-amounts.js
-// This script allows you to override the default donation amounts in Engaging Networks
-// with a custom list of amounts.
-/**
- * Example:
- * window.EngridAmounts = {
- *   "onetime": {
- *     amounts: {
- *       "10": 10,
- *       "30": 30,
- *       "50": 50,
- *       "100": 100,
- *       "Other": "other",
- *     },
- *     default: 30,
- *   },
- *   "monthly": {
- *     amounts: {
- *       "5": 5,
- *       "15": 15,
- *       "25": 25,
- *       "30": 30,
- *       "Other": "other",
- *     },
- *     default: 15,
- *   },
- * };
- */
-
-class SwapAmounts {
-    constructor() {
-        this.logger = new EngridLogger("SwapAmounts", "purple", "white", "💰");
-        this._amount = DonationAmount.getInstance();
-        this._frequency = DonationFrequency.getInstance();
-        this.defaultChange = false;
-        this.swapped = false;
-        if (!this.shouldRun())
-            return;
-        this._frequency.onFrequencyChange.subscribe(() => this.swapAmounts());
-        this._amount.onAmountChange.subscribe(() => {
-            this.defaultChange = false;
-            if (!this.swapped)
-                return;
-            // Check if the amount is not default amount for the frequency
-            if (this._amount.amount !=
-                window.EngridAmounts[this._frequency.frequency].default) {
-                this.defaultChange = true;
-            }
+        document.querySelectorAll(".engrid-currency-symbol").forEach((item) => {
+            item.innerHTML = engrid_ENGrid.getCurrencySymbol();
         });
-    }
-    swapAmounts() {
-        if (this._frequency.frequency in window.EngridAmounts) {
-            window.EngagingNetworks.require._defined.enjs.swapList("donationAmt", this.loadEnAmounts(window.EngridAmounts[this._frequency.frequency]), {
-                ignoreCurrentValue: this.ignoreCurrentValue(),
-            });
-            this._amount.load();
-            this.logger.log("Amounts Swapped To", window.EngridAmounts[this._frequency.frequency]);
-            this.swapped = true;
-        }
-    }
-    loadEnAmounts(amountArray) {
-        let ret = [];
-        for (let amount in amountArray.amounts) {
-            ret.push({
-                selected: amountArray.amounts[amount] === amountArray.default,
-                label: amount,
-                value: amountArray.amounts[amount].toString(),
-            });
-        }
-        return ret;
-    }
-    shouldRun() {
-        return "EngridAmounts" in window;
-    }
-    ignoreCurrentValue() {
-        return !(window.EngagingNetworks.require._defined.enjs.checkSubmissionFailed() ||
-            engrid_ENGrid.getUrlParameter("transaction.donationAmt") !== null ||
-            this.defaultChange);
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/debug-panel.js
-
-class DebugPanel {
-    constructor(pageLayouts) {
-        var _a, _b;
-        this.logger = new EngridLogger("Debug Panel", "#f0f0f0", "#ff0000", "💥");
-        this.brandingHtml = new BrandingHtml();
-        this.element = null;
-        this.currentTimestamp = this.getCurrentTimestamp();
-        this.quickFills = {
-            "pi-general": [
-                {
-                    name: "supporter.title",
-                    value: "Ms",
-                },
-                {
-                    name: "supporter.firstName",
-                    value: "4Site",
-                },
-                {
-                    name: "supporter.lastName",
-                    value: "Studio",
-                },
-                {
-                    name: "supporter.emailAddress",
-                    value: "en-test@4sitestudios.com",
-                },
-                {
-                    name: "supporter.phoneNumber",
-                    value: "555-555-5555",
-                },
-            ],
-            "pi-unique": [
-                {
-                    name: "supporter.title",
-                    value: "Ms",
-                },
-                {
-                    name: "supporter.firstName",
-                    value: `4Site ${this.currentTimestamp}`,
-                },
-                {
-                    name: "supporter.lastName",
-                    value: "Studio",
-                },
-                {
-                    name: "supporter.emailAddress",
-                    value: `en-test+${this.currentTimestamp}@4sitestudios.com`,
-                },
-                {
-                    name: "supporter.phoneNumber",
-                    value: "555-555-5555",
-                },
-            ],
-            "us-address": [
-                {
-                    name: "supporter.address1",
-                    value: "3431 14th St NW",
-                },
-                {
-                    name: "supporter.address2",
-                    value: "Suite 1",
-                },
-                {
-                    name: "supporter.city",
-                    value: "Washington",
-                },
-                {
-                    name: "supporter.region",
-                    value: "DC",
-                },
-                {
-                    name: "supporter.postcode",
-                    value: "20010",
-                },
-                {
-                    name: "supporter.country",
-                    value: "US",
-                },
-            ],
-            "us-address-senate-rep": [
-                {
-                    name: "supporter.address1",
-                    value: "20 W 34th Street",
-                },
-                {
-                    name: "supporter.address2",
-                    value: "",
-                },
-                {
-                    name: "supporter.city",
-                    value: "New York",
-                },
-                {
-                    name: "supporter.region",
-                    value: "NY",
-                },
-                {
-                    name: "supporter.postcode",
-                    value: "10001",
-                },
-                {
-                    name: "supporter.country",
-                    value: "US",
-                },
-            ],
-            "us-address-nonexistent": [
-                {
-                    name: "supporter.address1",
-                    value: "12345 Main Street",
-                },
-                {
-                    name: "supporter.address2",
-                    value: "",
-                },
-                {
-                    name: "supporter.city",
-                    value: "New York",
-                },
-                {
-                    name: "supporter.region",
-                    value: "TX",
-                },
-                {
-                    name: "supporter.postcode",
-                    value: "90210",
-                },
-                {
-                    name: "supporter.country",
-                    value: "US",
-                },
-            ],
-            "cc-paysafe-visa": [
-                {
-                    name: "transaction.ccnumber",
-                    value: "4530910000012345",
-                },
-                {
-                    name: "transaction.ccexpire",
-                    value: "12/27",
-                },
-                {
-                    name: "transaction.ccvv",
-                    value: "111",
-                },
-            ],
-            "cc-paysafe-visa-invalid": [
-                {
-                    name: "transaction.ccnumber",
-                    value: "411111",
-                },
-                {
-                    name: "transaction.ccexpire",
-                    value: "12/27",
-                },
-                {
-                    name: "transaction.ccvv",
-                    value: "111",
-                },
-            ],
-            "cc-paysafe-mastercard": [
-                {
-                    name: "transaction.ccnumber",
-                    value: "5036150000001115",
-                },
-                {
-                    name: "transaction.ccexpire",
-                    value: "12/27",
-                },
-                {
-                    name: "transaction.ccvv",
-                    value: "111",
-                },
-            ],
-        };
-        this.logger.log("Adding debug panel and starting a debug session");
-        this.pageLayouts = pageLayouts;
-        this.loadDebugPanel();
-        this.element = document.querySelector(".debug-panel");
-        (_a = this.element) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-            var _a;
-            (_a = this.element) === null || _a === void 0 ? void 0 : _a.classList.add("debug-panel--open");
-        });
-        const debugPanelClose = document.querySelector(".debug-panel__close");
-        debugPanelClose === null || debugPanelClose === void 0 ? void 0 : debugPanelClose.addEventListener("click", (e) => {
-            var _a;
-            e.stopPropagation();
-            (_a = this.element) === null || _a === void 0 ? void 0 : _a.classList.remove("debug-panel--open");
-        });
-        if (engrid_ENGrid.getUrlParameter("assets") === "local") {
-            (_b = this.element) === null || _b === void 0 ? void 0 : _b.classList.add("debug-panel--local");
-        }
-        window.sessionStorage.setItem(DebugPanel.debugSessionStorageKey, "active");
-    }
-    loadDebugPanel() {
-        document.body.insertAdjacentHTML("beforeend", `<div class="debug-panel">
-          <div class="debug-panel__container">
-            <div class="debug-panel__closed-title">Debug</div>
-            <div class="debug-panel__title">
-              <h2>Debug Panel</h2>
-              <div class="debug-panel__close">X</div>
-            </div>
-            <div class="debug-panel__options">
-              <div class="debug-panel__option">
-                <label class="debug-panel__link-label link-left">
-                  <a class="debug-panel__edit-link">Edit page</a>
-                </label>
-              </div>
-              <div class="debug-panel__option">
-                <label for="engrid-form-quickfill">Form Quick-fill</label>
-                <select name="engrid-form-quickfill" id="engrid-form-quickfill">
-                  <option disabled selected>Choose an option</option>
-                  <option value="pi-general">Personal Info - General</option>
-                  <option value="pi-unique">Personal Info - Unique</option>
-                  <option value="us-address-senate-rep">US Address - w/ Senate Rep</option>
-                  <option value="us-address">US Address - w/o Senate Rep</option>
-                  <option value="us-address-nonexistent">US Address - Nonexistent</option>
-                  <option value="cc-paysafe-visa">CC - Paysafe - Visa</option>
-                  <option value="cc-paysafe-visa-invalid">CC - Paysafe - Visa (Invalid)</option>
-                  <option value="cc-paysafe-mastercard">CC - Paysafe - Mastercard</option>
-                </select>
-              </div>
-              <div class="debug-panel__option">
-                <label for="engrid-layout-switch">Switch layout</label>
-                <select name="engrid-layout" id="engrid-layout-switch">
-                </select>
-              </div>
-              <div class="debug-panel__option">
-                <div class="debug-panel__checkbox">
-                  <input type="checkbox" name="engrid-embedded-layout" id="engrid-embedded-layout">
-                  <label for="engrid-embedded-layout">Embedded layout</label>            
-                </div>
-              </div>
-              <div class="debug-panel__option debug-panel__option--local">
-                <div class="debug-panel__checkbox">
-                  <input type="checkbox" name="engrid-debug-layout" id="engrid-debug-layout">
-                  <label for="engrid-debug-layout">Debug layout</label>            
-                </div>
-              </div>
-              <div class="debug-panel__option debug-panel__option--local">
-                <div class="debug-panel__checkbox">
-                  <input type="checkbox" name="engrid-branding" id="engrid-branding">
-                  <label for="engrid-branding">Branding HTML</label>            
-                </div>
-              </div>
-              <div class="debug-panel__option">
-                <label for="engrid-theme">Theme</label>
-                <input type="text" id="engrid-theme">
-              </div>
-              <div class="debug-panel__option">
-                <label for="engrid-theme">Sub-theme</label>
-                <input type="text" id="engrid-subtheme">
-              </div>
-              <div class="debug-panel__option">
-                <button class="btn debug-panel__btn debug-panel__btn--submit" type="button">Submit form</button>
-              </div>
-              <div class="debug-panel__option">
-                <label class="debug-panel__link-label">
-                  <a class="debug-panel__force-submit-link">Force submit form</a>
-                </label>
-              </div>
-             <div class="debug-panel__option">
-                <label class="debug-panel__link-label">
-                  <a class="debug-panel__end-debug-link">End debug</a>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>`);
-        this.setupLayoutSwitcher();
-        this.setupThemeSwitcher();
-        this.setupSubThemeSwitcher();
-        this.setupFormQuickfill();
-        this.createDebugSessionEndHandler();
-        this.setupEmbeddedLayoutSwitcher();
-        this.setupDebugLayoutSwitcher();
-        this.setupBrandingHtmlHandler();
-        this.setupEditBtnHandler();
-        this.setupForceSubmitLinkHandler();
-        this.setupSubmitBtnHandler();
-    }
-    switchENGridLayout(layout) {
-        engrid_ENGrid.setBodyData("layout", layout);
-    }
-    setupLayoutSwitcher() {
-        var _a, _b;
-        const engridLayoutSwitch = document.getElementById("engrid-layout-switch");
-        if (engridLayoutSwitch) {
-            (_a = this.pageLayouts) === null || _a === void 0 ? void 0 : _a.forEach((layout) => {
-                engridLayoutSwitch.insertAdjacentHTML("beforeend", `<option value="${layout}">${layout}</option>`);
-            });
-            engridLayoutSwitch.value = (_b = engrid_ENGrid.getBodyData("layout")) !== null && _b !== void 0 ? _b : "";
-            engridLayoutSwitch.addEventListener("change", (e) => {
-                const target = e.target;
-                this.switchENGridLayout(target.value);
-            });
-        }
-    }
-    setupThemeSwitcher() {
-        var _a;
-        const engridThemeInput = document.getElementById("engrid-theme");
-        if (engridThemeInput) {
-            engridThemeInput.value = (_a = engrid_ENGrid.getBodyData("theme")) !== null && _a !== void 0 ? _a : "";
-            ["keyup", "blur"].forEach((ev) => {
-                engridThemeInput.addEventListener(ev, (e) => {
-                    const target = e.target;
-                    this.switchENGridTheme(target.value);
-                });
-            });
-        }
-    }
-    switchENGridTheme(theme) {
-        engrid_ENGrid.setBodyData("theme", theme);
-    }
-    setupSubThemeSwitcher() {
-        var _a;
-        const engridSubthemeInput = document.getElementById("engrid-subtheme");
-        if (engridSubthemeInput) {
-            engridSubthemeInput.value = (_a = engrid_ENGrid.getBodyData("subtheme")) !== null && _a !== void 0 ? _a : "";
-            ["keyup", "blur"].forEach((ev) => {
-                engridSubthemeInput.addEventListener(ev, (e) => {
-                    const target = e.target;
-                    this.switchENGridSubtheme(target.value);
-                });
-            });
-        }
-    }
-    switchENGridSubtheme(subtheme) {
-        engrid_ENGrid.setBodyData("subtheme", subtheme);
-    }
-    setupFormQuickfill() {
-        const engridQuickfill = document.getElementById("engrid-form-quickfill");
-        engridQuickfill === null || engridQuickfill === void 0 ? void 0 : engridQuickfill.addEventListener("change", (e) => {
-            const target = e.target;
-            this.quickFills[target.value].forEach((qf) => {
-                this.setFieldValue(qf);
-            });
-        });
-    }
-    setFieldValue(qf) {
-        if (qf.name === "transaction.ccexpire") {
-            const ccExpireEls = document.getElementsByName("transaction.ccexpire");
-            if (ccExpireEls.length > 0) {
-                const expirationDate = qf.value.split("/");
-                ccExpireEls[0].value = expirationDate[0];
-                ccExpireEls[1].value = expirationDate[1];
-                ccExpireEls[0].dispatchEvent(new Event("change", { bubbles: true }));
-                ccExpireEls[1].dispatchEvent(new Event("change", { bubbles: true }));
-            }
-            else {
-                ccExpireEls[0].value = qf.value;
-                ccExpireEls[0].dispatchEvent(new Event("change", { bubbles: true }));
-            }
-            return;
-        }
-        engrid_ENGrid.setFieldValue(qf.name, qf.value, true, true);
-    }
-    getCurrentTimestamp() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, "0");
-        const day = String(now.getDate()).padStart(2, "0");
-        const hours = String(now.getHours()).padStart(2, "0");
-        const minutes = String(now.getMinutes()).padStart(2, "0");
-        return `${year}${month}${day}-${hours}${minutes}`;
-    }
-    createDebugSessionEndHandler() {
-        const debugSessionEndBtn = document.querySelector(".debug-panel__end-debug-link");
-        debugSessionEndBtn === null || debugSessionEndBtn === void 0 ? void 0 : debugSessionEndBtn.addEventListener("click", () => {
-            var _a;
-            this.logger.log("Removing panel and ending debug session");
-            (_a = this.element) === null || _a === void 0 ? void 0 : _a.remove();
-            window.sessionStorage.removeItem(DebugPanel.debugSessionStorageKey);
-        });
-    }
-    setupEmbeddedLayoutSwitcher() {
-        const embeddedLayoutSwitch = document.getElementById("engrid-embedded-layout");
-        if (embeddedLayoutSwitch) {
-            embeddedLayoutSwitch.checked = !!engrid_ENGrid.getBodyData("embedded");
-            embeddedLayoutSwitch.addEventListener("change", (e) => {
-                const target = e.target;
-                engrid_ENGrid.setBodyData("embedded", target.checked);
-            });
-        }
-    }
-    setupDebugLayoutSwitcher() {
-        const debugLayoutSwitch = document.getElementById("engrid-debug-layout");
-        if (debugLayoutSwitch) {
-            debugLayoutSwitch.checked = engrid_ENGrid.getBodyData("debug") === "layout";
-            debugLayoutSwitch.addEventListener("change", (e) => {
-                const target = e.target;
-                if (target.checked) {
-                    engrid_ENGrid.setBodyData("debug", "layout");
-                }
-                else {
-                    engrid_ENGrid.setBodyData("debug", "");
-                }
-            });
-        }
-    }
-    setupBrandingHtmlHandler() {
-        const brandingInput = document.getElementById("engrid-branding");
-        brandingInput.checked =
-            engrid_ENGrid.getUrlParameter("development") === "branding";
-        brandingInput.addEventListener("change", (e) => {
-            if (brandingInput.checked) {
-                this.brandingHtml.show();
-            }
-            else {
-                this.brandingHtml.hide();
-            }
-        });
-    }
-    setupEditBtnHandler() {
-        const editBtn = document.querySelector(".debug-panel__edit-link");
-        editBtn === null || editBtn === void 0 ? void 0 : editBtn.addEventListener("click", () => {
-            window.open(`https://${engrid_ENGrid.getDataCenter()}.engagingnetworks.app/index.html#pages/${engrid_ENGrid.getPageID()}/edit`, "_blank");
-        });
-    }
-    setupForceSubmitLinkHandler() {
-        const submitBtn = document.querySelector(".debug-panel__force-submit-link");
-        submitBtn === null || submitBtn === void 0 ? void 0 : submitBtn.addEventListener("click", () => {
-            const enForm = document.querySelector("form.en__component");
-            enForm === null || enForm === void 0 ? void 0 : enForm.submit();
-        });
-    }
-    setupSubmitBtnHandler() {
-        const submitBtn = document.querySelector(".debug-panel__btn--submit");
-        submitBtn === null || submitBtn === void 0 ? void 0 : submitBtn.addEventListener("click", () => {
-            const enForm = document.querySelector(".en__submit button");
-            enForm === null || enForm === void 0 ? void 0 : enForm.click();
-        });
-    }
-}
-DebugPanel.debugSessionStorageKey = "engrid_debug_panel";
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/debug-hidden-fields.js
-// Switches hidden fields to be type text when debug mode is enabled.
-
-class DebugHiddenFields {
-    constructor() {
-        this.logger = new EngridLogger("Debug hidden fields", "#f0f0f0", "#ff0000", "🫣");
-        // Query all hidden input elements within the specified selectors
-        const fields = document.querySelectorAll(".en__component--row [type='hidden'], .engrid-added-input[type='hidden']");
-        // Check if there are any hidden fields
-        if (fields.length > 0) {
-            // Log the names of the hidden fields being changed to type 'text'
-            this.logger.log(`Switching the following type 'hidden' fields to type 'text':  ${[
-                ...fields,
-            ]
-                .map((f) => f.name)
-                .join(", ")}`);
-            // Iterate through each hidden input element
-            fields.forEach((el) => {
-                // Change the input type to 'text' and add the required classes
-                el.type = "text";
-                el.classList.add("en__field__input", "en__field__input--text");
-                // Create a new label element and set its text and classes
-                const label = document.createElement("label");
-                label.textContent = "Hidden field: " + el.name;
-                label.classList.add("en__field__label");
-                // Create a new 'div' element for the input field and add the required classes
-                const fieldElement = document.createElement("div");
-                fieldElement.classList.add("en__field__element", "en__field__element--text");
-                // Create a new 'div' container for the label and input field, and add the required classes and attribute
-                const fieldContainer = document.createElement("div");
-                fieldContainer.classList.add("en__field", "en__field--text", "hide");
-                fieldContainer.setAttribute("unhidden", "");
-                fieldContainer.appendChild(label);
-                fieldContainer.appendChild(fieldElement);
-                // Insert the new field container before the original input element and move the input element into the field element div
-                if (el.parentNode) {
-                    el.parentNode.insertBefore(fieldContainer, el);
-                    fieldElement.appendChild(el);
-                }
-            });
-        }
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/branding-html.js
-var branding_html_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-/**
- * Inserts all of the branding HTML from https://github.com/4site-interactive-studios/engrid-scripts/tree/main/reference-materials/html/brand-guide-markup
- * into the body-main section of the page.
- */
-class BrandingHtml {
-    constructor() {
-        this.assetBaseUrl = "https://cdn.jsdelivr.net/gh/4site-interactive-studios/engrid-scripts@main/reference-materials/html/brand-guide-markup/";
-        this.brandingHtmlFiles = [
-            "click-to-call.html",
-            "donation-page.html",
-            "ecards.html",
-            "ecommerce.html",
-            "email-to-target.html",
-            "en-common-fields-with-errors.html",
-            "en-common-fields-with-fancy-errors.html",
-            "en-common-fields.html",
-            "event.html",
-            "html5-tags.html",
-            "membership.html",
-            "petition.html",
-            "premium-donation.html",
-            "styles.html",
-            "survey.html",
-            "tweet-to-target.html",
-        ];
-        this.bodyMain = document.querySelector(".body-main");
-        this.htmlFetched = false;
-    }
-    fetchHtml() {
-        return branding_html_awaiter(this, void 0, void 0, function* () {
-            const htmlRequests = this.brandingHtmlFiles.map((file) => branding_html_awaiter(this, void 0, void 0, function* () {
-                const res = yield fetch(this.assetBaseUrl + file);
-                return res.text();
-            }));
-            const brandingHtmls = yield Promise.all(htmlRequests);
-            return brandingHtmls;
-        });
-    }
-    appendHtml() {
-        this.fetchHtml().then((html) => html.forEach((h) => {
-            var _a;
-            const brandingSection = document.createElement("div");
-            brandingSection.classList.add("brand-guide-section");
-            brandingSection.innerHTML = h;
-            (_a = this.bodyMain) === null || _a === void 0 ? void 0 : _a.insertAdjacentElement("beforeend", brandingSection);
-        }));
-        this.htmlFetched = true;
-    }
-    show() {
-        if (!this.htmlFetched) {
-            this.appendHtml();
-            return;
-        }
-        const guides = document.querySelectorAll(".brand-guide-section");
-        guides === null || guides === void 0 ? void 0 : guides.forEach((g) => (g.style.display = "block"));
-    }
-    hide() {
-        const guides = document.querySelectorAll(".brand-guide-section");
-        guides === null || guides === void 0 ? void 0 : guides.forEach((g) => (g.style.display = "none"));
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/country-disable.js
-// This class allows you to disable some countries from the country dropdown list.
-
-class CountryDisable {
-    constructor() {
-        this.logger = new EngridLogger("CountryDisable", "#f0f0f0", "#333333", "🌎");
-        const country = engrid_ENGrid.getField("supporter.country");
-        const CountryDisable = engrid_ENGrid.getOption("CountryDisable");
-        // Remove the countries from the dropdown list
-        if (country && CountryDisable.length > 0) {
-            const countriesLower = CountryDisable.map((country) => country.toLowerCase());
-            country.querySelectorAll("option").forEach((option) => {
-                if (countriesLower.includes(option.value.toLowerCase()) ||
-                    countriesLower.includes(option.text.toLowerCase())) {
-                    this.logger.log(`Removing ${option.text}`);
-                    option.remove();
-                }
-            });
-        }
-    }
-}
-
-;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/premium-gift.js
-// Component to handle premium gift features
-// 1 - Add a class to body to indicate which premium gift is selected (data-engrid-premium-gift-name="item-name-slugged")
-// 2 - Add a class to body to indicate if the "maximize my impact" is selected (data-engrid-premium-gift-maximize="true|false")
-// 3 - Check the premium gift when click on the title or description
-// 4 - Create new {$PREMIUMTITLE} merge tag that's replaced with the premium gift name
-
-class PremiumGift {
-    constructor() {
-        this.logger = new EngridLogger("PremiumGift", "#232323", "#f7b500", "🎁");
-        this.enElements = new Array();
-        if (!this.shoudRun())
-            return;
-        this.searchElements();
-        this.addEventListeners();
-        this.checkPremiumGift();
-    }
-    shoudRun() {
-        return ("pageJson" in window &&
-            "pageType" in window.pageJson &&
-            window.pageJson.pageType === "premiumgift");
-    }
-    addEventListeners() {
-        ["click", "change"].forEach((event) => {
-            document.addEventListener(event, (e) => {
-                const element = e.target;
-                const premiumGift = element.closest(".en__pg__body");
-                if (premiumGift) {
-                    const premiumGiftInput = premiumGift.querySelector('[name="en__pg"]');
-                    if ("type" in element === false) {
-                        const premiumGiftValue = premiumGiftInput.value;
-                        window.setTimeout(() => {
-                            const newPremiumGift = document.querySelector('[name="en__pg"][value="' + premiumGiftValue + '"]');
-                            if (newPremiumGift) {
-                                newPremiumGift.checked = true;
-                                newPremiumGift.dispatchEvent(new Event("change"));
-                            }
-                        }, 100);
-                    }
-                    window.setTimeout(() => {
-                        this.checkPremiumGift();
-                    }, 110);
-                }
-            });
-        });
-    }
-    checkPremiumGift() {
-        var _a;
-        const premiumGift = document.querySelector('[name="en__pg"]:checked');
-        if (premiumGift) {
-            const premiumGiftValue = premiumGift.value;
-            this.logger.log("Premium Gift Value: " + premiumGiftValue);
-            if (premiumGiftValue !== "0") {
-                const premiumGiftName = (_a = premiumGift
-                    .closest(".en__pg__body")) === null || _a === void 0 ? void 0 : _a.querySelector(".en__pg__name");
-                engrid_ENGrid.setBodyData("premium-gift-maximize", "false");
-                engrid_ENGrid.setBodyData("premium-gift-name", engrid_ENGrid.slugify(premiumGiftName.innerText));
-                this.setPremiumTitle(premiumGiftName.innerText);
-            }
-            else {
-                engrid_ENGrid.setBodyData("premium-gift-maximize", "true");
-                engrid_ENGrid.setBodyData("premium-gift-name", false);
-                this.setPremiumTitle("");
-            }
-        }
-    }
-    searchElements() {
-        const enElements = document.querySelectorAll(`
-      .en__component--copyblock,
-      .en__component--codeblock,
-      .en__field
-      `);
-        if (enElements.length > 0) {
-            enElements.forEach((item) => {
-                if (item instanceof HTMLElement &&
-                    item.innerHTML.includes("{$PREMIUMTITLE}")) {
-                    item.innerHTML = item.innerHTML.replace("{$PREMIUMTITLE}", `<span class="engrid_premium_title"></span>`);
-                    this.enElements.push(item);
-                }
-            });
-        }
-    }
-    setPremiumTitle(title) {
-        this.enElements.forEach((item) => {
-            const premiumTitle = item.querySelector(".engrid_premium_title");
-            if (premiumTitle) {
-                premiumTitle.innerHTML = title;
-            }
+        document.querySelectorAll(".engrid-currency-code").forEach((item) => {
+            item.innerHTML = engrid_ENGrid.getCurrencyCode();
         });
     }
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.13.52";
+const AppVersion = "0.13.15";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -18433,6 +17577,782 @@ const AppVersion = "0.13.52";
 // Version
 
 
+// EXTERNAL MODULE: ./node_modules/smoothscroll-polyfill/dist/smoothscroll.js
+var smoothscroll = __webpack_require__(523);
+var smoothscroll_default = /*#__PURE__*/__webpack_require__.n(smoothscroll);
+;// CONCATENATED MODULE: ./src/scripts/donation-lightbox-form.js
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+if (isSafari) {
+  window.__forceSmoothScrollPolyfill__ = true;
+}
+
+
+smoothscroll_default().polyfill();
+class DonationLightboxForm {
+  constructor(DonationAmount, DonationFrequency) {
+    if (!this.isIframe()) return;
+    this.amount = DonationAmount;
+    this.frequency = DonationFrequency;
+    this.ipCountry = "";
+    console.log("DonationLightboxForm: constructor"); // Each EN Row is a Section
+
+    this.sections = document.querySelectorAll("form.en__component > .en__component"); // Check if we're on the Thank You page
+
+    if (pageJson.pageNumber === pageJson.pageCount) {
+      this.sendMessage("status", "loaded");
+      this.sendMessage("status", "celebrate");
+      this.sendMessage("class", "thank-you");
+      document.querySelector("body").dataset.thankYou = "true"; // Get Query Strings
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      if (urlParams.get("name")) {
+        let engrid = document.querySelector("#engrid");
+
+        if (engrid) {
+          let engridContent = engrid.innerHTML;
+          engridContent = engridContent.replace("{user_data~First Name}", urlParams.get("name"));
+          engridContent = engridContent.replace("{receipt_data~recurringFrequency}", urlParams.get("frequency"));
+          engridContent = engridContent.replace("{receipt_data~amount}", "$" + urlParams.get("amount"));
+          engrid.innerHTML = engridContent;
+          this.sendMessage("firstname", urlParams.get("name"));
+        }
+      } else {
+        // Try to get the first name
+        const thisClass = this;
+        const pageDataUrl = location.protocol + "//" + location.host + location.pathname + "/pagedata";
+        fetch(pageDataUrl).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          if (json.hasOwnProperty("firstName") && json.firstName !== null) {
+            thisClass.sendMessage("firstname", json.firstName);
+          } else {
+            thisClass.sendMessage("firstname", "Friend");
+          }
+        }).catch(error => {
+          console.error("PageData Error:", error);
+        });
+      }
+
+      return false;
+    }
+
+    if (!this.sections.length) {
+      // No section or no Donation Page was found
+      this.sendMessage("error", "No sections found");
+      return false;
+    }
+
+    console.log(this.sections);
+
+    if (this.isIframe()) {
+      // If iFrame
+      this.buildSectionNavigation(); // If Form Submission Failed
+
+      if (this.checkNested(EngagingNetworks, "require", "_defined", "enjs", "checkSubmissionFailed") && EngagingNetworks.require._defined.enjs.checkSubmissionFailed()) {
+        console.log("DonationLightboxForm: Submission Failed"); // Submission failed
+
+        if (this.validateForm()) {
+          // Front-End Validation Passed, get first Error Message
+          const error = document.querySelector("li.en__error");
+
+          if (error) {
+            // Check if error contains "problem processing" to send a smaller message
+            if (error.innerHTML.toLowerCase().indexOf("problem processing") > -1) {
+              this.sendMessage("error", "Sorry! There's a problem processing your donation.");
+              this.scrollToElement(document.querySelector(".en__field--ccnumber"));
+            } else {
+              this.sendMessage("error", error.textContent);
+            } // Check if error contains "payment" or "account" and scroll to the right section
+
+
+            if (error.innerHTML.toLowerCase().indexOf("payment") > -1 || error.innerHTML.toLowerCase().indexOf("account") > -1) {
+              this.scrollToElement(document.querySelector(".en__field--ccnumber"));
+            }
+          }
+        }
+      }
+
+      document.querySelectorAll("form.en__component input.en__field__input").forEach(e => {
+        e.addEventListener("focus", event => {
+          // Run after 50ms - We need this or else some browsers will disregard the scroll due to the focus event
+          const sectionId = this.getSectionId(e);
+          setTimeout(() => {
+            if (sectionId > 0 && this.validateForm(sectionId - 1)) {
+              this.scrollToElement(e);
+            }
+          }, 50);
+        });
+      });
+    }
+
+    let paymentOpts = document.querySelector(".payment-options");
+
+    if (paymentOpts) {
+      this.clickPaymentOptions(paymentOpts);
+    } // this.putArrowUpSVG();
+    // this.bounceArrow(this.frequency.getInstance().frequency);
+    // DonationFrequency.getInstance().onFrequencyChange.subscribe((s) =>
+    //   this.bounceArrow(s)
+    // );
+
+
+    DonationFrequency.getInstance().onFrequencyChange.subscribe(() => this.changeSubmitButton());
+    DonationAmount.getInstance().onAmountChange.subscribe(() => this.changeSubmitButton());
+    this.changeSubmitButton();
+    this.sendMessage("status", "loaded"); // Check if theres a color value in the url
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get("color")) {
+      document.body.style.setProperty("--color_primary", urlParams.get("color"));
+    } // Check your IP Country
+
+
+    fetch("https://www.cloudflare.com/cdn-cgi/trace").then(res => res.text()).then(t => {
+      let data = t.replace(/[\r\n]+/g, '","').replace(/\=+/g, '":"');
+      data = '{"' + data.slice(0, data.lastIndexOf('","')) + '"}';
+      const jsondata = JSON.parse(data);
+      this.ipCountry = jsondata.loc;
+      this.canadaOnly();
+      console.log("Country:", this.ipCountry);
+    });
+    const countryField = document.querySelector("#en__field_supporter_country");
+
+    if (countryField) {
+      countryField.addEventListener("change", e => {
+        this.canadaOnly();
+      });
+    }
+  } // Send iframe message to parent
+
+
+  sendMessage(key, value) {
+    const message = {
+      key: key,
+      value: value
+    };
+    window.parent.postMessage(message, "*");
+  } // Check if is iFrame
+
+
+  isIframe() {
+    return window.self !== window.top;
+  } // Build Section Navigation
+
+
+  buildSectionNavigation() {
+    console.log("DonationLightboxForm: buildSectionNavigation");
+    this.sections.forEach((section, key) => {
+      var _sectionNavigation$qu, _sectionNavigation$qu2, _sectionNavigation$qu3;
+
+      section.dataset.sectionId = key;
+      const sectionNavigation = document.createElement("div");
+      sectionNavigation.classList.add("section-navigation");
+      const sectionCount = document.createElement("div");
+      sectionCount.classList.add("section-count");
+      const sectionTotal = this.sections.length;
+
+      if (key == 0) {
+        sectionNavigation.innerHTML = `
+        <button class="section-navigation__next" data-section-id="${key}">
+          <span>Let’s Do It!</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 14 14">
+              <path fill="currentColor" d="M7.687 13.313c-.38.38-.995.38-1.374 0-.38-.38-.38-.996 0-1.375L10 8.25H1.1c-.608 0-1.1-.493-1.1-1.1 0-.608.492-1.1 1.1-1.1h9.2L6.313 2.062c-.38-.38-.38-.995 0-1.375s.995-.38 1.374 0L14 7l-6.313 6.313z"/>
+          </svg>
+        </button>
+      `;
+      } else if (key == this.sections.length - 1) {
+        sectionNavigation.innerHTML = `
+        <button class="section-navigation__previous" data-section-id="${key}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
+              <path fill="currentColor" d="M7.214.786c.434-.434 1.138-.434 1.572 0 .433.434.433 1.137 0 1.571L4.57 6.572h10.172c.694 0 1.257.563 1.257 1.257s-.563 1.257-1.257 1.257H4.229l4.557 4.557c.433.434.433 1.137 0 1.571-.434.434-1.138.434-1.572 0L0 8 7.214.786z"/>
+          </svg>
+        </button>
+        <button class="section-navigation__submit" data-section-id="${key}" type="submit" data-label="Give $AMOUNT$FREQUENCY">
+          <span>Give Now</span>
+        </button>
+      `;
+      } else {
+        sectionNavigation.innerHTML = `
+        <button class="section-navigation__previous" data-section-id="${key}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
+              <path fill="currentColor" d="M7.214.786c.434-.434 1.138-.434 1.572 0 .433.434.433 1.137 0 1.571L4.57 6.572h10.172c.694 0 1.257.563 1.257 1.257s-.563 1.257-1.257 1.257H4.229l4.557 4.557c.433.434.433 1.137 0 1.571-.434.434-1.138.434-1.572 0L0 8 7.214.786z"/>
+          </svg>
+        </button>
+        <button class="section-navigation__next" data-section-id="${key}">
+          <span>Continue</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 14 14">
+              <path fill="currentColor" d="M7.687 13.313c-.38.38-.995.38-1.374 0-.38-.38-.38-.996 0-1.375L10 8.25H1.1c-.608 0-1.1-.493-1.1-1.1 0-.608.492-1.1 1.1-1.1h9.2L6.313 2.062c-.38-.38-.38-.995 0-1.375s.995-.38 1.374 0L14 7l-6.313 6.313z"/>
+          </svg>
+        </button>
+      `;
+      }
+
+      sectionCount.innerHTML = `
+        <span class="section-count__current">${key + 1}</span> of
+        <span class="section-count__total">${sectionTotal}</span>
+      `;
+      (_sectionNavigation$qu = sectionNavigation.querySelector(".section-navigation__previous")) === null || _sectionNavigation$qu === void 0 ? void 0 : _sectionNavigation$qu.addEventListener("click", e => {
+        e.preventDefault();
+        this.scrollToSection(key - 1);
+      });
+      (_sectionNavigation$qu2 = sectionNavigation.querySelector(".section-navigation__next")) === null || _sectionNavigation$qu2 === void 0 ? void 0 : _sectionNavigation$qu2.addEventListener("click", e => {
+        e.preventDefault();
+
+        if (this.validateForm(key)) {
+          this.scrollToSection(key + 1);
+        }
+      });
+      (_sectionNavigation$qu3 = sectionNavigation.querySelector(".section-navigation__submit")) === null || _sectionNavigation$qu3 === void 0 ? void 0 : _sectionNavigation$qu3.addEventListener("click", e => {
+        e.preventDefault(); // Validate the entire form again
+
+        if (this.validateForm()) {
+          // Send Basic User Data to Parent
+          this.sendMessage("donationinfo", JSON.stringify({
+            name: document.querySelector("#en__field_supporter_firstName").value,
+            amount: EngagingNetworks.require._defined.enjs.getDonationTotal(),
+            frequency: this.frequency.getInstance().frequency
+          })); // Only shows cortain if payment is not paypal
+
+          const paymentType = document.querySelector("#en__field_transaction_paymenttype").value;
+
+          if (paymentType != "paypal") {
+            this.sendMessage("status", "loading");
+          } else {
+            // If Paypal, submit the form on a new tab
+            const thisClass = this;
+            document.addEventListener("visibilitychange", function () {
+              if (document.visibilityState === "visible") {
+                thisClass.sendMessage("status", "submitted");
+              } else {
+                thisClass.sendMessage("status", "loading");
+              }
+            });
+            document.querySelector("form.en__component").target = "_blank";
+          }
+
+          document.querySelector("form.en__component").submit();
+        }
+      });
+      section.querySelector(".en__component").append(sectionNavigation);
+      section.querySelector(".en__component").append(sectionCount);
+    });
+  } // Scroll to a section
+
+
+  scrollToSection(sectionId) {
+    console.log("DonationLightboxForm: scrollToSection", sectionId);
+    const section = document.querySelector(`[data-section-id="${sectionId}"]`);
+
+    if (this.sections[sectionId]) {
+      console.log(section);
+      this.sections[sectionId].scrollIntoView({
+        behavior: "smooth" // block: "start",
+        // inline: "center",
+
+      });
+    }
+  } // Scroll to an element's section
+
+
+  scrollToElement(element) {
+    if (element) {
+      const sectionId = this.getSectionId(element);
+
+      if (sectionId) {
+        this.scrollToSection(sectionId);
+      }
+    }
+  } // Get Element's section id
+
+
+  getSectionId(element) {
+    if (element) {
+      return element.closest("[data-section-id]").dataset.sectionId;
+    }
+
+    return false;
+  } // Validate the form
+
+
+  validateForm() {
+    let sectionId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    const form = document.querySelector("form.en__component"); // Validate Frequency
+
+    const frequency = form.querySelector("[name='transaction.recurrfreq']:checked");
+    const frequencyBlock = form.querySelector(".en__field--recurrfreq");
+    const frequencySection = this.getSectionId(frequencyBlock);
+
+    if (sectionId === false || sectionId == frequencySection) {
+      if (!frequency || !frequency.value) {
+        this.scrollToElement(form.querySelector("[name='transaction.recurrfreq']:checked"));
+        this.sendMessage("error", "Please select a frequency");
+
+        if (frequencyBlock) {
+          frequencyBlock.classList.add("has-error");
+        }
+
+        return false;
+      } else {
+        if (frequencyBlock) {
+          frequencyBlock.classList.remove("has-error");
+        }
+      }
+    } // Validate Amount
+
+
+    const amount = EngagingNetworks.require._defined.enjs.getDonationTotal();
+
+    const amountBlock = form.querySelector(".en__field--donationAmt");
+    const amountSection = this.getSectionId(amountBlock);
+
+    if (sectionId === false || sectionId == amountSection) {
+      if (!amount || amount <= 0) {
+        this.scrollToElement(amountBlock);
+        this.sendMessage("error", "Please enter a valid amount");
+
+        if (amountBlock) {
+          amountBlock.classList.add("has-error");
+        }
+
+        return false;
+      } else {
+        if (amount < 5) {
+          this.sendMessage("error", "Amount must be at least $5 - Contact us for assistance");
+
+          if (amountBlock) {
+            amountBlock.classList.add("has-error");
+          }
+
+          return false;
+        }
+
+        if (amount > 30000) {
+          this.sendMessage("error", "Amount must be less than $30,000 - Contact us for assistance");
+
+          if (amountBlock) {
+            amountBlock.classList.add("has-error");
+          }
+
+          return false;
+        }
+
+        if (amountBlock) {
+          amountBlock.classList.remove("has-error");
+        }
+      }
+    } // Validate Payment Method
+
+
+    const paymentType = form.querySelector("#en__field_transaction_paymenttype");
+    const ccnumber = form.querySelector("#en__field_transaction_ccnumber");
+    const ccnumberBlock = form.querySelector(".en__field--ccnumber");
+    const ccnumberSection = this.getSectionId(ccnumberBlock);
+    console.log("DonationLightboxForm: validateForm", ccnumberBlock, ccnumberSection);
+
+    if (sectionId === false || sectionId == ccnumberSection) {
+      if (!paymentType || !paymentType.value) {
+        this.scrollToElement(paymentType);
+        this.sendMessage("error", "Please add your credit card information");
+
+        if (ccnumberBlock) {
+          ccnumberBlock.classList.add("has-error");
+        }
+
+        return false;
+      } // If payment type is not paypal, check credit card expiration and cvv
+
+
+      if (paymentType.value !== "paypal") {
+        if (!ccnumber || !ccnumber.value) {
+          this.scrollToElement(ccnumber);
+          this.sendMessage("error", "Please add your credit card information");
+
+          if (ccnumberBlock) {
+            ccnumberBlock.classList.add("has-error");
+          }
+
+          return false;
+        } else {
+          if (ccnumberBlock) {
+            ccnumberBlock.classList.remove("has-error");
+          }
+        }
+
+        if (/^\d+$/.test(ccnumber.value) === false) {
+          this.scrollToElement(ccnumber);
+          this.sendMessage("error", "Only numbers are allowed on credit card");
+
+          if (ccnumberBlock) {
+            ccnumberBlock.classList.add("has-error");
+          }
+
+          return false;
+        } else {
+          if (ccnumberBlock) {
+            ccnumberBlock.classList.remove("has-error");
+          }
+        }
+
+        const ccexpire = form.querySelectorAll("[name='transaction.ccexpire']");
+        const ccexpireBlock = form.querySelector(".en__field--ccexpire");
+        let ccexpireValid = true;
+        ccexpire.forEach(e => {
+          if (!e.value) {
+            this.scrollToElement(ccexpireBlock);
+            this.sendMessage("error", "Please enter a valid expiration date");
+
+            if (ccexpireBlock) {
+              ccexpireBlock.classList.add("has-error");
+            }
+
+            ccexpireValid = false;
+            return false;
+          }
+        });
+
+        if (!ccexpireValid && ccexpireBlock) {
+          return false;
+        } else {
+          if (ccexpireBlock) {
+            ccexpireBlock.classList.remove("has-error");
+          }
+        }
+
+        const cvv = form.querySelector("#en__field_transaction_ccvv");
+        const cvvBlock = form.querySelector(".en__field--ccvv");
+
+        if (!cvv || !cvv.value) {
+          this.scrollToElement(cvv);
+          this.sendMessage("error", "Please enter a valid CVV");
+
+          if (cvvBlock) {
+            cvvBlock.classList.add("has-error");
+          }
+
+          return false;
+        } else {
+          if (cvvBlock) {
+            cvvBlock.classList.remove("has-error");
+          }
+        }
+      }
+    } // Validate Everything else
+
+
+    const mandatoryFields = form.querySelectorAll(".en__mandatory");
+    let hasError = false;
+    mandatoryFields.forEach(field => {
+      if (hasError) {
+        return;
+      }
+
+      const fieldElement = field.querySelector(".en__field__input");
+      const fieldLabel = field.querySelector(".en__field__label");
+      const fieldSection = this.getSectionId(fieldElement);
+
+      if (sectionId === false || sectionId == fieldSection) {
+        if (!fieldElement.value) {
+          this.scrollToElement(fieldElement);
+          this.sendMessage("error", "Please enter " + fieldLabel.textContent);
+          field.classList.add("has-error");
+          hasError = true;
+          return false;
+        } else {
+          field.classList.remove("has-error");
+        } // If it's the e-mail field, check if it's a valid email
+
+
+        if (fieldElement.name === "supporter.emailAddress" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fieldElement.value) === false) {
+          this.scrollToElement(fieldElement);
+          this.sendMessage("error", "Please enter a valid email address");
+          field.classList.add("has-error");
+          hasError = true;
+          return false;
+        }
+      }
+    });
+
+    if (hasError) {
+      return false;
+    } // Validate City Characters Limit
+
+
+    const city = form.querySelector("#en__field_supporter_city");
+    const cityBlock = form.querySelector(".en__field--city");
+
+    if (!this.checkCharsLimit("#en__field_supporter_city", 100)) {
+      this.scrollToElement(city);
+      this.sendMessage("error", "This field only allows up to 100 characters");
+
+      if (cityBlock) {
+        cityBlock.classList.add("has-error");
+      }
+
+      return false;
+    } else {
+      if (cityBlock) {
+        cityBlock.classList.remove("has-error");
+      }
+    } // Validate Street Address line 1 Characters Limit
+
+
+    const streetAddress1 = form.querySelector("#en__field_supporter_address1");
+    const streetAddress1Block = form.querySelector(".en__field--address1");
+
+    if (!this.checkCharsLimit("#en__field_supporter_address1", 35)) {
+      this.scrollToElement(streetAddress1);
+      this.sendMessage("error", "This field only allows up to 35 characters. Longer street addresses can be broken up between Lines 1 and 2.");
+
+      if (streetAddress1Block) {
+        streetAddress1Block.classList.add("has-error");
+      }
+
+      return false;
+    } else {
+      if (streetAddress1Block) {
+        streetAddress1Block.classList.remove("has-error");
+      }
+    } // Validate Street Address line 2 Characters Limit
+
+
+    const streetAddress2 = form.querySelector("#en__field_supporter_address2");
+    const streetAddress2Block = form.querySelector(".en__field--address2");
+
+    if (!this.checkCharsLimit("#en__field_supporter_address2", 35)) {
+      this.scrollToElement(streetAddress2);
+      this.sendMessage("error", "This field only allows up to 35 characters. Longer street addresses can be broken up between Lines 1 and 2.");
+
+      if (streetAddress2Block) {
+        streetAddress2Block.classList.add("has-error");
+      }
+
+      return false;
+    } else {
+      if (streetAddress2Block) {
+        streetAddress2Block.classList.remove("has-error");
+      }
+    } // Validate Zip Code Characters Limit
+
+
+    const zipCode = form.querySelector("#en__field_supporter_postcode");
+    const zipCodeBlock = form.querySelector(".en__field--postcode");
+
+    if (!this.checkCharsLimit("#en__field_supporter_postcode", 20)) {
+      this.scrollToElement(zipCode);
+      this.sendMessage("error", "This field only allows up to 20 characters");
+
+      if (zipCodeBlock) {
+        zipCodeBlock.classList.add("has-error");
+      }
+
+      return false;
+    } else {
+      if (zipCodeBlock) {
+        zipCodeBlock.classList.remove("has-error");
+      }
+    } // Validate First Name Characters Limit
+
+
+    const firstName = form.querySelector("#en__field_supporter_firstName");
+    const firstNameBlock = form.querySelector(".en__field--firstName");
+
+    if (!this.checkCharsLimit("#en__field_supporter_firstName", 100)) {
+      this.scrollToElement(firstName);
+      this.sendMessage("error", "This field only allows up to 100 characters");
+
+      if (firstNameBlock) {
+        firstNameBlock.classList.add("has-error");
+      }
+
+      return false;
+    } else {
+      if (firstNameBlock) {
+        firstNameBlock.classList.remove("has-error");
+      }
+    } // Validate Last Name Characters Limit
+
+
+    const lastName = form.querySelector("#en__field_supporter_lastName");
+    const lastNameBlock = form.querySelector(".en__field--lastName");
+
+    if (!this.checkCharsLimit("#en__field_supporter_lastName", 100)) {
+      this.scrollToElement(lastName);
+      this.sendMessage("error", "This field only allows up to 100 characters");
+
+      if (lastNameBlock) {
+        lastNameBlock.classList.add("has-error");
+      }
+
+      return false;
+    } else {
+      if (lastNameBlock) {
+        lastNameBlock.classList.remove("has-error");
+      }
+    }
+
+    console.log("DonationLightboxForm: validateForm PASSED");
+    return true;
+  }
+
+  checkCharsLimit(field, max) {
+    const fieldElement = document.querySelector(field);
+
+    if (fieldElement && fieldElement.value.length > max) {
+      return false;
+    }
+
+    return true;
+  } // Bounce Arrow Up and Down
+  // bounceArrow(freq) {
+  //   const arrow = document.querySelector(".monthly-upsell-message");
+  //   if (arrow && freq === "onetime") {
+  //     arrow.classList.add("bounce");
+  //     // setTimeout(() => {
+  //     //   arrow.classList.remove("bounce");
+  //     // }, 1000);
+  //   } else {
+  //     arrow.classList.remove("bounce");
+  //   }
+  // }
+
+
+  changeSubmitButton() {
+    const submit = document.querySelector(".section-navigation__submit");
+    const amount = this.checkNested(window.EngagingNetworks, "require", "_defined", "enjs", "getDonationTotal") ? "$" + window.EngagingNetworks.require._defined.enjs.getDonationTotal() : null;
+    let frequency = this.frequency.getInstance().frequency;
+    let label = submit ? submit.dataset.label : "";
+    frequency = frequency === "onetime" ? "" : "<small>/mo</small>";
+
+    if (amount) {
+      label = label.replace("$AMOUNT", amount);
+      label = label.replace("$FREQUENCY", frequency);
+    } else {
+      label = label.replace("$AMOUNT", "");
+      label = label.replace("$FREQUENCY", "");
+    }
+
+    if (submit && label) {
+      submit.innerHTML = `<span>${label}</span>`;
+    }
+  }
+
+  clickPaymentOptions(opts) {
+    opts.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        const paymentType = document.querySelector("#en__field_transaction_paymenttype");
+
+        if (paymentType) {
+          paymentType.value = btn.className.substr(15); // Go to the next section
+
+          this.scrollToSection(parseInt(btn.closest("[data-section-id]").dataset.sectionId) + 1);
+        }
+      });
+    });
+  } // Append arrow SVG to the monthly upsell message
+  // putArrowUpSVG() {
+  //   const arrow = document.querySelector(".monthly-upsell-message");
+  //   if (arrow) {
+  //     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  //     svg.classList.add(this.setArrowPosition());
+  //     svg.classList.add("monthly-upsell-message__arrow");
+  //     svg.setAttribute("viewBox", "0 0 55 40");
+  //     svg.setAttribute("fill", "none");
+  //     svg.innerHTML = `<path d="M.804 32.388c4.913-1.273 9.461-3.912 14.556-4.458 1-.09 1.183 1.183.728 1.73-.637.727-1.456 1.819-2.365 2.728 2.547.182 4.913 1.092 7.46 1.638 2.366.546 4.73.182 6.914-.637-.546-.546-1-1.183-1.546-1.82-3.64-5.185-5.914-22.198 3.548-23.38 5.368-.729 10.28 6.095 10.553 10.917.364 6.368-3.457 11.736-8.643 14.92 2.184 1.456 4.822 2.184 7.642 2.365 5.914.273 10.1-3.639 12.1-8.915 3.64-9.644.546-22.836-9.825-26.566-.455-.182-.455-.91.09-.91 13.01.182 14.83 19.56 11.555 28.567-3.73 10.28-16.012 12.464-23.745 6.46-.637.273-1.365.636-2.093.819-5.003 1.728-9.461-.728-14.283-1.274.637 1.183 1.273 2.456 2.183 3.548.637.819.091 2.184-1.091 1.82C9.628 38.483 4.624 37.392.44 34.39c-.637-.546-.637-1.82.364-2.002zm29.295 0c1.091-.636 2.183-1.364 3.093-2.183 6.277-5.277 7.187-15.103-.637-19.47-3.64-2.001-5.731 2.457-6.46 5.277-1.091 4.094-.454 8.825 1.274 12.646a19.738 19.738 0 0 0 2.73 3.73zm-19.652 1.183c-.09 0-.182-.182-.182-.273.273-1 1.092-1.82 2.002-2.638-2.911.819-5.64 2.092-8.552 3.002 2.73 1.456 5.732 2.365 8.825 3.275-.546-1-1-2.001-1.82-2.82-.182-.182-.273-.364-.273-.546z" fill="currentColor"/>`;
+  //     arrow.appendChild(svg);
+  //   }
+  // }
+  // Return the arrow position
+  // setArrowPosition() {
+  //   const frequencyWrapper = document.querySelector(
+  //     ".en__field--recurrfreq .en__field__element--radio"
+  //   );
+  //   if (frequencyWrapper) {
+  //     const left = frequencyWrapper.querySelector(
+  //       '.en__field__item:first-child input[value="MONTHLY"]'
+  //     );
+  //     const right = frequencyWrapper.querySelector(
+  //       '.en__field__item:last-child input[value="MONTHLY"]'
+  //     );
+  //     if (left) {
+  //       return "left";
+  //     }
+  //     if (right) {
+  //       return "right";
+  //     }
+  //   }
+  //   return null;
+  // }
+  // Return true if you are in Canada, checking 3 conditions
+  // 1 - You are using a Canadian ip address
+  // 2 - You choose Canada as your country
+  // 3 - Your browser language is en-CA
+
+
+  isCanada() {
+    const country = document.querySelector("#en__field_supporter_country");
+
+    if (country) {
+      if (country.value === "CA") {
+        return true;
+      }
+    }
+
+    const lang = window.navigator.userLanguage || window.navigator.language;
+
+    if (lang === "en-CA" || this.ipCountry === "CA") {
+      return true;
+    }
+
+    return false;
+  } // Display and check the class canada-only if you are in Canada
+
+
+  canadaOnly() {
+    const canadaOnly = document.querySelectorAll(".canada-only");
+
+    if (canadaOnly.length) {
+      if (this.isCanada()) {
+        canadaOnly.forEach(item => {
+          item.style.display = "";
+          const input = item.querySelectorAll("input[type='checkbox']");
+
+          if (input.length) {
+            input.forEach(input => {
+              input.checked = false;
+            });
+          }
+        });
+      } else {
+        canadaOnly.forEach(item => {
+          item.style.display = "none";
+          const input = item.querySelectorAll("input[type='checkbox']");
+
+          if (input.length) {
+            input.forEach(input => {
+              input.checked = true;
+            });
+          }
+        });
+      }
+    }
+  }
+
+  checkNested(obj, level) {
+    if (obj === undefined) return false;
+
+    for (var _len = arguments.length, rest = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+      rest[_key - 2] = arguments[_key];
+    }
+
+    if (rest.length == 0 && obj.hasOwnProperty(level)) return true;
+    return this.checkNested(obj[level], ...rest);
+  }
+
+}
 ;// CONCATENATED MODULE: ./src/scripts/main.js
 const customScript = function () {
   console.log("ENGrid client scripts are executing"); // Add your client scripts here
@@ -18475,41 +18395,12 @@ const customScript = function () {
     if (digitalWalletsExist.length > 0) {
       giveBySelect.setAttribute("show-wallets", "");
     }
-  }, 2500); // Make Sure we don't have selected hidden payment method when changing frequency or currency
-
-  const isVisibile = el => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
-
-  const frequencyRadio = document.querySelectorAll("[name='transaction.recurrfreq']");
-  const currencySelect = document.querySelector("[name='transaction.paycurrency']");
-  const paymentMethodRadioWrapper = document.querySelectorAll(".give-by-select .en__field__item");
-  [...frequencyRadio, currencySelect].forEach(el => {
-    el.addEventListener("change", () => {
-      console.log("CHANGING");
-      window.setTimeout(() => {
-        // Get selected payment method
-        const selectedPaymentMethod = document.querySelector("[name='transaction.giveBySelect']:checked");
-
-        if (selectedPaymentMethod) {
-          const selectedPaymentContainer = selectedPaymentMethod.closest(".en__field__item"); // Check if selected payment method is hidden
-
-          if (!isVisibile(selectedPaymentContainer)) {
-            // If hidden, click on the first visible payment method
-            [...paymentMethodRadioWrapper].every(element => {
-              if (isVisibile(element)) {
-                console.log(`Clicking on ${element.querySelector("label").innerText}`);
-                element.querySelector("label").click();
-                return false;
-              }
-            });
-          }
-        }
-      }, 500);
-    });
-  });
+  }, 2500);
 };
 ;// CONCATENATED MODULE: ./src/index.ts
  // Uses ENGrid via NPM
 // import { Options, App } from "../../engrid-scripts/packages/common"; // Uses ENGrid via Visual Studio Workspace
+
 
 
 
@@ -18534,7 +18425,7 @@ const options = {
   NeverBounceStatusField: "supporter.NOT_TAGGED_35",
   NeverBounceDateFormat: "YYYYMMDD",
   TidyContact: {
-    cid: "659b7129-73d0-4601-af4c-8942c4730f65",
+    cid: 3,
     // us_zip_divider: "-",
     record_field: "supporter.NOT_TAGGED_41",
     date_field: "supporter.NOT_TAGGED_39",
@@ -18546,17 +18437,12 @@ const options = {
     phone_date_field: "supporter.NOT_TAGGED_44",
     phone_status_field: "supporter.NOT_TAGGED_43"
   },
-  RememberMe: {
-    checked: true,
-    remoteUrl: "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
-    fieldOptInSelectorTarget: "div.en__field--telephone, div.en__field--email, div.en__field--lastName",
-    fieldOptInSelectorTargetLocation: "after",
-    fieldClearSelectorTarget: "div.en__field--firstName div, div.en__field--email div",
-    fieldClearSelectorTargetLocation: "after",
-    fieldNames: ["supporter.firstName", "supporter.lastName", "supporter.address1", "supporter.address2", "supporter.city", "supporter.country", "supporter.region", "supporter.postcode", "supporter.emailAddress"]
-  },
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
-  onLoad: () => customScript(),
+  onLoad: () => {
+    window.DonationLightboxForm = DonationLightboxForm;
+    new DonationLightboxForm(DonationAmount, DonationFrequency);
+    customScript();
+  },
   onResize: () => console.log("Starter Theme Window Resized"),
   onValidate: () => {
     const country = App.getFieldValue("supporter.country"); // If country is not US or CA, then remove the region field value

@@ -81,3 +81,25 @@
     url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansProBlack.woff2")
       format("woff2");
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap");
+
+@font-face {
+  font-family: "Futura";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("Futura Medium"), local("Futura-Medium"),
+    url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/Futura-Medium.woff2?v=1680784772000")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "Futura";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("Futura Bold"), local("Futura-Bold"),
+    url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/Futura-Bold.woff2?v=1680784770000")
+      format("woff2");
+}
