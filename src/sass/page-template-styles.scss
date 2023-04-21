@@ -1925,7 +1925,7 @@
   // --checkbox_border-color_checked: var(--color_black);
 
   // TYPOGRAPHY BUTTON
-  --button_font-family: "Futura", sans-serif;
+  --button_font-family: "HarmoniaSansPro", sans-serif;
   --button_color: var(--color_white);
   --button_font-size: 1.5rem;
   --button_font-weight: 900;
@@ -1967,6 +1967,32 @@
   --ran__green: #6a9914;
   --icon__color: var(--ran__green);
 
+  .en__contactDetails__select:focus + .en__contactDetails__rows,
+  .en__field__input--checkbox:focus + .en__field__label,
+  .en__field__input--radio:focus + .en__field__label,
+  .en__field__input--other:focus {
+    outline: 1px auto black;
+  }
+
+  .summary-table {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+    dt {
+      width: 100px;
+      font-weight: 700;
+      border-bottom: 1px solid #2e2e2c33;
+      padding: 5px 0;
+    }
+    dd {
+      margin-left: auto;
+      width: calc(100% - 100px);
+      text-align: right;
+      border-bottom: 1px solid #2e2e2c33;
+      padding: 5px 0;
+    }
+  }
+
   &[data-engrid-subtheme="multistep"] {
     /* DONATION AMOUNT BUTTONS */
     --donation-amount__button_color: #000000;
@@ -1977,9 +2003,22 @@
     --donation-amount__button_border-color_hover: #78a22f;
     --donation-amount__button_color_checked: #ffffff;
     --donation-amount__button_background-color_checked: #78a22f;
-    --donation-amount__button_font-size: 1.4rem;
+    --donation-amount__button_font-size: 1.5rem;
     --donation-amount__button_count: 3;
     --donation-amount__button_padding: 14px 0px 10px;
+
+    //page layout when not embedded (veritcal columns)
+    &#en__pagebuilder,
+    &:not(#en__pagebuilder):not([data-engrid-embedded]) {
+      .en__component--row {
+        width: 430px;
+        padding-left: 40px;
+        padding-right: 40px;
+        background-color: #ffffff;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
 
     /* OTHER AMOUNT FIELD */
     .radio-to-buttons_donationAmt {
@@ -2050,7 +2089,7 @@
     //--recurring-frequency__button_font-family: "HarmoniaSansPro", sans-serif;
     --recurring-frequency__button_font-size: 1rem;
     --recurring-frequency__button_count: 2;
-    --recurring-frequency__button_padding: 20px 14px;
+    --recurring-frequency__button_padding: 23px 14px 20px;
 
     .radio-to-buttons_recurrfreq
       .en__field--recurrfreq
@@ -2062,7 +2101,16 @@
         position: absolute;
         right: -35px;
         top: -3px;
+        transition: opacity 0.2s ease-in-out;
       }
+    }
+
+    .radio-to-buttons_recurrfreq
+      .en__field--recurrfreq
+      .en__field__item:last-of-type
+      input:checked
+      + label:after {
+      opacity: 0;
     }
 
     /* GENERIC BUTTONS */
@@ -2082,36 +2130,39 @@
     --checkbox_color_checked: #000;
 
     /* EMBEDDED SECTIONS STYLING */
-    height: 100vh;
-    form.en__component {
-      margin: 0 auto;
-      display: grid;
-      grid-auto-flow: column;
+    &[data-engrid-embedded] {
+      height: 100vh;
 
-      & > .en__component {
-        height: 100vh;
-        width: 350px;
-        padding: 45px 40px;
+      form.en__component {
+        margin: 0 auto;
+        display: grid;
+        grid-auto-flow: column;
 
         & > .en__component {
-          height: 100%;
+          height: 100vh;
+          width: 350px;
+          padding: 45px 40px;
+
+          & > .en__component {
+            height: 100%;
+          }
         }
-      }
 
-      .en__component--row
-        > .en__component--column
-        .en__component:first-of-type
-        > *:first-child {
-        margin-top: 0;
-        padding-top: 0;
-      }
+        .en__component--row
+          > .en__component--column
+          .en__component:first-of-type
+          > *:first-child {
+          margin-top: 0;
+          padding-top: 0;
+        }
 
-      .en__component--row
-        > .en__component--column
-        .en__component:last-of-type
-        > *:last-child {
-        margin-bottom: 0;
-        padding-bottom: 0;
+        .en__component--row
+          > .en__component--column
+          .en__component:last-of-type
+          > *:last-child {
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
       }
     }
     /* END EMBEDDED SECTIONS STYLING */
@@ -2123,10 +2174,10 @@
     }
 
     .engrid-currency-symbol {
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 500;
       margin-right: -2px;
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     .en__field--donationAmt .en__field__label--item {
@@ -2176,6 +2227,16 @@
 
     .en__submit {
       display: none;
+    }
+
+    //Adjust CC expiry fields to fit label width
+    .en__field--ccexpire .en__field__element--splitselect {
+      .en__field__item:first-of-type {
+        flex-basis: 56%;
+      }
+      .en__field__item:last-of-type {
+        flex-basis: 44%;
+      }
     }
 
     /* SECTION NAVIGATION */
@@ -2248,6 +2309,79 @@
         }
         &[data-section-id="0"] {
           width: 100%;
+        }
+      }
+    }
+
+    //thank you page styling
+    &[data-thank-you] {
+      .en__component--imageblock {
+        width: 150px;
+        height: 150px;
+        border-radius: 100%;
+        position: relative;
+        img {
+          width: 150px !important;
+          height: 150px !important;
+          object-fit: cover;
+          border-radius: 100%;
+        }
+        &::after,
+        &::before {
+          content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="46" height="38" fill="none" viewBox="0 0 46 38"><path fill="%23C92533" d="M33.707 0C29.268 0 25.174 2.166 23 5.664 20.826 2.166 16.732 0 12.293 0 5.504 0 0 5.693 0 11.83 0 27.245 23 38 23 38s23-10.755 23-26.17C46 5.693 40.496 0 33.707 0z"/></svg>');
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 46px;
+          height: 38px;
+        }
+      }
+      form.en__component {
+        & > .en__component {
+          padding: 100px 30px;
+          margin: auto;
+        }
+      }
+      footer {
+        position: fixed;
+        left: 0;
+        width: 100vw;
+        bottom: 0;
+        height: 132px;
+        background-image: url('data:image/svg+xml;utf8,<svg fill="none" height="132" viewBox="0 0 400 132" width="400" xmlns="http://www.w3.org/2000/svg"> <path d="M0 110.582L400 0v128c0 2.209-1.791 4-4 4H0v-21.418z" fill="%23A3D1D6"></path> <path d="M0 73.5L400 132H0V73.5z" fill="%23007cf9"></path></svg>');
+        background-size: contain;
+        background-position: bottom;
+        background-repeat: no-repeat;
+        z-index: -1;
+        svg {
+          display: none;
+        }
+      }
+      h1 {
+        font-family: var(--h1_font-family);
+        font-size: 50px;
+        font-weight: 900;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 0.83;
+        letter-spacing: normal;
+        text-align: left;
+        color: var(--color_primary);
+        margin-bottom: 15px;
+        white-space: nowrap;
+      }
+      p {
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.63;
+        letter-spacing: normal;
+        text-align: left;
+        &.small {
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 1.5;
         }
       }
     }
