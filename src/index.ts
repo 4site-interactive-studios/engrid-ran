@@ -85,4 +85,9 @@ const options: Options = {
     }
   },
 };
+
+if (document.body.dataset.engridTheme === 'engrid-ran3') {
+  options.RememberMe = false;
+}
+
 new App(options);

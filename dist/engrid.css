@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, April 21, 2023 @ 09:39:44 ET
+ *  Date: Monday, April 24, 2023 @ 18:17:50 ET
  *  By: michael
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -8320,29 +8320,31 @@ body:not([data-engrid-debug]) #debug-bar{
 [data-engrid-theme=engrid-ran3]{
   --color_primary:#000;
   --color_primary_accent:#f1700b;
+  --engrid__body_background-color:#f5f2d8;
+  --engrid__body-headerOutside_background-color:var(--engrid__body_background-color);
   --default_font-family:"HarmoniaSansPro", sans-serif;
   --root_font-size:1.125rem;
   --default_font-size:var(--root_font-size);
   --engrid__body_padding:0 3.5rem;
   --h1_font-family:"HarmoniaSansPro", sans-serif;
   --h1_font-size:3rem;
-  --h1_line-height:1.2;
-  --h1_font-weight:900;
-  --h2_font-size:1.5rem;
-  --h2_font-weight:700;
+  --h1_line-height:1;
+  --h1_font-weight:500;
+  --h2_font-size:2.5rem;
+  --h2_font-weight:900;
   --label_font-family:"HarmoniaSansPro", sans-serif;
-  --label_font-size:0.75rem;
-  --label_font-weight:500;
-  --label_text-transform:uppercase;
-  --label_letter-spacing:1.68px;
+  --label_font-size:1.125rem;
+  --label_font-weight:600;
   --p_font-family:var(--default_font-family);
   --a_font-family:var(--default_font-family);
   --input_font-family:var(--default_font-family);
+  --input_font-size:1.5rem;
   --input_color:#000;
-  --input_background-color:var(--white);
+  --input_background-color:#fff;
   --input_border-width:2px;
   --input_border-color:#000;
   --input_border-radius:0;
+  --input_padding:11px 16px 7px;
   --input_border-color_hover:#000;
   --radio_border-width:2px;
   --radio_top:-2px;
@@ -8350,36 +8352,199 @@ body:not([data-engrid-debug]) #debug-bar{
   --radio_box-shadow_selected:inset 0 0 0 2px #fff;
   --checkbox_border-width:2px;
   --checkbox_top:-1px;
-  --checkbox_height:24px;
-  --checkbox_width:24px;
+  --checkbox_height:26px;
+  --checkbox_width:26px;
   --checkbox_padding-left:0;
   --checkbox_padding-top:6px;
   --checkbox_content_checked:url('data:image/svg+xml;utf8,<svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="0.675049" y="5.99976" width="1.38462" height="8.30769" transform="rotate%28-45 0.675049 5.99976%29" fill="black"/><rect x="16.3459" y="0.125488" width="1.38462" height="15.2308" transform="rotate%2845 16.3459 0.125488%29" fill="black"/></svg>');
   --checkbox_color_checked:#f1700b;
   --button_font-family:"HarmoniaSansPro", sans-serif;
-  --button_color:var(--color_white);
-  --button_font-size:1.5rem;
-  --button_font-weight:900;
-  --button_border-width:0;
+  --button_color:#000;
+  --button_font-size:2.5rem;
+  --button_font-weight:700;
+  --button_background-color:#fff;
+  --button_border-width:2px;
+  --button_border-color:#000;
   --button_border-radius:0px;
-  --donation-amount__button_padding:1.25ch 1.2ch 0.75ch 1.2ch;
-  --button_background-color_checked:var(--color_primary_accent);
-  --donation-amount__button_background-color_checked:var(
-    --color_primary_accent
-  );
+  --button_color_hover:#fff;
+  --button_background-color_hover:#000;
+  --button_border-color_hover:#000;
+  --button_color_checked:var(--button_color_hover);
+  --button_background-color_checked:var(--button_background-color_hover);
+  --button_border-color_checked:var(--button_border-color_hover);
   --submit__button_background-color:var(--color_primary_accent);
   --submit__button_font-size:1.33248em;
   --give-monthly-donation-amount-appended-label:"/mo";
-  --recurring-frequency__button_count:3;
+  --recurring-frequency__button_count:2;
   --donation-amount__button_count:3;
-  --give-by-select__button_count:2;
+  --give-by-select__button_count:1;
   --highlight__background-color:#f9f003;
   --highlight__color:#343432;
   --ran__green:#6a9914;
   --icon__color:var(--ran__green);
+  --click-to-expand__copy-area_height:200px;
+  --click-to-expand__cta-image_height:16px;
+  --click-to-expand__cta-image_width:22px;
+  --recurring-frequency__button_font-size:1.5rem;
+  --recurring-frequency__button_padding:70px 0px 14px;
+  --donation-amount__button_padding:22px 0 14px;
+  --donation-amount__button_line-height:1;
+  --give-by-select__button_font-size:1rem;
+}
+[data-engrid-theme=engrid-ran3] .en__field.en__field--checkbox{
+  margin-bottom:0;
+}
+[data-engrid-theme=engrid-ran3][data-engrid-layout=leftleft1col][data-engrid-page-background=image] .page-backgroundImage:before{
+  left:680px;
+  width:calc(100% - 680px);
+}
+[data-engrid-theme=engrid-ran3][data-engrid-layout=leftleft1col] .content-footer{
+  grid-column:bc;
+}
+[data-engrid-theme=engrid-ran3] .click-to-expand:not(.expanded) .click-to-expand-cta{
+  background:none !important;
+  height:20px !important;
+  right:auto !important;
+  width:100% !important;
+}
+[data-engrid-theme=engrid-ran3] .click-to-expand:not(.expanded) .click-to-expand-cta:before{
+  content:var(--click-to-expand__cta-image_url);
+  position:absolute;
+  transform:rotate(-90deg);
+}
+[data-engrid-theme=engrid-ran3] .click-to-expand:not(.expanded) .click-to-expand-cta:after{
+  content:"Read More";
+  left:20px;
+  position:relative;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio{
+  margin-bottom:0;
+  margin-top:60px;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item{
+  padding-bottom:0;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:first-of-type{
+  padding-right:0;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:first-of-type label:after{
+  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/one-time-icon.png?v=1682271744000);
+  background-position:top;
+  background-repeat:no-repeat;
+  bottom:0;
+  content:"";
+  position:absolute;
+  top:80px;
+  width:50%;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:first-of-type input:not(:checked):not(:hover)+label:after{
+  filter:invert(1);
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:last-of-type{
+  padding-left:0;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:last-of-type label:after{
+  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/monthly-icon.png?v=1682271743000);
+  background-position:top;
+  background-repeat:no-repeat;
+  bottom:0;
+  content:"";
+  left:calc(50% + 5px);
+  position:absolute;
+  top:45px;
+  transition:transform .25s ease-in-out;
+  width:50%;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:last-of-type input:checked+label:after,[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:last-of-type input:hover+label:after{
+  filter:invert(1);
+  transform:scale(.7) translateY(10px);
+}
+[data-engrid-theme=engrid-ran3][data-engrid-transaction-recurring=y] .monthly-donation-suggestion{
+  display:none;
+}
+[data-engrid-theme=engrid-ran3] .monthly-donation-suggestion{
+  background:#efeabe;
+  border-bottom:2px solid #000;
+  border-left:2px solid #000;
+  border-right:2px solid #000;
+  padding:7px 0;
+  position:relative;
+  text-align:center;
+}
+[data-engrid-theme=engrid-ran3] .monthly-donation-suggestion p{
+  font-size:16px;
+  margin:0;
+}
+[data-engrid-theme=engrid-ran3] .monthly-donation-suggestion:before{
+  background-color:#efeabe;
+  border:2px solid #000;
+  border-bottom:none;
+  border-right:none;
+  content:"";
+  height:20px;
+  left:73%;
+  position:absolute;
+  top:-12px;
+  transform:rotate(45deg);
+  width:20px;
+}
+[data-engrid-theme=engrid-ran3] .en__field--paycurrency select{
+  background-color:initial;
+  border:none;
+  box-shadow:none;
+  font-size:1.5rem;
+  margin:18px auto 0 !important;
+  text-align:center;
+  text-transform:uppercase;
+  width:auto;
+}
+[data-engrid-theme=engrid-ran3] .engrid-currency-symbol{
+  font-size:1.5rem;
+  font-weight:500;
+  margin-right:-2px;
+  margin-top:2px;
+  position:relative;
+  top:-10px;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item{
+  transition:all .2s ease-in-out;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item:after{
+  color:#000;
+  font-size:50%;
+  letter-spacing:0;
+  margin-left:0;
+  opacity:1;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) .en__field__label--item:hover:after,[data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) input:checked+label:after{
+  color:#fff;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other{
+  flex-basis:100%;
+  position:relative;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other:before{
+  content:attr(data-currency-symbol);
+  font-size:26px;
+  left:20px;
+  position:absolute;
+  top:12px;
+}
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other input{
+  font-size:36px;
+  padding:10px 12px 0 33px;
+}
+[data-engrid-theme=engrid-ran3] .en__field--withOther--active .en__field__item--other:before{
+  color:#fff;
+}
+[data-engrid-theme=engrid-ran3] .header-logo{
+  height:auto;
+  margin:40px auto 0 0;
+  width:240px;
 }
 [data-engrid-theme=engrid-ran3] .en__contactDetails__select:focus+.en__contactDetails__rows,[data-engrid-theme=engrid-ran3] .en__field__input--checkbox:focus+.en__field__label,[data-engrid-theme=engrid-ran3] .en__field__input--other:focus,[data-engrid-theme=engrid-ran3] .en__field__input--radio:focus+.en__field__label{
   outline:1px auto #000;
+  outline-offset:1px;
 }
 [data-engrid-theme=engrid-ran3] .summary-table{
   display:flex;
