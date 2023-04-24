@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, April 24, 2023 @ 18:17:50 ET
+ *  Date: Monday, April 24, 2023 @ 12:57:23 ET
  *  By: michael
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -17663,7 +17663,7 @@ class LiveFrequency {
   }
 
   updateFrequency() {
-    const frequency = this._frequency.frequency === "onetime" ? "" : this._frequency.frequency;
+    const frequency = this._frequency.frequency === "onetime" ? "one-time" : this._frequency.frequency;
     const elemenst = document.querySelectorAll(".engrid-frequency");
     elemenst.forEach(item => {
       if (item.classList.contains("engrid-frequency--lowercase")) {
@@ -17679,7 +17679,7 @@ class LiveFrequency {
   }
 
   replaceMergeTags(tag, element) {
-    const frequency = this._frequency.frequency === "onetime" ? "" : this._frequency.frequency;
+    const frequency = this._frequency.frequency === "onetime" ? "one-time" : this._frequency.frequency;
     const frequencyElement = document.createElement("span");
     frequencyElement.classList.add("engrid-frequency");
     frequencyElement.innerHTML = frequency;
@@ -17707,7 +17707,7 @@ class LiveFrequency {
 
 }
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/version.js
-const AppVersion = "0.13.60";
+const AppVersion = "0.13.62";
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
 

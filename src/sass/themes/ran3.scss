@@ -1,7 +1,8 @@
 [data-engrid-theme="engrid-ran3"] {
   // PRIMARY COLORS
   --color_primary: #000000;
-  --color_primary_accent: #f1700b;
+  --color_primary_accent: #F57E20;
+  --color_green: #395A4C;
   --engrid__body_background-color: #F5F2D8;
   --engrid__body-headerOutside_background-color: var(--engrid__body_background-color);
 
@@ -10,6 +11,7 @@
   --root_font-size: 1.125rem;
   --default_font-size: var(--root_font-size);
   --engrid__body_padding: 0 3.5rem;
+  --engrid__body-main_padding: 0 3.5rem 85px;
 
   // TYPOGRAPHY H1 AND H2
   --h1_font-family: "HarmoniaSansPro", sans-serif;
@@ -131,11 +133,14 @@
   --button_border-color_checked: var(--button_border-color_hover);
 
   // TYPOGRAPHY SUBMIT BUTTON
-  // --submit__button_border-color: var(--button_border-color);
+  --submit__button_border-color: var(--color_primary_accent);
   --submit__button_background-color: var(--color_primary_accent);
-  // --submit__button_padding-top: 1ch;
-  // --submit__button_padding-bottom: 1ch;
-  --submit__button_font-size: calc(0.05552em * 24);
+  --submit__button_background-color_hover: var(--color_green);
+  --submit__button_color_hover: #ffffff;
+  --submit__button_border-color_hover: var(--color_green);
+  --submit__button_padding-top: 16px;
+  --submit__button_padding-bottom: 12px;
+  --submit__button_font-size: 2.5rem;
 
   // DONATION PAGE
   --give-monthly-donation-amount-appended-label: "/mo";
@@ -174,11 +179,14 @@
       content: var(--click-to-expand__cta-image_url);
       position: absolute;
       transform: rotate(-90deg);
+      left: 3px;
     }
     &:after {
       content: 'Read More';
       position: relative;
       left: 20px;
+      font-weight: bold;
+      top: 2px;
     }
   }
 
@@ -278,7 +286,7 @@
   //donation buttons
   --donation-amount__button_padding: 22px 0 14px;
   --donation-amount__button_line-height: 1;
-  .engrid-currency-symbol {
+  .radio-to-buttons_donationAmt .en__field__label--item .engrid-currency-symbol {
     font-size: 1.5rem;
     font-weight: 500;
     margin-right: -2px;
@@ -334,6 +342,40 @@
 
   //give by select
   --give-by-select__button_font-size: 1rem;
+  --give-by-select__button_padding: 0 12px;
+  .en__field--give-by-select.en__field--radio input[type=radio]+label {
+    height: 58px;
+  }
+
+  .en__field--giveBySelect .en__field__label--item img {
+    width: auto;
+    margin: 0;
+  }
+
+  .en__field--giveBySelect input:checked + label > img.paypal,
+  .en__field--giveBySelect input:hover + label > img.paypal,
+  .en__field--giveBySelect input:checked + label > img.google-pay-type,
+  .en__field--giveBySelect input:hover + label > img.google-pay-type,
+  .en__field--giveBySelect input:checked + label > img.apple-pay-logo,
+  .en__field--giveBySelect input:hover + label > img.apple-pay-logo,
+  .en__field--giveBySelect input:checked + label > img.paypal-venmo,
+  .en__field--giveBySelect input:hover + label > img.paypal-venmo {
+    filter: brightness(0) invert(1);
+  }
+
+  .en__field--giveBySelect .en__field__label--item img.google-pay-logo {
+    position: relative;
+    top: -3px;
+  }
+
+  .en__field--giveBySelect .en__field__label--item img.google-pay-type {
+    margin-left: 6px;
+    margin-right: 20px;
+  }
+
+  .en__field--giveBySelect .en__field__label--item img.paypal-venmo {
+    height: 25px;
+  }
 
   .header-logo {
     width: 240px;
@@ -347,6 +389,25 @@
   .en__field__input--other:focus {
     outline: 1px auto black;
     outline-offset: 1px;
+  }
+
+  .gift-summary {
+    border-width: 1px 0;
+    border-style: dashed;
+    border-color: #395A4C;
+    margin: 30px auto 0;
+    padding: 30px 20px;
+    > img {
+      width: 64px;
+      height: 66px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    p {
+      margin-bottom: 0;
+      text-align: center;
+    }
   }
 
   .summary-table {
@@ -366,6 +427,79 @@
       border-bottom: 1px solid #2e2e2c33;
       padding: 5px 0;
     }
+  }
+
+  .footer-wrapper {
+    background-color: var(--color_green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 112px 0 30px;
+    flex-direction: column;
+    font-weight: 400;
+  }
+
+  .footer-wrapper:before {
+    background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/footer-banner.png?v=1682341443000);
+    background-repeat: repeat-x;
+    content: "";
+    height: 112px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: -50px;
+    width: 100%;
+  }
+
+  .footer-menu {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 60px auto 40px;
+    justify-content: center;
+
+    a {
+      padding: 0 12px;
+      text-decoration: underline;
+      font-weight: bold;
+      position: relative;
+    }
+
+    a:not(:last-of-type):after {
+      content: '|';
+      position: absolute;
+      padding-left: 6px;
+      text-decoration: none;
+      pointer-events: none;
+      font-weight: normal;
+    }
+  }
+
+  .footer-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-badges {
+    img {
+      margin: 0;
+    }
+    margin-right: 40px;
+  }
+
+  .footer-copy {
+    flex-basis: 65%;
+  }
+
+  .footer-copy p {
+    font-size: 16px;
+    line-height: 140%;
+  }
+
+  .footer-address {
+    margin-top: 30px;
+    text-align: center;
   }
 
   &[data-engrid-subtheme="multistep"] {
