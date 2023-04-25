@@ -4,10 +4,38 @@
 //   DonationAmount,
 //   DonationFrequency,
 // } from "@4site/engrid-common"; // Uses ENGrid via NPM
-import { Options, App, DonationAmount, DonationFrequency } from "../../engrid-scripts/packages/common"; // Uses ENGrid via Visual Studio Workspace
+import {
+  Options,
+  App,
+  DonationAmount,
+  DonationFrequency,
+} from "../../engrid-scripts/packages/common"; // Uses ENGrid via Visual Studio Workspace
 import "./sass/main.scss";
 import DonationLightboxForm from "./scripts/donation-lightbox-form";
 import { customScript } from "./scripts/main";
+
+const rememberMeOptions = {
+  checked: true,
+  remoteUrl:
+    "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
+  fieldOptInSelectorTarget:
+    "div.en__field--telephone, div.en__field--email, div.en__field--lastName",
+  fieldOptInSelectorTargetLocation: "after",
+  fieldClearSelectorTarget:
+    "div.en__field--firstName div, div.en__field--email div",
+  fieldClearSelectorTargetLocation: "after",
+  fieldNames: [
+    "supporter.firstName",
+    "supporter.lastName",
+    "supporter.address1",
+    "supporter.address2",
+    "supporter.city",
+    "supporter.country",
+    "supporter.region",
+    "supporter.postcode",
+    "supporter.emailAddress",
+  ],
+};
 
 const options: Options = {
   applePay: false,
@@ -43,28 +71,7 @@ const options: Options = {
     phone_date_field: "supporter.NOT_TAGGED_44",
     phone_status_field: "supporter.NOT_TAGGED_43",
   },
-  RememberMe: {
-    checked: true,
-    remoteUrl:
-      "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
-    fieldOptInSelectorTarget:
-      "div.en__field--telephone, div.en__field--email, div.en__field--lastName",
-    fieldOptInSelectorTargetLocation: "after",
-    fieldClearSelectorTarget:
-      "div.en__field--firstName div, div.en__field--email div",
-    fieldClearSelectorTargetLocation: "after",
-    fieldNames: [
-      "supporter.firstName",
-      "supporter.lastName",
-      "supporter.address1",
-      "supporter.address2",
-      "supporter.city",
-      "supporter.country",
-      "supporter.region",
-      "supporter.postcode",
-      "supporter.emailAddress",
-    ],
-  },
+  RememberMe: rememberMeOptions,
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
@@ -86,8 +93,9 @@ const options: Options = {
   },
 };
 
-if (document.body.dataset.engridTheme === 'engrid-ran3') {
-  options.RememberMe = false;
+if (document.body.dataset.engridTheme === "engrid-ran3") {
+  rememberMeOptions.fieldOptInSelectorTarget =
+    "div.en__field--postcode, div.en__field--telephone, div.en__field--email, div.en__field--lastName";
 }
 
 new App(options);

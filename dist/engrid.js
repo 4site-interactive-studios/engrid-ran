@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, April 24, 2023 @ 12:57:23 ET
+ *  Date: Tuesday, April 25, 2023 @ 11:50:55 ET
  *  By: michael
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -18638,6 +18638,15 @@ const customScript = function () {
 
 
 
+const rememberMeOptions = {
+  checked: true,
+  remoteUrl: "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
+  fieldOptInSelectorTarget: "div.en__field--telephone, div.en__field--email, div.en__field--lastName",
+  fieldOptInSelectorTargetLocation: "after",
+  fieldClearSelectorTarget: "div.en__field--firstName div, div.en__field--email div",
+  fieldClearSelectorTargetLocation: "after",
+  fieldNames: ["supporter.firstName", "supporter.lastName", "supporter.address1", "supporter.address2", "supporter.city", "supporter.country", "supporter.region", "supporter.postcode", "supporter.emailAddress"]
+};
 const options = {
   applePay: false,
   CapitalizeFields: true,
@@ -18671,15 +18680,7 @@ const options = {
     phone_date_field: "supporter.NOT_TAGGED_44",
     phone_status_field: "supporter.NOT_TAGGED_43"
   },
-  RememberMe: {
-    checked: true,
-    remoteUrl: "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
-    fieldOptInSelectorTarget: "div.en__field--telephone, div.en__field--email, div.en__field--lastName",
-    fieldOptInSelectorTargetLocation: "after",
-    fieldClearSelectorTarget: "div.en__field--firstName div, div.en__field--email div",
-    fieldClearSelectorTargetLocation: "after",
-    fieldNames: ["supporter.firstName", "supporter.lastName", "supporter.address1", "supporter.address2", "supporter.city", "supporter.country", "supporter.region", "supporter.postcode", "supporter.emailAddress"]
-  },
+  RememberMe: rememberMeOptions,
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => {
     window.DonationLightboxForm = DonationLightboxForm;
@@ -18697,8 +18698,8 @@ const options = {
   }
 };
 
-if (document.body.dataset.engridTheme === 'engrid-ran3') {
-  options.RememberMe = false;
+if (document.body.dataset.engridTheme === "engrid-ran3") {
+  rememberMeOptions.fieldOptInSelectorTarget = "div.en__field--postcode, div.en__field--telephone, div.en__field--email, div.en__field--lastName";
 }
 
 new App(options);

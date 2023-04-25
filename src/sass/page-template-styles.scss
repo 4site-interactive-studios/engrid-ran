@@ -150,6 +150,11 @@
   --icon__color: var(--ran__green);
 }
 
+[data-engrid-theme="engrid-ran2"] .ran3-only,
+[data-engrid-theme="engrid-ran3"] .ran2-only{
+  display: none !important;
+}
+
 /* Add your custom theme styles here */
 [data-engrid-theme="engrid-ran2"] {
   &[data-engrid-embedded] {
