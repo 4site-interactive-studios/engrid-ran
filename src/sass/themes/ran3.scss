@@ -2,15 +2,21 @@
 [data-engrid-theme="engrid-ran3"] {
   // PRIMARY COLORS
   --color_primary: #000000;
-  --color_primary_accent: #F57E20;
-  --color_green: #395A4C;
-  --engrid__body_background-color: #F5F2D8;
-  --engrid__body-headerOutside_background-color: var(--engrid__body_background-color);
+  --color_primary_accent: #f57e20;
+  --color_green: #395a4c;
+  --engrid__body_background-color: #f5f2d8;
+  --engrid__body-headerOutside_background-color: var(
+    --engrid__body_background-color
+  );
   --engrid__body_box-shadow: none;
-  --engrid__embedded_page_background-color: var(--engrid__body_background-color);
+  --engrid__embedded_page_background-color: var(
+    --engrid__body_background-color
+  );
 
   &[data-engrid-embedded] {
-    --engrid__body-headerOutside_background-color: var(--engrid__embedded_page_background-color)
+    --engrid__body-headerOutside_background-color: var(
+      --engrid__embedded_page_background-color
+    );
   }
 
   // TYPOGRAPHY DEFAULT
@@ -189,10 +195,10 @@
   --click-to-expand__cta-image_height: 16px;
   --click-to-expand__cta-image_width: 22px;
   .click-to-expand:not(.expanded) .click-to-expand-cta {
-    background: none!important;
-    right: auto!important;
-    width: 100%!important;
-    height: 20px!important;
+    background: none !important;
+    right: auto !important;
+    width: 100% !important;
+    height: 20px !important;
     &:before {
       content: var(--click-to-expand__cta-image_url);
       position: absolute;
@@ -200,7 +206,7 @@
       left: 3px;
     }
     &:after {
-      content: 'Read More';
+      content: "Read More";
       position: relative;
       left: 20px;
       font-weight: bold;
@@ -244,13 +250,13 @@
           top: 45px;
           left: calc(50% + 5px);
           width: 50%;
-          transition: transform .25s ease-in-out;
+          transition: transform 0.25s ease-in-out;
         }
 
         input:checked + label:after,
         input:hover + label:after {
           filter: invert(1);
-          transform: scale(.7) translateY(10px);
+          transform: scale(0.7) translateY(10px);
         }
       }
       padding-bottom: 0;
@@ -268,7 +274,7 @@
     border-right: 2px solid black;
     text-align: center;
     padding: 7px 15px;
-    background: #EFEABE;
+    background: #efeabe;
 
     p {
       margin: 0;
@@ -286,7 +292,7 @@
       transform: rotate(45deg);
       width: 20px;
       height: 20px;
-      background-color: #EFEABE;
+      background-color: #efeabe;
     }
   }
 
@@ -296,7 +302,7 @@
     text-transform: uppercase;
     font-size: 1.5rem;
     width: auto;
-    margin: 18px auto 0!important;
+    margin: 18px auto 0 !important;
     box-shadow: none;
     background-color: transparent;
   }
@@ -305,7 +311,9 @@
   --donation-amount__button_padding: 22px 0 14px;
   --donation-amount__button_line-height: 1;
 
-  .radio-to-buttons_donationAmt .en__field__label--item .engrid-currency-symbol {
+  .radio-to-buttons_donationAmt
+    .en__field__label--item
+    .engrid-currency-symbol {
     font-size: 1.5rem;
     font-weight: 500;
     margin-right: -2px;
@@ -315,7 +323,9 @@
   }
 
   // /mo appended label
-  .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) {
+  .radio-to-buttons_donationAmt
+    .en__field--donationAmt
+    div:not(.en__field__item--other) {
     .en__field__label--item {
       &:after {
         font-size: 50%;
@@ -336,7 +346,9 @@
   }
 
   /* OTHER AMOUNT FIELD */
-  .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other {
+  .radio-to-buttons_donationAmt
+    .en__field--donationAmt
+    .en__field__item.en__field__item--other {
     flex-basis: 100%;
     position: relative;
 
@@ -361,7 +373,7 @@
   //give by select
   --give-by-select__button_font-size: 1rem;
   --give-by-select__button_padding: 0 12px;
-  .en__field--give-by-select.en__field--radio input[type="radio"]+label {
+  .en__field--give-by-select.en__field--radio input[type="radio"] + label {
     height: 58px;
   }
 
@@ -412,7 +424,7 @@
   .gift-summary {
     border-width: 1px 0;
     border-style: dashed;
-    border-color: #395A4C;
+    border-color: #395a4c;
     margin: 30px auto 20px;
     padding: 30px 20px;
     > img {
@@ -484,7 +496,7 @@
     }
 
     a:not(:last-of-type):after {
-      content: '|';
+      content: "|";
       position: absolute;
       padding-left: 6px;
       text-decoration: none;
@@ -549,11 +561,13 @@
     --radio_line-height: 1.3;
     --donation-amount__button_count: 2;
 
+    // .radio-to-buttons_donationAmt {
+    // }
 
-    .radio-to-buttons_donationAmt {
-    }
-
-    .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other input {
+    .radio-to-buttons_donationAmt
+      .en__field--donationAmt
+      .en__field__item.en__field__item--other
+      input {
       font-size: var(--button_font-size);
     }
 
@@ -592,7 +606,7 @@
   &[data-engrid-subtheme="multistep"] {
     --h1_font-weight: 900;
     --h2_font-size: 1.5rem;
-    --h2_font-weight:  700;
+    --h2_font-weight: 700;
     --label_letter-spacing: 1.68px;
     /* DONATION AMOUNT BUTTONS */
     --donation-amount__button_color: #000000;
@@ -658,7 +672,7 @@
         background-color: #e3ecd3;
         color: #000000;
         box-shadow: none;
-        font-size: var(--input_font-size)
+        font-size: var(--input_font-size);
       }
 
       .en__field__label--item:after {
@@ -669,9 +683,10 @@
       }
     }
 
-
-    .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio.en__field--withOther--active
-    .en__field__item .en__field__input--other {
+    .radio-to-buttons_donationAmt
+      .en__field--donationAmt.en__field--radio.en__field--withOther--active
+      .en__field__item
+      .en__field__input--other {
       background-color: #e3ecd3;
       color: #000000;
       border-color: #e3ecd3;
@@ -695,7 +710,8 @@
     .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio {
       margin: 0;
       & > .en__field__element .en__field__item {
-        padding: calc(var(--fields_spacing-block)*.5) var(--fields_spacing-inline) var(--fields_spacing-block);
+        padding: calc(var(--fields_spacing-block) * 0.5)
+          var(--fields_spacing-inline) var(--fields_spacing-block);
 
         label:after {
           background-image: none;
@@ -765,17 +781,17 @@
         }
 
         .en__component--row
-        > .en__component--column
-        .en__component:first-of-type
-        > *:first-child {
+          > .en__component--column
+          .en__component:first-of-type
+          > *:first-child {
           margin-top: 0;
           padding-top: 0;
         }
 
         .en__component--row
-        > .en__component--column
-        .en__component:last-of-type
-        > *:last-child {
+          > .en__component--column
+          .en__component:last-of-type
+          > *:last-child {
           margin-bottom: 0;
           padding-bottom: 0;
         }
@@ -789,7 +805,9 @@
       display: none;
     }
 
-    .radio-to-buttons_donationAmt .en__field__label--item .engrid-currency-symbol {
+    .radio-to-buttons_donationAmt
+      .en__field__label--item
+      .engrid-currency-symbol {
       font-size: 1rem;
       font-weight: 500;
       margin-right: -2px;

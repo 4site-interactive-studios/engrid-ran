@@ -69,6 +69,7 @@ export const customScript = function () {
   const paymentMethodRadioWrapper = document.querySelectorAll(
     ".give-by-select .en__field__item"
   );
+  if (!frequencyRadio || !currencySelect || !paymentMethodRadioWrapper) return;
   [...frequencyRadio, currencySelect].forEach((el) => {
     el.addEventListener("change", () => {
       console.log("CHANGING");

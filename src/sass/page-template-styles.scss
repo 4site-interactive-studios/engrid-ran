@@ -151,7 +151,7 @@
 }
 
 [data-engrid-theme="engrid-ran2"] .ran3-only,
-[data-engrid-theme="engrid-ran3"] .ran2-only{
+[data-engrid-theme="engrid-ran3"] .ran2-only {
   display: none !important;
 }
 
@@ -1411,132 +1411,132 @@
         }
       }
 
-      .en__component--formblock
-        .en__field
-        .en__field__element.en__field__element--checkbox
-        .en__field__item,
-      .en__component--formblock
-        .en__field
-        .en__field__element.en__field__element--imgselect
-        .en__field__item,
-      .en__component--formblock
-        .en__field
-        .en__field__element.en__field__element--radio
-        .en__field__item,
-      .en__component--formblock
-        .en__field
-        .en__field__element.en__field__element--rating
-        .en__field__item,
-      .en__component--formblock
-        .en__field
-        .en__field__element.en__field__element--splitselect
-        .en__field__item,
-      .en__component--formblock
-        .en__field
-        .en__field__element.en__field__element--splittext
-        .en__field__item,
-      .en__component--formblock
-        .en__field
-        .en__field__element.en__field__element--tripleselect
-        .en__field__item,
-      .en__component--formblock
-        .en__field
-        .en__field__element.en__field__element--tripletext
-        .en__field__item,
-      .en__component--formblock
-        .en__field
-        .en__field__element.en__field__element--withOther
-        .en__field__item,
-      .en__component--svblock
-        .en__field
-        .en__field__element.en__field__element--checkbox
-        .en__field__item,
-      .en__component--svblock
-        .en__field
-        .en__field__element.en__field__element--imgselect
-        .en__field__item,
-      .en__component--svblock
-        .en__field
-        .en__field__element.en__field__element--radio
-        .en__field__item,
-      .en__component--svblock
-        .en__field
-        .en__field__element.en__field__element--rating
-        .en__field__item,
-      .en__component--svblock
-        .en__field
-        .en__field__element.en__field__element--splitselect
-        .en__field__item,
-      .en__component--svblock
-        .en__field
-        .en__field__element.en__field__element--splittext
-        .en__field__item,
-      .en__component--svblock
-        .en__field
-        .en__field__element.en__field__element--tripleselect
-        .en__field__item,
-      .en__component--svblock
-        .en__field
-        .en__field__element.en__field__element--tripletext
-        .en__field__item,
-      .en__component--svblock
-        .en__field
-        .en__field__element.en__field__element--withOther
-        .en__field__item {
-        // padding: 2px;
-      }
-      .en__component--formblock
-        .en__field:not(.en__field--validationFailed)
-        .en__field__element
-        > input,
-      .en__component--formblock
-        .en__field:not(.en__field--validationFailed)
-        .en__field__element
-        > select,
-      .en__component--formblock
-        .en__field:not(.en__field--validationFailed)
-        .en__field__element
-        > textarea,
-      .en__component--svblock
-        .en__field:not(.en__field--validationFailed)
-        .en__field__element
-        > input,
-      .en__component--svblock
-        .en__field:not(.en__field--validationFailed)
-        .en__field__element
-        > select,
-      .en__component--svblock
-        .en__field:not(.en__field--validationFailed)
-        .en__field__element
-        > textarea {
-        // margin-bottom: 3px;
-        // margin-top: 3px;
-      }
-      .en__component--formblock .en__field,
-      .en__component--svblock .en__field {
-        // margin-bottom: 0;
-      }
-      .en__component--formblock > *,
-      .en__component--svblock > * {
-        // padding-left: 0;
-        // padding-right: 0;
-      }
-      .en__component--formblock,
-      .en__component--svblock {
-        // margin-left: 0;
-        // margin-right: 0;
-      }
+      // .en__component--formblock
+      //   .en__field
+      //   .en__field__element.en__field__element--checkbox
+      //   .en__field__item,
+      // .en__component--formblock
+      //   .en__field
+      //   .en__field__element.en__field__element--imgselect
+      //   .en__field__item,
+      // .en__component--formblock
+      //   .en__field
+      //   .en__field__element.en__field__element--radio
+      //   .en__field__item,
+      // .en__component--formblock
+      //   .en__field
+      //   .en__field__element.en__field__element--rating
+      //   .en__field__item,
+      // .en__component--formblock
+      //   .en__field
+      //   .en__field__element.en__field__element--splitselect
+      //   .en__field__item,
+      // .en__component--formblock
+      //   .en__field
+      //   .en__field__element.en__field__element--splittext
+      //   .en__field__item,
+      // .en__component--formblock
+      //   .en__field
+      //   .en__field__element.en__field__element--tripleselect
+      //   .en__field__item,
+      // .en__component--formblock
+      //   .en__field
+      //   .en__field__element.en__field__element--tripletext
+      //   .en__field__item,
+      // .en__component--formblock
+      //   .en__field
+      //   .en__field__element.en__field__element--withOther
+      //   .en__field__item,
+      // .en__component--svblock
+      //   .en__field
+      //   .en__field__element.en__field__element--checkbox
+      //   .en__field__item,
+      // .en__component--svblock
+      //   .en__field
+      //   .en__field__element.en__field__element--imgselect
+      //   .en__field__item,
+      // .en__component--svblock
+      //   .en__field
+      //   .en__field__element.en__field__element--radio
+      //   .en__field__item,
+      // .en__component--svblock
+      //   .en__field
+      //   .en__field__element.en__field__element--rating
+      //   .en__field__item,
+      // .en__component--svblock
+      //   .en__field
+      //   .en__field__element.en__field__element--splitselect
+      //   .en__field__item,
+      // .en__component--svblock
+      //   .en__field
+      //   .en__field__element.en__field__element--splittext
+      //   .en__field__item,
+      // .en__component--svblock
+      //   .en__field
+      //   .en__field__element.en__field__element--tripleselect
+      //   .en__field__item,
+      // .en__component--svblock
+      //   .en__field
+      //   .en__field__element.en__field__element--tripletext
+      //   .en__field__item,
+      // .en__component--svblock
+      //   .en__field
+      //   .en__field__element.en__field__element--withOther
+      //   .en__field__item {
+      //   // padding: 2px;
+      // }
+      // .en__component--formblock
+      //   .en__field:not(.en__field--validationFailed)
+      //   .en__field__element
+      //   > input,
+      // .en__component--formblock
+      //   .en__field:not(.en__field--validationFailed)
+      //   .en__field__element
+      //   > select,
+      // .en__component--formblock
+      //   .en__field:not(.en__field--validationFailed)
+      //   .en__field__element
+      //   > textarea,
+      // .en__component--svblock
+      //   .en__field:not(.en__field--validationFailed)
+      //   .en__field__element
+      //   > input,
+      // .en__component--svblock
+      //   .en__field:not(.en__field--validationFailed)
+      //   .en__field__element
+      //   > select,
+      // .en__component--svblock
+      //   .en__field:not(.en__field--validationFailed)
+      //   .en__field__element
+      //   > textarea {
+      //   // margin-bottom: 3px;
+      //   // margin-top: 3px;
+      // }
+      // .en__component--formblock .en__field,
+      // .en__component--svblock .en__field {
+      //   // margin-bottom: 0;
+      // }
+      // .en__component--formblock > *,
+      // .en__component--svblock > * {
+      //   // padding-left: 0;
+      //   // padding-right: 0;
+      // }
+      // .en__component--formblock,
+      // .en__component--svblock {
+      //   // margin-left: 0;
+      //   // margin-right: 0;
+      // }
 
       .en__field--ccnumber input {
         background-size: 30px !important;
         background-position: center;
       }
-      .en__field--ccexpire .en__field__element--splitselect {
-        // margin-right: 0 !important;
-      }
-      .en__field--ccvv .en__field__element {
-        // padding-left: 3px;
-      }
+      // .en__field--ccexpire .en__field__element--splitselect {
+      //   // margin-right: 0 !important;
+      // }
+      // .en__field--ccvv .en__field__element {
+      //   // padding-left: 3px;
+      // }
       .en__field--checkbox {
         > label {
           display: none !important;
@@ -1607,7 +1607,7 @@
         }
       }
 
-      &[data-engrid-embedded] {
+      &[data-engrid-embedded][data-multi-step] {
         height: 100vh;
         form.en__component {
           // scroll-snap-type: x mandatory;
@@ -1617,7 +1617,7 @@
           // overscroll-behavior-x: contain;
           // scroll-behavior: smooth;
 
-          & > .en__component {
+          & > .en__component[data-section-id] {
             height: 100vh;
             width: 350px;
             padding: 45px 40px;
