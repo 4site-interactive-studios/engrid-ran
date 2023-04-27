@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, April 27, 2023 @ 14:14:15 ET
+ *  Date: Thursday, April 27, 2023 @ 15:53:46 ET
  *  By: fernando
  *  ENGrid styles: v0.13.52
  *  ENGrid scripts: v0.13.52
@@ -18529,10 +18529,10 @@ const options = {
   SkipToMainContentLink: true,
   SrcDefer: true,
   ProgressBar: true,
-  NeverBounceAPI: "public_520ace707aaa95300c65f742af9fb095",
-  NeverBounceDateField: "supporter.NOT_TAGGED_36",
-  NeverBounceStatusField: "supporter.NOT_TAGGED_35",
-  NeverBounceDateFormat: "YYYYMMDD",
+  // NeverBounceAPI: "public_520ace707aaa95300c65f742af9fb095",
+  // NeverBounceDateField: "supporter.NOT_TAGGED_36",
+  // NeverBounceStatusField: "supporter.NOT_TAGGED_35",
+  // NeverBounceDateFormat: "YYYYMMDD",
   TidyContact: {
     cid: "659b7129-73d0-4601-af4c-8942c4730f65",
     // us_zip_divider: "-",
@@ -18546,28 +18546,15 @@ const options = {
     phone_date_field: "supporter.NOT_TAGGED_44",
     phone_status_field: "supporter.NOT_TAGGED_43"
   },
-  // RememberMe: {
-  //   checked: true,
-  //   remoteUrl:
-  //     "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
-  //   fieldOptInSelectorTarget:
-  //     "div.en__field--telephone, div.en__field--email, div.en__field--lastName",
-  //   fieldOptInSelectorTargetLocation: "after",
-  //   fieldClearSelectorTarget:
-  //     "div.en__field--firstName div, div.en__field--email div",
-  //   fieldClearSelectorTargetLocation: "after",
-  //   fieldNames: [
-  //     "supporter.firstName",
-  //     "supporter.lastName",
-  //     "supporter.address1",
-  //     "supporter.address2",
-  //     "supporter.city",
-  //     "supporter.country",
-  //     "supporter.region",
-  //     "supporter.postcode",
-  //     "supporter.emailAddress",
-  //   ],
-  // },
+  RememberMe: {
+    checked: true,
+    remoteUrl: "https://www.ran.org/wp-content/themes/ran-2020/data-remember.html",
+    fieldOptInSelectorTarget: "div.en__field--telephone, div.en__field--email, div.en__field--lastName",
+    fieldOptInSelectorTargetLocation: "after",
+    fieldClearSelectorTarget: "div.en__field--firstName div, div.en__field--email div",
+    fieldClearSelectorTargetLocation: "after",
+    fieldNames: ["supporter.firstName", "supporter.lastName", "supporter.address1", "supporter.address2", "supporter.city", "supporter.country", "supporter.region", "supporter.postcode", "supporter.emailAddress"]
+  },
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => customScript(),
   onResize: () => console.log("Starter Theme Window Resized"),
