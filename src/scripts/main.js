@@ -1,3 +1,5 @@
+const tippy = require("tippy.js").default;
+
 export const customScript = function () {
   console.log("ENGrid client scripts are executing");
   // Add your client scripts here
@@ -98,4 +100,16 @@ export const customScript = function () {
       }, 500);
     });
   });
+
+  const tippyInstance = document.querySelector(
+    ".media-with-attribution figattribution"
+  )._tippy;
+
+  if (tippyInstance) {
+    tippyInstance.setProps({
+      allowHTML: true,
+      theme: "RAN",
+      placement: "right-end",
+    });
+  }
 };
