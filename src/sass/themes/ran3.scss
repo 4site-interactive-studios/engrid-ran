@@ -2,15 +2,26 @@
 [data-engrid-theme="engrid-ran3"] {
   // PRIMARY COLORS
   --color_primary: #000000;
-  --color_primary_accent: #F57E20;
-  --color_green: #395A4C;
-  --engrid__body_background-color: #F5F2D8;
-  --engrid__body-headerOutside_background-color: var(--engrid__body_background-color);
+  --color_primary_accent: #f57e20;
+  --color_green: #395a4c;
+  --error__color: #d2232a;
+  --error__color_faded: #ffffff;
+  --engrid__body_background-color: #f5f2d8;
+  --engrid__body-headerOutside_background-color: var(
+    --engrid__body_background-color
+  );
   --engrid__body_box-shadow: none;
-  --engrid__embedded_page_background-color: var(--engrid__body_background-color);
+  --engrid__embedded_page_background-color: var(
+    --engrid__body_background-color
+  );
+  --engrid__content-footer_background-color: var(
+    --engrid__body_background-color
+  );
 
   &[data-engrid-embedded] {
-    --engrid__body-headerOutside_background-color: var(--engrid__embedded_page_background-color)
+    --engrid__body-headerOutside_background-color: var(
+      --engrid__embedded_page_background-color
+    );
   }
 
   // TYPOGRAPHY DEFAULT
@@ -18,7 +29,8 @@
   --root_font-size: 1.125rem;
   --default_font-size: var(--root_font-size);
   --engrid__body_padding: 0 3.5rem;
-  --engrid__body-main_padding: 0 3.5rem 85px;
+  --engrid__content-footer_padding: 85px 0 0;
+  //--engrid__body-main_padding: 0 3.5rem 85px;
 
   // TYPOGRAPHY H1 AND H2
   --h1_font-family: "HarmoniaSansPro", sans-serif;
@@ -171,34 +183,34 @@
     padding: 15px;
     font-size: 18px;
     font-weight: bold;
-    max-width: 400px!important;
+    max-width: 400px !important;
     border-radius: 0;
 
     .tippy-content {
       padding: 0;
     }
 
-    &[data-placement^='top'] > .tippy-arrow::before {
+    &[data-placement^="top"] > .tippy-arrow::before {
       border-top-color: var(--engrid__body_background-color);
     }
 
-    &[data-placement^='bottom'] > .tippy-arrow::before {
+    &[data-placement^="bottom"] > .tippy-arrow::before {
       border-bottom-color: var(--engrid__body_background-color);
     }
 
-    &[data-placement^='left'] > .tippy-arrow::before {
+    &[data-placement^="left"] > .tippy-arrow::before {
       border-left-color: var(--engrid__body_background-color);
     }
 
-    &[data-placement^='right'] > .tippy-arrow::before {
+    &[data-placement^="right"] > .tippy-arrow::before {
       border-right-color: var(--engrid__body_background-color);
     }
 
-    &[data-placement^='left'] > .tippy-arrow {
+    &[data-placement^="left"] > .tippy-arrow {
       bottom: -15px;
       right: -8px;
-      top: auto!important;
-      transform: rotate(-90deg)!important;
+      top: auto !important;
+      transform: rotate(-90deg) !important;
     }
 
     p {
@@ -244,44 +256,75 @@
     }
   }
 
-  &[data-engrid-page-background="image"] .page-backgroundImage figure.media-with-attribution {
+  &[data-engrid-page-background="image"]
+    .page-backgroundImage
+    figure.media-with-attribution {
     figattribution {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      --media-attribution__padding: 1.5ch;
       --media-attribution__background-color: #ffffff;
-      --media-attribution__color: #171717;
+      --media-attribution__color: #ffffff;
+      --media-attribution__font-family: serif;
+      --media-attribution__font-size: 16px;
+      --media-attribution__padding: 0;
+      line-height: 16px;
+
+      &:before {
+        content: "";
+        background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/media-attribution.png?v=1682946792000");
+        background-size: 5px 12px;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left: -1px;
+      }
     }
   }
 
-  --click-to-expand__copy-area_height: 200px;
+  --click-to-expand__copy-area_height: 187px;
   --click-to-expand__cta-image_height: 16px;
   --click-to-expand__cta-image_width: 22px;
 
-  .click-to-expand:not(.expanded) .click-to-expand-cta {
-    background: none !important;
-    right: auto !important;
-    width: 100% !important;
-    height: 20px !important;
+  &:not(#en__pagebuilder) .click-to-expand:not(.expanded) {
+    .click-to-expand-cta {
+      background: none !important;
+      right: auto !important;
+      width: 100% !important;
+      height: 20px !important;
 
-    &:before {
-      content: var(--click-to-expand__cta-image_url);
-      position: absolute;
-      transform: rotate(-90deg);
-      left: 3px;
+      &:before {
+        content: var(--click-to-expand__cta-image_url);
+        position: absolute;
+        transform: rotate(-90deg);
+        left: 3px;
+      }
+
+      &:after {
+        content: "Read More";
+        position: relative;
+        left: 20px;
+        font-weight: bold;
+        top: 2px;
+      }
     }
 
-    &:after {
-      content: 'Read More';
-      position: relative;
-      left: 20px;
-      font-weight: bold;
-      top: 2px;
+    .click-to-expand-text-wrapper {
+      mask-image: linear-gradient(
+        to bottom,
+        #000 50%,
+        #fff0 calc(100% - var(--click-to-expand__cta-image_height) - 13px)
+      );
     }
+  }
+
+  .click-to-expand.expanded .click-to-expand-text-wrapper > *:last-child {
+    margin-bottom: 0;
   }
 
   /* RECURRING FREQUENCY BUTTONS */
@@ -325,13 +368,13 @@
           top: 45px;
           left: calc(50% + 5px);
           width: 50%;
-          transition: transform .25s ease-in-out;
+          transition: transform 0.25s ease-in-out;
         }
 
         input:checked + label:after,
         input:hover + label:after {
           filter: invert(1);
-          transform: scale(.7) translateY(10px);
+          transform: scale(0.7) translateY(10px);
         }
       }
 
@@ -350,7 +393,7 @@
     border-right: 2px solid black;
     text-align: center;
     padding: 7px 15px;
-    background: #EFEABE;
+    background: #efeabe;
 
     p {
       margin: 0;
@@ -368,7 +411,7 @@
       transform: rotate(45deg);
       width: 20px;
       height: 20px;
-      background-color: #EFEABE;
+      background-color: #efeabe;
     }
   }
 
@@ -387,7 +430,9 @@
   --donation-amount__button_padding: 22px 0 14px;
   --donation-amount__button_line-height: 1;
 
-  .radio-to-buttons_donationAmt .en__field__label--item .engrid-currency-symbol {
+  .radio-to-buttons_donationAmt
+    .en__field__label--item
+    .engrid-currency-symbol {
     font-size: 1.5rem;
     font-weight: 500;
     margin-right: -2px;
@@ -397,7 +442,9 @@
   }
 
   // /mo appended label
-  .radio-to-buttons_donationAmt .en__field--donationAmt div:not(.en__field__item--other) {
+  .radio-to-buttons_donationAmt
+    .en__field--donationAmt
+    div:not(.en__field__item--other) {
     .en__field__label--item {
       &:after {
         font-size: 50%;
@@ -418,7 +465,9 @@
   }
 
   /* OTHER AMOUNT FIELD */
-  .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other {
+  .radio-to-buttons_donationAmt
+    .en__field--donationAmt
+    .en__field__item.en__field__item--other {
     flex-basis: 100%;
     position: relative;
 
@@ -492,10 +541,20 @@
     outline-offset: 1px;
   }
 
+  .en__field__input--checkbox:focus + .en__field__label {
+    outline-offset: 10px;
+  }
+
+  [class*="radio-to-buttons"]
+    .en__field__input--radio:focus
+    + .en__field__label {
+    outline: none;
+  }
+
   .gift-summary {
     border-width: 1px 0;
     border-style: dashed;
-    border-color: #395A4C;
+    border-color: #395a4c;
     margin: 30px auto 20px;
     padding: 30px 20px;
 
@@ -571,7 +630,7 @@
     }
 
     a:not(:last-of-type):after {
-      content: '|';
+      content: "|";
       position: absolute;
       padding-left: 6px;
       text-decoration: none;
@@ -655,7 +714,10 @@
     --radio_line-height: 1.3;
     --donation-amount__button_count: 2;
 
-    .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other input {
+    .radio-to-buttons_donationAmt
+      .en__field--donationAmt
+      .en__field__item.en__field__item--other
+      input {
       font-size: var(--button_font-size);
     }
 
@@ -691,10 +753,55 @@
     }
   }
 
+  @media screen and (max-width: 500px) {
+    .footer-menu {
+      flex-direction: column;
+      margin: 40px auto;
+    }
+
+    .footer-menu a:not(:last-of-type) {
+      border-right: none;
+      margin-bottom: 10px;
+    }
+
+    .footer-center {
+      text-align: center;
+    }
+  }
+
+  #en__upsellModal {
+    #en__upsellModal__no button {
+      font-size: var(--label_font-size);
+      padding-top: var(--submit__button_padding-top);
+      padding-bottom: var(--submit__button_padding-bottom);
+      margin-bottom: 0;
+    }
+
+    #en__upsellModal__yes button {
+      font-size: var(--label_font-size);
+      border-color: var(--submit__button_border-color);
+      background-color: var(--submit__button_background-color);
+      padding-top: var(--submit__button_padding-top);
+      padding-bottom: var(--submit__button_padding-bottom);
+
+      &:hover {
+        background-color: var(--submit__button_background-color_hover);
+        color: var(--submit__button_color_hover);
+        border-color: var(--submit__button_border-color_hover);
+      }
+    }
+  }
+
+  .en__errorHeader,
+  .en__errorList {
+    position: relative;
+    z-index: 100;
+  }
+
   &[data-engrid-subtheme="multistep"] {
     --h1_font-weight: 900;
     --h2_font-size: 1.5rem;
-    --h2_font-weight:  700;
+    --h2_font-weight: 700;
     --label_letter-spacing: 1.68px;
     /* DONATION AMOUNT BUTTONS */
     --donation-amount__button_color: #000000;
@@ -760,7 +867,7 @@
         background-color: #e3ecd3;
         color: #000000;
         box-shadow: none;
-        font-size: var(--input_font-size)
+        font-size: var(--input_font-size);
       }
 
       .en__field__label--item:after {
@@ -771,9 +878,10 @@
       }
     }
 
-
-    .radio-to-buttons_donationAmt .en__field--donationAmt.en__field--radio.en__field--withOther--active
-    .en__field__item .en__field__input--other {
+    .radio-to-buttons_donationAmt
+      .en__field--donationAmt.en__field--radio.en__field--withOther--active
+      .en__field__item
+      .en__field__input--other {
       background-color: #e3ecd3;
       color: #000000;
       border-color: #e3ecd3;
@@ -797,7 +905,8 @@
     .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio {
       margin: 0;
       & > .en__field__element .en__field__item {
-        padding: calc(var(--fields_spacing-block)*.5) var(--fields_spacing-inline) var(--fields_spacing-block);
+        padding: calc(var(--fields_spacing-block) * 0.5)
+          var(--fields_spacing-inline) var(--fields_spacing-block);
 
         label:after {
           background-image: none;
@@ -867,17 +976,17 @@
         }
 
         .en__component--row
-        > .en__component--column
-        .en__component:first-of-type
-        > *:first-child {
+          > .en__component--column
+          .en__component:first-of-type
+          > *:first-child {
           margin-top: 0;
           padding-top: 0;
         }
 
         .en__component--row
-        > .en__component--column
-        .en__component:last-of-type
-        > *:last-child {
+          > .en__component--column
+          .en__component:last-of-type
+          > *:last-child {
           margin-bottom: 0;
           padding-bottom: 0;
         }
@@ -891,7 +1000,9 @@
       display: none;
     }
 
-    .radio-to-buttons_donationAmt .en__field__label--item .engrid-currency-symbol {
+    .radio-to-buttons_donationAmt
+      .en__field__label--item
+      .engrid-currency-symbol {
       font-size: 1rem;
       font-weight: 500;
       margin-right: -2px;

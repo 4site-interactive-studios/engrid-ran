@@ -101,15 +101,19 @@ export const customScript = function () {
     });
   });
 
-  const tippyInstance = document.querySelector(
-    ".media-with-attribution figattribution"
-  )._tippy;
+  if (themeVersion === 3) {
+    const tippyInstance = document.querySelector(
+      ".media-with-attribution figattribution"
+    )._tippy;
 
-  if (tippyInstance) {
-    tippyInstance.setProps({
-      allowHTML: true,
-      theme: "RAN",
-      placement: "right-end",
-    });
+    if (tippyInstance) {
+      tippyInstance.setProps({
+        allowHTML: true,
+        theme: "RAN",
+        placement: "right-end",
+      });
+    }
+
+    document.body.removeAttribute("data-engrid-errors");
   }
 };
