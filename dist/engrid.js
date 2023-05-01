@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, May 1, 2023 @ 12:10:05 ET
- *  By: michael
- *  ENGrid styles: v0.13.13
- *  ENGrid scripts: v0.13.15
+ *  Date: Monday, May 1, 2023 @ 15:06:05 ET
+ *  By: bryancasler
+ *  ENGrid styles: v0.13.65
+ *  ENGrid scripts: v0.13.65
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -15093,7 +15093,8 @@ const inputPlaceholder = () => {
   let enFieldPhoneNumber = document.querySelector("input#en__field_supporter_phoneNumber");
   let enFieldPhoneNumberRequired = document.querySelector(".en__mandatory > * > input#en__field_supporter_phoneNumber");
   let enFieldPhoneNumber2 = document.querySelector("input#en__field_supporter_phoneNumber2");
-  let enFieldPhoneNumber2Required = document.querySelector(".en__mandatory > * > input#en__field_supporter_phoneNumber2"); // Address
+  let enFieldPhoneNumber2Required = document.querySelector(".en__mandatory > * > input#en__field_supporter_phoneNumber2");
+  let enFieldPhoneNumber2HideOptionalPlaceholder = document.querySelector(".hide-optional-phone-placeholder [name='supporter.phoneNumber2']"); // Address
 
   let enFieldCountry = document.querySelector("input#en__field_supporter_country");
   let enFieldAddress1 = document.querySelector("input#en__field_supporter_address1");
@@ -15168,6 +15169,8 @@ const inputPlaceholder = () => {
   }
 
   if (enAddInputPlaceholder && enFieldPhoneNumber2 && enFieldPhoneNumber2Required) {
+    enFieldPhoneNumber2.placeholder = "000-000-0000";
+  } else if (enAddInputPlaceholder && enFieldPhoneNumber2 && !enFieldPhoneNumber2Required && enFieldPhoneNumber2HideOptionalPlaceholder) {
     enFieldPhoneNumber2.placeholder = "000-000-0000";
   } else if (enAddInputPlaceholder && enFieldPhoneNumber2 && !enFieldPhoneNumber2Required) {
     enFieldPhoneNumber2.placeholder = "000-000-0000 (Optional)";
@@ -16037,7 +16040,7 @@ class LiveVariables {
     const thousands_separator = (_c = this.options.ThousandsSeparator) !== null && _c !== void 0 ? _c : "";
     const dec_places = amount % 1 == 0 ? 0 : (_d = this.options.DecimalPlaces) !== null && _d !== void 0 ? _d : 2;
     const amountTxt = engrid_ENGrid.formatNumber(amount, dec_places, dec_separator, thousands_separator);
-    return amount > 0 ? `<span class="live-variable-currency">${symbol}</span><span class="live-variable-amount">${amountTxt}</span>` : "";
+    return amount > 0 ? symbol + amountTxt : "";
   }
 
   getUpsellAmountTxt() {
@@ -16067,7 +16070,7 @@ class LiveVariables {
 
     if (amount) {
       label = label.replace("$AMOUNT", amount);
-      label = label.replace("$FREQUENCY", `<span class="live-variable-frequency">${frequency}</span>`);
+      label = label.replace("$FREQUENCY", frequency);
     } else {
       label = label.replace("$AMOUNT", "");
       label = label.replace("$FREQUENCY", "");
@@ -22161,7 +22164,7 @@ class LiveFrequency {
 
 }
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/version.js
-const AppVersion = "0.13.64";
+const AppVersion = "0.13.65";
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
 
@@ -22396,8 +22399,6 @@ class DonationLightboxForm {
   buildSectionNavigation() {
     console.log("DonationLightboxForm: buildSectionNavigation");
     this.sections.forEach((section, key) => {
-      var _sectionNavigation$qu, _sectionNavigation$qu2, _sectionNavigation$qu3;
-
       section.dataset.sectionId = key;
       const sectionNavigation = document.createElement("div");
       sectionNavigation.classList.add("section-navigation");
@@ -22447,10 +22448,8 @@ class DonationLightboxForm {
         <span class="section-count__total">${sectionTotal}</span>
       `;
       } else {
-        var _document$querySelect;
-
         // Single Section Pages
-        const submitButtonLabel = ((_document$querySelect = document.querySelector(".en__submit button")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.innerText) || "Submit";
+        const submitButtonLabel = document.querySelector(".en__submit button")?.innerText || "Submit";
         sectionNavigation.innerHTML = `
         <button class="section-navigation__submit" data-section-id="${key}" type="submit" data-label="${submitButtonLabel}">
           <span>${submitButtonLabel}</span>
@@ -22458,18 +22457,18 @@ class DonationLightboxForm {
       `;
       }
 
-      (_sectionNavigation$qu = sectionNavigation.querySelector(".section-navigation__previous")) === null || _sectionNavigation$qu === void 0 ? void 0 : _sectionNavigation$qu.addEventListener("click", e => {
+      sectionNavigation.querySelector(".section-navigation__previous")?.addEventListener("click", e => {
         e.preventDefault();
         this.scrollToSection(key - 1);
       });
-      (_sectionNavigation$qu2 = sectionNavigation.querySelector(".section-navigation__next")) === null || _sectionNavigation$qu2 === void 0 ? void 0 : _sectionNavigation$qu2.addEventListener("click", e => {
+      sectionNavigation.querySelector(".section-navigation__next")?.addEventListener("click", e => {
         e.preventDefault();
 
         if (this.validateForm(key)) {
           this.scrollToSection(key + 1);
         }
       });
-      (_sectionNavigation$qu3 = sectionNavigation.querySelector(".section-navigation__submit")) === null || _sectionNavigation$qu3 === void 0 ? void 0 : _sectionNavigation$qu3.addEventListener("click", e => {
+      sectionNavigation.querySelector(".section-navigation__submit")?.addEventListener("click", e => {
         e.preventDefault(); // Validate the entire form again
 
         if (this.validateForm()) {
