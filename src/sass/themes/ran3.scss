@@ -471,17 +471,22 @@
     flex-basis: 100%;
     position: relative;
 
+    input:focus {
+      outline: none;
+    }
+
     &:before {
       content: attr(data-currency-symbol);
       position: absolute;
       left: 20px;
-      top: 12px;
+      top: 21px;
       font-size: 26px;
     }
 
     input {
-      padding: 10px 12px 0 33px;
+      padding: 20px 12px 12px 33px;
       font-size: 36px;
+      line-height: var(--donation-amount__button_line-height);
     }
   }
 

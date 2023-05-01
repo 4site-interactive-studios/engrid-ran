@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, May 1, 2023 @ 15:06:05 ET
+ *  Date: Monday, May 1, 2023 @ 15:42:09 ET
  *  By: bryancasler
  *  ENGrid styles: v0.13.65
  *  ENGrid scripts: v0.13.65
@@ -8645,16 +8645,20 @@ body[data-engrid-debug]:before{
   flex-basis:100%;
   position:relative;
 }
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other input:focus{
+  outline:none;
+}
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other:before{
   content:attr(data-currency-symbol);
   font-size:26px;
   left:20px;
   position:absolute;
-  top:12px;
+  top:21px;
 }
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other input{
   font-size:36px;
-  padding:10px 12px 0 33px;
+  line-height:var(--donation-amount__button_line-height);
+  padding:20px 12px 12px 33px;
 }
 [data-engrid-theme=engrid-ran3] .en__field--withOther--active .en__field__item--other:before{
   color:#fff;
