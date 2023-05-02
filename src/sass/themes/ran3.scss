@@ -826,6 +826,11 @@
     z-index: 100;
   }
 
+  // Override the Remember Me inline style because it causes the outline to clip https://cln.sh/NcNXT0Mj
+  #remember-me-opt-in {
+    overflow-x: visible !important;
+  }
+
   &[data-engrid-subtheme="multistep"] {
     --h1_font-weight: 900;
     --h2_font-size: 1.5rem;
