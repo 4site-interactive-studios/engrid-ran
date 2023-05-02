@@ -36,9 +36,13 @@
   --h1_font-family: "HarmoniaSansPro", sans-serif;
   --h1_font-size: 3rem;
   --h1_line-height: 1;
-  --h1_font-weight: 500;
+  --h1_font-weight: 900;
   --h2_font-size: 2.5rem;
   --h2_font-weight: 900;
+
+  h1 em {
+    font-weight: 500;
+  }
 
   // LABELS
   --label_font-family: "HarmoniaSansPro", sans-serif;
@@ -687,6 +691,14 @@
       font-style: italic;
       font-weight: normal;
       font-size: 1.5rem;
+    }
+  }
+
+  // For RAN Titles and Body Copy coming the the RAN3 theme, and with the leftleft1col layout, force left alignment on its text
+  &[data-engrid-layout="leftleft1col"] {
+    .body-title h1[style*="text-align: center"],
+    .body-top .en__component--copyblock [style*="text-align: center"] {
+      text-align: left !important;
     }
   }
 

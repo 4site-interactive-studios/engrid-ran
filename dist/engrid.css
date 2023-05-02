@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, May 1, 2023 @ 15:42:09 ET
+ *  Date: Monday, May 1, 2023 @ 20:53:30 ET
  *  By: bryancasler
  *  ENGrid styles: v0.13.65
  *  ENGrid scripts: v0.13.65
@@ -3146,6 +3146,28 @@ body:not(#en__pagebuilder):not([data-engrid-debug]) .i1-hide-label .en__field:no
   --engrid__body-side_margin:var(--engrid__body-main_margin);
   --engrid__body-side_padding:var(--engrid__body-main_padding);
   --root_font-size:16px;
+}
+[data-engrid-theme]#en__pagebuilder #en__digitalWallet[style*=none],[data-engrid-theme][data-engrid-debug] #en__digitalWallet[style*=none]{
+  background-color:#ff00001a;
+  display:block !important;
+  min-height:206px;
+  outline:5px dashed red;
+}
+[data-engrid-theme]#en__pagebuilder #en__digitalWallet[style*=none]:before,[data-engrid-theme][data-engrid-debug] #en__digitalWallet[style*=none]:before{
+  align-items:center;
+  color:#999;
+  content:"NOTICE if on a Premium Page \a Consider deleting this Digital Wallets Widget \aIt's presence could cause problems";
+  display:flex;
+  flex-basis:100%;
+  font-size:1rem;
+  font-weight:700;
+  height:calc(100% - 8px);
+  justify-content:center;
+  position:absolute;
+  text-align:center;
+  top:8px;
+  white-space:pre-wrap;
+  width:100%;
 }
 [data-engrid-theme] #en__digitalWallet,[data-engrid-theme] .en__digitalWallet__container{
   max-width:100% !important;
@@ -8352,7 +8374,7 @@ body[data-engrid-debug]:before{
   --h1_font-family:"HarmoniaSansPro", sans-serif;
   --h1_font-size:3rem;
   --h1_line-height:1;
-  --h1_font-weight:500;
+  --h1_font-weight:900;
   --h2_font-size:2.5rem;
   --h2_font-weight:900;
   --label_font-family:"HarmoniaSansPro", sans-serif;
@@ -8425,6 +8447,9 @@ body[data-engrid-debug]:before{
   --engrid__body-headerOutside_background-color:var(
     --engrid__embedded_page_background-color
   );
+}
+[data-engrid-theme=engrid-ran3] h1 em{
+  font-weight:500;
 }
 [data-engrid-theme=engrid-ran3] .en__field.en__field--checkbox{
   margin-bottom:0;
@@ -8810,6 +8835,9 @@ body[data-engrid-debug]:before{
   font-size:1.5rem;
   font-style:italic;
   font-weight:400;
+}
+[data-engrid-theme=engrid-ran3][data-engrid-layout=leftleft1col] .body-title h1[style*="text-align: center"],[data-engrid-theme=engrid-ran3][data-engrid-layout=leftleft1col] .body-top .en__component--copyblock [style*="text-align: center"]{
+  text-align:left !important;
 }
 @media screen and (max-width:880px){
   [data-engrid-theme=engrid-ran3] .body-top{
