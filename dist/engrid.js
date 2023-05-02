@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, May 1, 2023 @ 20:58:10 ET
+ *  Date: Monday, May 1, 2023 @ 21:42:19 ET
  *  By: bryancasler
  *  ENGrid styles: v0.13.65
  *  ENGrid scripts: v0.13.65
@@ -23127,6 +23127,13 @@ const customScript = function () {
     }
 
     document.body.removeAttribute("data-engrid-errors");
+  } // Add these classes to the submit div to hide it when the digital wallet is selected
+
+
+  const submitDiv = document.querySelector(".en__submit");
+
+  if (submitDiv) {
+    submitDiv.classList.add("hideif-stripedigitalwallet-selected", "hideif-paypaltouch-selected");
   }
 };
 ;// CONCATENATED MODULE: ./src/index.ts

@@ -116,4 +116,13 @@ export const customScript = function () {
 
     document.body.removeAttribute("data-engrid-errors");
   }
+
+  // Add these classes to the submit div to hide it when the digital wallet is selected
+  const submitDiv = document.querySelector(".en__submit");
+  if (submitDiv) {
+    submitDiv.classList.add(
+      "hideif-stripedigitalwallet-selected",
+      "hideif-paypaltouch-selected"
+    );
+  }
 };
