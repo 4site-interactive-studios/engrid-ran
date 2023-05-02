@@ -354,15 +354,21 @@
       &:first-of-type {
         padding-right: 0;
 
+        label {
+          position: relative;
+        }
+
         label:after {
-          background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/one-time-icon.png?v=1682271744000);
+          background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/one-time-icon.png?v=1683026671000);
           background-repeat: no-repeat;
-          background-position: top;
           content: "";
+          width: 100%;
+          height: 100%;
           position: absolute;
-          top: 80px;
-          bottom: 0;
-          width: 50%;
+          top: 0;
+          left: 0;
+          background-position: top 13px center;
+          background-size: 42px;
         }
 
         input:not(:checked):not(:hover) + label:after {
@@ -374,16 +380,17 @@
         padding-left: 0;
 
         label:after {
-          background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/monthly-icon.png?v=1682271743000);
-          background-repeat: no-repeat;
+          background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/monthly-icon.png?v=1683026670000);
           background-position: top;
+          background-repeat: no-repeat;
           bottom: 0;
           content: "";
+          left: calc(50% + 5px);
           position: absolute;
           top: 45px;
-          left: calc(50% + 5px);
-          width: 50%;
           transition: transform 0.25s ease-in-out;
+          width: 50%;
+          background-size: 116px 74px;
         }
 
         input:checked + label:after,
@@ -520,6 +527,7 @@
   .en__field--giveBySelect .en__field__label--item img {
     width: auto;
     margin: 0;
+    height: 28px;
   }
 
   .en__field--giveBySelect input:checked + label > img.paypal,
@@ -625,7 +633,7 @@
   }
 
   .footer-wrapper:before {
-    background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/footer-banner.png?v=1682341443000);
+    background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/footer-banner.png?v=1683033739000);
     background-repeat: repeat-x;
     content: "";
     height: 112px;
@@ -634,6 +642,7 @@
     right: 0;
     top: -50px;
     width: 100%;
+    background-size: 100%;
   }
 
   .footer-menu {
@@ -710,6 +719,27 @@
     .body-title h1[style*="text-align: center"],
     .body-top .en__component--copyblock [style*="text-align: center"] {
       text-align: left !important;
+    }
+  }
+
+  .show-USD,
+  .show-USD-monthly,
+  .show-USD-onetime {
+    display: none;
+  }
+  &[data-engrid-currency-code="USD"] {
+    .show-USD {
+      display: block;
+    }
+    &[data-engrid-transaction-recurring="y"] {
+      .show-USD-monthly {
+        display: block;
+      }
+    }
+    &[data-engrid-transaction-recurring="n"] {
+      .show-USD-onetime {
+        display: block;
+      }
     }
   }
 

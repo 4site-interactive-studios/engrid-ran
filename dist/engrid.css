@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, May 2, 2023 @ 06:30:32 ET
+ *  Date: Tuesday, May 2, 2023 @ 09:35:03 ET
  *  By: michael
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -8580,15 +8580,20 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:first-of-type{
   padding-right:0;
 }
+[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:first-of-type label{
+  position:relative;
+}
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:first-of-type label:after{
-  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/one-time-icon.png?v=1682271744000);
-  background-position:top;
+  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/one-time-icon.png?v=1683026671000);
+  background-position:top 13px center;
   background-repeat:no-repeat;
-  bottom:0;
+  background-size:42px;
   content:"";
+  height:100%;
+  left:0;
   position:absolute;
-  top:80px;
-  width:50%;
+  top:0;
+  width:100%;
 }
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:first-of-type input:not(:checked):not(:hover)+label:after{
   filter:invert(1);
@@ -8597,9 +8602,10 @@ body[data-engrid-debug]:before{
   padding-left:0;
 }
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item:last-of-type label:after{
-  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/monthly-icon.png?v=1682271743000);
+  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/monthly-icon.png?v=1683026670000);
   background-position:top;
   background-repeat:no-repeat;
+  background-size:116px 74px;
   bottom:0;
   content:"";
   left:calc(50% + 5px);
@@ -8695,6 +8701,7 @@ body[data-engrid-debug]:before{
   height:58px;
 }
 [data-engrid-theme=engrid-ran3] .en__field--giveBySelect .en__field__label--item img{
+  height:28px;
   margin:0;
   width:auto;
 }
@@ -8774,8 +8781,9 @@ body[data-engrid-debug]:before{
   padding:112px 0 30px;
 }
 [data-engrid-theme=engrid-ran3] .footer-wrapper:before{
-  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/footer-banner.png?v=1682341443000);
+  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/footer-banner.png?v=1683033739000);
   background-repeat:repeat-x;
+  background-size:100%;
   content:"";
   height:112px;
   left:0;
@@ -8841,6 +8849,12 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3][data-engrid-layout=leftleft1col] .body-title h1[style*="text-align: center"],[data-engrid-theme=engrid-ran3][data-engrid-layout=leftleft1col] .body-top .en__component--copyblock [style*="text-align: center"]{
   text-align:left !important;
+}
+[data-engrid-theme=engrid-ran3] .show-USD,[data-engrid-theme=engrid-ran3] .show-USD-monthly,[data-engrid-theme=engrid-ran3] .show-USD-onetime{
+  display:none;
+}
+[data-engrid-theme=engrid-ran3][data-engrid-currency-code=USD] .show-USD,[data-engrid-theme=engrid-ran3][data-engrid-currency-code=USD][data-engrid-transaction-recurring=n] .show-USD-onetime,[data-engrid-theme=engrid-ran3][data-engrid-currency-code=USD][data-engrid-transaction-recurring=y] .show-USD-monthly{
+  display:block;
 }
 @media screen and (max-width:880px){
   [data-engrid-theme=engrid-ran3] .body-top{
