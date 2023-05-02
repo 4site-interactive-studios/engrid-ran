@@ -179,6 +179,15 @@
 
   --rememberme-learn-more-toggle_margin-top: -2px;
 
+  .monthly-gift-upsell-tooltip .highlighted {
+    text-align: center;
+    background: #efeabe;
+    border: 2px solid #000;
+    padding: 15px 9px;
+    position: relative;
+    width: 100%;
+  }
+
   .content-footer {
     grid-column: bc;
   }
