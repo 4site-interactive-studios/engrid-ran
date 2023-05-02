@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, May 2, 2023 @ 09:35:03 ET
+ *  Date: Tuesday, May 2, 2023 @ 12:03:18 ET
  *  By: michael
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -23131,6 +23131,11 @@ const customScript = function () {
     }
 
     document.body.removeAttribute("data-engrid-errors");
+    const ACHOption = document.querySelector('[name="transaction.paymenttype"] [value="ACH"]');
+
+    if (ACHOption) {
+      ACHOption.value = "ach";
+    }
   } // Add these classes to the submit div to hide it when the digital wallet is selected
 
 

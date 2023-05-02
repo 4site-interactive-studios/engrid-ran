@@ -115,6 +115,14 @@ export const customScript = function () {
     }
 
     document.body.removeAttribute("data-engrid-errors");
+
+    const ACHOption = document.querySelector(
+      '[name="transaction.paymenttype"] [value="ACH"]'
+    );
+
+    if (ACHOption) {
+      ACHOption.value = "ach";
+    }
   }
 
   // Add these classes to the submit div to hide it when the digital wallet is selected
