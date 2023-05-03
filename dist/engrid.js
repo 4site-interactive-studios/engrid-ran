@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, May 2, 2023 @ 12:03:18 ET
+ *  Date: Wednesday, May 3, 2023 @ 13:16:20 ET
  *  By: michael
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -13271,15 +13271,37 @@ class engrid_ENGrid {
 
   static createHiddenInput(name) {
     let value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.classList.add("en__field__input");
-    input.classList.add("en__field__input--text");
-    input.classList.add("engrid-added-input");
-    input.value = value;
-    engrid_ENGrid.enForm.appendChild(input);
-    return input;
+
+    var _a;
+
+    const formBlock = document.createElement("div");
+    formBlock.classList.add("en__component", "en__component--formblock", "hide");
+    const textField = document.createElement("div");
+    textField.classList.add("en__field", "en__field--text");
+    const textElement = document.createElement("div");
+    textElement.classList.add("en__field__element", "en__field__element--text");
+    const inputField = document.createElement("input");
+    inputField.classList.add("en__field__input", "en__field__input--text", "engrid-added-input");
+    inputField.setAttribute("name", name);
+    inputField.setAttribute("type", "hidden");
+    inputField.setAttribute("value", value);
+    textElement.appendChild(inputField);
+    textField.appendChild(textElement);
+    formBlock.appendChild(textField);
+    const submitElement = document.querySelector(".en__submit");
+
+    if (submitElement) {
+      const lastFormComponent = submitElement.closest(".en__component");
+
+      if (lastFormComponent) {
+        // Insert the new field after the submit button
+        (_a = lastFormComponent.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(formBlock, lastFormComponent.nextSibling);
+      }
+    } else {
+      engrid_ENGrid.enForm.appendChild(formBlock);
+    }
+
+    return inputField;
   } // Trigger EN Dependencies
 
 
@@ -13525,7 +13547,7 @@ class engrid_ENGrid {
   static disableSubmit() {
     let label = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
     const submit = document.querySelector(".en__submit button");
-    submit.dataset.originalText = submit.innerText;
+    submit.dataset.originalText = submit.innerHTML;
     let submitButtonProcessingHTML = "<span class='loader-wrapper'><span class='loader loader-quart'></span><span class='submit-button-text-wrapper'>" + label + "</span></span>";
 
     if (submit) {
@@ -14143,7 +14165,9 @@ class App extends engrid_ENGrid {
 
     new MobileCTA(); // Live Frequency
 
-    new LiveFrequency();
+    new LiveFrequency(); // Universal Opt In
+
+    new UniversalOptIn();
     this.setDataAttributes(); //Debug panel
 
     if (this.options.Debug || window.sessionStorage.hasOwnProperty(DebugPanel.debugSessionStorageKey)) {
@@ -14709,7 +14733,7 @@ class AutoYear {
 
 class Autocomplete {
   constructor() {
-    this.debug = engrid_ENGrid.debug;
+    this.logger = new EngridLogger("Autocomplete", "#330033", "#f0f0f0", "📇");
     this.autoCompleteField('[name="supporter.firstName"]', "given-name");
     this.autoCompleteField('[name="supporter.lastName"]', "family-name");
     this.autoCompleteField('[name="transaction.ccnumber"]', "cc-number");
@@ -14742,7 +14766,7 @@ class Autocomplete {
       return true;
     }
 
-    if (this.debug && autoCompleteValue !== "none") console.log("AutoComplete: Field Not Found", querySelector);
+    if (autoCompleteValue !== "none") this.logger.log("Field Not Found", querySelector);
     return false;
   }
 
@@ -16040,7 +16064,7 @@ class LiveVariables {
     const thousands_separator = (_c = this.options.ThousandsSeparator) !== null && _c !== void 0 ? _c : "";
     const dec_places = amount % 1 == 0 ? 0 : (_d = this.options.DecimalPlaces) !== null && _d !== void 0 ? _d : 2;
     const amountTxt = engrid_ENGrid.formatNumber(amount, dec_places, dec_separator, thousands_separator);
-    return amount > 0 ? symbol + amountTxt : "";
+    return amount > 0 ? `<span class="live-variable-currency">${symbol}</span><span class="live-variable-amount">${amountTxt}</span>` : "";
   }
 
   getUpsellAmountTxt() {
@@ -16070,7 +16094,7 @@ class LiveVariables {
 
     if (amount) {
       label = label.replace("$AMOUNT", amount);
-      label = label.replace("$FREQUENCY", frequency);
+      label = label.replace("$FREQUENCY", `<span class="live-variable-frequency">${frequency}</span>`);
     } else {
       label = label.replace("$AMOUNT", "");
       label = label.replace("$FREQUENCY", "");
@@ -22165,10 +22189,87 @@ class LiveFrequency {
   }
 
 }
+;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/universal-opt-in.js
+/**
+ * This class will add event listeners to every yes/no radio button or checkbox
+ * inside a universal opt-in element (any form block with the CSS class universal-opt-in). When the user clicks on a radio/checkbox
+ * button, we will search for every other radio/checkbox button inside the same
+ * universal opt-in element and mirror the user's selection.
+ */
+
+class UniversalOptIn {
+  constructor() {
+    this.logger = new EngridLogger("UniversalOptIn", "#f0f0f0", "#d2691e", "🪞");
+    this._elements = document.querySelectorAll(".universal-opt-in");
+    if (!this.shouldRun()) return;
+    this.addEventListeners();
+  }
+
+  shouldRun() {
+    if (this._elements.length === 0) {
+      this.logger.log("No universal opt-in elements found. Skipping.");
+      return false;
+    }
+
+    this.logger.log(`Found ${this._elements.length} universal opt-in elements.`);
+    return true;
+  }
+
+  addEventListeners() {
+    this._elements.forEach(element => {
+      const yesNoElements = element.querySelectorAll(".en__field__input--radio, .en__field__input--checkbox");
+
+      if (yesNoElements.length > 0) {
+        yesNoElements.forEach(yesNoElement => {
+          yesNoElement.addEventListener("click", () => {
+            if (yesNoElement instanceof HTMLInputElement && yesNoElement.getAttribute("type") === "checkbox") {
+              const yesNoValue = yesNoElement.checked;
+
+              if (yesNoValue) {
+                this.logger.log("Yes/No " + yesNoElement.getAttribute("type") + " is checked");
+                yesNoElements.forEach(yesNoElement2 => {
+                  if (yesNoElement === yesNoElement2) return;
+                  if (yesNoElement2 instanceof HTMLInputElement && yesNoElement2.getAttribute("type") === "checkbox") yesNoElement2.checked = true;
+                });
+              } else {
+                this.logger.log("Yes/No " + yesNoElement.getAttribute("type") + " is unchecked");
+                yesNoElements.forEach(yesNoElement2 => {
+                  if (yesNoElement === yesNoElement2) return;
+                  if (yesNoElement2 instanceof HTMLInputElement && yesNoElement2.getAttribute("type") === "checkbox") yesNoElement2.checked = false;
+                });
+              }
+
+              return;
+            }
+
+            const yesNoValue = yesNoElement.getAttribute("value");
+
+            if (yesNoValue === "Y") {
+              this.logger.log("Yes/No " + yesNoElement.getAttribute("type") + " is checked");
+              yesNoElements.forEach(yesNoElement2 => {
+                if (yesNoElement === yesNoElement2) return;
+                if (yesNoElement2.getAttribute("value") === "Y") yesNoElement2.setAttribute("checked", "checked");
+                if (yesNoElement2.getAttribute("value") === "N") yesNoElement2.removeAttribute("checked");
+              });
+            } else {
+              this.logger.log("Yes/No " + yesNoElement.getAttribute("type") + " is unchecked");
+              yesNoElements.forEach(yesNoElement2 => {
+                if (yesNoElement === yesNoElement2) return;
+                if (yesNoElement2.getAttribute("value") === "Y") yesNoElement2.removeAttribute("checked");
+              });
+            }
+          });
+        });
+      }
+    });
+  }
+
+}
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/version.js
-const AppVersion = "0.13.65";
+const AppVersion = "0.13.66";
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
+
 
 
 

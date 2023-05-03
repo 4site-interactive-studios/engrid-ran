@@ -743,6 +743,16 @@
     }
   }
 
+  &:not([data-engrid-debug]) {
+    .en__field--plaid {
+      display: none;
+    }
+  }
+
+  .en__field--plaid {
+    background-color: #ff00001a !important;
+  }
+
   @media screen and (max-width: 880px) {
     .body-top {
       padding-top: 30px;
