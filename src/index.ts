@@ -60,7 +60,7 @@ const options: Options = {
     ],
   },
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
-  onLoad: () => customScript(),
+  onLoad: () => customScript(App),
   onResize: () => console.log("Starter Theme Window Resized"),
   onValidate: () => {
     const country = App.getFieldValue("supporter.country");

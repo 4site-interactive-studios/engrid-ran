@@ -1,6 +1,26 @@
-export const customScript = function () {
+export const customScript = function (App) {
   console.log("ENGrid client scripts are executing");
   // Add your client scripts here
+
+  // If we're on the last page OR we're redirected from another EN Page
+  if (
+    App.getPageNumber() === App.getPageCount() ||
+    document.referrer.includes("act.ran.org")
+  ) {
+    // Load the Cohort iFrame to the end of the #endgrid element
+    const cohortIframe = document.createElement("iframe");
+    cohortIframe.src = "https://act.ran.org/page/51899/data/1?chain";
+    cohortIframe.style.width = "0";
+    cohortIframe.style.height = "0";
+    cohortIframe.style.visibility = "hidden";
+    cohortIframe.style.display = "none";
+    cohortIframe.width = "0";
+    cohortIframe.height = "0";
+    cohortIframe.name = "cohortIframe";
+    cohortIframe.visibility = "hidden";
+    const engrid = document.querySelector("#endgrid, form");
+    if (engrid) engrid.appendChild(cohortIframe);
+  }
 
   // Add placeholder to the "other" giving amount field
   let enFieldOtherAmt = document.querySelectorAll(
@@ -64,32 +84,34 @@ export const customScript = function () {
   const paymentMethodRadioWrapper = document.querySelectorAll(
     ".give-by-select .en__field__item"
   );
-  [...frequencyRadio, currencySelect].forEach((el) => {
-    el.addEventListener("change", () => {
-      console.log("CHANGING");
-      window.setTimeout(() => {
-        // Get selected payment method
-        const selectedPaymentMethod = document.querySelector(
-          "[name='transaction.giveBySelect']:checked"
-        );
-        if (selectedPaymentMethod) {
-          const selectedPaymentContainer =
-            selectedPaymentMethod.closest(".en__field__item");
-          // Check if selected payment method is hidden
-          if (!isVisibile(selectedPaymentContainer)) {
-            // If hidden, click on the first visible payment method
-            [...paymentMethodRadioWrapper].every((element) => {
-              if (isVisibile(element)) {
-                console.log(
-                  `Clicking on ${element.querySelector("label").innerText}`
-                );
-                element.querySelector("label").click();
-                return false;
-              }
-            });
+  if (frequencyRadio && currencySelect && paymentMethodRadioWrapper) {
+    [...frequencyRadio, currencySelect].forEach((el) => {
+      el.addEventListener("change", () => {
+        console.log("CHANGING");
+        window.setTimeout(() => {
+          // Get selected payment method
+          const selectedPaymentMethod = document.querySelector(
+            "[name='transaction.giveBySelect']:checked"
+          );
+          if (selectedPaymentMethod) {
+            const selectedPaymentContainer =
+              selectedPaymentMethod.closest(".en__field__item");
+            // Check if selected payment method is hidden
+            if (!isVisibile(selectedPaymentContainer)) {
+              // If hidden, click on the first visible payment method
+              [...paymentMethodRadioWrapper].every((element) => {
+                if (isVisibile(element)) {
+                  console.log(
+                    `Clicking on ${element.querySelector("label").innerText}`
+                  );
+                  element.querySelector("label").click();
+                  return false;
+                }
+              });
+            }
           }
-        }
-      }, 500);
+        }, 500);
+      });
     });
-  });
+  }
 };
