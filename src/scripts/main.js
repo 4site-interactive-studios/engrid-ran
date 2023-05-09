@@ -1,5 +1,5 @@
 export const customScript = function (App) {
-  console.log("ENGrid client scripts are executing");
+  App.log("ENGrid client scripts are executing");
   // Add your client scripts here
 
   // If we're on the last page OR we're redirected from another EN Page
@@ -87,7 +87,7 @@ export const customScript = function (App) {
   if (frequencyRadio && currencySelect && paymentMethodRadioWrapper) {
     [...frequencyRadio, currencySelect].forEach((el) => {
       el.addEventListener("change", () => {
-        console.log("CHANGING");
+        App.log("CHANGING");
         window.setTimeout(() => {
           // Get selected payment method
           const selectedPaymentMethod = document.querySelector(
@@ -101,7 +101,7 @@ export const customScript = function (App) {
               // If hidden, click on the first visible payment method
               [...paymentMethodRadioWrapper].every((element) => {
                 if (isVisibile(element)) {
-                  console.log(
+                  App.log(
                     `Clicking on ${element.querySelector("label").innerText}`
                   );
                   element.querySelector("label").click();

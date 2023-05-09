@@ -61,7 +61,7 @@ const options: Options = {
   },
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => customScript(App),
-  onResize: () => console.log("Starter Theme Window Resized"),
+  onResize: () => App.log("Starter Theme Window Resized"),
   onValidate: () => {
     const country = App.getFieldValue("supporter.country");
     // If country is not US or CA, then remove the region field value
@@ -71,7 +71,7 @@ const options: Options = {
       )
     ) {
       App.setFieldValue("supporter.region", "");
-      console.log("Region field cleared");
+      App.log("Region field cleared");
     }
   },
 };

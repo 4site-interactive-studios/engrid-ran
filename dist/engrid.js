@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, May 3, 2023 @ 16:21:38 ET
+ *  Date: Tuesday, May 9, 2023 @ 15:33:11 ET
  *  By: fernando
  *  ENGrid styles: v0.13.65
  *  ENGrid scripts: v0.13.68
@@ -19071,7 +19071,7 @@ const AppVersion = "0.13.68";
 
 ;// CONCATENATED MODULE: ./src/scripts/main.js
 const customScript = function (App) {
-  console.log("ENGrid client scripts are executing"); // Add your client scripts here
+  App.log("ENGrid client scripts are executing"); // Add your client scripts here
   // If we're on the last page OR we're redirected from another EN Page
 
   if (App.getPageNumber() === App.getPageCount() || document.referrer.includes("act.ran.org")) {
@@ -19139,7 +19139,7 @@ const customScript = function (App) {
   if (frequencyRadio && currencySelect && paymentMethodRadioWrapper) {
     [...frequencyRadio, currencySelect].forEach(el => {
       el.addEventListener("change", () => {
-        console.log("CHANGING");
+        App.log("CHANGING");
         window.setTimeout(() => {
           // Get selected payment method
           const selectedPaymentMethod = document.querySelector("[name='transaction.giveBySelect']:checked");
@@ -19151,7 +19151,7 @@ const customScript = function (App) {
               // If hidden, click on the first visible payment method
               [...paymentMethodRadioWrapper].every(element => {
                 if (isVisibile(element)) {
-                  console.log(`Clicking on ${element.querySelector("label").innerText}`);
+                  App.log(`Clicking on ${element.querySelector("label").innerText}`);
                   element.querySelector("label").click();
                   return false;
                 }
@@ -19213,13 +19213,13 @@ const options = {
   },
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => customScript(App),
-  onResize: () => console.log("Starter Theme Window Resized"),
+  onResize: () => App.log("Starter Theme Window Resized"),
   onValidate: () => {
     const country = App.getFieldValue("supporter.country"); // If country is not US or CA, then remove the region field value
 
     if (!["us", "usa", "united states", "ca", "canada"].includes(country.toLowerCase())) {
       App.setFieldValue("supporter.region", "");
-      console.log("Region field cleared");
+      App.log("Region field cleared");
     }
   }
 };
