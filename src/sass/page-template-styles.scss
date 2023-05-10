@@ -454,12 +454,17 @@
   }
 
   .content-preFooter {
-    grid-column: pc;
     background-size: 100%;
     background-color: #ffffff;
     background-image: url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/pre-footer-donation-background.png");
     background-position: 0 100.1%; // The fractional percent helps in instances where rounding causes a little bit of the background to bleed through
     background-repeat: no-repeat;
+  }
+
+  &[data-engrid-layout*="centercenter"] {
+    .content-preFooter {
+      grid-column: pc;
+    }
   }
 
   .content-preFooter.pseudo-subgrid > div {
