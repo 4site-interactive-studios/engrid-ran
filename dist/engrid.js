@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, May 3, 2023 @ 13:16:20 ET
- *  By: michael
- *  ENGrid styles: v0.13.13
- *  ENGrid scripts: v0.13.15
+ *  Date: Wednesday, May 10, 2023 @ 14:59:22 ET
+ *  By: bryancasler
+ *  ENGrid styles: v0.13.65
+ *  ENGrid scripts: v0.13.65
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -14362,6 +14362,11 @@ class App extends engrid_ENGrid {
     if (App.demo) App.setBodyData("demo", "");
   }
 
+  static log(message) {
+    const logger = new EngridLogger("Client", "brown", "aliceblue", "🍪");
+    logger.log(message);
+  }
+
 }
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/amount-label.js
 // This script checks if the donations amounts are numbers and if they are, appends the correct currency symbol
@@ -15389,9 +15394,23 @@ const watchInmemField = () => {
 }; // @TODO Refactor (low priority)
 
 const watchGiveBySelectField = () => {
+  const setPaymentType = paymentType => {
+    const enFieldPaymentType = document.querySelector("#en__field_transaction_paymenttype");
+
+    if (enFieldPaymentType) {
+      // Set Payment Type Option Value Case Insensitive
+      const paymentTypeOption = Array.from(enFieldPaymentType.options).find(option => option.value.toLowerCase() === paymentType.toLowerCase());
+
+      if (paymentTypeOption) {
+        paymentTypeOption.selected = true;
+        const event = new Event("change");
+        enFieldPaymentType.dispatchEvent(event);
+      }
+    }
+  };
+
   const enFieldGiveBySelect = document.querySelector(".en__field--give-by-select");
   const transactionGiveBySelect = document.getElementsByName("transaction.giveBySelect");
-  const enFieldPaymentType = document.querySelector("#en__field_transaction_paymenttype");
   let enFieldGiveBySelectCurrentValue = document.querySelector('input[name="transaction.giveBySelect"]:checked');
   const prefix = "has-give-by-";
   /* prettier-ignore */
@@ -15414,47 +15433,45 @@ const watchGiveBySelectField = () => {
         enGrid.classList.add("has-give-by-ach");
       }
 
-      enFieldPaymentType.value = "ach"; // Give By Check
+      setPaymentType("ach"); // Give By Check
     } else if (enFieldGiveBySelectCurrentValue && enFieldGiveBySelectCurrentValue.value.toLowerCase() == "check") {
       if (enGrid) {
         removeClassesByPrefix(enGrid, prefix);
         enGrid.classList.add("has-give-by-check");
       }
 
-      enFieldPaymentType.value = "check"; // Give By PayPal
+      setPaymentType("check"); // Give By PayPal
     } else if (enFieldGiveBySelectCurrentValue && enFieldGiveBySelectCurrentValue.value.toLowerCase() == "paypal") {
       if (enGrid) {
         removeClassesByPrefix(enGrid, prefix);
         enGrid.classList.add("has-give-by-paypal");
       }
 
-      enFieldPaymentType.value = "paypal"; // Give By Paypal One Touch or Venmo
+      setPaymentType("paypal"); // Give By Paypal One Touch or Venmo
     } else if (enFieldGiveBySelectCurrentValue && enFieldGiveBySelectCurrentValue.value.toLowerCase() == "paypaltouch") {
       if (enGrid) {
         removeClassesByPrefix(enGrid, prefix);
         enGrid.classList.add("has-give-by-paypaltouch");
       }
 
-      enFieldPaymentType.value = "paypaltouch"; // Give By Apple Pay via Vantiv
+      setPaymentType("paypaltouch"); // Give By Apple Pay via Vantiv
     } else if (enFieldGiveBySelectCurrentValue && enFieldGiveBySelectCurrentValue.value.toLowerCase() == "applepay") {
       if (enGrid) {
         removeClassesByPrefix(enGrid, prefix);
         enGrid.classList.add("has-give-by-applepay");
       }
 
-      enFieldPaymentType.value = "applepay"; // Give By Apple Pay or Google Pay via Stripe
+      setPaymentType("applepay"); // Give By Apple Pay or Google Pay via Stripe
     } else if (enFieldGiveBySelectCurrentValue && enFieldGiveBySelectCurrentValue.value.toLowerCase() == "stripedigitalwallet") {
       if (enGrid) {
         removeClassesByPrefix(enGrid, prefix);
         enGrid.classList.add("has-give-by-stripedigitalwallet");
       }
 
-      enFieldPaymentType.value = "stripedigitalwallet";
+      setPaymentType("stripedigitalwallet");
     }
 
     ;
-    const event = new Event("change");
-    enFieldPaymentType.dispatchEvent(event);
   };
   /* prettier-ignore */
   // Check Giving Frequency on page load
@@ -17074,6 +17091,39 @@ class TranslateFields {
         }, {
           label: "Wyoming",
           value: "WY"
+        }, {
+          label: "American Samoa",
+          value: "AS"
+        }, {
+          label: "Federated States of Micronesia",
+          value: "FM"
+        }, {
+          label: "Guam",
+          value: "GU"
+        }, {
+          label: "Marshall Islands",
+          value: "MH"
+        }, {
+          label: "Northern Mariana Islands",
+          value: "MP"
+        }, {
+          label: "Puerto Rico",
+          value: "PR"
+        }, {
+          label: "Palau",
+          value: "PW"
+        }, {
+          label: "Virgin Islands",
+          value: "VI"
+        }, {
+          label: "Armed Forces America",
+          value: "AA"
+        }, {
+          label: "Armed Forces Europe",
+          value: "AE"
+        }, {
+          label: "Armed Forces Pacific",
+          value: "AP"
         }]);
         break;
 
@@ -17234,6 +17284,39 @@ class TranslateFields {
         }, {
           label: "Wyoming",
           value: "Wyoming"
+        }, {
+          label: "American Samoa",
+          value: "American Samoa"
+        }, {
+          label: "Federated States of Micronesia",
+          value: "Federated States of Micronesia"
+        }, {
+          label: "Guam",
+          value: "Guam"
+        }, {
+          label: "Marshall Islands",
+          value: "Marshall Islands"
+        }, {
+          label: "Northern Mariana Islands",
+          value: "Northern Mariana Islands"
+        }, {
+          label: "Puerto Rico",
+          value: "Puerto Rico"
+        }, {
+          label: "Palau",
+          value: "Palau"
+        }, {
+          label: "Virgin Islands",
+          value: "Virgin Islands"
+        }, {
+          label: "Armed Forces America",
+          value: "Armed Forces America"
+        }, {
+          label: "Armed Forces Europe",
+          value: "Armed Forces Europe"
+        }, {
+          label: "Armed Forces Pacific",
+          value: "Armed Forces Pacific"
         }]);
         break;
 
@@ -21631,7 +21714,7 @@ class DebugHiddenFields {
   constructor() {
     this.logger = new EngridLogger("Debug hidden fields", "#f0f0f0", "#ff0000", "🫣"); // Query all hidden input elements within the specified selectors
 
-    const fields = document.querySelectorAll(".en__component--row [type='hidden'], .engrid-added-input[type='hidden']"); // Check if there are any hidden fields
+    const fields = document.querySelectorAll(".en__component--row [type='hidden'][class*='en_'], .engrid-added-input[type='hidden']"); // Check if there are any hidden fields
 
     if (fields.length > 0) {
       // Log the names of the hidden fields being changed to type 'text'
@@ -22266,7 +22349,7 @@ class UniversalOptIn {
 
 }
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/version.js
-const AppVersion = "0.13.66";
+const AppVersion = "0.13.68";
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
 
@@ -22502,8 +22585,6 @@ class DonationLightboxForm {
   buildSectionNavigation() {
     console.log("DonationLightboxForm: buildSectionNavigation");
     this.sections.forEach((section, key) => {
-      var _sectionNavigation$qu, _sectionNavigation$qu2, _sectionNavigation$qu3;
-
       section.dataset.sectionId = key;
       const sectionNavigation = document.createElement("div");
       sectionNavigation.classList.add("section-navigation");
@@ -22553,10 +22634,8 @@ class DonationLightboxForm {
         <span class="section-count__total">${sectionTotal}</span>
       `;
       } else {
-        var _document$querySelect;
-
         // Single Section Pages
-        const submitButtonLabel = ((_document$querySelect = document.querySelector(".en__submit button")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.innerText) || "Submit";
+        const submitButtonLabel = document.querySelector(".en__submit button")?.innerText || "Submit";
         sectionNavigation.innerHTML = `
         <button class="section-navigation__submit" data-section-id="${key}" type="submit" data-label="${submitButtonLabel}">
           <span>${submitButtonLabel}</span>
@@ -22564,18 +22643,18 @@ class DonationLightboxForm {
       `;
       }
 
-      (_sectionNavigation$qu = sectionNavigation.querySelector(".section-navigation__previous")) === null || _sectionNavigation$qu === void 0 ? void 0 : _sectionNavigation$qu.addEventListener("click", e => {
+      sectionNavigation.querySelector(".section-navigation__previous")?.addEventListener("click", e => {
         e.preventDefault();
         this.scrollToSection(key - 1);
       });
-      (_sectionNavigation$qu2 = sectionNavigation.querySelector(".section-navigation__next")) === null || _sectionNavigation$qu2 === void 0 ? void 0 : _sectionNavigation$qu2.addEventListener("click", e => {
+      sectionNavigation.querySelector(".section-navigation__next")?.addEventListener("click", e => {
         e.preventDefault();
 
         if (this.validateForm(key)) {
           this.scrollToSection(key + 1);
         }
       });
-      (_sectionNavigation$qu3 = sectionNavigation.querySelector(".section-navigation__submit")) === null || _sectionNavigation$qu3 === void 0 ? void 0 : _sectionNavigation$qu3.addEventListener("click", e => {
+      sectionNavigation.querySelector(".section-navigation__submit")?.addEventListener("click", e => {
         e.preventDefault(); // Validate the entire form again
 
         if (this.validateForm()) {
