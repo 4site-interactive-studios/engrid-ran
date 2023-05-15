@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, May 10, 2023 @ 15:03:31 ET
- *  By: bryancasler
- *  ENGrid styles: v0.13.69
- *  ENGrid scripts: v0.13.69
+ *  Date: Monday, May 15, 2023 @ 06:32:44 ET
+ *  By: michael
+ *  ENGrid styles: v0.13.13
+ *  ENGrid scripts: v0.13.15
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -13705,6 +13705,44 @@ class engrid_ENGrid {
     .replace(/\-\-+/g, "-") // Replace multiple - with single -
     .replace(/^-+/, "") // Trim - from start of text
     .replace(/-+$/, ""); // Trim - from end of text
+  } // This function is used to run a callback function when an error is displayed on the page
+
+
+  static watchForError(callback) {
+    const errorElement = document.querySelector(".en__errorList");
+
+    const capitalize = word => word.charAt(0).toUpperCase() + word.slice(1); // Avoid duplicate callbacks
+
+
+    let callbackType = callback.toString();
+
+    if (callbackType.indexOf("function") === 0) {
+      callbackType = callbackType.replace("function ", "");
+    }
+
+    if (callbackType.indexOf("(") > 0) {
+      callbackType = callbackType.substring(0, callbackType.indexOf("("));
+    } // Remove invalid characters
+
+
+    callbackType = callbackType.replace(/[^a-zA-Z0-9]/g, ""); // Limit to 20 characters and add prefix
+
+    callbackType = callbackType.substring(0, 20);
+    callbackType = "engrid" + capitalize(callbackType);
+
+    if (errorElement && !errorElement.dataset[callbackType]) {
+      errorElement.dataset[callbackType] = "true";
+      const observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+            callback();
+          }
+        });
+      });
+      observer.observe(errorElement, {
+        childList: true
+      });
+    }
   }
 
 }
@@ -14058,7 +14096,11 @@ class App extends engrid_ENGrid {
 
       if (!this._form.submit) return false;
       if (this._form.submitPromise) return this._form.submitPromise;
-      this.logger.success("enOnSubmit Success");
+      this.logger.success("enOnSubmit Success"); // If all validation passes, we'll watch for Digital Wallets Errors, which
+      // will not reload the page (thanks EN), so we will enable the submit button if
+      // an error is programmatically thrown by the Digital Wallets
+
+      engrid_ENGrid.watchForError(engrid_ENGrid.enableSubmit);
       return true;
     };
 
@@ -19049,6 +19091,7 @@ class ShowIfAmount {
 class OtherAmount {
   constructor() {
     this.logger = new EngridLogger("OtherAmount", "green", "black", "💰");
+    this._amount = DonationAmount.getInstance();
     "focusin input".split(" ").forEach(e => {
       var _a; // We're attaching this event to the body because sometimes the other amount input is not in the DOM yet and comes via AJAX.
 
@@ -19081,6 +19124,22 @@ class OtherAmount {
           }
 
           target.value = cleanAmount % 1 != 0 ? cleanAmount.toFixed(2) : cleanAmount.toString();
+        }
+      }); // On blur, if the amount is 0, select the previous amount
+
+      otherAmountField.addEventListener("blur", e => {
+        const target = e.target;
+        const amount = target.value;
+        const cleanAmount = engrid_ENGrid.cleanAmount(amount);
+
+        if (cleanAmount === 0) {
+          this.logger.log("Other Amount Field Blurred with 0 amount"); // Get Live Amount
+
+          const liveAmount = this._amount.amount;
+
+          if (liveAmount > 0) {
+            this._amount.setAmount(liveAmount, false);
+          }
         }
       });
     }
@@ -19865,10 +19924,14 @@ class RequiredIfVisible {
 
           if (fieldLabel) {
             this.logger.log(`${fieldLabel.innerText} is required`);
-            engrid_ENGrid.setError(field, `${fieldLabel.innerText} is required`);
+            window.setTimeout(() => {
+              engrid_ENGrid.setError(field, `${fieldLabel.innerText} is required`);
+            }, 100);
           } else {
             this.logger.log(`${fieldElement.getAttribute("name")} is required`);
-            engrid_ENGrid.setError(field, `This field is required`);
+            window.setTimeout(() => {
+              engrid_ENGrid.setError(field, `This field is required`);
+            }, 100);
           }
 
           fieldElement.focus();
@@ -21437,7 +21500,7 @@ class DebugPanel {
           <div class="debug-panel__container">
             <div class="debug-panel__closed-title">Debug</div>
             <div class="debug-panel__title">
-              <h2>Debug Panel</h2>
+              <h2>Debug</h2>
               <div class="debug-panel__close">X</div>
             </div>
             <div class="debug-panel__options">
@@ -21447,7 +21510,7 @@ class DebugPanel {
                 </label>
               </div>
               <div class="debug-panel__option">
-                <label for="engrid-form-quickfill">Form Quick-fill</label>
+                <label for="engrid-form-quickfill">Quick-fill</label>
                 <select name="engrid-form-quickfill" id="engrid-form-quickfill">
                   <option disabled selected>Choose an option</option>
                   <option value="quick-fill-pi-unique-us-address-senate-rep-cc-stripe-visa">Quick-fill - Unique w/ Senate Address - Stripe Visa</option>
@@ -21463,11 +21526,11 @@ class DebugPanel {
                 </select>
               </div>
               <div class="debug-panel__option">
-                <label for="engrid-layout-switch">Switch layout</label>
+                <label for="engrid-layout-switch">Layout</label>
                 <select name="engrid-layout" id="engrid-layout-switch">
                 </select>
               </div>
-              <div class="debug-panel__option">
+              <div class="debug-panel__option debug-panel__option--local">
                 <div class="debug-panel__checkbox">
                   <input type="checkbox" name="engrid-embedded-layout" id="engrid-embedded-layout">
                   <label for="engrid-embedded-layout">Embedded layout</label>            
@@ -21489,7 +21552,7 @@ class DebugPanel {
                 <label for="engrid-theme">Theme</label>
                 <input type="text" id="engrid-theme">
               </div>
-              <div class="debug-panel__option">
+              <div class="debug-panel__option debug-panel__option--local">
                 <label for="engrid-theme">Sub-theme</label>
                 <input type="text" id="engrid-subtheme">
               </div>
@@ -22349,7 +22412,7 @@ class UniversalOptIn {
 
 }
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/version.js
-const AppVersion = "0.13.68";
+const AppVersion = "0.13.69";
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
 
@@ -22585,6 +22648,8 @@ class DonationLightboxForm {
   buildSectionNavigation() {
     console.log("DonationLightboxForm: buildSectionNavigation");
     this.sections.forEach((section, key) => {
+      var _sectionNavigation$qu, _sectionNavigation$qu2, _sectionNavigation$qu3;
+
       section.dataset.sectionId = key;
       const sectionNavigation = document.createElement("div");
       sectionNavigation.classList.add("section-navigation");
@@ -22634,8 +22699,10 @@ class DonationLightboxForm {
         <span class="section-count__total">${sectionTotal}</span>
       `;
       } else {
+        var _document$querySelect;
+
         // Single Section Pages
-        const submitButtonLabel = document.querySelector(".en__submit button")?.innerText || "Submit";
+        const submitButtonLabel = ((_document$querySelect = document.querySelector(".en__submit button")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.innerText) || "Submit";
         sectionNavigation.innerHTML = `
         <button class="section-navigation__submit" data-section-id="${key}" type="submit" data-label="${submitButtonLabel}">
           <span>${submitButtonLabel}</span>
@@ -22643,18 +22710,18 @@ class DonationLightboxForm {
       `;
       }
 
-      sectionNavigation.querySelector(".section-navigation__previous")?.addEventListener("click", e => {
+      (_sectionNavigation$qu = sectionNavigation.querySelector(".section-navigation__previous")) === null || _sectionNavigation$qu === void 0 ? void 0 : _sectionNavigation$qu.addEventListener("click", e => {
         e.preventDefault();
         this.scrollToSection(key - 1);
       });
-      sectionNavigation.querySelector(".section-navigation__next")?.addEventListener("click", e => {
+      (_sectionNavigation$qu2 = sectionNavigation.querySelector(".section-navigation__next")) === null || _sectionNavigation$qu2 === void 0 ? void 0 : _sectionNavigation$qu2.addEventListener("click", e => {
         e.preventDefault();
 
         if (this.validateForm(key)) {
           this.scrollToSection(key + 1);
         }
       });
-      sectionNavigation.querySelector(".section-navigation__submit")?.addEventListener("click", e => {
+      (_sectionNavigation$qu3 = sectionNavigation.querySelector(".section-navigation__submit")) === null || _sectionNavigation$qu3 === void 0 ? void 0 : _sectionNavigation$qu3.addEventListener("click", e => {
         e.preventDefault(); // Validate the entire form again
 
         if (this.validateForm()) {
