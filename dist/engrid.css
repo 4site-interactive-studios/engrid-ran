@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, May 15, 2023 @ 06:32:44 ET
+ *  Date: Tuesday, May 16, 2023 @ 06:23:25 ET
  *  By: michael
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -8449,6 +8449,7 @@ body[data-engrid-debug]:before{
   display:none;
 }
 [data-engrid-theme=engrid-ran3]{
+  --engrid__page_background-color:#f5f2d8;
   --color_primary:#000;
   --color_primary_accent:#f57e20;
   --color_green:#395a4c;
