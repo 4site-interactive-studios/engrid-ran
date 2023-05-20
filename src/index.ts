@@ -72,6 +72,7 @@ const options: Options = {
     phone_status_field: "supporter.NOT_TAGGED_43",
   },
   RememberMe: rememberMeOptions,
+  Plaid: true,
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;

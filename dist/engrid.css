@@ -19,10 +19,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, May 16, 2023 @ 06:23:25 ET
- *  By: michael
- *  ENGrid styles: v0.13.13
- *  ENGrid scripts: v0.13.15
+ *  Date: Friday, May 19, 2023 @ 22:52:03 ET
+ *  By: fernando
+ *  ENGrid styles: v0.13.70
+ *  ENGrid scripts: v0.13.70
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -183,14 +183,12 @@ dialog{
   background-color:#fff;
   border:solid;
   color:#000;
-  height:-moz-fit-content;
   height:fit-content;
   left:0;
   margin:auto;
   padding:1em;
   position:absolute;
   right:0;
-  width:-moz-fit-content;
   width:fit-content;
 }
 
@@ -1220,7 +1218,7 @@ template{
 .en__supporterHubLogin{
   border:1px solid #bfbfbf;
   border-radius:var(--input_border-radius);
-  width:26.25rem;
+  width:min(100%, 26.25rem);
 }
 
 .en__supporterHubLogin__header{
@@ -2082,7 +2080,6 @@ a:focus,a:hover{
   grid-auto-rows:auto;
   margin-bottom:var(--fields_spacing-block);
   max-width:100%;
-  width:-moz-fit-content;
   width:fit-content;
 }
 
@@ -2184,8 +2181,7 @@ input[type=range]{
 }
 
 :not(#EN__RootElement) input[type=email],:not(#EN__RootElement) input[type=number],:not(#EN__RootElement) input[type=tel],input[type=text]{
-  -webkit-appearance:textfield;
-          appearance:textfield;
+  appearance:textfield;
 }
 input[type=radio]+label{
   align-items:center;
@@ -2376,7 +2372,6 @@ input[type=checkbox]:checked+label:before{
 input.en__contactDetails__select,input.en__field__input--checkbox,input.en__field__input--radio{
   clip:rect(0 0 0 0);
   border:0;
-  -webkit-clip-path:inset(50%);
   clip-path:inset(50%);
   height:1px;
   margin:-1px;
@@ -2397,8 +2392,7 @@ input.en__contactDetails__select,input.en__field__input--checkbox,input.en__fiel
   flex-direction:column;
 }
 select,select.en__field__input--select,select.en__field__input--splitselect,select.en__field__input--tripleselect{
-  -webkit-appearance:none;
-          appearance:none;
+  appearance:none;
   background-color:var(--select_background-color);
   background-image:url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 version=%271.1%27 width=%2732%27 height=%2724%27 viewBox=%270 0 32 24%27><polygon points=%270,0 32,0 16,24%27 style=%27fill: rgb%280, 0, 0%29%27></polygon></svg>");
   background-origin:content-box;
@@ -2737,8 +2731,7 @@ body{
   --submit__button_text-transform:var(--button_text-transform);
 }
 .button,.en__button,.pseduo__en__submit_button,button,button.en__eventOccurrence__select,button.en__ticketRecurring__select,button.en__ticketSummary__checkout{
-  -webkit-appearance:none;
-          appearance:none;
+  appearance:none;
   background-color:var(--button_background-color);
   border:var(--button_border-width) solid var(--button_border-color);
   border-radius:var(--button_border-radius);
@@ -3157,10 +3150,10 @@ body:not(#en__pagebuilder) .click-to-expand.expanded .click-to-expand-text-wrapp
   align-items:flex-start;
   flex-direction:column;
 }
-#en__pagebuilder .hide,#en__pagebuilder .hide-until-client-js-loading-finished,#en__pagebuilder .hide-until-engrid-js-loading-finished,#en__pagebuilder .i1-hide .en__field:first-of-type,#en__pagebuilder .i1-hide-label .en__field:first-of-type>label,#en__pagebuilder .i10-hide .en__field:nth-of-type(10),#en__pagebuilder .i10-hide-label .en__field:nth-of-type(10)>label,#en__pagebuilder .i11-hide .en__field:nth-of-type(11),#en__pagebuilder .i11-hide-label .en__field:nth-of-type(11)>label,#en__pagebuilder .i2-hide .en__field:nth-of-type(2),#en__pagebuilder .i2-hide-label .en__field:nth-of-type(2)>label,#en__pagebuilder .i3-hide .en__field:nth-of-type(3),#en__pagebuilder .i3-hide-label .en__field:nth-of-type(3)>label,#en__pagebuilder .i4-hide .en__field:nth-of-type(4),#en__pagebuilder .i4-hide-label .en__field:nth-of-type(4)>label,#en__pagebuilder .i5-hide .en__field:nth-of-type(5),#en__pagebuilder .i5-hide-label .en__field:nth-of-type(5)>label,#en__pagebuilder .i6-hide .en__field:nth-of-type(6),#en__pagebuilder .i6-hide-label .en__field:nth-of-type(6)>label,#en__pagebuilder .i7-hide .en__field:nth-of-type(7),#en__pagebuilder .i7-hide-label .en__field:nth-of-type(7)>label,#en__pagebuilder .i8-hide .en__field:nth-of-type(8),#en__pagebuilder .i8-hide-label .en__field:nth-of-type(8)>label,#en__pagebuilder .i9-hide .en__field:nth-of-type(9),#en__pagebuilder .i9-hide-label .en__field:nth-of-type(9)>label,#en__pagebuilder [hidden-via-url-argument],#en__pagebuilder label.hide-label,[data-engrid-debug] .hide,[data-engrid-debug] .hide-until-client-js-loading-finished,[data-engrid-debug] .hide-until-engrid-js-loading-finished,[data-engrid-debug] .i1-hide .en__field:first-of-type,[data-engrid-debug] .i1-hide-label .en__field:first-of-type>label,[data-engrid-debug] .i10-hide .en__field:nth-of-type(10),[data-engrid-debug] .i10-hide-label .en__field:nth-of-type(10)>label,[data-engrid-debug] .i11-hide .en__field:nth-of-type(11),[data-engrid-debug] .i11-hide-label .en__field:nth-of-type(11)>label,[data-engrid-debug] .i2-hide .en__field:nth-of-type(2),[data-engrid-debug] .i2-hide-label .en__field:nth-of-type(2)>label,[data-engrid-debug] .i3-hide .en__field:nth-of-type(3),[data-engrid-debug] .i3-hide-label .en__field:nth-of-type(3)>label,[data-engrid-debug] .i4-hide .en__field:nth-of-type(4),[data-engrid-debug] .i4-hide-label .en__field:nth-of-type(4)>label,[data-engrid-debug] .i5-hide .en__field:nth-of-type(5),[data-engrid-debug] .i5-hide-label .en__field:nth-of-type(5)>label,[data-engrid-debug] .i6-hide .en__field:nth-of-type(6),[data-engrid-debug] .i6-hide-label .en__field:nth-of-type(6)>label,[data-engrid-debug] .i7-hide .en__field:nth-of-type(7),[data-engrid-debug] .i7-hide-label .en__field:nth-of-type(7)>label,[data-engrid-debug] .i8-hide .en__field:nth-of-type(8),[data-engrid-debug] .i8-hide-label .en__field:nth-of-type(8)>label,[data-engrid-debug] .i9-hide .en__field:nth-of-type(9),[data-engrid-debug] .i9-hide-label .en__field:nth-of-type(9)>label,[data-engrid-debug] [hidden-via-url-argument],[data-engrid-debug] label.hide-label{
+#en__pagebuilder .en__field--plaid,#en__pagebuilder .hide,#en__pagebuilder .hide-until-client-js-loading-finished,#en__pagebuilder .hide-until-engrid-js-loading-finished,#en__pagebuilder .i1-hide .en__field:first-of-type,#en__pagebuilder .i1-hide-label .en__field:first-of-type>label,#en__pagebuilder .i10-hide .en__field:nth-of-type(10),#en__pagebuilder .i10-hide-label .en__field:nth-of-type(10)>label,#en__pagebuilder .i11-hide .en__field:nth-of-type(11),#en__pagebuilder .i11-hide-label .en__field:nth-of-type(11)>label,#en__pagebuilder .i2-hide .en__field:nth-of-type(2),#en__pagebuilder .i2-hide-label .en__field:nth-of-type(2)>label,#en__pagebuilder .i3-hide .en__field:nth-of-type(3),#en__pagebuilder .i3-hide-label .en__field:nth-of-type(3)>label,#en__pagebuilder .i4-hide .en__field:nth-of-type(4),#en__pagebuilder .i4-hide-label .en__field:nth-of-type(4)>label,#en__pagebuilder .i5-hide .en__field:nth-of-type(5),#en__pagebuilder .i5-hide-label .en__field:nth-of-type(5)>label,#en__pagebuilder .i6-hide .en__field:nth-of-type(6),#en__pagebuilder .i6-hide-label .en__field:nth-of-type(6)>label,#en__pagebuilder .i7-hide .en__field:nth-of-type(7),#en__pagebuilder .i7-hide-label .en__field:nth-of-type(7)>label,#en__pagebuilder .i8-hide .en__field:nth-of-type(8),#en__pagebuilder .i8-hide-label .en__field:nth-of-type(8)>label,#en__pagebuilder .i9-hide .en__field:nth-of-type(9),#en__pagebuilder .i9-hide-label .en__field:nth-of-type(9)>label,#en__pagebuilder [hidden-via-url-argument],#en__pagebuilder label.hide-label,[data-engrid-debug] .en__field--plaid,[data-engrid-debug] .hide,[data-engrid-debug] .hide-until-client-js-loading-finished,[data-engrid-debug] .hide-until-engrid-js-loading-finished,[data-engrid-debug] .i1-hide .en__field:first-of-type,[data-engrid-debug] .i1-hide-label .en__field:first-of-type>label,[data-engrid-debug] .i10-hide .en__field:nth-of-type(10),[data-engrid-debug] .i10-hide-label .en__field:nth-of-type(10)>label,[data-engrid-debug] .i11-hide .en__field:nth-of-type(11),[data-engrid-debug] .i11-hide-label .en__field:nth-of-type(11)>label,[data-engrid-debug] .i2-hide .en__field:nth-of-type(2),[data-engrid-debug] .i2-hide-label .en__field:nth-of-type(2)>label,[data-engrid-debug] .i3-hide .en__field:nth-of-type(3),[data-engrid-debug] .i3-hide-label .en__field:nth-of-type(3)>label,[data-engrid-debug] .i4-hide .en__field:nth-of-type(4),[data-engrid-debug] .i4-hide-label .en__field:nth-of-type(4)>label,[data-engrid-debug] .i5-hide .en__field:nth-of-type(5),[data-engrid-debug] .i5-hide-label .en__field:nth-of-type(5)>label,[data-engrid-debug] .i6-hide .en__field:nth-of-type(6),[data-engrid-debug] .i6-hide-label .en__field:nth-of-type(6)>label,[data-engrid-debug] .i7-hide .en__field:nth-of-type(7),[data-engrid-debug] .i7-hide-label .en__field:nth-of-type(7)>label,[data-engrid-debug] .i8-hide .en__field:nth-of-type(8),[data-engrid-debug] .i8-hide-label .en__field:nth-of-type(8)>label,[data-engrid-debug] .i9-hide .en__field:nth-of-type(9),[data-engrid-debug] .i9-hide-label .en__field:nth-of-type(9)>label,[data-engrid-debug] [hidden-via-url-argument],[data-engrid-debug] label.hide-label{
   background-color:#ff00001a !important;
 }
-body:not(#en__pagebuilder):not([data-engrid-debug]) .hide:not(.en__field--validationFailed),body:not(#en__pagebuilder):not([data-engrid-debug]) .i1-hide .en__field:not(.en__field--validationFailed):first-of-type,body:not(#en__pagebuilder):not([data-engrid-debug]) .i10-hide .en__field:not(.en__field--validationFailed):nth-of-type(10),body:not(#en__pagebuilder):not([data-engrid-debug]) .i11-hide .en__field:not(.en__field--validationFailed):nth-of-type(11),body:not(#en__pagebuilder):not([data-engrid-debug]) .i2-hide .en__field:not(.en__field--validationFailed):nth-of-type(2),body:not(#en__pagebuilder):not([data-engrid-debug]) .i3-hide .en__field:not(.en__field--validationFailed):nth-of-type(3),body:not(#en__pagebuilder):not([data-engrid-debug]) .i4-hide .en__field:not(.en__field--validationFailed):nth-of-type(4),body:not(#en__pagebuilder):not([data-engrid-debug]) .i5-hide .en__field:not(.en__field--validationFailed):nth-of-type(5),body:not(#en__pagebuilder):not([data-engrid-debug]) .i6-hide .en__field:not(.en__field--validationFailed):nth-of-type(6),body:not(#en__pagebuilder):not([data-engrid-debug]) .i7-hide .en__field:not(.en__field--validationFailed):nth-of-type(7),body:not(#en__pagebuilder):not([data-engrid-debug]) .i8-hide .en__field:not(.en__field--validationFailed):nth-of-type(8),body:not(#en__pagebuilder):not([data-engrid-debug]) .i9-hide .en__field:not(.en__field--validationFailed):nth-of-type(9),body:not(#en__pagebuilder):not([data-engrid-debug]) [hidden-via-url-argument],body:not(#en__pagebuilder):not([data-engrid-debug]) div:not(.en__field--validationFailed) .hide:not(.en__field--validationFailed),body:not(#en__pagebuilder):not([data-engrid-debug]):not([data-engrid-client-js-loading=finished]) .hide-until-client-js-loading-finished,body:not(#en__pagebuilder):not([data-engrid-debug]):not([data-engrid-scripts-js-loading=finished]) .hide-until-engrid-js-loading-finished{
+body:not(#en__pagebuilder):not([data-engrid-debug]) .en__field--plaid,body:not(#en__pagebuilder):not([data-engrid-debug]) .hide:not(.en__field--validationFailed),body:not(#en__pagebuilder):not([data-engrid-debug]) .i1-hide .en__field:not(.en__field--validationFailed):first-of-type,body:not(#en__pagebuilder):not([data-engrid-debug]) .i10-hide .en__field:not(.en__field--validationFailed):nth-of-type(10),body:not(#en__pagebuilder):not([data-engrid-debug]) .i11-hide .en__field:not(.en__field--validationFailed):nth-of-type(11),body:not(#en__pagebuilder):not([data-engrid-debug]) .i2-hide .en__field:not(.en__field--validationFailed):nth-of-type(2),body:not(#en__pagebuilder):not([data-engrid-debug]) .i3-hide .en__field:not(.en__field--validationFailed):nth-of-type(3),body:not(#en__pagebuilder):not([data-engrid-debug]) .i4-hide .en__field:not(.en__field--validationFailed):nth-of-type(4),body:not(#en__pagebuilder):not([data-engrid-debug]) .i5-hide .en__field:not(.en__field--validationFailed):nth-of-type(5),body:not(#en__pagebuilder):not([data-engrid-debug]) .i6-hide .en__field:not(.en__field--validationFailed):nth-of-type(6),body:not(#en__pagebuilder):not([data-engrid-debug]) .i7-hide .en__field:not(.en__field--validationFailed):nth-of-type(7),body:not(#en__pagebuilder):not([data-engrid-debug]) .i8-hide .en__field:not(.en__field--validationFailed):nth-of-type(8),body:not(#en__pagebuilder):not([data-engrid-debug]) .i9-hide .en__field:not(.en__field--validationFailed):nth-of-type(9),body:not(#en__pagebuilder):not([data-engrid-debug]) [hidden-via-url-argument],body:not(#en__pagebuilder):not([data-engrid-debug]) div:not(.en__field--validationFailed) .hide:not(.en__field--validationFailed),body:not(#en__pagebuilder):not([data-engrid-debug]):not([data-engrid-client-js-loading=finished]) .hide-until-client-js-loading-finished,body:not(#en__pagebuilder):not([data-engrid-debug]):not([data-engrid-scripts-js-loading=finished]) .hide-until-engrid-js-loading-finished{
   display:none;
 }
 body:not(#en__pagebuilder):not([data-engrid-debug]) .i1-hide-label .en__field:not(.en__field--validationFailed):first-of-type>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i10-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(10)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i11-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(11)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i2-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(2)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i3-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(3)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i4-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(4)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i5-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(5)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i6-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(6)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i7-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(7)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i8-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(8)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) .i9-hide-label .en__field:not(.en__field--validationFailed):nth-of-type(9)>label,body:not(#en__pagebuilder):not([data-engrid-debug]) div:not(.en__field--validationFailed) label.hide-label{
@@ -4084,7 +4077,6 @@ input[type=text].en__ticket__quantity{
   border:none !important;
   box-shadow:none !important;
   flex-basis:auto;
-  height:-moz-fit-content !important;
   height:fit-content !important;
   padding-left:0;
   padding-right:0;
@@ -4195,6 +4187,11 @@ button.en__eventOccurrence__select>label{
 }
 .en__component--contactblock,.en__contact--open .en__contact__toggle,.en__contact__detail,.en__contact__toggle{
   background-color:initial;
+}
+
+.en__contactMessage--typePlainText textarea,.en__contactSubject input{
+  margin-bottom:var(--fields_spacing-block);
+  margin-top:calc(var(--fields_spacing-inline)*.5);
 }
 
 #en__field_transaction_ccnumber{
@@ -4494,8 +4491,7 @@ body:not(#en__pagebuilder) img:not([src]):not([srcset]){
   opacity:1;
 }
 #goMonthly #secondOtherField{
-  -webkit-appearance:textfield;
-          appearance:textfield;
+  appearance:textfield;
   background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='288' height='288' xmlns='http://www.w3.org/2000/svg'%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='288' height='288' viewBox='0 0 1792 1792' transform='translate(11.988 11.995) scale(.9167)'%3E%3Cpath d='M1362 1185q0 153-99.5 263.5T1004 1585v175q0 14-9 23t-23 9H837q-13 0-22.5-9.5T805 1760v-175q-66-9-127.5-31T576 1509.5t-74-48-46.5-37.5-17.5-18q-17-21-2-41l103-135q7-10 23-12 15-2 24 9l2 2q113 99 243 125 37 8 74 8 81 0 142.5-43t61.5-122q0-28-15-53t-33.5-42-58.5-37.5-66-32-80-32.5q-39-16-61.5-25T733 948.5t-62.5-31T614 882t-53.5-42.5-43.5-49-35.5-58-21-66.5-8.5-78q0-138 98-242t255-134V32q0-13 9.5-22.5T837 0h135q14 0 23 9t9 23v176q57 6 110.5 23t87 33.5T1265 302t39 29 15 14q17 18 5 38l-81 146q-8 15-23 16-14 3-27-7-3-3-14.5-12t-39-26.5-58.5-32-74.5-26T921 430q-95 0-155 43t-60 111q0 26 8.5 48t29.5 41.5 39.5 33 56 31 60.5 27 70 27.5q53 20 81 31.5t76 35 75.5 42.5 62 50 53 63.5 31.5 76.5 13 94z' fill='currentColor' class='color000 svgShape'/%3E%3C/svg%3E%3C/svg%3E");
   background-position:0;
   background-repeat:no-repeat;
@@ -4510,8 +4506,7 @@ body:not(#en__pagebuilder) img:not([src]):not([srcset]){
   width:80px;
 }
 #goMonthly #secondOtherField::-webkit-inner-spin-button,#goMonthly #secondOtherField::-webkit-outer-spin-button{
-  -webkit-appearance:none;
-          appearance:none;
+  appearance:none;
   margin:0;
 }
 #goMonthly #upsellYesButton{
@@ -4773,7 +4768,6 @@ a.skip-link:not(:focus):not(:active){
   clip:rect(1px, 1px, 1px, 1px) !important;
   word-wrap:normal !important;
   border:0 !important;
-  -webkit-clip-path:inset(50%) !important;
   clip-path:inset(50%) !important;
   height:1px !important;
   margin:-1px !important;
@@ -5043,18 +5037,26 @@ body:not(#en__pagebuilder):not([data-engrid-debug]) [class*=showifamount].animat
 [data-engrid-theme][data-engrid-page-type=supporterhub] .en__hubPledge__column{
   width:100%;
 }
-[data-engrid-theme][data-engrid-page-type=supporterhub] .en__hubPledge__buttons .en__submit:first-child{
-  margin-right:1rem;
-}
-[data-engrid-theme][data-engrid-page-type=supporterhub] .en__hubPledge__buttons .en__submit:last-child{
-  margin-left:1rem;
-}
-[data-engrid-theme][data-engrid-page-type=supporterhub] .en__hubPledge__buttons .en__submit:first-child:last-child{
-  margin-left:0;
-  margin-right:0;
+[data-engrid-theme][data-engrid-page-type=supporterhub] .en__hubPledge__buttons{
+  align-items:center;
+  gap:2rem;
 }
 [data-engrid-theme][data-engrid-page-type=supporterhub] .en__hubPledge__validationFail .en__field__element{
   border:none;
+}
+@media screen and (max-width:768px){
+  [data-engrid-theme] .en__hubPledge__buttons{
+    flex-direction:column;
+  }
+  [data-engrid-theme] .en__hubPledge__buttons .en__submit button{
+    margin:0;
+  }
+}
+[data-engrid-theme] .en__component--hubgadget>img[src*=pageassets]{
+  max-width:72px;
+}
+[data-engrid-theme] .en__pagination .en__button{
+  word-break:keep-all;
 }
 
 #en__pagebuilder div.en__component.engrid-ticker{
@@ -6313,10 +6315,7 @@ body:not(#en__pagebuilder)[data-engrid-no-body-bannerOverlay] .en__component--ad
   display:block;
 }
 [data-engrid-theme=flex2]#en__pagebuilder form{
-  bottom:auto;
-  left:0;
-  right:auto;
-  top:-1px;
+  inset:-1px auto auto 0;
 }
 [data-engrid-theme=flex2]#en__pagebuilder .en__container{
   margin-top:0;
@@ -6911,8 +6910,7 @@ body[data-engrid-debug]:before{
 .debug-panel__checkbox input[type=checkbox]{
   clip:rect(0 0 0 0);
   border:0;
-  -webkit-clip-path:inset(50%);
-          clip-path:inset(50%);
+  clip-path:inset(50%);
   height:1px;
   margin:-1px;
   overflow:hidden;
@@ -7423,7 +7421,6 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=engrid-ran2]:not([data-engrid-layout=debug])#en__pagebuilder .body-bannerOverlay,[data-engrid-theme=engrid-ran2]:not([data-engrid-layout=debug])#en__pagebuilder .body-footerOutside,[data-engrid-theme=engrid-ran2]:not([data-engrid-layout=debug])#en__pagebuilder .body-side,[data-engrid-theme=engrid-ran2]:not([data-engrid-layout=debug])#en__pagebuilder .content-header,[data-engrid-theme=engrid-ran2]:not([data-engrid-layout=debug])#en__pagebuilder .page-alert,[data-engrid-theme=engrid-ran2]:not([data-engrid-layout=debug])#en__pagebuilder .page-backgroundImageOverlay{
   clip:rect(0 0 0 0);
   border:0;
-  -webkit-clip-path:inset(100%);
   clip-path:inset(100%);
   height:1px;
   margin:-1px;
@@ -7515,7 +7512,6 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=engrid-ran2] .en__contactDetails__select,[data-engrid-theme=engrid-ran2] .en__field__input--checkbox,[data-engrid-theme=engrid-ran2] .en__field__input--radio{
   clip:rect(0 0 0 0);
   border:0;
-  -webkit-clip-path:inset(50%);
   clip-path:inset(50%);
   height:1px;
   margin:-1px;
@@ -7792,7 +7788,6 @@ body[data-engrid-debug]:before{
   }
   [data-engrid-theme=engrid-ran2]:not(#en__pagebuilder)[data-engrid-layout=centercenter1col] .page-backgroundImage,[data-engrid-theme=engrid-ran2]:not(#en__pagebuilder)[data-engrid-layout=centerleft1col] .page-backgroundImage,[data-engrid-theme=engrid-ran2]:not(#en__pagebuilder)[data-engrid-layout=centerright1col] .page-backgroundImage{
     background-color:#487c0f;
-    -webkit-clip-path:polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
     clip-path:polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
     height:120vh;
   }
@@ -7820,7 +7815,6 @@ body[data-engrid-debug]:before{
   }
   [data-engrid-theme=engrid-ran2]:not(#en__pagebuilder)[data-engrid-layout=centercenter2col] .page-backgroundImage{
     background-color:#487c0f;
-    -webkit-clip-path:polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
     clip-path:polygon(100% 0, 100% 90vh, 50% 110vh, 0 90vh, 0 0);
     height:120vh;
   }
@@ -8136,8 +8130,7 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran2][data-engrid-subtheme=multistep] form.en__component>.en__component .section-navigation button{
   align-items:center;
-  -webkit-backface-visibility:hidden;
-          backface-visibility:hidden;
+  backface-visibility:hidden;
   border:0;
   border-radius:var(--button_border-radius);
   color:#fff;
@@ -9276,8 +9269,7 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .section-navigation button{
   align-items:center;
-  -webkit-backface-visibility:hidden;
-          backface-visibility:hidden;
+  backface-visibility:hidden;
   border-radius:var(--button_border-radius);
   color:var(--button_color);
   cursor:pointer;
