@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, May 16, 2023 @ 06:23:25 ET
+ *  Date: Monday, June 5, 2023 @ 11:14:17 ET
  *  By: michael
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -12615,6 +12615,7 @@ const OptionsDefaults = {
   TidyContact: false,
   RegionLongFormat: "",
   CountryDisable: [],
+  Plaid: false,
   MobileCTA: false,
   PageLayouts: ["leftleft1col", "centerleft1col", "centercenter1col", "centercenter2col", "centerright1col", "rightright1col", "none"]
 };
@@ -13637,6 +13638,10 @@ class engrid_ENGrid {
   }
 
   static isVisible(element) {
+    if (!element) {
+      return false;
+    }
+
     return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
   }
 
@@ -13809,8 +13814,10 @@ class DonationFrequency {
 
 
   load() {
-    this.frequency = engrid_ENGrid.getFieldValue("transaction.recurrfreq");
-    this.recurring = engrid_ENGrid.getFieldValue("transaction.recurrpay"); // ENGrid.enParseDependencies();
+    const freqField = engrid_ENGrid.getField("transaction.recurrfreq");
+    if (freqField) this.frequency = engrid_ENGrid.getFieldValue("transaction.recurrfreq");
+    const recurrField = engrid_ENGrid.getField("transaction.recurrpay");
+    if (recurrField) this.recurring = engrid_ENGrid.getFieldValue("transaction.recurrpay"); // ENGrid.enParseDependencies();
   } // Force a new recurrency
 
 
@@ -13998,18 +14005,7 @@ class App extends engrid_ENGrid {
       document.addEventListener("DOMContentLoaded", () => {
         this.run();
       });
-    } // Window Load
-
-
-    let onLoad = typeof window.onload === "function" ? window.onload : null;
-
-    window.onload = e => {
-      this.onLoad();
-
-      if (onLoad) {
-        onLoad.bind(window, e);
-      }
-    }; // Window Resize
+    } // Window Resize
 
 
     window.onresize = () => {
@@ -14022,7 +14018,7 @@ class App extends engrid_ENGrid {
       this.logger.danger("Engaging Networks JS Framework NOT FOUND");
       setTimeout(() => {
         this.run();
-      }, 10);
+      }, 100);
       return;
     } // If there's an option object on the page, override the defaults
 
@@ -14094,13 +14090,13 @@ class App extends engrid_ENGrid {
 
       this._form.dispatchSubmit();
 
+      engrid_ENGrid.watchForError(engrid_ENGrid.enableSubmit);
       if (!this._form.submit) return false;
       if (this._form.submitPromise) return this._form.submitPromise;
       this.logger.success("enOnSubmit Success"); // If all validation passes, we'll watch for Digital Wallets Errors, which
       // will not reload the page (thanks EN), so we will enable the submit button if
       // an error is programmatically thrown by the Digital Wallets
 
-      engrid_ENGrid.watchForError(engrid_ENGrid.enableSubmit);
       return true;
     };
 
@@ -14209,7 +14205,9 @@ class App extends engrid_ENGrid {
 
     new LiveFrequency(); // Universal Opt In
 
-    new UniversalOptIn();
+    new UniversalOptIn(); // Plaid
+
+    if (this.options.Plaid) new Plaid();
     this.setDataAttributes(); //Debug panel
 
     if (this.options.Debug || window.sessionStorage.hasOwnProperty(DebugPanel.debugSessionStorageKey)) {
@@ -14222,7 +14220,21 @@ class App extends engrid_ENGrid {
 
     engrid_ENGrid.setBodyData("data-engrid-scripts-js-loading", "finished");
     window.EngridVersion = AppVersion;
-    this.logger.success(`VERSION: ${AppVersion}`);
+    this.logger.success(`VERSION: ${AppVersion}`); // Window Load
+
+    let onLoad = typeof window.onload === "function" ? window.onload : null;
+
+    if (document.readyState !== "loading") {
+      this.onLoad();
+    } else {
+      window.onload = e => {
+        this.onLoad();
+
+        if (onLoad) {
+          onLoad.bind(window, e);
+        }
+      };
+    }
   }
 
   onLoad() {
@@ -16093,7 +16105,9 @@ class LiveVariables {
 
     this._frequency.onFrequencyChange.subscribe(() => this.changeSubmitButton());
 
-    this._form.onSubmit.subscribe(() => engrid_ENGrid.disableSubmit("Processing..."));
+    this._form.onSubmit.subscribe(() => {
+      if (engrid_ENGrid.getPageType() !== "SUPPORTERHUB") engrid_ENGrid.disableSubmit("Processing...");
+    });
 
     this._form.onError.subscribe(() => engrid_ENGrid.enableSubmit()); // Watch the monthly-upsell links
 
@@ -18385,6 +18399,7 @@ class FreshAddress {
     if (this.emailField) {
       this.createFields();
       this.addEventListeners();
+      window.FreshAddressStatus = "idle";
 
       if (this.emailField.value) {
         this.logger.log("E-mail Field Found");
@@ -18467,12 +18482,12 @@ class FreshAddress {
 
     if (!this.options || !window.FreshAddress) return;
     if (!this.shouldRun) return;
+    window.FreshAddressStatus = "validating";
     const email = (_a = this.emailField) === null || _a === void 0 ? void 0 : _a.value;
     const options = {
       emps: false,
       rtc_timeout: 1200
     };
-    engrid_ENGrid.disableSubmit("Validating Your Email");
     const ret = window.FreshAddress.validateEmail(email, options).then(response => {
       this.logger.log("Validate API Response", JSON.parse(JSON.stringify(response)));
       return this.validateResponse(response);
@@ -18529,6 +18544,7 @@ class FreshAddress {
       this.writeToFields("API Error", "Unknown Error");
     }
 
+    window.FreshAddressStatus = "idle";
     engrid_ENGrid.enableSubmit();
   }
 
@@ -18547,16 +18563,40 @@ class FreshAddress {
       return;
     }
 
-    if (this.faStatus.value === "Invalid") {
+    if (window.FreshAddressStatus === "validating") {
+      this.logger.log("Waiting for API Response"); // Self resolving Promise that waits 1000ms
+
+      const wait = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          var _a;
+
+          const status = this.faStatus.value;
+
+          if (status === "" || status === "Invalid") {
+            this.logger.log("Promise Rejected");
+            (_a = this.emailField) === null || _a === void 0 ? void 0 : _a.focus();
+            reject(false);
+            return;
+          }
+
+          this.logger.log("Promise Resolved");
+          resolve(true);
+        }, 700);
+      });
+      this.form.validatePromise = wait;
+      return;
+    } else if (this.faStatus.value === "Invalid") {
       this.form.validate = false;
       window.setTimeout(() => {
         engrid_ENGrid.setError(this.emailWrapper, this.faMessage.value);
       }, 100);
       (_a = this.emailField) === null || _a === void 0 ? void 0 : _a.focus();
-      return;
+      engrid_ENGrid.enableSubmit();
+      return false;
     }
 
     this.form.validate = true;
+    return true;
   }
 
 }
@@ -22411,10 +22451,65 @@ class UniversalOptIn {
   }
 
 }
+;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/plaid.js
+// Component with a helper to auto-click on the Plaid link
+// when that payment method is selected
+
+class Plaid {
+  constructor() {
+    this.logger = new EngridLogger("Plaid", "peru", "yellow", "🔗");
+    this._form = EnForm.getInstance();
+    this.logger.log("Enabled");
+
+    this._form.onSubmit.subscribe(() => this.submit());
+  }
+
+  submit() {
+    const plaidLink = document.querySelector("#plaid-link-button");
+
+    if (plaidLink && plaidLink.textContent === "Link Account") {
+      // Click the Plaid Link button
+      this.logger.log("Clicking Link");
+      plaidLink.click();
+      this._form.submit = false; // Create a observer to watch the Link ID #plaid-link-button for a new Text Node
+
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === "childList") {
+            mutation.addedNodes.forEach(node => {
+              if (node.nodeType === Node.TEXT_NODE) {
+                // If the Text Node is "Link Account" then the Link has failed
+                if (node.nodeValue === "Account Linked") {
+                  this.logger.log("Plaid Linked");
+                  this._form.submit = true;
+
+                  this._form.submitForm();
+                } else {
+                  this._form.submit = true;
+                }
+              }
+            });
+          }
+        });
+      }); // Start observing the Link ID #plaid-link-button
+
+      observer.observe(plaidLink, {
+        childList: true,
+        subtree: true
+      });
+      window.setTimeout(() => {
+        this.logger.log("Enabling Submit");
+        engrid_ENGrid.enableSubmit();
+      }, 1000);
+    }
+  }
+
+}
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/version.js
-const AppVersion = "0.13.69";
+const AppVersion = "0.13.72";
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
+
 
 
 
