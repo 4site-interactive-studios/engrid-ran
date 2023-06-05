@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, June 5, 2023 @ 11:14:17 ET
+ *  Date: Monday, June 5, 2023 @ 11:19:18 ET
  *  By: michael
  *  ENGrid styles: v0.13.13
  *  ENGrid scripts: v0.13.15
@@ -23542,6 +23542,7 @@ const options = {
     phone_status_field: "supporter.NOT_TAGGED_43"
   },
   RememberMe: rememberMeOptions,
+  Plaid: true,
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   onLoad: () => {
     window.DonationLightboxForm = DonationLightboxForm;
