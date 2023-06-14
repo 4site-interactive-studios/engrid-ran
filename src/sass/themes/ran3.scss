@@ -521,6 +521,13 @@
   --give-by-select__button_font-size: 1rem;
   --give-by-select__button_padding: 0 12px;
 
+  /* On one-time gifts using USD, force the visibility of the Vanilla PayPal option when PayPal OneTouch / Venmo is not available */
+  &[data-conditonally-hide-show-digital-wallet-elements][data-engrid-payment-type-option-paypal-one-touch="false"][data-engrid-transaction-recurring-frequency="onetime"][data-engrid-currency-code="USD"]
+    .give-by-select
+    .paypal {
+    display: block !important;
+  }
+
   .en__field--give-by-select.en__field--radio input[type="radio"] + label {
     height: 58px;
   }
