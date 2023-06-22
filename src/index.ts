@@ -54,10 +54,10 @@ const options: Options = {
   SkipToMainContentLink: true,
   SrcDefer: true,
   ProgressBar: true,
-  NeverBounceAPI: "public_520ace707aaa95300c65f742af9fb095",
-  NeverBounceDateField: "supporter.NOT_TAGGED_36",
-  NeverBounceStatusField: "supporter.NOT_TAGGED_35",
-  NeverBounceDateFormat: "YYYYMMDD",
+  // NeverBounceAPI: "public_520ace707aaa95300c65f742af9fb095",
+  // NeverBounceDateField: "supporter.NOT_TAGGED_36",
+  // NeverBounceStatusField: "supporter.NOT_TAGGED_35",
+  // NeverBounceDateFormat: "YYYYMMDD",
   TidyContact: {
     cid: "659b7129-73d0-4601-af4c-8942c4730f65",
     // us_zip_divider: "-",
@@ -77,7 +77,7 @@ const options: Options = {
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(DonationAmount, DonationFrequency);
-    customScript();
+    customScript(App);
   },
   onResize: () => console.log("Starter Theme Window Resized"),
   onValidate: () => {
@@ -89,7 +89,7 @@ const options: Options = {
       )
     ) {
       App.setFieldValue("supporter.region", "");
-      console.log("Region field cleared");
+      App.log("Region field cleared");
     }
   },
 };
