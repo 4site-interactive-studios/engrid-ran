@@ -118,7 +118,7 @@ export const customScript = function (App) {
         }, 500);
       });
     });
-  });
+  }
 
   if (themeVersion === 3) {
     const tippyInstance = document.querySelector(
