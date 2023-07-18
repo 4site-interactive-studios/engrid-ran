@@ -308,9 +308,12 @@
   --click-to-expand__cta-image_width: 100%;
 
   &:not(#en__pagebuilder) .click-to-expand:not(.expanded) {
+    margin-bottom: 1em;
+
     .click-to-expand-cta {
       background: none !important;
       right: auto !important;
+      padding-bottom: 1em;
       // width: 100% !important;
       // height: 20px !important;
 
@@ -348,7 +351,7 @@
   --recurring-frequency__button_padding: 70px 0px 14px;
 
   .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio {
-    margin-top: 60px;
+    margin-top: calc(60px - 1em);
     margin-bottom: 0;
 
     & > .en__field__element .en__field__item {

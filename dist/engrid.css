@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, July 18, 2023 @ 11:36:12 ET
+ *  Date: Tuesday, July 18, 2023 @ 11:55:47 ET
  *  By: bryancasler
  *  ENGrid styles: v0.14.0
  *  ENGrid scripts: v0.14.2
@@ -8646,8 +8646,12 @@ body[data-engrid-debug]:before{
   position:absolute;
   width:100%;
 }
+[data-engrid-theme=engrid-ran3]:not(#en__pagebuilder) .click-to-expand:not(.expanded){
+  margin-bottom:1em;
+}
 [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder) .click-to-expand:not(.expanded) .click-to-expand-cta{
   background:none !important;
+  padding-bottom:1em;
   right:auto !important;
 }
 [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder) .click-to-expand:not(.expanded) .click-to-expand-cta:before{
@@ -8672,7 +8676,7 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio{
   margin-bottom:0;
-  margin-top:60px;
+  margin-top:calc(60px - 1em);
 }
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item{
   padding-bottom:0;
