@@ -303,16 +303,16 @@
     }
   }
 
-  --click-to-expand__copy-area_height: 187px;
-  --click-to-expand__cta-image_height: 16px;
-  --click-to-expand__cta-image_width: 22px;
+  --click-to-expand__copy-area_height: 193px;
+  --click-to-expand__cta-image_height: 22px;
+  --click-to-expand__cta-image_width: 100%;
 
   &:not(#en__pagebuilder) .click-to-expand:not(.expanded) {
     .click-to-expand-cta {
       background: none !important;
       right: auto !important;
-      width: 100% !important;
-      height: 20px !important;
+      // width: 100% !important;
+      // height: 20px !important;
 
       &:before {
         content: var(--click-to-expand__cta-image_url);
@@ -1129,11 +1129,14 @@
       font-family: "Kalam", cursive;
       line-height: 20px;
       font-size: 16px;
-      max-height: 0;
       overflow: hidden;
       margin-top: 10px;
       padding: 0;
       transition: max-height 0.2s ease-in-out;
+    }
+
+    &:not(#en__pagebuilder) .monthly-upsell-message p {
+      max-height: 0;
     }
 
     .en__submit {
