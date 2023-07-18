@@ -303,16 +303,19 @@
     }
   }
 
-  --click-to-expand__copy-area_height: 187px;
-  --click-to-expand__cta-image_height: 16px;
-  --click-to-expand__cta-image_width: 22px;
+  --click-to-expand__copy-area_height: 193px;
+  --click-to-expand__cta-image_height: 22px;
+  --click-to-expand__cta-image_width: 100%;
 
   &:not(#en__pagebuilder) .click-to-expand:not(.expanded) {
+    margin-bottom: 1em;
+
     .click-to-expand-cta {
       background: none !important;
       right: auto !important;
-      width: 100% !important;
-      height: 20px !important;
+      padding-bottom: 1em;
+      // width: 100% !important;
+      // height: 20px !important;
 
       &:before {
         content: var(--click-to-expand__cta-image_url);
@@ -348,7 +351,7 @@
   --recurring-frequency__button_padding: 70px 0px 14px;
 
   .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio {
-    margin-top: 60px;
+    margin-top: calc(60px - 1em);
     margin-bottom: 0;
 
     & > .en__field__element .en__field__item {
@@ -1129,11 +1132,14 @@
       font-family: "Kalam", cursive;
       line-height: 20px;
       font-size: 16px;
-      max-height: 0;
       overflow: hidden;
       margin-top: 10px;
       padding: 0;
       transition: max-height 0.2s ease-in-out;
+    }
+
+    &:not(#en__pagebuilder) .monthly-upsell-message p {
+      max-height: 0;
     }
 
     .en__submit {

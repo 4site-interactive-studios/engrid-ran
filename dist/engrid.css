@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, June 22, 2023 @ 13:57:49 ET
- *  By: fernando
+ *  Date: Tuesday, July 18, 2023 @ 11:55:47 ET
+ *  By: bryancasler
  *  ENGrid styles: v0.14.0
  *  ENGrid scripts: v0.14.2
  *
@@ -8530,9 +8530,9 @@ body[data-engrid-debug]:before{
   --ran__green:#6a9914;
   --icon__color:var(--ran__green);
   --rememberme-learn-more-toggle_margin-top:-2px;
-  --click-to-expand__copy-area_height:187px;
-  --click-to-expand__cta-image_height:16px;
-  --click-to-expand__cta-image_width:22px;
+  --click-to-expand__copy-area_height:193px;
+  --click-to-expand__cta-image_height:22px;
+  --click-to-expand__cta-image_width:100%;
   --recurring-frequency__button_font-size:1.5rem;
   --recurring-frequency__button_padding:70px 0px 14px;
   --donation-amount__button_padding:22px 0 14px;
@@ -8646,11 +8646,13 @@ body[data-engrid-debug]:before{
   position:absolute;
   width:100%;
 }
+[data-engrid-theme=engrid-ran3]:not(#en__pagebuilder) .click-to-expand:not(.expanded){
+  margin-bottom:1em;
+}
 [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder) .click-to-expand:not(.expanded) .click-to-expand-cta{
   background:none !important;
-  height:20px !important;
+  padding-bottom:1em;
   right:auto !important;
-  width:100% !important;
 }
 [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder) .click-to-expand:not(.expanded) .click-to-expand-cta:before{
   content:var(--click-to-expand__cta-image_url);
@@ -8674,7 +8676,7 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio{
   margin-bottom:0;
-  margin-top:60px;
+  margin-top:calc(60px - 1em);
 }
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item{
   padding-bottom:0;
@@ -9251,10 +9253,12 @@ body[data-engrid-debug]:before{
   font-size:16px;
   line-height:20px;
   margin-top:10px;
-  max-height:0;
   overflow:hidden;
   padding:0;
   transition:max-height .2s ease-in-out;
+}
+[data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep]:not(#en__pagebuilder) .monthly-upsell-message p{
+  max-height:0;
 }
 [data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .en__submit{
   display:none;
