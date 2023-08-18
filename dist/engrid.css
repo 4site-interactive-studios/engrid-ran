@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, August 3, 2023 @ 17:05:57 ET
- *  By: fernando
+ *  Date: Friday, August 18, 2023 @ 10:46:26 ET
+ *  By: michael
  *  ENGrid styles: v0.14.13
  *  ENGrid scripts: v0.14.14
  *
@@ -8932,6 +8932,7 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3] .en__field--giveBySelect .en__field__label--item img.paypal-venmo{
   height:25px;
+  margin:0 5px;
 }
 [data-engrid-theme=engrid-ran3] .header-logo{
   height:auto;
