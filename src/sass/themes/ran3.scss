@@ -242,7 +242,22 @@
     }
   }
 
-  @media screen and (min-width: 1024px) {
+  &#en__pagebuilder {
+    .page-alert,
+    .content-header,
+    .body-header,
+    .body-bannerOverlay,
+    .body-bottom,
+    .body-footer,
+    .body-footerOutside,
+    .content-footerSpacer,
+    .content-preFooter,
+    .page-backgroundImageOverlay {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 879px) {
     &:not(#en__pagebuilder)[data-engrid-layout="leftleft1col"] {
       .page-backgroundImage {
         grid-column: rpc/pc;

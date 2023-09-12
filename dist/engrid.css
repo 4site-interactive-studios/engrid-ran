@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, September 5, 2023 @ 16:54:02 ET
+ *  Date: Tuesday, September 12, 2023 @ 09:26:02 ET
  *  By: fernando
  *  ENGrid styles: v0.15.0
  *  ENGrid scripts: v0.15.2
@@ -8716,7 +8716,10 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=engrid-ran3] .tippy-box[data-theme~=RAN] p:last-of-type{
   margin-bottom:0;
 }
-@media screen and (min-width:1024px){
+[data-engrid-theme=engrid-ran3]#en__pagebuilder .body-bannerOverlay,[data-engrid-theme=engrid-ran3]#en__pagebuilder .body-bottom,[data-engrid-theme=engrid-ran3]#en__pagebuilder .body-footer,[data-engrid-theme=engrid-ran3]#en__pagebuilder .body-footerOutside,[data-engrid-theme=engrid-ran3]#en__pagebuilder .body-header,[data-engrid-theme=engrid-ran3]#en__pagebuilder .content-footerSpacer,[data-engrid-theme=engrid-ran3]#en__pagebuilder .content-header,[data-engrid-theme=engrid-ran3]#en__pagebuilder .content-preFooter,[data-engrid-theme=engrid-ran3]#en__pagebuilder .page-alert,[data-engrid-theme=engrid-ran3]#en__pagebuilder .page-backgroundImageOverlay{
+  display:none;
+}
+@media screen and (min-width:879px){
   [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage{
     grid-column:rpc /  pc;
   }
