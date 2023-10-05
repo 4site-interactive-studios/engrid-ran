@@ -898,6 +898,43 @@
     overflow-x: visible !important;
   }
 
+  .fewer-emails-block {
+    border: 1px solid black;
+    padding: 20px;
+    margin: 20px auto;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+
+    button {
+      margin-bottom: 0;
+    }
+  }
+
+  .unsub-from-all {
+    text-align: center;
+
+    span {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    span:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:not([data-engrid-recent-unsubscribe="true"]) {
+    .resubscribe-block {
+      display: none;
+    }
+  }
+
   &[data-engrid-subtheme="multistep"] {
     --h1_font-weight: 900;
     --h2_font-size: 1.5rem;

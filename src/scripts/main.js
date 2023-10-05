@@ -1,4 +1,4 @@
-export const customScript = function (App) {
+export const customScript = function (App, EnForm) {
   App.log("ENGrid client scripts are executing");
   // Add your client scripts here
   const themeVersion = Number(document.body.dataset.engridTheme.slice(-1));
@@ -121,16 +121,19 @@ export const customScript = function (App) {
   }
 
   if (themeVersion === 3) {
-    const tippyInstance = document.querySelector(
+    const attribution = document.querySelector(
       ".media-with-attribution figattribution"
-    )._tippy;
+    );
 
-    if (tippyInstance) {
-      tippyInstance.setProps({
-        allowHTML: true,
-        theme: "RAN",
-        placement: "right-end",
-      });
+    if (attribution) {
+      const tippyInstance = attribution._tippy;
+      if (tippyInstance) {
+        tippyInstance.setProps({
+          allowHTML: true,
+          theme: "RAN",
+          placement: "right-end",
+        });
+      }
     }
 
     document.body.removeAttribute("data-engrid-errors");
@@ -151,5 +154,89 @@ export const customScript = function (App) {
       "hideif-stripedigitalwallet-selected",
       "hideif-paypaltouch-selected"
     );
+  }
+
+  //Unsubscribe page customisations
+  if (App.getPageType() === "UNSUBSCRIBE") {
+    const formSubmitBtn = document.querySelector(".en__submit button");
+    const importantEmailsField = App.getField("supporter.questions.341509");
+    const regularEmailsField = App.getField("supporter.questions.102600");
+    const emailFieldValue = App.getFieldValue("supporter.emailAddress");
+    const unsubFromAll = document.querySelector(".unsub-from-all span");
+
+    if (emailFieldValue) {
+      //Add "Not you?" link to email field
+      const emailField = App.getField("supporter.emailAddress");
+      emailField.setAttribute("readonly", "true");
+      const notYouLink = document.createElement("a");
+      notYouLink.href = window.location.href.split("?")[0] + "?redirect=cold";
+      notYouLink.innerText = `Not ${emailFieldValue}?`;
+      App.addHtml(notYouLink, ".en__field--emailAddress", "beforeend");
+    }
+
+    const fewerEmailsButton = document.querySelector(
+      ".fewer-emails-block button.primary"
+    );
+    if (fewerEmailsButton) {
+      fewerEmailsButton.addEventListener("click", () => {
+        importantEmailsField.checked = true;
+        regularEmailsField.checked = false;
+        App.enParseDependencies();
+        formSubmitBtn.click();
+      });
+    }
+
+    // When important emails is checked, uncheck regular emails
+    if (importantEmailsField) {
+      importantEmailsField.addEventListener("change", () => {
+        if (importantEmailsField.checked) {
+          regularEmailsField.checked = false;
+        }
+      });
+    }
+
+    // When regular emails is checked, uncheck important emails
+    if (regularEmailsField) {
+      regularEmailsField.addEventListener("change", () => {
+        if (regularEmailsField.checked) {
+          importantEmailsField.checked = false;
+        }
+      });
+    }
+
+    // If unsubscribing from all, uncheck both boxes
+    if (unsubFromAll) {
+      unsubFromAll.addEventListener("click", () => {
+        importantEmailsField.checked = false;
+        regularEmailsField.checked = false;
+        App.enParseDependencies();
+        formSubmitBtn.click();
+      });
+    }
+
+    EnForm.getInstance().onSubmit.subscribe(() => {
+      if (!regularEmailsField.checked) {
+        sessionStorage.setItem(
+          "unsub_details",
+          JSON.stringify({
+            email: App.getFieldValue("supporter.emailAddress"),
+          })
+        );
+      }
+    });
+
+    if (App.getPageNumber() === 2) {
+      const unsubDetails = JSON.parse(sessionStorage.getItem("unsub_details"));
+      if (unsubDetails) {
+        App.setBodyData("recent-unsubscribe", "true");
+        const resubLink = document.querySelector(".resubscribe-block a.button");
+        if (resubLink) {
+          resubLink.href =
+            resubLink.href +
+            `?supporter.emailAddress=${unsubDetails.email}&autosubmit=Y`;
+        }
+        sessionStorage.removeItem("unsub_details");
+      }
+    }
   }
 };
