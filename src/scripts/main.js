@@ -233,7 +233,7 @@ export const customScript = function (App, EnForm) {
         if (resubLink) {
           resubLink.href =
             resubLink.href +
-            `?supporter.emailAddress=${unsubDetails.email}&autosubmit=Y`;
+            `?supporter.emailAddress=${unsubDetails.email}&autosubmit=Y&engrid_hide[engrid]=id`;
         }
         sessionStorage.removeItem("unsub_details");
       }

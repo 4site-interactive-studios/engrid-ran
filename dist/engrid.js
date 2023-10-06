@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, October 5, 2023 @ 13:35:15 ET
+ *  Date: Friday, October 6, 2023 @ 09:50:42 ET
  *  By: michael
  *  ENGrid styles: v0.15.3
  *  ENGrid scripts: v0.15.8
@@ -20793,7 +20793,7 @@ const customScript = function (App, EnForm) {
         const resubLink = document.querySelector(".resubscribe-block a.button");
 
         if (resubLink) {
-          resubLink.href = resubLink.href + `?supporter.emailAddress=${unsubDetails.email}&autosubmit=Y`;
+          resubLink.href = resubLink.href + `?supporter.emailAddress=${unsubDetails.email}&autosubmit=Y&engrid_hide[engrid]=id`;
         }
 
         sessionStorage.removeItem("unsub_details");
