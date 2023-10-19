@@ -121,9 +121,10 @@ export const customScript = function (App) {
   }
 
   if (themeVersion === 3) {
-    const tippyInstance = document.querySelector(
+    const figattribution = document.querySelector(
       ".media-with-attribution figattribution"
-    )._tippy;
+    );
+    const tippyInstance = figattribution ? figattribution._tippy : null;
 
     if (tippyInstance) {
       tippyInstance.setProps({
