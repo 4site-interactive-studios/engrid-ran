@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, October 19, 2023 @ 17:19:36 ET
+ *  Date: Thursday, November 2, 2023 @ 18:33:26 ET
  *  By: fernando
- *  ENGrid styles: v0.15.3
- *  ENGrid scripts: v0.15.10
+ *  ENGrid styles: v0.15.12
+ *  ENGrid scripts: v0.15.15
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -11364,7 +11364,7 @@ class engrid_ENGrid {
                             if ("actions" in dependency && dependency.actions.length > 0) {
                                 let amountIdFound = false;
                                 dependency.actions.forEach((action) => {
-                                    if ("target" in action && action.target === amountID) {
+                                    if ("target" in action && action.target == amountID) {
                                         amountIdFound = true;
                                     }
                                 });
@@ -11781,6 +11781,12 @@ class DonationFrequency {
                 this.frequency = element.value;
             }
         });
+        //Thank you page handling for utility classes
+        if (engrid_ENGrid.getGiftProcess()) {
+            engrid_ENGrid.setBodyData("transaction-recurring-frequency", sessionStorage.getItem("engrid-transaction-recurring-frequency") ||
+                "onetime");
+            engrid_ENGrid.setBodyData("transaction-recurring", window.pageJson.recurring ? "y" : "n");
+        }
     }
     static getInstance() {
         if (!DonationFrequency.instance) {
@@ -11797,6 +11803,7 @@ class DonationFrequency {
         if (this._dispatch)
             this._onFrequencyChange.dispatch(this._frequency);
         engrid_ENGrid.setBodyData("transaction-recurring-frequency", this._frequency);
+        sessionStorage.setItem("engrid-transaction-recurring-frequency", this._frequency);
     }
     get recurring() {
         return this._recurring;
@@ -12012,6 +12019,7 @@ class App extends engrid_ENGrid {
         this.options = Object.assign(Object.assign({}, OptionsDefaults), options);
         // Add Options to window
         window.EngridOptions = this.options;
+        this._dataLayer = DataLayer.getInstance();
         if (loader.reload())
             return;
         // Turn Debug ON if you use local assets
@@ -12176,8 +12184,17 @@ class App extends engrid_ENGrid {
         if (this.options.ProgressBar)
             new ProgressBar();
         // RememberMe
-        if (this.options.RememberMe && typeof this.options.RememberMe === "object")
-            new RememberMe(this.options.RememberMe);
+        try {
+            // Accessing window.localStorage will throw an exception if it isn't permitted due to security reasons
+            // For example, this happens in Firefox when cookies are disabled.  If it isn't available, we shouldn't
+            //  bother with enabling RememberMe
+            if (this.options.RememberMe &&
+                typeof this.options.RememberMe === "object" &&
+                window.localStorage) {
+                new RememberMe(this.options.RememberMe);
+            }
+        }
+        catch (e) { }
         if (this.options.NeverBounceAPI)
             new NeverBounce(this.options.NeverBounceAPI, this.options.NeverBounceDateField, this.options.NeverBounceStatusField, this.options.NeverBounceDateFormat);
         // FreshAddress
@@ -12217,8 +12234,6 @@ class App extends engrid_ENGrid {
         if (engrid_ENGrid.getPageType() === "DONATION") {
             new DigitalWallets();
         }
-        // Data Layer Events
-        new DataLayer();
         // Mobile CTA
         new MobileCTA();
         // Live Frequency
@@ -12237,8 +12252,16 @@ class App extends engrid_ENGrid {
         new SetAttr();
         new ShowIfPresent();
         //Debug panel
-        if (this.options.Debug ||
-            window.sessionStorage.hasOwnProperty(DebugPanel.debugSessionStorageKey)) {
+        let showDebugPanel = this.options.Debug;
+        try {
+            // accessing storage can throw an exception if it isn't available in Firefox
+            if (!showDebugPanel &&
+                window.sessionStorage.hasOwnProperty(DebugPanel.debugSessionStorageKey)) {
+                showDebugPanel = true;
+            }
+        }
+        catch (e) { }
+        if (showDebugPanel) {
             new DebugPanel(this.options.PageLayouts);
         }
         if (engrid_ENGrid.getUrlParameter("development") === "branding") {
@@ -12437,6 +12460,8 @@ class ApplePay {
         });
     }
     onPayClicked() {
+        if (!this._form.submit)
+            return;
         const enFieldPaymentType = document.querySelector("#en__field_transaction_paymenttype");
         const applePayToken = document.getElementById("applePayToken");
         const formClass = this._form;
@@ -13666,9 +13691,13 @@ class UpsellLightbox {
         this._amount = DonationAmount.getInstance();
         this._fees = ProcessingFees.getInstance();
         this._frequency = DonationFrequency.getInstance();
+        this._dataLayer = DataLayer.getInstance();
         this.logger = new EngridLogger("UpsellLightbox", "black", "pink", "🪟");
         let options = "EngridUpsell" in window ? window.EngridUpsell : {};
         this.options = Object.assign(Object.assign({}, UpsellOptionsDefaults), options);
+        //Disable for "applepay" via Vantiv payment method. Adding it to the array like this so it persists
+        //even if the client provides custom options.
+        this.options.disablePaymentMethods.push('applepay');
         if (!this.shouldRun()) {
             this.logger.log("Upsell script should NOT run");
             // If we're not on a Donation Page, get out
@@ -13929,12 +13958,24 @@ class UpsellLightbox {
             this.logger.success("Upsold");
             this.setOriginalAmount(this._amount.amount.toString());
             const upsoldAmount = this.getUpsellAmount();
+            const originalAmount = this._amount.amount;
             this._frequency.setFrequency("monthly");
             this._amount.setAmount(upsoldAmount);
+            this._dataLayer.addEndOfGiftProcessEvent("ENGRID_UPSELL", {
+                eventValue: true,
+                originalAmount: originalAmount,
+                upsoldAmount: upsoldAmount,
+                frequency: "monthly",
+            });
+            this._dataLayer.addEndOfGiftProcessVariable("ENGRID_UPSELL", true);
+            this._dataLayer.addEndOfGiftProcessVariable("ENGRID_UPSELL_ORIGINAL_AMOUNT", originalAmount);
+            this._dataLayer.addEndOfGiftProcessVariable("ENGRID_UPSELL_DONATION_FREQUENCY", "MONTHLY");
         }
         else {
             this.setOriginalAmount("");
             window.sessionStorage.removeItem("original");
+            this._dataLayer.addEndOfGiftProcessVariable("ENGRID_UPSELL", false);
+            this._dataLayer.addEndOfGiftProcessVariable("ENGRID_UPSELL_DONATION_FREQUENCY", "ONE-TIME");
         }
         this._form.submitForm();
     }
@@ -15881,7 +15922,10 @@ class ShowIfAmount {
         this.logger.log("Show If Amount: NO ELEMENTS FOUND");
     }
     init() {
-        const amount = this._amount.amount;
+        //If we are on a thank you page, use the window.pageJson.amount
+        const amount = engrid_ENGrid.getGiftProcess()
+            ? window.pageJson.amount
+            : this._amount.amount;
         this._elements.forEach((element) => {
             this.lessthan(amount, element);
             this.lessthanorequalto(amount, element);
@@ -16286,6 +16330,7 @@ class DataLayer {
         this.logger = new EngridLogger("DataLayer", "#f1e5bc", "#009cdc", "📊");
         this.dataLayer = window.dataLayer || [];
         this._form = EnForm.getInstance();
+        this.endOfGiftProcessStorageKey = "ENGRID_END_OF_GIFT_PROCESS_EVENTS";
         this.excludedFields = [
             // Credit Card
             "transaction.ccnumber",
@@ -16328,6 +16373,13 @@ class DataLayer {
         }
         this._form.onSubmit.subscribe(() => this.onSubmit());
     }
+    static getInstance() {
+        if (!DataLayer.instance) {
+            DataLayer.instance = new DataLayer();
+            window._dataLayer = DataLayer.instance;
+        }
+        return DataLayer.instance;
+    }
     transformJSON(value) {
         if (typeof value === "string") {
             return value.toUpperCase().split(" ").join("-").replace(":-", "-");
@@ -16344,6 +16396,7 @@ class DataLayer {
             this.dataLayer.push({
                 event: "EN_SUCCESSFUL_DONATION",
             });
+            this.addEndOfGiftProcessEventsToDataLayer();
         }
         else {
             this.logger.log("EN_PAGE_VIEW");
@@ -16354,7 +16407,7 @@ class DataLayer {
         if (window.pageJson) {
             const pageJson = window.pageJson;
             for (const property in pageJson) {
-                if (Number.isInteger(pageJson[property])) {
+                if (!Number.isNaN(pageJson[property])) {
                     this.dataLayer.push({
                         event: `EN_PAGEJSON_${property.toUpperCase()}-${pageJson[property]}`,
                     });
@@ -16370,6 +16423,10 @@ class DataLayer {
                         [`'EN_PAGEJSON_${property.toUpperCase()}'`]: this.transformJSON(pageJson[property]),
                     });
                 }
+                this.dataLayer.push({
+                    event: "EN_PAGEJSON_" + property.toUpperCase(),
+                    eventValue: pageJson[property],
+                });
             }
             if (engrid_ENGrid.getPageCount() === engrid_ENGrid.getPageNumber()) {
                 this.dataLayer.push({
@@ -16533,6 +16590,29 @@ class DataLayer {
     getFieldLabel(el) {
         var _a, _b;
         return ((_b = (_a = el.closest(".en__field")) === null || _a === void 0 ? void 0 : _a.querySelector("label")) === null || _b === void 0 ? void 0 : _b.textContent) || "";
+    }
+    addEndOfGiftProcessEvent(eventName, eventProperties = {}) {
+        this.storeEndOfGiftProcessData(Object.assign({ event: eventName }, eventProperties));
+    }
+    addEndOfGiftProcessVariable(variableName, variableValue = "") {
+        this.storeEndOfGiftProcessData({
+            [`'${variableName.toUpperCase()}'`]: variableValue,
+        });
+    }
+    storeEndOfGiftProcessData(data) {
+        const events = this.getEndOfGiftProcessData();
+        events.push(data);
+        window.sessionStorage.setItem(this.endOfGiftProcessStorageKey, JSON.stringify(events));
+    }
+    addEndOfGiftProcessEventsToDataLayer() {
+        this.getEndOfGiftProcessData().forEach((event) => {
+            this.dataLayer.push(event);
+        });
+        window.sessionStorage.removeItem(this.endOfGiftProcessStorageKey);
+    }
+    getEndOfGiftProcessData() {
+        let eventsData = window.sessionStorage.getItem(this.endOfGiftProcessStorageKey);
+        return !eventsData ? [] : JSON.parse(eventsData);
     }
 }
 
@@ -19874,7 +19954,6 @@ class ENValidators {
         if (!this.shouldRun()) {
             // If there's no custom validators, get out
             this.logger.log("Not Needed");
-            console.log(this._enElements);
             return;
         }
         this._form.onValidate.subscribe(this.enOnValidate.bind(this));
@@ -19948,7 +20027,7 @@ class ENValidators {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.15.10";
+const AppVersion = "0.15.15";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
