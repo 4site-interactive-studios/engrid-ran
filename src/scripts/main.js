@@ -80,7 +80,6 @@ export const customScript = function (App) {
       });
     });
   }
-
   const attriubtion = document.querySelector(
     ".media-with-attribution figattribution"
   );
