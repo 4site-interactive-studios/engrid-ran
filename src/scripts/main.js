@@ -1,7 +1,6 @@
 export const customScript = function (App) {
   App.log("ENGrid client scripts are executing");
   // Add your client scripts here
-  const themeVersion = Number(document.body.dataset.engridTheme.slice(-1));
 
   // If we're on the last page OR we're redirected from another EN Page
   if (
@@ -28,8 +27,7 @@ export const customScript = function (App) {
     ".radio-to-buttons_donationAmt .en__field--radio.en__field--donationAmt .en__field__input--other"
   )[0];
   if (enFieldOtherAmt) {
-    enFieldOtherAmt.placeholder =
-      themeVersion === 2 ? "Other" : "Custom Amount";
+    enFieldOtherAmt.placeholder = "Custom Amount";
   }
 
   // Add placeholder to the Mobile Phone Field
@@ -38,43 +36,6 @@ export const customScript = function (App) {
   )[0];
   if (enFieldMobilePhone) {
     enFieldMobilePhone.placeholder = "000-000-0000 (optional)";
-  }
-
-  if (themeVersion === 2) {
-    // Digital Wallets Moving Parts
-    const digitalWalletWrapper = document.querySelector(
-      ".merge-with-give-by-select #en__digitalWallet"
-    );
-    const digitalWalletFirstChild =
-      document.querySelector("#en__digitalWallet");
-    const giveBySelect = document.querySelector(".give-by-select");
-    if (digitalWalletWrapper && giveBySelect) {
-      giveBySelect.appendChild(digitalWalletWrapper);
-      digitalWalletFirstChild.insertAdjacentHTML(
-        "beforeend",
-        "<div class='digital-divider'><span class='divider-left'></span><p class='divider-center'>or enter manually</p><span class='divider-right'></span></div>"
-      );
-    }
-
-    let digitalWalletsExist;
-
-    setTimeout(function () {
-      digitalWalletsExist = document.querySelectorAll(
-        ".en__digitalWallet__container > *"
-      );
-      if (digitalWalletsExist.length > 0) {
-        giveBySelect.setAttribute("show-wallets", "");
-      }
-    }, 500);
-
-    setTimeout(function () {
-      digitalWalletsExist = document.querySelectorAll(
-        ".en__digitalWallet__container > *"
-      );
-      if (digitalWalletsExist.length > 0) {
-        giveBySelect.setAttribute("show-wallets", "");
-      }
-    }, 2500);
   }
 
   // Make Sure we don't have selected hidden payment method when changing frequency or currency
@@ -119,13 +80,11 @@ export const customScript = function (App) {
       });
     });
   }
-
-  if (themeVersion === 3) {
-    const figattribution = document.querySelector(
-      ".media-with-attribution figattribution"
-    );
-    const tippyInstance = figattribution ? figattribution._tippy : null;
-
+  const attriubtion = document.querySelector(
+    ".media-with-attribution figattribution"
+  );
+  if (attriubtion) {
+    const tippyInstance = attriubtion._tippy;
     if (tippyInstance) {
       tippyInstance.setProps({
         allowHTML: true,
@@ -133,16 +92,16 @@ export const customScript = function (App) {
         placement: "right-end",
       });
     }
+  }
 
-    document.body.removeAttribute("data-engrid-errors");
+  document.body.removeAttribute("data-engrid-errors");
 
-    const ACHOption = document.querySelector(
-      '[name="transaction.paymenttype"] [value="ACH"]'
-    );
+  const ACHOption = document.querySelector(
+    '[name="transaction.paymenttype"] [value="ACH"]'
+  );
 
-    if (ACHOption) {
-      ACHOption.value = "ach";
-    }
+  if (ACHOption) {
+    ACHOption.value = "ach";
   }
 
   // Add these classes to the submit div to hide it when the digital wallet is selected
