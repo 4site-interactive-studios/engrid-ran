@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, November 6, 2023 @ 10:05:37 ET
+ *  Date: Monday, November 6, 2023 @ 11:19:11 ET
  *  By: michael
  *  ENGrid styles: v0.15.3
  *  ENGrid scripts: v0.15.8
@@ -20695,7 +20695,6 @@ const customScript = function (App, EnForm) {
     const importantEmailsField = App.getField("supporter.questions.341509");
     const regularEmailsField = App.getField("supporter.questions.102600");
     const emailFieldValue = App.getFieldValue("supporter.emailAddress");
-    const unsubFromAll = document.querySelector(".unsub-from-all span");
 
     if (emailFieldValue) {
       //Add "Not you?" link to email field
@@ -20705,9 +20704,17 @@ const customScript = function (App, EnForm) {
       notYouLink.href = window.location.href.split("?")[0] + "?redirect=cold";
       notYouLink.innerText = `Not ${emailFieldValue}?`;
       App.addHtml(notYouLink, ".en__field--emailAddress", "beforeend");
-    }
+    } //Hide subscribe to fewer emails block if already subscribe to important emails only
 
-    const fewerEmailsButton = document.querySelector(".fewer-emails-block button.primary");
+
+    const fewerEmailsBlock = document.querySelector(".fewer-emails-block");
+
+    if (importantEmailsField && importantEmailsField.checked && fewerEmailsBlock) {
+      fewerEmailsBlock.style.display = "none";
+    } //Subscribe to fewer emails
+
+
+    const fewerEmailsButton = document.querySelector(".fewer-emails-block button");
 
     if (fewerEmailsButton) {
       fewerEmailsButton.addEventListener("click", () => {
@@ -20716,29 +20723,25 @@ const customScript = function (App, EnForm) {
         App.enParseDependencies();
         formSubmitBtn.click();
       });
-    } // When important emails is checked, uncheck regular emails
+    } //Subscribe to all emails
 
 
-    if (importantEmailsField) {
-      importantEmailsField.addEventListener("change", () => {
-        if (importantEmailsField.checked) {
-          regularEmailsField.checked = false;
-        }
+    const allEmailsButton = document.querySelector(".sub-emails-block button");
+
+    if (allEmailsButton) {
+      allEmailsButton.addEventListener("click", () => {
+        importantEmailsField.checked = false;
+        regularEmailsField.checked = true;
+        App.enParseDependencies();
+        formSubmitBtn.click();
       });
-    } // When regular emails is checked, uncheck important emails
+    } //Unsubscribe from all emails
 
 
-    if (regularEmailsField) {
-      regularEmailsField.addEventListener("change", () => {
-        if (regularEmailsField.checked) {
-          importantEmailsField.checked = false;
-        }
-      });
-    } // If unsubscribing from all, uncheck both boxes
+    const noEmailsButton = document.querySelector(".unsub-emails-block button");
 
-
-    if (unsubFromAll) {
-      unsubFromAll.addEventListener("click", () => {
+    if (noEmailsButton) {
+      noEmailsButton.addEventListener("click", () => {
         importantEmailsField.checked = false;
         regularEmailsField.checked = false;
         App.enParseDependencies();

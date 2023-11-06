@@ -120,7 +120,6 @@ export const customScript = function (App, EnForm) {
     const importantEmailsField = App.getField("supporter.questions.341509");
     const regularEmailsField = App.getField("supporter.questions.102600");
     const emailFieldValue = App.getFieldValue("supporter.emailAddress");
-    const unsubFromAll = document.querySelector(".unsub-from-all span");
 
     if (emailFieldValue) {
       //Add "Not you?" link to email field
@@ -132,8 +131,19 @@ export const customScript = function (App, EnForm) {
       App.addHtml(notYouLink, ".en__field--emailAddress", "beforeend");
     }
 
+    //Hide subscribe to fewer emails block if already subscribe to important emails only
+    const fewerEmailsBlock = document.querySelector(".fewer-emails-block");
+    if (
+      importantEmailsField &&
+      importantEmailsField.checked &&
+      fewerEmailsBlock
+    ) {
+      fewerEmailsBlock.style.display = "none";
+    }
+
+    //Subscribe to fewer emails
     const fewerEmailsButton = document.querySelector(
-      ".fewer-emails-block button.primary"
+      ".fewer-emails-block button"
     );
     if (fewerEmailsButton) {
       fewerEmailsButton.addEventListener("click", () => {
@@ -144,27 +154,21 @@ export const customScript = function (App, EnForm) {
       });
     }
 
-    // When important emails is checked, uncheck regular emails
-    if (importantEmailsField) {
-      importantEmailsField.addEventListener("change", () => {
-        if (importantEmailsField.checked) {
-          regularEmailsField.checked = false;
-        }
+    //Subscribe to all emails
+    const allEmailsButton = document.querySelector(".sub-emails-block button");
+    if (allEmailsButton) {
+      allEmailsButton.addEventListener("click", () => {
+        importantEmailsField.checked = false;
+        regularEmailsField.checked = true;
+        App.enParseDependencies();
+        formSubmitBtn.click();
       });
     }
 
-    // When regular emails is checked, uncheck important emails
-    if (regularEmailsField) {
-      regularEmailsField.addEventListener("change", () => {
-        if (regularEmailsField.checked) {
-          importantEmailsField.checked = false;
-        }
-      });
-    }
-
-    // If unsubscribing from all, uncheck both boxes
-    if (unsubFromAll) {
-      unsubFromAll.addEventListener("click", () => {
+    //Unsubscribe from all emails
+    const noEmailsButton = document.querySelector(".unsub-emails-block button");
+    if (noEmailsButton) {
+      noEmailsButton.addEventListener("click", () => {
         importantEmailsField.checked = false;
         regularEmailsField.checked = false;
         App.enParseDependencies();
