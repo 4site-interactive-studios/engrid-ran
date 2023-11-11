@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, November 6, 2023 @ 11:19:11 ET
- *  By: michael
- *  ENGrid styles: v0.15.3
- *  ENGrid scripts: v0.15.8
+ *  Date: Saturday, November 11, 2023 @ 22:38:15 ET
+ *  By: fernando
+ *  ENGrid styles: v0.15.12
+ *  ENGrid scripts: v0.15.15
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
