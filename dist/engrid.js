@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, November 2, 2023 @ 18:38:31 ET
- *  By: fernando
- *  ENGrid styles: v0.15.12
- *  ENGrid scripts: v0.15.15
+ *  Date: Monday, November 6, 2023 @ 11:19:11 ET
+ *  By: michael
+ *  ENGrid styles: v0.15.3
+ *  ENGrid scripts: v0.15.8
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -20910,7 +20910,7 @@ class DonationLightboxForm {
 
 }
 ;// CONCATENATED MODULE: ./src/scripts/main.js
-const customScript = function (App) {
+const customScript = function (App, EnForm) {
   App.log("ENGrid client scripts are executing"); // Add your client scripts here
   // If we're on the last page OR we're redirected from another EN Page
 
@@ -21004,6 +21004,90 @@ const customScript = function (App) {
 
   if (submitDiv) {
     submitDiv.classList.add("hideif-stripedigitalwallet-selected", "hideif-paypaltouch-selected");
+  } //Unsubscribe page customisations
+
+
+  if (App.getPageType() === "UNSUBSCRIBE") {
+    const formSubmitBtn = document.querySelector(".en__submit button");
+    const importantEmailsField = App.getField("supporter.questions.341509");
+    const regularEmailsField = App.getField("supporter.questions.102600");
+    const emailFieldValue = App.getFieldValue("supporter.emailAddress");
+
+    if (emailFieldValue) {
+      //Add "Not you?" link to email field
+      const emailField = App.getField("supporter.emailAddress");
+      emailField.setAttribute("readonly", "true");
+      const notYouLink = document.createElement("a");
+      notYouLink.href = window.location.href.split("?")[0] + "?redirect=cold";
+      notYouLink.innerText = `Not ${emailFieldValue}?`;
+      App.addHtml(notYouLink, ".en__field--emailAddress", "beforeend");
+    } //Hide subscribe to fewer emails block if already subscribe to important emails only
+
+
+    const fewerEmailsBlock = document.querySelector(".fewer-emails-block");
+
+    if (importantEmailsField && importantEmailsField.checked && fewerEmailsBlock) {
+      fewerEmailsBlock.style.display = "none";
+    } //Subscribe to fewer emails
+
+
+    const fewerEmailsButton = document.querySelector(".fewer-emails-block button");
+
+    if (fewerEmailsButton) {
+      fewerEmailsButton.addEventListener("click", () => {
+        importantEmailsField.checked = true;
+        regularEmailsField.checked = false;
+        App.enParseDependencies();
+        formSubmitBtn.click();
+      });
+    } //Subscribe to all emails
+
+
+    const allEmailsButton = document.querySelector(".sub-emails-block button");
+
+    if (allEmailsButton) {
+      allEmailsButton.addEventListener("click", () => {
+        importantEmailsField.checked = false;
+        regularEmailsField.checked = true;
+        App.enParseDependencies();
+        formSubmitBtn.click();
+      });
+    } //Unsubscribe from all emails
+
+
+    const noEmailsButton = document.querySelector(".unsub-emails-block button");
+
+    if (noEmailsButton) {
+      noEmailsButton.addEventListener("click", () => {
+        importantEmailsField.checked = false;
+        regularEmailsField.checked = false;
+        App.enParseDependencies();
+        formSubmitBtn.click();
+      });
+    }
+
+    EnForm.getInstance().onSubmit.subscribe(() => {
+      if (!regularEmailsField.checked) {
+        sessionStorage.setItem("unsub_details", JSON.stringify({
+          email: App.getFieldValue("supporter.emailAddress")
+        }));
+      }
+    });
+
+    if (App.getPageNumber() === 2) {
+      const unsubDetails = JSON.parse(sessionStorage.getItem("unsub_details"));
+
+      if (unsubDetails) {
+        App.setBodyData("recent-unsubscribe", "true");
+        const resubLink = document.querySelector(".resubscribe-block a.button");
+
+        if (resubLink) {
+          resubLink.href = resubLink.href + `?supporter.emailAddress=${unsubDetails.email}&autosubmit=Y&engrid_hide[engrid]=id`;
+        }
+
+        sessionStorage.removeItem("unsub_details");
+      }
+    }
   }
 };
 ;// CONCATENATED MODULE: ./src/index.ts
@@ -21065,7 +21149,7 @@ const options = {
   onLoad: () => {
     window.DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(DonationAmount, DonationFrequency);
-    customScript(App);
+    customScript(App, EnForm);
   },
   onResize: () => console.log("Starter Theme Window Resized"),
   onValidate: () => {
