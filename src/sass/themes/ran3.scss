@@ -931,7 +931,7 @@
     }
   }
 
-  &:not([data-engrid-recent-unsubscribe="true"]) {
+  &:not([data-engrid-recent-unsubscribe="true"]):not(#en__pagebuilder) {
     .resubscribe-block {
       display: none;
     }
