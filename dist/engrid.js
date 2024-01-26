@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, January 25, 2024 @ 09:33:42 ET
+ *  Date: Friday, January 26, 2024 @ 06:49:09 ET
  *  By: michael
- *  ENGrid styles: v0.15.12
- *  ENGrid scripts: v0.15.15
+ *  ENGrid styles: v0.16.11
+ *  ENGrid scripts: v0.16.11
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -20158,7 +20158,8 @@ class PostalCodeValidator {
       (_b = this.postalCodeField) === null || _b === void 0 ? void 0 : _b.addEventListener("input", () => this.liveValidate());
 
       this._form.onValidate.subscribe(() => {
-        if (!this._form.validate) return; // It seems like we need some delay or EN removes our error message.
+        if (!this._form.validate) return;
+        this.liveValidate(); // It seems like we need some delay or EN removes our error message.
 
         setTimeout(() => {
           this.validate();
@@ -20185,7 +20186,7 @@ class PostalCodeValidator {
 
   validate() {
     if (this.shouldValidateUSZipCode() && !this.isValidUSZipCode()) {
-      engrid_ENGrid.setError(".en__field--postcode", "Please enter a valid zip code.");
+      engrid_ENGrid.setError(".en__field--postcode", `Please enter a valid ZIP Code of ##### or #####${this.separator}####`);
     } else {
       engrid_ENGrid.removeError(".en__field--postcode");
     }
@@ -20230,7 +20231,7 @@ class PostalCodeValidator {
     // Validating US zip code only if country is US, country has not yet been selected
     // or if there is no country field
     const country = engrid_ENGrid.getField("supporter.country") ? engrid_ENGrid.getFieldValue("supporter.country") : "US";
-    return ["US", "United States", ""].includes(country);
+    return ["us", "united states", "usa", ""].includes(country.toLowerCase());
   }
 
   getSeparator() {
@@ -20512,6 +20513,8 @@ class DonationLightboxForm {
   buildSectionNavigation() {
     console.log("DonationLightboxForm: buildSectionNavigation");
     this.sections.forEach((section, key) => {
+      var _sectionNavigation$qu, _sectionNavigation$qu2, _sectionNavigation$qu3;
+
       section.dataset.sectionId = key;
       const sectionNavigation = document.createElement("div");
       sectionNavigation.classList.add("section-navigation");
@@ -20561,8 +20564,10 @@ class DonationLightboxForm {
         <span class="section-count__total">${sectionTotal}</span>
       `;
       } else {
+        var _document$querySelect;
+
         // Single Section Pages
-        const submitButtonLabel = document.querySelector(".en__submit button")?.innerText || "Submit";
+        const submitButtonLabel = ((_document$querySelect = document.querySelector(".en__submit button")) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.innerText) || "Submit";
         sectionNavigation.innerHTML = `
         <button class="section-navigation__submit" data-section-id="${key}" type="submit" data-label="${submitButtonLabel}">
           <span>${submitButtonLabel}</span>
@@ -20570,18 +20575,18 @@ class DonationLightboxForm {
       `;
       }
 
-      sectionNavigation.querySelector(".section-navigation__previous")?.addEventListener("click", e => {
+      (_sectionNavigation$qu = sectionNavigation.querySelector(".section-navigation__previous")) === null || _sectionNavigation$qu === void 0 ? void 0 : _sectionNavigation$qu.addEventListener("click", e => {
         e.preventDefault();
         this.scrollToSection(key - 1);
       });
-      sectionNavigation.querySelector(".section-navigation__next")?.addEventListener("click", e => {
+      (_sectionNavigation$qu2 = sectionNavigation.querySelector(".section-navigation__next")) === null || _sectionNavigation$qu2 === void 0 ? void 0 : _sectionNavigation$qu2.addEventListener("click", e => {
         e.preventDefault();
 
         if (this.validateForm(key)) {
           this.scrollToSection(key + 1);
         }
       });
-      sectionNavigation.querySelector(".section-navigation__submit")?.addEventListener("click", e => {
+      (_sectionNavigation$qu3 = sectionNavigation.querySelector(".section-navigation__submit")) === null || _sectionNavigation$qu3 === void 0 ? void 0 : _sectionNavigation$qu3.addEventListener("click", e => {
         e.preventDefault(); // Validate the entire form again
 
         if (this.validateForm()) {
