@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, January 18, 2024 @ 15:04:09 ET
- *  By: bryancasler
- *  ENGrid styles: v0.16.11
- *  ENGrid scripts: v0.16.11
+ *  Date: Monday, February 12, 2024 @ 11:56:24 ET
+ *  By: michael
+ *  ENGrid styles: v0.17.9
+ *  ENGrid scripts: v0.17.10
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -11829,6 +11829,9 @@ const OptionsDefaults = {
     ENValidators: false,
     MobileCTA: false,
     CustomCurrency: false,
+    VGS: false,
+    PostalCodeValidator: false,
+    CountryRedirect: false,
     PageLayouts: [
         "leftleft1col",
         "centerleft1col",
@@ -11945,7 +11948,7 @@ class Loader {
     // Returns true if ENgrid should reload (that means the current ENgrid is not the right one)
     // Returns false if ENgrid should not reload (that means the current ENgrid is the right one)
     reload() {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         const assets = this.getOption("assets");
         const isLoaded = engrid_ENGrid.getBodyData("loaded");
         let shouldSkipCss = this.getOption("engridcss") === "false";
@@ -11977,7 +11980,6 @@ class Loader {
         // Fetch the desired repo, assets location, and override JS/CSS
         const theme = engrid_ENGrid.getBodyData("theme");
         const engrid_repo = (_a = this.getOption("repo-name")) !== null && _a !== void 0 ? _a : `engrid-${theme}`;
-        const engrid_repo_owner = (_b = this.getOption("repo-owner")) !== null && _b !== void 0 ? _b : "4site-interactive-studios";
         let engrid_js_url = "";
         let engrid_css_url = "";
         switch (assets) {
@@ -11990,31 +11992,17 @@ class Loader {
             case "flush":
                 this.logger.log("FLUSHING CACHE");
                 const timestamp = Date.now();
-                const jsCurrentURL = new URL(((_c = this.jsElement) === null || _c === void 0 ? void 0 : _c.getAttribute("src")) || "");
+                const jsCurrentURL = new URL(((_b = this.jsElement) === null || _b === void 0 ? void 0 : _b.getAttribute("src")) || "");
                 jsCurrentURL.searchParams.set("v", timestamp.toString());
                 engrid_js_url = jsCurrentURL.toString();
-                const cssCurrentURL = new URL(((_d = this.cssElement) === null || _d === void 0 ? void 0 : _d.getAttribute("href")) || "");
+                const cssCurrentURL = new URL(((_c = this.cssElement) === null || _c === void 0 ? void 0 : _c.getAttribute("href")) || "");
                 cssCurrentURL.searchParams.set("v", timestamp.toString());
                 engrid_css_url = cssCurrentURL.toString();
                 break;
             default:
                 this.logger.log("LOADING EXTERNAL");
-                engrid_js_url =
-                    "https://cdn.jsdelivr.net/gh/" +
-                        engrid_repo_owner +
-                        "/" +
-                        engrid_repo +
-                        "@" +
-                        assets +
-                        "/dist/engrid.js";
-                engrid_css_url =
-                    "https://cdn.jsdelivr.net/gh/" +
-                        engrid_repo_owner +
-                        "/" +
-                        engrid_repo +
-                        "@" +
-                        assets +
-                        "/dist/engrid.css";
+                engrid_js_url = `https://s3.amazonaws.com/engrid-dev.4sitestudios.com/${engrid_repo}/${assets}/engrid.js`;
+                engrid_css_url = `https://s3.amazonaws.com/engrid-dev.4sitestudios.com/${engrid_repo}/${assets}/engrid.css`;
         }
         if (shouldSkipCss && this.cssElement) {
             this.logger.log("engridcss=false | Removing original stylesheet:", this.cssElement);
@@ -12239,8 +12227,8 @@ class DonationAmount {
     // Set amount var with currently selected amount
     load() {
         const currentAmountField = document.querySelector('input[name="' + this._radios + '"]:checked');
-        if (currentAmountField && currentAmountField.value) {
-            let currentAmountValue = parseFloat(currentAmountField.value);
+        if (currentAmountField) {
+            let currentAmountValue = parseFloat(currentAmountField.value || "");
             if (currentAmountValue > 0) {
                 this.amount = parseFloat(currentAmountField.value);
             }
@@ -12250,8 +12238,10 @@ class DonationAmount {
                 this.amount = currentAmountValue;
             }
         }
-        else if (engrid_ENGrid.checkNested(window.EngagingNetworks, "require", "_defined", "enjs", "getDonationTotal")) {
-            const total = window.EngagingNetworks.require._defined.enjs.getDonationTotal();
+        else if (engrid_ENGrid.checkNested(window.EngagingNetworks, "require", "_defined", "enjs", "getDonationTotal") &&
+            engrid_ENGrid.checkNested(window.EngagingNetworks, "require", "_defined", "enjs", "getDonationFee")) {
+            const total = window.EngagingNetworks.require._defined.enjs.getDonationTotal() -
+                window.EngagingNetworks.require._defined.enjs.getDonationFee();
             if (total) {
                 this.amount = total;
             }
@@ -12677,6 +12667,15 @@ class engrid_ENGrid {
         }
         return true;
     }
+    // Deep merge two objects
+    static deepMerge(target, source) {
+        for (const key in source) {
+            if (source[key] instanceof Object)
+                Object.assign(source[key], engrid_ENGrid.deepMerge(target[key], source[key]));
+        }
+        Object.assign(target || {}, source);
+        return target;
+    }
     static setError(element, errorMessage) {
         const errorElement = typeof element === "string" ? document.querySelector(element) : element;
         if (errorElement) {
@@ -13082,7 +13081,52 @@ class RememberMeEvents {
     }
 }
 
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/events/country.js
+
+
+class Country {
+    constructor() {
+        this._onCountryChange = new dist/* SimpleEventDispatcher */.FK();
+        this._country = "";
+        this._field = null;
+        // Run only if it is a Page with a Country field
+        this._field = document.getElementById("en__field_supporter_country");
+        if (!this._field) {
+            return;
+        }
+        document.addEventListener("change", (e) => {
+            const element = e.target;
+            if (element && element.name == "supporter.country") {
+                this.country = element.value;
+            }
+        });
+        // Set the country to the current value on the field
+        this.country = engrid_ENGrid.getFieldValue("supporter.country");
+    }
+    static getInstance() {
+        if (!Country.instance) {
+            Country.instance = new Country();
+        }
+        return Country.instance;
+    }
+    get countryField() {
+        return this._field;
+    }
+    get onCountryChange() {
+        return this._onCountryChange.asEvent();
+    }
+    get country() {
+        return this._country;
+    }
+    // Every time we set a country, trigger the onCountryChange event
+    set country(value) {
+        this._country = value;
+        this._onCountryChange.dispatch(this._country);
+    }
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/events/index.js
+
 
 
 
@@ -13100,6 +13144,7 @@ class App extends engrid_ENGrid {
         this._fees = ProcessingFees.getInstance();
         this._amount = DonationAmount.getInstance("transaction.donationAmt", "transaction.donationAmt.other");
         this._frequency = DonationFrequency.getInstance();
+        this._country = Country.getInstance();
         this.logger = new EngridLogger("App", "black", "white", "🍏");
         const loader = new Loader();
         this.options = Object.assign(Object.assign({}, OptionsDefaults), options);
@@ -13183,6 +13228,7 @@ class App extends engrid_ENGrid {
         });
         this._form.onSubmit.subscribe((s) => this.logger.success("Submit: " + JSON.stringify(s)));
         this._form.onError.subscribe((s) => this.logger.danger("Error: " + JSON.stringify(s)));
+        this._country.onCountryChange.subscribe((s) => this.logger.success(`Country: ${s}`));
         window.enOnSubmit = () => {
             this._form.submit = true;
             this._form.submitPromise = false;
@@ -13212,6 +13258,8 @@ class App extends engrid_ENGrid {
             this.logger.success("Validation Passed");
             return true;
         };
+        // Country Redirect
+        new CountryRedirect();
         // iFrame Logic
         new iFrame();
         // Live Variables
@@ -13232,9 +13280,13 @@ class App extends engrid_ENGrid {
         new EventTickets();
         // Swap Amounts
         new SwapAmounts();
-        // On the end of the script, after all subscribers defined, let's load the current value
-        this._amount.load();
-        this._frequency.load();
+        // On the end of the script, after all subscribers defined, let's load the current frequency
+        // The amount will be loaded by the frequency change event
+        // This timeout is needed because when you have alternative amounts, EN is slower than Engrid
+        // about 20% of the time and we get a race condition if the client is also using the SwapAmounts feature
+        window.setTimeout(() => {
+            this._frequency.load();
+        }, 150);
         // Fast Form Fill
         new FastFormFill();
         // Currency Related Components
@@ -13338,6 +13390,9 @@ class App extends engrid_ENGrid {
         new UrlParamsToBodyAttrs();
         new SetAttr();
         new ShowIfPresent();
+        new PostalCodeValidator();
+        // Very Good Security
+        new VGS();
         //Debug panel
         let showDebugPanel = this.options.Debug;
         try {
@@ -13689,6 +13744,7 @@ class CreditCard {
     constructor() {
         this.logger = new EngridLogger("CreditCard", "#ccc84a", "#333", "💳");
         this._form = EnForm.getInstance();
+        this.vgsField = document.querySelector(".en__field--vgs");
         this.ccField = engrid_ENGrid.getField("transaction.ccnumber");
         this.ccValues = {
             "american-express": [
@@ -13760,11 +13816,17 @@ class CreditCard {
                 }
             }
         };
+        if (this.vgsField) {
+            this.logger.log("The Page is Using VGS. Exiting Credit Card Handler");
+            return;
+        }
         if (!this.ccField)
             return;
         // Set credit card field to type="tel" to prevent mobile browsers from
-        //  showing a credit card number keyboard
-        this.ccField.type = "tel";
+        //  showing a credit card number keyboard, only if the field is not hidden
+        if (this.ccField.type !== "hidden") {
+            this.ccField.type = "tel";
+        }
         const expireFiels = document.getElementsByName("transaction.ccexpire");
         if (expireFiels) {
             this.field_expiration_month = expireFiels[0];
@@ -13965,9 +14027,14 @@ class AutoYear {
         if (this.yearField) {
             this.yearLength =
                 this.yearField.options[this.yearField.options.length - 1].value.length;
-            while (this.yearField.options.length > 1) {
-                this.yearField.remove(1);
-            }
+            [...this.yearField.options].forEach((option) => {
+                var _a;
+                if (option.value !== "" && !isNaN(Number(option.value))) {
+                    // @ts-ignore
+                    const index = [...this.yearField.options].findIndex((i) => i.value === option.value);
+                    (_a = this.yearField) === null || _a === void 0 ? void 0 : _a.remove(index);
+                }
+            });
         }
     }
 }
@@ -14158,6 +14225,7 @@ class Advocacy {
 
 class DataAttributes {
     constructor() {
+        this._country = Country.getInstance();
         this.setDataAttributes();
     }
     setDataAttributes() {
@@ -14244,11 +14312,10 @@ class DataAttributes {
             engrid_ENGrid.setBodyData("no-page-customCode", "");
         }
         // Add a country data attribute
-        const countrySelect = document.querySelector("#en__field_supporter_country");
-        if (countrySelect) {
-            engrid_ENGrid.setBodyData("country", countrySelect.value);
-            countrySelect.addEventListener("change", () => {
-                engrid_ENGrid.setBodyData("country", countrySelect.value);
+        if (this._country.country) {
+            engrid_ENGrid.setBodyData("country", this._country.country);
+            this._country.onCountryChange.subscribe((country) => {
+                engrid_ENGrid.setBodyData("country", country);
             });
         }
         const otherAmountDiv = document.querySelector(".en__field--donationAmt .en__field__item--other");
@@ -15940,8 +16007,10 @@ class TranslateFields {
 
 class AutoCountrySelect {
     constructor() {
+        this._countryEvent = Country.getInstance();
         this.countryWrapper = document.querySelector(".simple_country_select");
-        this.countrySelect = document.querySelector("select#en__field_supporter_country");
+        this.countrySelect = this._countryEvent
+            .countryField;
         this.country = null;
         const engridAutofill = get("engrid-autofill");
         const submissionFailed = !!(engrid_ENGrid.checkNested(window.EngagingNetworks, "require", "_defined", "enjs", "checkSubmissionFailed") && window.EngagingNetworks.require._defined.enjs.checkSubmissionFailed());
@@ -19484,7 +19553,7 @@ class CustomCurrency {
     constructor() {
         this.logger = new EngridLogger("CustomCurrency", "#1901b1", "#00cc95", "🤑");
         this.currencyElement = document.querySelector("[name='transaction.paycurrency']");
-        this.countryElement = document.getElementById("en__field_supporter_country");
+        this._country = Country.getInstance();
         if (!this.shouldRun())
             return;
         this.addEventListeners();
@@ -19498,9 +19567,9 @@ class CustomCurrency {
         return true;
     }
     addEventListeners() {
-        if (this.countryElement) {
-            this.countryElement.addEventListener("change", (e) => {
-                this.loadCurrencies(e.target.value);
+        if (this._country.countryField) {
+            this._country.onCountryChange.subscribe((country) => {
+                this.loadCurrencies(country);
             });
         }
     }
@@ -20867,13 +20936,19 @@ class GiveBySelect {
     constructor() {
         this.logger = new EngridLogger("GiveBySelect", "#FFF", "#333", "🐇");
         this.transactionGiveBySelect = document.getElementsByName("transaction.giveBySelect");
+        this.vgsField = document.querySelector(".en__field--vgs");
         if (!this.transactionGiveBySelect)
             return;
         this.transactionGiveBySelect.forEach((giveBySelect) => {
             giveBySelect.addEventListener("change", () => {
                 this.logger.log("Changed to " + giveBySelect.value);
                 if (giveBySelect.value.toLowerCase() === "card") {
-                    engrid_ENGrid.setPaymentType("");
+                    if (this.vgsField) {
+                        engrid_ENGrid.setPaymentType("visa"); // VGS will not change the payment type field, so we have to do it manually to avoid errors
+                    }
+                    else {
+                        engrid_ENGrid.setPaymentType("");
+                    }
                 }
                 else {
                     engrid_ENGrid.setPaymentType(giveBySelect.value);
@@ -20953,7 +21028,7 @@ class ExitIntentLightbox {
         this.watchForTriggers();
     }
     watchForTriggers() {
-        window.onload = () => {
+        window.addEventListener("load", () => {
             setTimeout(() => {
                 if (this.options.triggers.mousePosition) {
                     this.watchMouse();
@@ -20962,7 +21037,7 @@ class ExitIntentLightbox {
                     this.watchDocumentVisibility();
                 }
             }, this.triggerDelay); // Delay activation of triggers
-        };
+        });
     }
     watchMouse() {
         document.addEventListener("mouseout", (e) => {
@@ -21099,9 +21174,11 @@ class SupporterHub {
                     mutation.addedNodes.forEach((node) => {
                         if (node.nodeName === "DIV") {
                             const overlay = node;
-                            if (overlay.classList.contains("en__hubOverlay")) {
+                            if (overlay.classList.contains("en__hubOverlay") ||
+                                overlay.classList.contains("en__hubPledge__panels")) {
                                 this.logger.log("Overlay found");
                                 this.creditCardUpdate(node);
+                                this.amountLabelUpdate(node);
                             }
                         }
                     });
@@ -21117,6 +21194,7 @@ class SupporterHub {
         const hubOverlay = document.querySelector(".en__hubOverlay");
         if (hubOverlay) {
             this.creditCardUpdate(hubOverlay);
+            this.amountLabelUpdate(hubOverlay);
         }
     }
     creditCardUpdate(overlay) {
@@ -21128,6 +21206,19 @@ class SupporterHub {
                 ccField.addEventListener("focus", () => {
                     this.logger.log("Credit Card field focused");
                     updateButton.click();
+                });
+            }
+        }, 300);
+    }
+    amountLabelUpdate(overlay) {
+        window.setTimeout(() => {
+            // Check if the overlay has Amounts, and set the currency symbol updated attribute
+            const amountContainer = overlay.querySelector(".en__field--donationAmt");
+            if (amountContainer) {
+                amountContainer
+                    .querySelectorAll(".en__field__element--radio .en__field__item")
+                    .forEach((node) => {
+                    node.setAttribute("data-engrid-currency-symbol-updated", "true");
                 });
             }
         }, 300);
@@ -21416,11 +21507,358 @@ class ENValidators {
     }
 }
 
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/postal-code-validator.js
+
+
+
+// Conditionally validates the postcode field for a US format zip code
+// If US is selected as the country, a country has not been selected yet
+// or if there is no country field
+// Allows blank zip code if zip code is not required.
+class PostalCodeValidator {
+    constructor() {
+        var _a, _b;
+        this.postalCodeField = engrid_ENGrid.getField("supporter.postcode");
+        this._form = EnForm.getInstance();
+        this.logger = new EngridLogger("Postal Code Validator", "white", "red", "📬");
+        this.supportedSeparators = ["+", "-", " "];
+        this.separator = this.getSeparator();
+        this.regexSeparator = this.getRegexSeparator(this.separator);
+        if (this.shouldRun()) {
+            (_a = this.postalCodeField) === null || _a === void 0 ? void 0 : _a.addEventListener("blur", () => this.validate());
+            (_b = this.postalCodeField) === null || _b === void 0 ? void 0 : _b.addEventListener("input", () => this.liveValidate());
+            this._form.onValidate.subscribe(() => {
+                if (!this._form.validate)
+                    return;
+                this.liveValidate();
+                // It seems like we need some delay or EN removes our error message.
+                setTimeout(() => {
+                    this.validate();
+                }, 100);
+                // We dont need to validate the zip code, or it is valid
+                const postalCodeValid = !this.shouldValidateUSZipCode() || this.isValidUSZipCode();
+                this._form.validate = postalCodeValid;
+                if (!postalCodeValid) {
+                    this.logger.log(`Invalid Zip Code ${this.postalCodeField.value}`);
+                    this.postalCodeField.scrollIntoView({ behavior: "smooth" });
+                }
+                return postalCodeValid;
+            });
+        }
+    }
+    shouldRun() {
+        return !!(engrid_ENGrid.getOption("PostalCodeValidator") && this.postalCodeField);
+    }
+    validate() {
+        if (this.shouldValidateUSZipCode() && !this.isValidUSZipCode()) {
+            engrid_ENGrid.setError(".en__field--postcode", `Please enter a valid ZIP Code of ##### or #####${this.separator}####`);
+        }
+        else {
+            engrid_ENGrid.removeError(".en__field--postcode");
+        }
+    }
+    isValidUSZipCode() {
+        var _a, _b;
+        const zipCodeRequired = !!document.querySelector(".en__field--postcode.en__mandatory");
+        // If zip code is not required in EN Form Block and the field is empty, it is valid
+        if (!zipCodeRequired && ((_a = this.postalCodeField) === null || _a === void 0 ? void 0 : _a.value) === "") {
+            return true;
+        }
+        const postalCodeRegex = new RegExp(`^\\d{5}(${this.regexSeparator}\\d{4})?$`);
+        return !!((_b = this.postalCodeField) === null || _b === void 0 ? void 0 : _b.value.match(postalCodeRegex));
+    }
+    /**
+     * Formats the zip code to #####-####  as the user inputs it
+     * The separator is determined by the TidyContact option, but defaults to "-"
+     */
+    liveValidate() {
+        var _a;
+        if (!this.shouldValidateUSZipCode())
+            return;
+        let value = (_a = this.postalCodeField) === null || _a === void 0 ? void 0 : _a.value;
+        // If the value is 5 characters or less, remove all non-numeric characters
+        if (value.length <= 5) {
+            value = value.replace(/\D/g, "");
+        }
+        // If one of the supported separators is endered as the 6th character, replace it with the official separator
+        else if (value.length === 6 &&
+            this.supportedSeparators.includes(value[5])) {
+            // Removing all non-numeric characters
+            value = value.replace(/\D/g, "") + this.separator;
+        }
+        else {
+            // Removing all non-numeric characters
+            value = value.replace(/\D/g, "");
+            // Adding the separator after the 5th character
+            value = value.replace(/(\d{5})(\d)/, `$1${this.separator}$2`);
+        }
+        //set field value with max 10 characters
+        this.postalCodeField.value = value.slice(0, 10);
+    }
+    shouldValidateUSZipCode() {
+        // Validating US zip code only if country is US, country has not yet been selected
+        // or if there is no country field
+        const country = engrid_ENGrid.getField("supporter.country")
+            ? engrid_ENGrid.getFieldValue("supporter.country")
+            : "US";
+        return ["us", "united states", "usa", ""].includes(country.toLowerCase());
+    }
+    getSeparator() {
+        const tidyContact = engrid_ENGrid.getOption("TidyContact");
+        if (tidyContact &&
+            tidyContact.us_zip_divider &&
+            this.supportedSeparators.includes(tidyContact.us_zip_divider)) {
+            return tidyContact.us_zip_divider;
+        }
+        return "-";
+    }
+    getRegexSeparator(separator) {
+        switch (separator) {
+            case "+":
+                return "\\+";
+            case "-":
+                return "-";
+            case " ":
+                return "\\s";
+            default:
+                this.logger.log(`Invalid separator "${separator}" provided to PostalCodeValidator, falling back to "-".`);
+                return "-";
+        }
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/vgs.js
+// This component allows you to customize the VGS theme options
+//
+// It is used in the following way:
+//
+// VGS: {
+// "transaction.ccnumber": {
+//     showCardIcon: true,
+//     placeholder: "•••• •••• •••• ••••",
+//     icons: {
+//        (icons can't be urls, they have to be base64 encoded images)
+//        cardPlaceholder: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='%233BBF45'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/%3E%3C/svg%3E"
+//        visa: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath fill='%233BBF45' d='M384 32H0v448h384V32z'/%3E%3Cpath fill='white' d='M128.5 352.5l-32-192h-32l32 192zm96-192l-32 192h-32l32-192z'/%3E%3C/svg%3E",
+//     },
+// },
+// "transaction.ccvv": {
+//     showCardIcon: false,
+//     placeholder: "CVV",
+//     hideValue: false,
+// },
+// },
+//
+// The VGS component can also be set at the page level, if necessary
+//
+
+class VGS {
+    constructor() {
+        this.logger = new EngridLogger("VGS", "black", "pink", "💳");
+        this.vgsField = document.querySelector(".en__field--vgs");
+        this.options = engrid_ENGrid.getOption("VGS");
+        this.paymentTypeField = document.querySelector("#en__field_transaction_paymenttype");
+        this._form = EnForm.getInstance();
+        if (!this.shouldRun())
+            return;
+        this.setPaymentType();
+        this.setDefaults();
+        this.dumpGlobalVar();
+        this._form.onValidate.subscribe(() => {
+            if (this._form.validate) {
+                const isValid = this.validate();
+                this.logger.log(`Form Validation: ${isValid}`);
+                this._form.validate = isValid;
+            }
+        });
+    }
+    shouldRun() {
+        // Only run if the vgs field is present
+        if (!this.vgsField)
+            return false;
+        return true;
+    }
+    setDefaults() {
+        const placeholderStyles = {
+            color: getComputedStyle(document.body).getPropertyValue("--input_placeholder-color") || "#a9a9a9",
+            opacity: getComputedStyle(document.body).getPropertyValue("--input_placeholder-opacity") || "1",
+            fontWeight: getComputedStyle(document.body).getPropertyValue("--input_placeholder-font-weight") || "normal",
+        };
+        const options = this.options;
+        const defaultOptions = {
+            "transaction.ccnumber": {
+                showCardIcon: true,
+                placeholder: "•••• •••• •••• ••••",
+                icons: {
+                    cardPlaceholder: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAYAAADHl1ErAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB8ElEQVR4nO2c4W3CMBBGz1H/NyNkAzoCo2SDrkI3YJSOABt0g9IJXBnOqUkMyifUqkrek04RlvMjT2c7sc6EGKPBfBpcaSBMBGEiCBNBmAjCRBAmgjARhIkgTARhIggTQZhK2q0Yh5l1ZrYzs0PqsrI4+LN3VTeThkvntUm6Fbuxn2E/LITQmtm7mW08Sb/MbO9tpxhjui6WEMLWzJKDdO3N7Nmf9ZjaYoyn8y8X1o6GXxLV1lJyDeE+9oWPQ/ZRG4b9WkVVpqe+8LLLo7ErM6t248qllZnWBc+uV5+zumGsQjm3f/ic9tb4JGeeXcga4U723rptilVx0avgg2Q3m/JNn+y6zeAm+GSWUi/c7L5yfB77RJhACOHs6WnuLfmGpTI3YditEEGYCMJEECaCMJHZqySvHRfIMBGEiSBMBGEiCBNBmAjCRBAmgjARhIkgTGT2t+R/59EdYXZcfwmEiSBMBGEiCBNZzCr5VzvCZJjIIMxrPKFC6abMsHbaFcZuGq8StqKwDqZkN8emKBbrvawHCtxJ7y1nVxQF34lxUXBupOy8EtWy88jBhknUDjbkPhyd+Xn2l9lHZ8rgcNZVTA5nTYRFjv/dPf7HvzuJ8C0pgjARhIkgTARhIggTQZgIwkQQJoIwEYSJIEwEYQpm9g2Ro5zhLcuLBwAAAABJRU5ErkJggg==",
+                },
+                css: {
+                    "&::placeholder": placeholderStyles,
+                },
+                // Autocomplete is not customizable
+                autoComplete: "cc-number",
+            },
+            "transaction.ccvv": {
+                showCardIcon: false,
+                placeholder: "CVV",
+                hideValue: false,
+                // Autocomplete is not customizable
+                autoComplete: "cc-csc",
+                css: {
+                    "&::placeholder": placeholderStyles,
+                },
+            },
+        };
+        // Deep merge the default options with the options set in the theme
+        this.options = engrid_ENGrid.deepMerge(defaultOptions, options);
+        this.logger.log("Theme Options", options);
+        this.logger.log("Merged Options", this.options);
+    }
+    setPaymentType() {
+        // Because the VGS iFrame Communication doesn't change the value of the payment type field, we have to set it to Visa by default
+        if (this.paymentTypeField) {
+            // Loop through the payment type field options and set the visa card as the default
+            for (let i = 0; i < this.paymentTypeField.options.length; i++) {
+                if (this.paymentTypeField.options[i].value.toLowerCase() === "visa" ||
+                    this.paymentTypeField.options[i].value.toLowerCase() === "vi") {
+                    this.paymentTypeField.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+    }
+    dumpGlobalVar() {
+        // Dump the global variable for the VGS options
+        window.enVGSFields = this.options;
+        // EN is not reading the global variable because their JS file loads before ENgrid, so we're going to HACK TOWN
+        // Clean up the VGS iFrames
+        window.setTimeout(() => {
+            const vgsIElements = document.querySelectorAll(".en__field__input--vgs");
+            if (vgsIElements.length > 0) {
+                // Create a mutation observer that cleans the VGS Elements before anything is rendered
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === "childList" && mutation.addedNodes.length > 0)
+                            mutation.addedNodes.forEach((node) => {
+                                if (node.nodeName === "IFRAME" &&
+                                    mutation.previousSibling &&
+                                    mutation.previousSibling.nodeName === "IFRAME") {
+                                    // Delete the previous sibling
+                                    mutation.previousSibling.remove();
+                                }
+                            });
+                    });
+                });
+                // Observe the VGS Elements
+                vgsIElements.forEach((vgsIElement) => {
+                    observer.observe(vgsIElement, { childList: true });
+                });
+                if (engrid_ENGrid.checkNested(window.EngagingNetworks, "require", "_defined", "enjs", "vgs")) {
+                    window.EngagingNetworks.require._defined.enjs.vgs.init();
+                }
+                else {
+                    this.logger.log("VGS is not defined");
+                }
+            }
+        }, 1000);
+    }
+    validate() {
+        if (this.paymentTypeField.value.toLowerCase() === "visa" ||
+            this.paymentTypeField.value.toLowerCase() === "vi") {
+            const cardContainer = document.querySelector(".en__field--vgs.en__field--ccnumber");
+            const cardEmpty = cardContainer.querySelector(".vgs-collect-container__empty");
+            const cvvContainer = document.querySelector(".en__field--vgs.en__field--ccvv");
+            const cvvEmpty = cvvContainer.querySelector(".vgs-collect-container__empty");
+            if (cardContainer && cardEmpty) {
+                window.setTimeout(() => {
+                    engrid_ENGrid.setError(cardContainer, "Please enter a valid card number");
+                    // Scroll to the error
+                    cardContainer.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+                return false;
+            }
+            if (cvvContainer && cvvEmpty) {
+                window.setTimeout(() => {
+                    engrid_ENGrid.setError(cvvContainer, "Please enter a valid CVV");
+                    // Scroll to the error
+                    cvvContainer.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/country-redirect.js
+// This component allows you to redirect the user to a different page based on their country.
+// It works by checking the country field on the page and comparing it to the list of countries in the CountryRedirect option.
+// If the country matches one of the countries in the list, the user is redirected to the specified URL only if the URL is not the same as the current page.
+// The CountryRedirect option is an object with the country as the key and the URL as the value.
+// Example:
+//
+// CountryRedirect: {
+//   US: "https://example.com/us",
+//   CA: "https://example.com/ca",
+//   GB: "https://example.com/gb",
+// },
+// The country codes must match the country codes in the country field
+// The CountryRedirect component can also be set at the page level. Useful for Regional Pages, with a Code Block like this:
+//
+// <script>
+//   window.EngridPageOptions = window.EngridPageOptions || [];
+//   window.EngridPageOptions.CountryRedirect = {
+//     US: "https://example.com/us",
+//     CA: "https://example.com/ca",
+//     GB: "https://example.com/gb",
+//   };
+// </script>
+//
+// This will override the default CountryRedirect options for that page.
+//
+
+class CountryRedirect {
+    constructor() {
+        this.logger = new EngridLogger("CountryRedirect", "white", "brown", "🛫");
+        this._country = Country.getInstance();
+        if (!this.shouldRun())
+            return;
+        if (this._country.countryField) {
+            this._country.onCountryChange.subscribe((country) => {
+                this.checkRedirect(country);
+            });
+        }
+        this.checkRedirect(this._country.country);
+    }
+    shouldRun() {
+        // Only run if the CountryRedirect option is not false
+        if (!engrid_ENGrid.getOption("CountryRedirect")) {
+            return false;
+        }
+        return true;
+    }
+    checkRedirect(country) {
+        const countryRedirect = engrid_ENGrid.getOption("CountryRedirect");
+        // Check if the country is in the list and if the current URL is not the same as the redirect URL
+        // We are using includes because the URL might have query parameters
+        if (countryRedirect &&
+            country in countryRedirect &&
+            window.location.href.includes(countryRedirect[country]) === false) {
+            this.logger.log(`${country}: Redirecting to ${countryRedirect[country]}`);
+            window.location.href = countryRedirect[country];
+        }
+    }
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.16.11";
+const AppVersion = "0.17.10";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
+
+
+
+
 
 
 
