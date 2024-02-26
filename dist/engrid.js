@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, February 26, 2024 @ 10:48:33 ET
+ *  Date: Monday, February 26, 2024 @ 11:01:17 ET
  *  By: michael
  *  ENGrid styles: v0.17.9
  *  ENGrid scripts: v0.17.10
@@ -20732,7 +20732,7 @@ class WelcomeBack {
 const EcardToTargetOptionsDefaults = {
   targetName: "",
   targetEmail: "",
-  hideEcardSendDate: true,
+  hideSendDate: true,
   hideTarget: true,
   hideMessage: true,
   addSupporterNameToMessage: false
@@ -20789,7 +20789,7 @@ class EcardToTarget {
       messageBlock.style.display = "none";
     }
 
-    if (this.options.hideEcardSendDate && sendDateBlock) {
+    if (this.options.hideSendDate && sendDateBlock) {
       sendDateBlock.style.display = "none";
     }
 
