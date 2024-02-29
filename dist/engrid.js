@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, February 28, 2024 @ 07:37:38 ET
+ *  Date: Thursday, February 29, 2024 @ 06:40:54 ET
  *  By: michael
- *  ENGrid styles: v0.17.9
- *  ENGrid scripts: v0.17.10
+ *  ENGrid styles: v0.17.16
+ *  ENGrid scripts: v0.17.16
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -13002,7 +13002,7 @@ class UpsellLightbox {
     this.options = Object.assign(Object.assign({}, UpsellOptionsDefaults), options); //Disable for "applepay" via Vantiv payment method. Adding it to the array like this so it persists
     //even if the client provides custom options.
 
-    this.options.disablePaymentMethods.push('applepay');
+    this.options.disablePaymentMethods.push("applepay");
 
     if (!this.shouldRun()) {
       this.logger.log("Upsell script should NOT run"); // If we're not on a Donation Page, get out
@@ -18321,14 +18321,12 @@ class EventTickets {
       };
       let ticketAmountAsCurrency = Intl.NumberFormat(undefined, formatterOptions).format(Number(ticketAmountElement.innerText));
 
-      if (ticketAmountAsCurrency.slice(-3) === '.00') {
+      if (ticketAmountAsCurrency.slice(-3) === ".00") {
         ticketAmountAsCurrency = ticketAmountAsCurrency.slice(0, -3);
       }
 
       ticketAmountElement.innerText = ticketAmountAsCurrency;
     }
-
-    ;
   }
 
 }
@@ -20817,7 +20815,7 @@ class EcardToTarget {
 
 }
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/version.js
-const AppVersion = "0.17.14";
+const AppVersion = "0.17.16";
 ;// CONCATENATED MODULE: ../engrid-scripts/packages/common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
 
