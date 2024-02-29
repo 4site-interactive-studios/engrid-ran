@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, February 29, 2024 @ 17:31:21 ET
+ *  Date: Thursday, February 29, 2024 @ 17:47:39 ET
  *  By: michael
  *  ENGrid styles: v0.17.16
- *  ENGrid scripts: v0.17.16
+ *  ENGrid scripts: v0.17.18
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -13395,6 +13395,7 @@ class App extends engrid_ENGrid {
         // Very Good Security
         new VGS();
         new WelcomeBack();
+        new EcardToTarget();
         //Debug panel
         let showDebugPanel = this.options.Debug;
         try {
@@ -18472,32 +18473,33 @@ class TidyContact {
         }
     }
     loadOptions() {
-        var _a, _b, _c;
-        if (this.options && !this.options.address_fields) {
-            this.options.address_fields = {
-                address1: "supporter.address1",
-                address2: "supporter.address2",
-                address3: "supporter.address3",
-                city: "supporter.city",
-                region: "supporter.region",
-                postalCode: "supporter.postcode",
-                country: "supporter.country",
-                phone: "supporter.phoneNumber2", // Phone field
-            };
-        }
-        if (this.options && this.options.phone_enable) {
-            this.options.phone_flags = (_a = this.options.phone_flags) !== null && _a !== void 0 ? _a : true;
-            this.options.phone_country_from_ip =
-                (_b = this.options.phone_country_from_ip) !== null && _b !== void 0 ? _b : true;
-            this.options.phone_preferred_countries =
-                (_c = this.options.phone_preferred_countries) !== null && _c !== void 0 ? _c : [];
+        var _a, _b, _c, _d;
+        if (this.options) {
+            if (!this.options.address_fields) {
+                this.options.address_fields = {
+                    address1: "supporter.address1",
+                    address2: "supporter.address2",
+                    address3: "supporter.address3",
+                    city: "supporter.city",
+                    region: "supporter.region",
+                    postalCode: "supporter.postcode",
+                    country: "supporter.country",
+                    phone: "supporter.phoneNumber2", // Phone field
+                };
+            }
+            this.options.address_enable = (_a = this.options.address_enable) !== null && _a !== void 0 ? _a : true;
+            if (this.options.phone_enable) {
+                this.options.phone_flags = (_b = this.options.phone_flags) !== null && _b !== void 0 ? _b : true;
+                this.options.phone_country_from_ip =
+                    (_c = this.options.phone_country_from_ip) !== null && _c !== void 0 ? _c : true;
+                this.options.phone_preferred_countries =
+                    (_d = this.options.phone_preferred_countries) !== null && _d !== void 0 ? _d : [];
+            }
         }
     }
     createFields() {
         var _a, _b, _c, _d, _e, _f;
-        if (!this.options)
-            return;
-        if (!this.hasAddressFields())
+        if (!this.options || !this.hasAddressFields())
             return;
         // Creating Latitude and Longitude fields
         const latitudeField = engrid_ENGrid.getField("supporter.geo.latitude");
@@ -18627,6 +18629,10 @@ class TidyContact {
         var _a;
         if (!this.options)
             return false;
+        // If the country list is empty, allow all countries
+        if (!this.options.countries || this.options.countries.length === 0) {
+            return true;
+        }
         return !!((_a = this.options.countries) === null || _a === void 0 ? void 0 : _a.includes(country.toLowerCase()));
     }
     fetchTimeOut(url, params) {
@@ -18688,7 +18694,7 @@ class TidyContact {
     }
     setFields(data) {
         var _a, _b, _c, _d, _e;
-        if (!this.options)
+        if (!this.options || !this.options.address_enable)
             return {};
         let response = {};
         const country = this.getCountry();
@@ -18738,7 +18744,7 @@ class TidyContact {
     }
     hasAddressFields() {
         var _a, _b, _c, _d, _e, _f;
-        if (!this.options)
+        if (!this.options || !this.options.address_enable)
             return false;
         const address1 = engrid_ENGrid.getField((_a = this.options.address_fields) === null || _a === void 0 ? void 0 : _a.address1);
         const address2 = engrid_ENGrid.getField((_b = this.options.address_fields) === null || _b === void 0 ? void 0 : _b.address2);
@@ -18750,7 +18756,7 @@ class TidyContact {
     }
     canUseAPI() {
         var _a, _b, _c, _d;
-        if (!this.options)
+        if (!this.options || !this.hasAddressFields())
             return false;
         const country = !!this.getCountry();
         const address1 = !!engrid_ENGrid.getFieldValue((_a = this.options.address_fields) === null || _a === void 0 ? void 0 : _a.address1);
@@ -21986,11 +21992,97 @@ class WelcomeBack {
     }
 }
 
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/interfaces/ecard-to-target-options.js
+const EcardToTargetOptionsDefaults = {
+    targetName: "",
+    targetEmail: "",
+    hideSendDate: true,
+    hideTarget: true,
+    hideMessage: true,
+    addSupporterNameToMessage: false,
+};
+
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/ecard-to-target.js
+/**
+ * This component adjusts an ecard form to target a specific recipient,
+ * defined in a code block
+ */
+
+
+
+
+class EcardToTarget {
+    constructor() {
+        this.options = EcardToTargetOptionsDefaults;
+        this.logger = new EngridLogger("EcardToTarget", "DarkBlue", "Azure", "📧");
+        this._form = EnForm.getInstance();
+        this.supporterNameAddedToMessage = false;
+        if (!this.shouldRun())
+            return;
+        this.options = Object.assign(Object.assign({}, this.options), window.EngridEcardToTarget);
+        this.logger.log("EcardToTarget running. Options:", this.options);
+        this.setTarget();
+        this.hideElements();
+        this.addSupporterNameToMessage();
+    }
+    shouldRun() {
+        return (window.hasOwnProperty("EngridEcardToTarget") &&
+            typeof window.EngridEcardToTarget === "object" &&
+            window.EngridEcardToTarget.hasOwnProperty("targetName") &&
+            window.EngridEcardToTarget.hasOwnProperty("targetEmail"));
+    }
+    setTarget() {
+        const targetNameField = document.querySelector(".en__ecardrecipients__name input");
+        const targetEmailField = document.querySelector(".en__ecardrecipients__email input");
+        const addRecipientButton = document.querySelector(".en__ecarditems__addrecipient");
+        if (!targetNameField || !targetEmailField || !addRecipientButton) {
+            this.logger.error("Could not add recipient. Required elements not found.");
+            return;
+        }
+        targetNameField.value = this.options.targetName;
+        targetEmailField.value = this.options.targetEmail;
+        addRecipientButton === null || addRecipientButton === void 0 ? void 0 : addRecipientButton.click();
+        this.logger.log("Added recipient", this.options.targetName, this.options.targetEmail);
+    }
+    hideElements() {
+        const messageBlock = document.querySelector(".en__ecardmessage");
+        const sendDateBlock = document.querySelector(".en__ecardrecipients__futureDelivery");
+        const targetBlock = document.querySelector(".en__ecardrecipients");
+        if (this.options.hideMessage && messageBlock) {
+            messageBlock.classList.add("hide");
+        }
+        if (this.options.hideSendDate && sendDateBlock) {
+            sendDateBlock.classList.add("hide");
+        }
+        if (this.options.hideTarget && targetBlock) {
+            targetBlock.classList.add("hide");
+        }
+    }
+    addSupporterNameToMessage() {
+        if (!this.options.addSupporterNameToMessage)
+            return;
+        this._form.onSubmit.subscribe(() => {
+            if (!this._form.submit)
+                return;
+            if (!this.supporterNameAddedToMessage) {
+                this.supporterNameAddedToMessage = true;
+                const supporterName = `${engrid_ENGrid.getFieldValue("supporter.firstName")} ${engrid_ENGrid.getFieldValue("supporter.lastName")}`;
+                const messageField = document.querySelector("[name='transaction.comments']");
+                if (!messageField)
+                    return;
+                messageField.value = `${messageField.value}\n${supporterName}`;
+                this.logger.log("Added supporter name to personalized message", supporterName);
+            }
+        });
+    }
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.17.16";
+const AppVersion = "0.17.18";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
+
 
 
 
