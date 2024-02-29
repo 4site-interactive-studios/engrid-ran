@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, February 28, 2024 @ 10:29:16 ET
+ *  Date: Thursday, February 29, 2024 @ 17:31:21 ET
  *  By: michael
  *  ENGrid styles: v0.17.16
  *  ENGrid scripts: v0.17.16
@@ -7866,6 +7866,13 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=engrid-ran3] .content-footer{
   grid-column:bc;
 }
+[data-engrid-theme=engrid-ran3]:not(#en__pagebuilder) .content-footer{
+  z-index:3;
+}
+[data-engrid-theme=engrid-ran3] .en__ecarditems__prevwrap{
+  height:inherit;
+  width:800px;
+}
 [data-engrid-theme=engrid-ran3] .tippy-box[data-theme~=RAN]{
   background-color:var(--engrid__body_background-color);
   border-radius:0;
@@ -8742,6 +8749,18 @@ body[data-engrid-debug]:before{
   font-size:12px;
   font-weight:500;
   line-height:1.5;
+}
+[data-engrid-theme=engrid-ran3] .ecard-warning{
+  background-color:#f44336;
+  border-radius:5px;
+  color:#fff;
+  padding:10px;
+}
+[data-engrid-theme=engrid-ran3] .ecard-warning>:first-child{
+  margin-top:0;
+}
+[data-engrid-theme=engrid-ran3] .ecard-warning>:last-child{
+  margin-bottom:0;
 }
 
 iframe[src*=fluidads]{

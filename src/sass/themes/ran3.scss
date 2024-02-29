@@ -193,6 +193,15 @@
     grid-column: bc;
   }
 
+  &:not(#en__pagebuilder) .content-footer {
+    z-index: 3;
+  }
+
+  .en__ecarditems__prevwrap {
+    height: inherit;
+    width: 800px;
+  }
+
   .tippy-box[data-theme~="RAN"] {
     background-color: var(--engrid__body_background-color);
     color: #000;
@@ -1364,6 +1373,21 @@
           line-height: 1.5;
         }
       }
+    }
+  }
+
+  .ecard-warning {
+    background-color: #f44336;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
     }
   }
 }
