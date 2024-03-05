@@ -200,4 +200,12 @@ export const customScript = function (App, EnForm) {
       }
     }
   }
+
+  const addRecipientButton = document.querySelector(
+    "button.en__ecarditems__button.en__ecarditems__addrecipient"
+  );
+
+  if (addRecipientButton) {
+    addRecipientButton.innerHTML = "Add Recipient";
+  }
 };

@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, February 29, 2024 @ 17:47:39 ET
+ *  Date: Friday, March 1, 2024 @ 18:35:58 ET
  *  By: michael
  *  ENGrid styles: v0.17.16
  *  ENGrid scripts: v0.17.18
@@ -23150,6 +23150,12 @@ const customScript = function (App, EnForm) {
         sessionStorage.removeItem("unsub_details");
       }
     }
+  }
+
+  const addRecipientButton = document.querySelector("button.en__ecarditems__button.en__ecarditems__addrecipient");
+
+  if (addRecipientButton) {
+    addRecipientButton.innerHTML = "Add Recipient";
   }
 };
 ;// CONCATENATED MODULE: ./src/index.ts

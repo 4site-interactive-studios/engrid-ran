@@ -1390,4 +1390,38 @@
       margin-bottom: 0;
     }
   }
+
+  .en__ecardrecipients__list {
+    margin-bottom: 20px;
+  }
+
+  .en__ecardrecipients__name {
+    width: 100% !important;
+    margin-bottom: 10px;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  .en__ecardrecipients__email {
+    width: 100% !important;
+    input {
+      width: 100%;
+    }
+  }
+
+  .en__ecardrecipients__detail {
+    position: relative;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  button.en__ecarditems__button.en__ecarditems__addrecipient {
+    position: static;
+    margin: 10px 0 0 !important;
+    width: auto;
+    height: auto;
+    padding: 12px !important;
+  }
 }
