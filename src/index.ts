@@ -90,6 +90,30 @@ const options: Options = {
       placement: "beforebegin",
     },
   },
+  VGS: {
+    "transaction.ccnumber": {
+      css: {
+        "@font-face": {
+          "font-family": "HarmoniaSansPro",
+          "font-style": "normal",
+          "font-weight": "400",
+          "font-display": "swap",
+          src: 'local("HarmoniaSansPro"), local("HarmoniaSansPro-Regular"), url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansProRegular.woff2") format("woff2");',
+        },
+      },
+    },
+    "transaction.ccvv": {
+      css: {
+        "@font-face": {
+          "font-family": "HarmoniaSansPro",
+          "font-style": "normal",
+          "font-weight": "400",
+          "font-display": "swap",
+          src: 'local("HarmoniaSansPro"), local("HarmoniaSansPro-Regular"), url("https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/HarmoniaSansProRegular.woff2") format("woff2");',
+        },
+      },
+    },
+  },
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(DonationAmount, DonationFrequency);

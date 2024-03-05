@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, March 5, 2024 @ 11:32:17 ET
+ *  Date: Tuesday, March 5, 2024 @ 11:47:20 ET
  *  By: michael
  *  ENGrid styles: v0.17.19
  *  ENGrid scripts: v0.17.20
@@ -7841,6 +7841,7 @@ body[data-engrid-debug]:before{
   --ran__green:#6a9914;
   --icon__color:var(--ran__green);
   --rememberme-learn-more-toggle_margin-top:-2px;
+  --en-vgs-height:58px;
   --click-to-expand__copy-area_height:193px;
   --click-to-expand__cta-image_height:22px;
   --click-to-expand__cta-image_width:100%;
