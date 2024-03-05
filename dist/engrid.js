@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, March 5, 2024 @ 11:22:09 ET
+ *  Date: Tuesday, March 5, 2024 @ 11:32:17 ET
  *  By: michael
  *  ENGrid styles: v0.17.19
  *  ENGrid scripts: v0.17.20
@@ -23222,6 +23222,22 @@ const options = {
   },
   Plaid: true,
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
+  WelcomeBack: {
+    welcomeBackMessage: {
+      display: true,
+      title: "Welcome back, {firstName}!",
+      editText: "Not you?",
+      anchor: ".body-main",
+      placement: "afterbegin"
+    },
+    personalDetailsSummary: {
+      display: true,
+      title: "Personal Information",
+      editText: "Change",
+      anchor: ".fast-personal-details",
+      placement: "beforebegin"
+    }
+  },
   onLoad: () => {
     window.DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(DonationAmount, DonationFrequency);

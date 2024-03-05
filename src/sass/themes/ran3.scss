@@ -1424,4 +1424,28 @@
     height: auto;
     padding: 12px !important;
   }
+
+  .engrid-welcome-back {
+    margin-bottom: -50px;
+    position: relative;
+    z-index: 100;
+  }
+
+  .engrid-welcome-back .engrid-reset-welcome-back {
+    text-decoration: underline;
+    color: #78a22f;
+    cursor: pointer;
+    font-weight: normal;
+  }
+
+  .engrid-personal-details-summary {
+    padding: 1.25rem 1.25rem 1.15rem 1.25rem;
+    border: 2px solid black;
+    margin-top: 0.75rem;
+    background-color: #efeabe;
+  }
+
+  .engrid-welcome-back-clear {
+    color: black;
+  }
 }

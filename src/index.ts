@@ -74,6 +74,22 @@ const options: Options = {
   },
   Plaid: true,
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
+  WelcomeBack: {
+    welcomeBackMessage: {
+      display: true,
+      title: "Welcome back, {firstName}!",
+      editText: "Not you?",
+      anchor: ".body-main",
+      placement: "afterbegin",
+    },
+    personalDetailsSummary: {
+      display: true,
+      title: "Personal Information",
+      editText: "Change",
+      anchor: ".fast-personal-details",
+      placement: "beforebegin",
+    },
+  },
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(DonationAmount, DonationFrequency);
