@@ -274,7 +274,7 @@ export default class DonationLightboxForm {
         ?.addEventListener("click", (e) => {
           e.preventDefault();
           // Validate the entire form again
-          if (this.validateForm()) {
+          if (this.validateForm(false, this.isDonation)) {
             if (this.isDonation) {
               // Send Basic User Data to Parent
               this.sendMessage(
@@ -305,10 +305,27 @@ export default class DonationLightboxForm {
                 });
                 document.querySelector("form.en__component").target = "_blank";
               }
-              document.querySelector("form.en__component").submit();
+              if (
+                this.checkNested(
+                  window.EngagingNetworks,
+                  "require",
+                  "_defined",
+                  "enDefaults",
+                  "validation",
+                  "_getSubmitPromise"
+                )
+              ) {
+                window.EngagingNetworks.require._defined.enDefaults.validation
+                  ._getSubmitPromise()
+                  .then(function () {
+                    document.querySelector("form.en__component").submit();
+                  });
+              } else {
+                document.querySelector("form.en__component").requestSubmit();
+              }
             } else {
               this.sendMessage("status", "loading");
-              document.querySelector("form.en__component").submit();
+              document.querySelector("form.en__component").requestSubmit();
             }
           }
         });
@@ -341,13 +358,17 @@ export default class DonationLightboxForm {
   // Get Element's section id
   getSectionId(element) {
     if (element) {
-      return element.closest("[data-section-id]").dataset.sectionId;
+      return (
+        parseInt(element.closest("[data-section-id]").dataset.sectionId) ||
+        false
+      );
     }
     return false;
   }
 
   // Validate the form
-  validateForm(sectionId = false) {
+  // checkCard was added to avoid checking the card if there was a server-side error (the card would be empty)
+  validateForm(sectionId = false, checkCard = true) {
     const form = document.querySelector("form.en__component");
 
     // Validate Frequency
@@ -356,158 +377,146 @@ export default class DonationLightboxForm {
     );
     const frequencyBlock = form.querySelector(".en__field--recurrfreq");
     const frequencySection = this.getSectionId(frequencyBlock);
-    if (this.isDonation) {
-      if (sectionId === false || sectionId == frequencySection) {
-        if (!frequency || !frequency.value) {
-          this.scrollToElement(
-            form.querySelector("[name='transaction.recurrfreq']:checked")
-          );
-          this.sendMessage("error", "Please select a frequency");
-          if (frequencyBlock) {
-            frequencyBlock.classList.add("has-error");
-          }
-          return false;
-        } else {
-          if (frequencyBlock) {
-            frequencyBlock.classList.remove("has-error");
-          }
+    if (sectionId === false || sectionId == frequencySection) {
+      if (!frequency || !frequency.value) {
+        this.scrollToElement(
+          form.querySelector("[name='transaction.recurrfreq']:checked")
+        );
+        this.sendMessage("error", "Please select a frequency");
+        if (frequencyBlock) {
+          frequencyBlock.classList.add("has-error");
         }
-      }
-      // Validate Amount
-      const amount = EngagingNetworks.require._defined.enjs.getDonationTotal();
-      const amountBlock = form.querySelector(".en__field--donationAmt");
-      const amountSection = this.getSectionId(amountBlock);
-      if (sectionId === false || sectionId == amountSection) {
-        if (!amount || amount <= 0) {
-          this.scrollToElement(amountBlock);
-          this.sendMessage("error", "Please enter a valid amount");
-          if (amountBlock) {
-            amountBlock.classList.add("has-error");
-          }
-          return false;
-        } else {
-          if (amount < 5) {
-            this.sendMessage(
-              "error",
-              "Amount must be at least $5 - Contact us for assistance"
-            );
-            if (amountBlock) {
-              amountBlock.classList.add("has-error");
-            }
-            return false;
-          }
-          if (amount > 30000) {
-            this.sendMessage(
-              "error",
-              "Amount must be less than $30,000 - Contact us for assistance"
-            );
-            if (amountBlock) {
-              amountBlock.classList.add("has-error");
-            }
-            return false;
-          }
-          if (amountBlock) {
-            amountBlock.classList.remove("has-error");
-          }
-        }
-      }
-      // Validate Payment Method
-      const paymentType = form.querySelector(
-        "#en__field_transaction_paymenttype"
-      );
-      const ccnumber = form.querySelector("#en__field_transaction_ccnumber");
-      const ccnumberBlock = form.querySelector(".en__field--ccnumber");
-      const ccnumberSection = this.getSectionId(ccnumberBlock);
-      console.log(
-        "DonationLightboxForm: validateForm",
-        ccnumberBlock,
-        ccnumberSection
-      );
-      if (sectionId === false || sectionId == ccnumberSection) {
-        if (!paymentType || !paymentType.value) {
-          this.scrollToElement(paymentType);
-          this.sendMessage("error", "Please add your credit card information");
-          if (ccnumberBlock) {
-            ccnumberBlock.classList.add("has-error");
-          }
-          return false;
-        }
-        // If payment type is not paypal, check credit card expiration and cvv
-        if (paymentType.value !== "paypal") {
-          if (!ccnumber || !ccnumber.value) {
-            this.scrollToElement(ccnumber);
-            this.sendMessage(
-              "error",
-              "Please add your credit card information"
-            );
-            if (ccnumberBlock) {
-              ccnumberBlock.classList.add("has-error");
-            }
-            return false;
-          } else {
-            if (ccnumberBlock) {
-              ccnumberBlock.classList.remove("has-error");
-            }
-          }
-          if (/^\d+$/.test(ccnumber.value) === false) {
-            this.scrollToElement(ccnumber);
-            this.sendMessage(
-              "error",
-              "Only numbers are allowed on credit card"
-            );
-            if (ccnumberBlock) {
-              ccnumberBlock.classList.add("has-error");
-            }
-            return false;
-          } else {
-            if (ccnumberBlock) {
-              ccnumberBlock.classList.remove("has-error");
-            }
-          }
-          const ccexpire = form.querySelectorAll(
-            "[name='transaction.ccexpire']"
-          );
-          const ccexpireBlock = form.querySelector(".en__field--ccexpire");
-          let ccexpireValid = true;
-          ccexpire.forEach((e) => {
-            if (!e.value) {
-              this.scrollToElement(ccexpireBlock);
-              this.sendMessage("error", "Please enter a valid expiration date");
-              if (ccexpireBlock) {
-                ccexpireBlock.classList.add("has-error");
-              }
-              ccexpireValid = false;
-              return false;
-            }
-          });
-          if (!ccexpireValid && ccexpireBlock) {
-            return false;
-          } else {
-            if (ccexpireBlock) {
-              ccexpireBlock.classList.remove("has-error");
-            }
-          }
-
-          const cvv = form.querySelector("#en__field_transaction_ccvv");
-          const cvvBlock = form.querySelector(".en__field--ccvv");
-          if (!cvv || !cvv.value) {
-            this.scrollToElement(cvv);
-            this.sendMessage("error", "Please enter a valid CVV");
-            if (cvvBlock) {
-              cvvBlock.classList.add("has-error");
-            }
-            return false;
-          } else {
-            if (cvvBlock) {
-              cvvBlock.classList.remove("has-error");
-            }
-          }
+        return false;
+      } else {
+        if (frequencyBlock) {
+          frequencyBlock.classList.remove("has-error");
         }
       }
     }
 
+    // Validate Amount
+    const amount = EngagingNetworks.require._defined.enjs.getDonationTotal();
+    const amountBlock = form.querySelector(".en__field--donationAmt");
+    const amountSection = this.getSectionId(amountBlock);
+    if (sectionId === false || sectionId == amountSection) {
+      if (!amount || amount <= 0) {
+        this.scrollToElement(amountBlock);
+        this.sendMessage("error", "Please enter a valid amount");
+        if (amountBlock) {
+          amountBlock.classList.add("has-error");
+        }
+        return false;
+      } else {
+        if (amount < 5) {
+          this.sendMessage(
+            "error",
+            "Amount must be at least $5 - Contact us for assistance"
+          );
+          if (amountBlock) {
+            amountBlock.classList.add("has-error");
+          }
+          return false;
+        }
+        if (amountBlock) {
+          amountBlock.classList.remove("has-error");
+        }
+      }
+    }
+    // Validate Payment Method
+    const paymentType = form.querySelector(
+      "#en__field_transaction_paymenttype"
+    );
+    const ccnumber = form.querySelector("#en__field_transaction_ccnumber");
+    const ccnumberBlock = form.querySelector(".en__field--ccnumber");
+    const ccnumberSection = this.getSectionId(ccnumberBlock);
+    const isDigitalWalletPayment = [
+      "paypal",
+      "paypaltouch",
+      "stripedigitalwallet",
+    ].includes(paymentType.value);
+    console.log(
+      "DonationLightboxForm: validateForm",
+      ccnumberBlock,
+      ccnumberSection
+    );
+    if (
+      !isDigitalWalletPayment &&
+      (sectionId === false || sectionId == ccnumberSection) &&
+      checkCard
+    ) {
+      if (!paymentType || !paymentType.value) {
+        this.scrollToElement(paymentType);
+        this.sendMessage("error", "Please add your credit card information");
+        if (ccnumberBlock) {
+          ccnumberBlock.classList.add("has-error");
+        }
+        return false;
+      }
+
+      const ccValid =
+        ccnumber instanceof HTMLInputElement
+          ? !!ccnumber.value
+          : ccnumber.classList.contains("vgs-collect-container__valid");
+
+      if (!ccValid) {
+        this.scrollToElement(ccnumber);
+        this.sendMessage("error", "Please enter a valid credit card number");
+        if (ccnumberBlock) {
+          ccnumberBlock.classList.add("has-error");
+        }
+        return false;
+      } else {
+        if (ccnumberBlock) {
+          ccnumberBlock.classList.remove("has-error");
+        }
+      }
+
+      const ccexpire = form.querySelectorAll("[name='transaction.ccexpire']");
+      const ccexpireBlock = form.querySelector(".en__field--ccexpire");
+      let ccexpireValid = true;
+      ccexpire.forEach((e) => {
+        if (!e.value) {
+          this.scrollToElement(ccexpireBlock);
+          this.sendMessage("error", "Please enter a valid expiration date");
+          if (ccexpireBlock) {
+            ccexpireBlock.classList.add("has-error");
+          }
+          ccexpireValid = false;
+          return false;
+        }
+      });
+      if (!ccexpireValid && ccexpireBlock) {
+        return false;
+      } else {
+        if (ccexpireBlock) {
+          ccexpireBlock.classList.remove("has-error");
+        }
+      }
+
+      const cvv = form.querySelector("#en__field_transaction_ccvv");
+      const cvvBlock = form.querySelector(".en__field--ccvv");
+      const cvvValid =
+        cvv instanceof HTMLInputElement
+          ? !!cvv.value
+          : cvv.classList.contains("vgs-collect-container__valid");
+
+      if (!cvvValid) {
+        this.scrollToElement(cvv);
+        this.sendMessage("error", "Please enter a valid CVV");
+        if (cvvBlock) {
+          cvvBlock.classList.add("has-error");
+        }
+        return false;
+      } else {
+        if (cvvBlock) {
+          cvvBlock.classList.remove("has-error");
+        }
+      }
+    }
     // Validate Everything else
-    const mandatoryFields = form.querySelectorAll(".en__mandatory");
+    const mandatoryFields = form.querySelectorAll(
+      ".en__mandatory:not(.en__hidden)"
+    );
     let hasError = false;
     mandatoryFields.forEach((field) => {
       if (hasError) {
@@ -519,7 +528,10 @@ export default class DonationLightboxForm {
       if (sectionId === false || sectionId == fieldSection) {
         if (!fieldElement.value) {
           this.scrollToElement(fieldElement);
-          this.sendMessage("error", "Please enter " + fieldLabel.textContent);
+          this.sendMessage(
+            "error",
+            "Please enter " + fieldLabel.textContent.toLowerCase()
+          );
           field.classList.add("has-error");
           hasError = true;
           return false;

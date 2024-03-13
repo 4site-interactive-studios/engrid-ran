@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, March 5, 2024 @ 11:47:20 ET
- *  By: michael
+ *  Date: Tuesday, March 12, 2024 @ 21:30:46 ET
+ *  By: fernando
  *  ENGrid styles: v0.17.19
  *  ENGrid scripts: v0.17.20
  *
@@ -8436,6 +8436,7 @@ body[data-engrid-debug]:before{
   --donation-amount__button_font-size:1.5rem;
   --donation-amount__button_count:3;
   --donation-amount__button_padding:17px 0px 13px;
+  --en-vgs-height:46px;
   --recurring-frequency__button_color:#000;
   --recurring-frequency__button_background-color:#e3ecd3;
   --recurring-frequency__button_border-color:#e3ecd3;
