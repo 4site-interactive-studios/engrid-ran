@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, March 12, 2024 @ 21:30:46 ET
- *  By: fernando
+ *  Date: Monday, March 18, 2024 @ 14:07:27 ET
+ *  By: bryancasler
  *  ENGrid styles: v0.17.19
  *  ENGrid scripts: v0.17.20
  *
@@ -23162,6 +23162,7 @@ const customScript = function (App, EnForm) {
 
 const options = {
   applePay: false,
+  AutoYear: true,
   CapitalizeFields: true,
   ClickToExpand: true,
   CurrencySymbol: "$",
