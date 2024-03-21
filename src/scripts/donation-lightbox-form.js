@@ -5,7 +5,7 @@ if (isSafari) {
 import smoothscroll from "smoothscroll-polyfill";
 smoothscroll.polyfill();
 export default class DonationLightboxForm {
-  constructor(DonationAmount, DonationFrequency) {
+  constructor(App, DonationAmount, DonationFrequency) {
     if (!this.isIframe()) return;
     this.amount = DonationAmount;
     this.frequency = DonationFrequency;
@@ -97,10 +97,8 @@ export default class DonationLightboxForm {
           // Front-End Validation Passed, get first Error Message
           const error = document.querySelector("li.en__error");
           if (error) {
-            // Check if error contains "problem processing" to send a smaller message
-            if (
-              error.innerHTML.toLowerCase().indexOf("problem processing") > -1
-            ) {
+            // Check if error contains "processing" to send a smaller message
+            if (error.innerHTML.toLowerCase().indexOf("processing") > -1) {
               this.sendMessage(
                 "error",
                 "Sorry! There's a problem processing your donation."
@@ -114,7 +112,8 @@ export default class DonationLightboxForm {
             // Check if error contains "payment" or "account" and scroll to the right section
             if (
               error.innerHTML.toLowerCase().indexOf("payment") > -1 ||
-              error.innerHTML.toLowerCase().indexOf("account") > -1
+              error.innerHTML.toLowerCase().indexOf("account") > -1 ||
+              error.innerHTML.toLowerCase().indexOf("card") > -1
             ) {
               this.scrollToElement(
                 document.querySelector(".en__field--ccnumber")
@@ -182,6 +181,37 @@ export default class DonationLightboxForm {
         this.canadaOnly();
       });
     }
+    App.watchForError(() => {
+      this.sendMessage("status", "loaded");
+      if (this.validateForm(false, false)) {
+        // Front-End Validation Passed, get first Error Message
+        const error = document.querySelector("li.en__error");
+        if (error) {
+          // Check if error contains "processing" to send a smaller message
+          if (error.innerHTML.toLowerCase().indexOf("processing") > -1) {
+            this.sendMessage(
+              "error",
+              "Sorry! There's a problem processing your donation."
+            );
+            this.scrollToElement(
+              document.querySelector(".en__field--ccnumber")
+            );
+          } else {
+            this.sendMessage("error", error.textContent);
+          }
+          // Check if error contains "payment" or "account" and scroll to the right section
+          if (
+            error.innerHTML.toLowerCase().indexOf("payment") > -1 ||
+            error.innerHTML.toLowerCase().indexOf("account") > -1 ||
+            error.innerHTML.toLowerCase().indexOf("card") > -1
+          ) {
+            this.scrollToElement(
+              document.querySelector(".en__field--ccnumber")
+            );
+          }
+        }
+      }
+    });
   }
   // Send iframe message to parent
   sendMessage(key, value) {
