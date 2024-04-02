@@ -1431,6 +1431,57 @@
     padding: 12px !important;
   }
 
+  .en__ecardrecipients__list {
+    background-color: var(--engrid__body-main_background-color);
+  }
+
+  .en__ecardrecipients__list:has(> .en__ecardrecipients__recipient):before {
+    content: "Recipients:";
+  }
+
+  .en__ecardrecipients__recipient {
+    align-items: center;
+    padding: 10px 0px;
+    background-color: var(--engrid__body-main_background-color);
+
+    input.ecardrecipient__name,
+    input.ecardrecipient__email {
+      background-color: var(--engrid__body-main_background-color);
+      @media screen and (min-width: 600px) {
+        width: 47.5% !important;
+      }
+    }
+  }
+
+  .ecardrecipient__remove button {
+    margin: 0;
+
+    background: var(--error__color);
+    color: white;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .en__ecardrecipients__recipient {
+      position: relative;
+      flex-direction: column;
+      align-items: flex-start;
+
+      input {
+        width: calc(100% - 50px) !important;
+      }
+
+      .ecardrecipient__remove {
+        position: absolute;
+        right: 15px;
+        top: calc(50% - 15px);
+      }
+    }
+  }
+
   .engrid-welcome-back {
     margin-bottom: -50px;
     position: relative;
