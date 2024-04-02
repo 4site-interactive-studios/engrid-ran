@@ -208,4 +208,22 @@ export const customScript = function (App, EnForm) {
   if (addRecipientButton) {
     addRecipientButton.innerHTML = "Add Recipient";
   }
+
+  const formInstance = EnForm.getInstance();
+  formInstance.onValidate.subscribe(() => {
+    if (!formInstance.validate) return;
+
+    if (
+      App.getPageType() === "DONATION" &&
+      ["paypaltouch", "paypal"].includes(App.getPaymentType()) &&
+      App.getCurrencyCode() !== "USD"
+    ) {
+      App.addHtml(
+        '<div class="en__field__error en__field__error--paypal">PayPal is only available for payments in USD. Please select another payment method or USD.</div>',
+        ".dynamic-giving-button"
+      );
+      formInstance.validate = false;
+      return false;
+    }
+  });
 };
