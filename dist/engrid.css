@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, March 12, 2024 @ 21:30:46 ET
- *  By: fernando
+ *  Date: Tuesday, April 2, 2024 @ 11:21:26 ET
+ *  By: michael
  *  ENGrid styles: v0.17.19
  *  ENGrid scripts: v0.17.20
  *
@@ -8798,6 +8798,48 @@ body[data-engrid-debug]:before{
   padding:12px !important;
   position:static;
   width:auto;
+}
+[data-engrid-theme=engrid-ran3] .en__ecardrecipients__list{
+  background-color:var(--engrid__body-main_background-color);
+}
+[data-engrid-theme=engrid-ran3] .en__ecardrecipients__list:has(>.en__ecardrecipients__recipient):before{
+  content:"Recipients:";
+}
+[data-engrid-theme=engrid-ran3] .en__ecardrecipients__recipient{
+  align-items:center;
+  background-color:var(--engrid__body-main_background-color);
+  padding:10px 0;
+}
+[data-engrid-theme=engrid-ran3] .en__ecardrecipients__recipient input.ecardrecipient__email,[data-engrid-theme=engrid-ran3] .en__ecardrecipients__recipient input.ecardrecipient__name{
+  background-color:var(--engrid__body-main_background-color);
+}
+@media screen and (min-width:600px){
+  [data-engrid-theme=engrid-ran3] .en__ecardrecipients__recipient input.ecardrecipient__email,[data-engrid-theme=engrid-ran3] .en__ecardrecipients__recipient input.ecardrecipient__name{
+    width:47.5% !important;
+  }
+}
+[data-engrid-theme=engrid-ran3] .ecardrecipient__remove button{
+  background:var(--error__color);
+  color:#fff;
+  margin:0;
+}
+[data-engrid-theme=engrid-ran3] .ecardrecipient__remove button:hover{
+  color:#fff;
+}
+@media screen and (max-width:600px){
+  [data-engrid-theme=engrid-ran3] .en__ecardrecipients__recipient{
+    align-items:flex-start;
+    flex-direction:column;
+    position:relative;
+  }
+  [data-engrid-theme=engrid-ran3] .en__ecardrecipients__recipient input{
+    width:calc(100% - 50px) !important;
+  }
+  [data-engrid-theme=engrid-ran3] .en__ecardrecipients__recipient .ecardrecipient__remove{
+    position:absolute;
+    right:15px;
+    top:calc(50% - 15px);
+  }
 }
 [data-engrid-theme=engrid-ran3] .engrid-welcome-back{
   margin-bottom:-50px;
