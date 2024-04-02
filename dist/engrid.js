@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, April 2, 2024 @ 14:05:44 ET
+ *  Date: Tuesday, April 2, 2024 @ 14:23:52 ET
  *  By: fernando
  *  ENGrid styles: v0.18.1
- *  ENGrid scripts: v0.18.3
+ *  ENGrid scripts: v0.18.4
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -19670,6 +19670,12 @@ class GiveBySelect {
                 this.paymentTypeField.options[i].value.toLowerCase() === "visa" ||
                 this.paymentTypeField.options[i].value.toLowerCase() === "vi") {
                 this.paymentTypeField.selectedIndex = i;
+                // Trigger the change event
+                const event = new Event("change", {
+                    bubbles: true,
+                    cancelable: true,
+                });
+                this.paymentTypeField.dispatchEvent(event);
                 break;
             }
         }
@@ -20834,7 +20840,7 @@ class EcardToTarget {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.18.3";
+const AppVersion = "0.18.4";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
