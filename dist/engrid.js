@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, March 21, 2024 @ 16:05:15 ET
+ *  Date: Tuesday, April 2, 2024 @ 11:09:15 ET
  *  By: fernando
  *  ENGrid styles: v0.18.1
- *  ENGrid scripts: v0.18.1
+ *  ENGrid scripts: v0.18.3
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -17258,6 +17258,20 @@ class TidyContact {
         }
         // Add event listener to submit
         this._form.onSubmit.subscribe(this.callAPI.bind(this));
+        // Attach the API call event to the Give By Select to anticipate the use of Digital Wallets
+        const transactionGiveBySelect = document.getElementsByName("transaction.giveBySelect");
+        if (transactionGiveBySelect) {
+            transactionGiveBySelect.forEach((giveBySelect) => {
+                giveBySelect.addEventListener("change", () => {
+                    if (["stripedigitalwallet", "paypaltouch"].includes(giveBySelect.value.toLowerCase())) {
+                        this.logger.log("Clicked Digital Wallet Button");
+                        window.setTimeout(() => {
+                            this.callAPI();
+                        }, 500);
+                    }
+                });
+            });
+        }
     }
     checkSum(str) {
         return tidycontact_awaiter(this, void 0, void 0, function* () {
@@ -17424,6 +17438,7 @@ class TidyContact {
         if (country && address1) {
             return (city && region) || postalCode;
         }
+        this.logger.log("API cannot be used");
         return false;
     }
     canUsePhoneAPI() {
@@ -17435,6 +17450,7 @@ class TidyContact {
             const countryPhone = !!engrid_ENGrid.getFieldValue("tc.phone.country");
             return phone && countryPhone;
         }
+        this.logger.log("Phone API is not enabled");
         return false;
     }
     getCountry() {
@@ -20818,7 +20834,7 @@ class EcardToTarget {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/version.js
-const AppVersion = "0.18.1";
+const AppVersion = "0.18.3";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-common/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
