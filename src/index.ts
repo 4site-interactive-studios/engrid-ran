@@ -18,6 +18,7 @@ import { customScript } from "./scripts/main";
 
 const options: Options = {
   applePay: false,
+  AutoYear: true,
   CapitalizeFields: true,
   ClickToExpand: true,
   CurrencySymbol: "$",
@@ -116,7 +117,7 @@ const options: Options = {
   },
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
-    new DonationLightboxForm(DonationAmount, DonationFrequency);
+    new DonationLightboxForm(App, DonationAmount, DonationFrequency);
     customScript(App, EnForm);
   },
   onResize: () => console.log("Starter Theme Window Resized"),
