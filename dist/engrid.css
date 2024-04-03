@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, April 2, 2024 @ 14:23:52 ET
- *  By: fernando
+ *  Date: Wednesday, April 3, 2024 @ 07:51:18 ET
+ *  By: michael
  *  ENGrid styles: v0.18.1
  *  ENGrid scripts: v0.18.4
  *
@@ -8863,7 +8863,7 @@ body[data-engrid-debug]:before{
   color:#000;
 }
 
-iframe[src*=fluidads]{
+body[data-engrid-page-type=donation][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=donation][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,iframe[src*=fluidads]{
   display:none;
 }
 body{

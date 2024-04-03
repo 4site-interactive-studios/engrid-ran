@@ -3,3 +3,12 @@
 iframe[src*="fluidads"] {
   display: none;
 }
+
+body[data-engrid-page-type="donation"][data-engrid-payment-type="paypal"]:not([data-engrid-currency-code="USD"]),
+body[data-engrid-page-type="donation"][data-engrid-payment-type="paypaltouch"]:not([data-engrid-currency-code="USD"]),
+body[data-engrid-page-type="premiumgift"][data-engrid-payment-type="paypal"]:not([data-engrid-currency-code="USD"]),
+body[data-engrid-page-type="premiumgift"][data-engrid-payment-type="paypaltouch"]:not([data-engrid-currency-code="USD"]) {
+  .en__submit {
+    display: none;
+  }
+}

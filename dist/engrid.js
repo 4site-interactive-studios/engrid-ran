@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, April 2, 2024 @ 14:23:52 ET
- *  By: fernando
+ *  Date: Wednesday, April 3, 2024 @ 07:51:18 ET
+ *  By: michael
  *  ENGrid styles: v0.18.1
  *  ENGrid scripts: v0.18.4
  *
@@ -21924,6 +21924,17 @@ const customScript = function (App, EnForm) {
   if (addRecipientButton) {
     addRecipientButton.innerHTML = "Add Recipient";
   }
+
+  const formInstance = EnForm.getInstance();
+  formInstance.onValidate.subscribe(() => {
+    if (!formInstance.validate) return;
+
+    if (App.getPageType() === "DONATION" && ["paypaltouch", "paypal"].includes(App.getPaymentType()) && App.getCurrencyCode() !== "USD") {
+      App.addHtml('<div class="en__field__error en__field__error--paypal">PayPal is only available for payments in USD. Please select another payment method or USD.</div>', ".dynamic-giving-button");
+      formInstance.validate = false;
+      return false;
+    }
+  });
 };
 ;// CONCATENATED MODULE: ./src/index.ts
  // Uses ENGrid via NPM
