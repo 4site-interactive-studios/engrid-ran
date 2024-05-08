@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, May 8, 2024 @ 10:44:19 ET
+ *  Date: Wednesday, May 8, 2024 @ 11:00:05 ET
  *  By: fernando
  *  ENGrid styles: v0.18.8
  *  ENGrid scripts: v0.18.10
@@ -7935,7 +7935,9 @@ body[data-engrid-debug]:before{
   display:none;
 }
 [data-engrid-theme=engrid-ran3]#en__pagebuilder .body-bannerOverlay:has(.en__component),[data-engrid-theme=engrid-ran3]#en__pagebuilder .body-bottom:has(.en__component),[data-engrid-theme=engrid-ran3]#en__pagebuilder .body-footer:has(.en__component),[data-engrid-theme=engrid-ran3]#en__pagebuilder .body-footerOutside:has(.en__component),[data-engrid-theme=engrid-ran3]#en__pagebuilder .body-header:has(.en__component),[data-engrid-theme=engrid-ran3]#en__pagebuilder .content-footerSpacer:has(.en__component),[data-engrid-theme=engrid-ran3]#en__pagebuilder .content-header:has(.en__component),[data-engrid-theme=engrid-ran3]#en__pagebuilder .content-preFooter:has(.en__component),[data-engrid-theme=engrid-ran3]#en__pagebuilder .page-alert:has(.en__component),[data-engrid-theme=engrid-ran3]#en__pagebuilder .page-backgroundImageOverlay:has(.en__component){
+  background-color:#ff00001a;
   display:block;
+  outline:1px solid red;
 }
 @media screen and (min-width:879px){
   [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage{
