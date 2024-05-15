@@ -266,6 +266,11 @@
     .content-preFooter,
     .page-backgroundImageOverlay {
       display: none;
+      &:has(.en__component) {
+        display: block;
+        background-color: #ff00001a;
+        outline: 1px solid #ff0000;
+      }
     }
   }
 
