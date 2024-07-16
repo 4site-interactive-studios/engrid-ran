@@ -38,48 +38,6 @@ export const customScript = function (App, EnForm) {
     enFieldMobilePhone.placeholder = "000-000-0000 (optional)";
   }
 
-  // Make Sure we don't have selected hidden payment method when changing frequency or currency
-  const isVisibile = (el) =>
-    !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
-  const frequencyRadio = document.querySelectorAll(
-    "[name='transaction.recurrfreq']"
-  );
-  const currencySelect = document.querySelector(
-    "[name='transaction.paycurrency']"
-  );
-  const paymentMethodRadioWrapper = document.querySelectorAll(
-    ".give-by-select .en__field__item"
-  );
-  if (frequencyRadio && currencySelect && paymentMethodRadioWrapper) {
-    [...frequencyRadio, currencySelect].forEach((el) => {
-      el.addEventListener("change", () => {
-        App.log("CHANGING");
-        window.setTimeout(() => {
-          // Get selected payment method
-          const selectedPaymentMethod = document.querySelector(
-            "[name='transaction.giveBySelect']:checked"
-          );
-          if (selectedPaymentMethod) {
-            const selectedPaymentContainer =
-              selectedPaymentMethod.closest(".en__field__item");
-            // Check if selected payment method is hidden
-            if (!isVisibile(selectedPaymentContainer)) {
-              // If hidden, click on the first visible payment method
-              [...paymentMethodRadioWrapper].every((element) => {
-                if (isVisibile(element)) {
-                  App.log(
-                    `Clicking on ${element.querySelector("label").innerText}`
-                  );
-                  element.querySelector("label").click();
-                  return false;
-                }
-              });
-            }
-          }
-        }, 500);
-      });
-    });
-  }
   const attriubtion = document.querySelector(
     ".media-with-attribution figattribution"
   );
