@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, July 16, 2024 @ 11:05:51 ET
- *  By: fernando
+ *  Date: Tuesday, July 30, 2024 @ 10:30:56 ET
+ *  By: michael
  *  ENGrid styles: v0.18.18
  *  ENGrid scripts: v0.18.18
  *
@@ -22256,7 +22256,10 @@ class DonationLightboxForm {
   }
 
 }
+// EXTERNAL MODULE: ./node_modules/tippy.js/dist/tippy.esm.js + 52 modules
+var tippy_esm = __webpack_require__(3861);
 ;// CONCATENATED MODULE: ./src/scripts/main.js
+
 const customScript = function (App, EnForm) {
   App.log("ENGrid client scripts are executing"); // Add your client scripts here
   // If we're on the last page OR we're redirected from another EN Page
@@ -22418,7 +22421,28 @@ const customScript = function (App, EnForm) {
       formInstance.validate = false;
       return false;
     }
-  });
+  }); // Transaction fee tooltip
+
+  function addTransactionFeeTooltip() {
+    const transactionFeeEl = document.querySelector(".transaction-fee-opt-in .en__field__element--checkbox");
+    if (!transactionFeeEl) return;
+    const transactionFeeTooltip = document.createElement("div");
+    transactionFeeTooltip.classList.add("transaction-fee-tooltip");
+    transactionFeeTooltip.innerHTML = "i";
+    transactionFeeEl.appendChild(transactionFeeTooltip);
+    (0,tippy_esm/* default */.ZP)(transactionFeeTooltip, {
+      content: "Cover the transactions fees for this donation so 100% of my gift goes to RAN!",
+      allowHTML: true,
+      theme: "white",
+      placement: "top",
+      trigger: "mouseenter click",
+      interactive: true,
+      arrow: "<div class='custom-tooltip-arrow'></div>",
+      offset: [0, 20]
+    });
+  }
+
+  addTransactionFeeTooltip();
 };
 ;// CONCATENATED MODULE: ./src/index.ts
  // Uses ENGrid via NPM
