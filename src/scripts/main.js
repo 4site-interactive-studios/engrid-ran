@@ -202,7 +202,7 @@ export const customScript = function (App, EnForm) {
 
     tippy(transactionFeeTooltip, {
       content:
-        "Cover the transactions fees for this donation so 100% of my gift goes to RAN!",
+        "By checking this box, you agree to cover the transaction fee for your donation. This small additional amount helps us ensure that 100% of you donation goes directly to RAN.",
       allowHTML: true,
       theme: "white",
       placement: "top",

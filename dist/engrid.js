@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, July 30, 2024 @ 10:30:56 ET
+ *  Date: Tuesday, August 6, 2024 @ 11:03:08 ET
  *  By: michael
  *  ENGrid styles: v0.18.18
  *  ENGrid scripts: v0.18.18
@@ -22431,7 +22431,7 @@ const customScript = function (App, EnForm) {
     transactionFeeTooltip.innerHTML = "i";
     transactionFeeEl.appendChild(transactionFeeTooltip);
     (0,tippy_esm/* default */.ZP)(transactionFeeTooltip, {
-      content: "Cover the transactions fees for this donation so 100% of my gift goes to RAN!",
+      content: "By checking this box, you agree to cover the transaction fee for your donation. This small additional amount helps us ensure that 100% of you donation goes directly to RAN.",
       allowHTML: true,
       theme: "white",
       placement: "top",
