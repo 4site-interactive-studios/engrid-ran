@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, August 22, 2024 @ 13:13:43 ET
+ *  Date: Thursday, August 22, 2024 @ 13:47:33 ET
  *  By: bryancasler
  *  ENGrid styles: v0.19.1
  *  ENGrid scripts: v0.19.1
@@ -10800,8 +10800,7 @@ class iFrame {
       if (this.isChained() && engrid_ENGrid.getPaymentType()) {
         this.logger.log("iFrame Event - Chained iFrame");
         this.sendIframeFormStatus("chained");
-        this.hideFormComponents();
-        this.addChainedBanner();
+        this.hideFormComponents(); // this.addChainedBanner();
       } // Remove the skip link markup when inside an iFrame
 
 
@@ -10930,10 +10929,11 @@ class iFrame {
     const en__component = document.querySelectorAll(".body-main > div");
     en__component.forEach((component, index) => {
       if (component.classList.contains("hide") === false && component.classList.contains("hide-iframe") === false && component.classList.contains("radio-to-buttons_donationAmt") === false && index < en__component.length - 1) {
-        component.classList.add("hide-iframe");
+        const excludeClasses = ["en__digitalWallet", "giveBySelect-Card", "en__field--ccnumber", "give-by-select", "give-by-select-header", "en__submit", "en__captcha"];
+        const shouldExclude = excludeClasses.some(cls => component.classList.contains(cls) || component.querySelector(`:scope > .${cls}`));
 
-        if (!component.querySelector(':scope > .en__field--ccnumber, :scope > .give-by-select, :scope > .give-by-select-header')) {
-          component.classList.add("hide-chained");
+        if (!shouldExclude) {
+          component.classList.add("hide-iframe", "hide-chained");
         }
       }
     });
@@ -10948,28 +10948,31 @@ class iFrame {
       component.classList.remove("hide-chained");
     });
     this.sendIframeHeight();
-  }
+  } // private addChainedBanner() {
+  //   this.logger.log("iFrame Event - Adding Chained Banner");
+  //   const banner = document.createElement("div");
+  //   const lastComponent = document.querySelector(
+  //     ".body-main > div:last-of-type"
+  //   ) as HTMLDivElement;
+  //   banner.classList.add("en__component");
+  //   banner.classList.add("en__component--banner");
+  //   banner.classList.add("en__component--banner--chained");
+  //   banner.innerHTML = `<div class="en__component__content"><div class="en__component__content__inner"><div class="en__component__content__text"><p>
+  //     ${ENGrid.getFieldValue("supporter.firstName") ? `Giving as <strong>${ENGrid.getFieldValue("supporter.firstName")} ${ENGrid.getFieldValue("supporter.lastName")}</strong>` : "<strong>Testing as </strong>"}
+  //     with <strong>${ENGrid.getFieldValue(
+  //       "transaction.paymenttype"
+  //     ).toUpperCase()}</strong>
+  //     (<a href="#" class="en__component__content__link">change</a>)</p></div></div></div>`;
+  //   lastComponent?.parentNode?.insertBefore(banner, lastComponent);
+  //   banner
+  //     .querySelector(".en__component__content__link")
+  //     ?.addEventListener("click", (e) => {
+  //       e.preventDefault();
+  //       this.showFormComponents();
+  //       banner.remove();
+  //     });
+  // }
 
-  addChainedBanner() {
-    var _a, _b;
-
-    this.logger.log("iFrame Event - Adding Chained Banner");
-    const banner = document.createElement("div");
-    const lastComponent = document.querySelector(".body-main > div:last-of-type");
-    banner.classList.add("en__component");
-    banner.classList.add("en__component--banner");
-    banner.classList.add("en__component--banner--chained");
-    banner.innerHTML = `<div class="en__component__content"><div class="en__component__content__inner"><div class="en__component__content__text"><p>
-      Giving as <strong>${engrid_ENGrid.getFieldValue("supporter.firstName")} ${engrid_ENGrid.getFieldValue("supporter.lastName")}</strong> 
-      with <strong>${engrid_ENGrid.getFieldValue("transaction.paymenttype").toUpperCase()}</strong>
-      (<a href="#" class="en__component__content__link">change</a>)</p></div></div></div>`;
-    (_a = lastComponent === null || lastComponent === void 0 ? void 0 : lastComponent.parentNode) === null || _a === void 0 ? void 0 : _a.insertBefore(banner, lastComponent);
-    (_b = banner.querySelector(".en__component__content__link")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", e => {
-      e.preventDefault();
-      this.showFormComponents();
-      banner.remove();
-    });
-  }
 
   debounceWithImmediate(func) {
     var _this = this;
