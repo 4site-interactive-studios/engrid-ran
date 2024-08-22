@@ -813,55 +813,57 @@
   }
 
   @media screen and (max-width: 600px) {
-    --engrid__body_padding: 0 1.5rem;
-    --engrid__body-top_padding: 30px 1.5rem 0;
-    --engrid__body-main_padding: 0 1.5rem 85px;
-    --h1_font-size: 2.5rem;
-    --h2_font-size: 2rem;
-    --button_font-size: 2rem;
-    --label_font-size: 1rem;
-    --input_font-size: 1rem;
-    --radio_font-size: 1rem;
-    --submit__button_font-size: var(--button_font-size);
-    --radio_line-height: 1.3;
-    --donation-amount__button_count: 2;
+    &:not([data-engrid-embedded]) {
+      --engrid__body_padding: 0 1.5rem;
+      --engrid__body-top_padding: 30px 1.5rem 0;
+      --engrid__body-main_padding: 0 1.5rem 85px;
+      --h1_font-size: 2.5rem;
+      --h2_font-size: 2rem;
+      --button_font-size: 2rem;
+      --label_font-size: 1rem;
+      --input_font-size: 1rem;
+      --radio_font-size: 1rem;
+      --submit__button_font-size: var(--button_font-size);
+      --radio_line-height: 1.3;
+      --donation-amount__button_count: 2;
 
-    .radio-to-buttons_donationAmt
-      .en__field--donationAmt
-      .en__field__item.en__field__item--other
-      input {
-      font-size: var(--button_font-size);
-    }
+      .radio-to-buttons_donationAmt
+        .en__field--donationAmt
+        .en__field__item.en__field__item--other
+        input {
+        font-size: var(--button_font-size);
+      }
 
-    .en__submit button {
-      padding-left: 0;
-      padding-right: 0;
-    }
+      .en__submit button {
+        padding-left: 0;
+        padding-right: 0;
+      }
 
-    .footer-wrapper {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
+      .footer-wrapper {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
 
-    .footer-center {
-      flex-direction: column;
-    }
+      .footer-center {
+        flex-direction: column;
+      }
 
-    .footer-badges {
-      margin: 0 0 10px;
-    }
+      .footer-badges {
+        margin: 0 0 10px;
+      }
 
-    .footer-menu {
-      font-size: 1rem;
-      text-align: center;
-    }
+      .footer-menu {
+        font-size: 1rem;
+        text-align: center;
+      }
 
-    .footer-menu a:not(:last-of-type):after {
-      content: none;
-    }
+      .footer-menu a:not(:last-of-type):after {
+        content: none;
+      }
 
-    .footer-menu a:not(:last-of-type) {
-      border-right: 1px solid white;
+      .footer-menu a:not(:last-of-type) {
+        border-right: 1px solid white;
+      }
     }
   }
 

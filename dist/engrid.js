@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, August 22, 2024 @ 13:47:33 ET
+ *  Date: Thursday, August 22, 2024 @ 15:39:21 ET
  *  By: bryancasler
  *  ENGrid styles: v0.19.1
  *  ENGrid scripts: v0.19.1
@@ -10929,8 +10929,9 @@ class iFrame {
     const en__component = document.querySelectorAll(".body-main > div");
     en__component.forEach((component, index) => {
       if (component.classList.contains("hide") === false && component.classList.contains("hide-iframe") === false && component.classList.contains("radio-to-buttons_donationAmt") === false && index < en__component.length - 1) {
-        const excludeClasses = ["en__digitalWallet", "giveBySelect-Card", "en__field--ccnumber", "give-by-select", "give-by-select-header", "en__submit", "en__captcha"];
-        const shouldExclude = excludeClasses.some(cls => component.classList.contains(cls) || component.querySelector(`:scope > .${cls}`));
+        const excludeClasses = ["giveBySelect-Card", "en__field--ccnumber", "give-by-select", "give-by-select-header", "en__submit", "en__captcha", "force-visibility"];
+        const excludeIds = ["en__digitalWallet"];
+        const shouldExclude = excludeClasses.some(cls => component.classList.contains(cls) || component.querySelector(`:scope > .${cls}`)) || excludeIds.some(id => component.querySelector(`#${id}`));
 
         if (!shouldExclude) {
           component.classList.add("hide-iframe", "hide-chained");

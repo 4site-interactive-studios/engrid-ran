@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, August 22, 2024 @ 13:47:33 ET
+ *  Date: Thursday, August 22, 2024 @ 15:39:21 ET
  *  By: bryancasler
  *  ENGrid styles: v0.19.1
  *  ENGrid scripts: v0.19.1
@@ -8287,7 +8287,7 @@ body[data-engrid-debug]:before{
   }
 }
 @media screen and (max-width:600px){
-  [data-engrid-theme=engrid-ran3]{
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]){
     --engrid__body_padding:0 1.5rem;
     --engrid__body-top_padding:30px 1.5rem 0;
     --engrid__body-main_padding:0 1.5rem 85px;
@@ -8301,31 +8301,31 @@ body[data-engrid-debug]:before{
     --radio_line-height:1.3;
     --donation-amount__button_count:2;
   }
-  [data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other input{
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .radio-to-buttons_donationAmt .en__field--donationAmt .en__field__item.en__field__item--other input{
     font-size:var(--button_font-size);
   }
-  [data-engrid-theme=engrid-ran3] .en__submit button{
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .en__submit button{
     padding-left:0;
     padding-right:0;
   }
-  [data-engrid-theme=engrid-ran3] .footer-wrapper{
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .footer-wrapper{
     padding-left:1.5rem;
     padding-right:1.5rem;
   }
-  [data-engrid-theme=engrid-ran3] .footer-center{
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .footer-center{
     flex-direction:column;
   }
-  [data-engrid-theme=engrid-ran3] .footer-badges{
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .footer-badges{
     margin:0 0 10px;
   }
-  [data-engrid-theme=engrid-ran3] .footer-menu{
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .footer-menu{
     font-size:1rem;
     text-align:center;
   }
-  [data-engrid-theme=engrid-ran3] .footer-menu a:not(:last-of-type):after{
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .footer-menu a:not(:last-of-type):after{
     content:none;
   }
-  [data-engrid-theme=engrid-ran3] .footer-menu a:not(:last-of-type){
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .footer-menu a:not(:last-of-type){
     border-right:1px solid #fff;
   }
 }
