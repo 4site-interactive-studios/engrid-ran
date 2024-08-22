@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, July 16, 2024 @ 11:05:51 ET
+ *  Date: Wednesday, August 21, 2024 @ 20:06:09 ET
  *  By: fernando
  *  ENGrid styles: v0.18.18
  *  ENGrid scripts: v0.18.18
@@ -22395,7 +22395,7 @@ const customScript = function (App, EnForm) {
         const resubLink = document.querySelector(".resubscribe-block a.button");
 
         if (resubLink) {
-          resubLink.href = resubLink.href + `?supporter.emailAddress=${unsubDetails.email}&autosubmit=Y&engrid_hide[engrid]=id`;
+          resubLink.href = resubLink.href + `?chain&autosubmit=Y&engrid_hide[engrid]=id`;
         }
 
         sessionStorage.removeItem("unsub_details");
