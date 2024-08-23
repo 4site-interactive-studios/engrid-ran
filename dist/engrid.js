@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, August 22, 2024 @ 21:45:59 ET
+ *  Date: Thursday, August 22, 2024 @ 21:48:39 ET
  *  By: bryancasler
  *  ENGrid styles: v0.19.1
  *  ENGrid scripts: v0.19.1
@@ -9346,7 +9346,13 @@ class engrid_ENGrid {
 
 
   static getPaymentType() {
-    return engrid_ENGrid.getFieldValue("transaction.paymenttype");
+    const paymentTypeField = engrid_ENGrid.getField("transaction.paymenttype");
+
+    if (paymentTypeField) {
+      return paymentTypeField.value;
+    }
+
+    return "";
   } // Set the Payment Type
 
 
