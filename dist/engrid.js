@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, August 22, 2024 @ 21:33:15 ET
+ *  Date: Thursday, August 22, 2024 @ 21:45:59 ET
  *  By: bryancasler
  *  ENGrid styles: v0.19.1
  *  ENGrid scripts: v0.19.1
@@ -10829,6 +10829,14 @@ class iFrame {
         this.logger.log("iFrame Event - Chained iFrame");
         this.sendIframeFormStatus("chained");
         this.hideFormComponents(); // this.addChainedBanner();
+      } else {
+        if (!this.isChained()) {
+          console.debug("iFrame Event - Not Chained iFrame");
+        }
+
+        if (!engrid_ENGrid.getPaymentType()) {
+          console.debug("iFrame Event - No Payment Type");
+        }
       } // Remove the skip link markup when inside an iFrame
 
 
@@ -10946,7 +10954,8 @@ class iFrame {
     } catch (e) {
       return true;
     }
-  }
+  } // This method checks if the URL has a parameter named "chain" and returns true if it exists, otherwise false.
+
 
   isChained() {
     return !!engrid_ENGrid.getUrlParameter("chain");
