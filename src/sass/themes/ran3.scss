@@ -1541,9 +1541,9 @@
   &[data-engrid-embedded="thank-you-page-donation"]{
     @media screen and (max-width: 600px){
       
-        --engrid__body_padding: 0
-        --engrid__body-top_padding: 30px 0 0
-        --engrid__body-main_padding: 0 0 85px
+        --engrid__body_padding: 0;
+        --engrid__body-top_padding: 30px 0 0;
+        --engrid__body-main_padding: 0 0 85px;
 
         .body-title, .body-top{
           > * > *:first-child{
