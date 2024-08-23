@@ -1512,4 +1512,13 @@
   .engrid-welcome-back-clear {
     color: black;
   }
+
+  /* Styles the iFrame of the embedded donation page that is displayed on the thank you page */
+  iframe.thank-you-embedded-donate{
+    outline: 5px dashed #395a4c;
+    margin: calc(1rem + 5px);
+    outline-offset: 1rem;
+    position: relative;
+    left: calc(((1rem + 5px)* -1));
+  }
 }
