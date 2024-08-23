@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, August 22, 2024 @ 21:48:39 ET
+ *  Date: Thursday, August 22, 2024 @ 21:51:56 ET
  *  By: bryancasler
  *  ENGrid styles: v0.19.1
  *  ENGrid scripts: v0.19.1
@@ -9346,13 +9346,7 @@ class engrid_ENGrid {
 
 
   static getPaymentType() {
-    const paymentTypeField = engrid_ENGrid.getField("transaction.paymenttype");
-
-    if (paymentTypeField) {
-      return paymentTypeField.value;
-    }
-
-    return "";
+    return engrid_ENGrid.getFieldValue("transaction.paymenttype");
   } // Set the Payment Type
 
 
@@ -10796,6 +10790,7 @@ class iFrame {
 
         if (pageNumber > 1) {
           engrid_ENGrid.setBodyData("embedded", "thank-you-page-donation");
+          this.hideFormComponents();
           this.logger.log("iFrame Event - Set embedded attribute to thank-you-page-donation");
         }
       } // Fire the resize event
@@ -10833,16 +10828,7 @@ class iFrame {
 
       if (this.isChained() && engrid_ENGrid.getPaymentType()) {
         this.logger.log("iFrame Event - Chained iFrame");
-        this.sendIframeFormStatus("chained");
-        this.hideFormComponents(); // this.addChainedBanner();
-      } else {
-        if (!this.isChained()) {
-          console.debug("iFrame Event - Not Chained iFrame");
-        }
-
-        if (!engrid_ENGrid.getPaymentType()) {
-          console.debug("iFrame Event - No Payment Type");
-        }
+        this.sendIframeFormStatus("chained"); // this.addChainedBanner();
       } // Remove the skip link markup when inside an iFrame
 
 
