@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, August 22, 2024 @ 20:10:48 ET
+ *  Date: Thursday, August 22, 2024 @ 20:40:05 ET
  *  By: bryancasler
  *  ENGrid styles: v0.19.1
  *  ENGrid scripts: v0.19.1
@@ -10760,12 +10760,36 @@ class DataAttributes {
 
 class iFrame {
   constructor() {
+    var _a;
+
     this._form = EnForm.getInstance();
     this.logger = new EngridLogger("iFrame", "brown", "gray", "📡");
 
     if (this.inIframe()) {
       // Add the data-engrid-embedded attribute when inside an iFrame if it wasn't already added by a script in the Page Template
-      engrid_ENGrid.setBodyData("embedded", ""); // Fire the resize event
+      engrid_ENGrid.setBodyData("embedded", ""); // Check if the parent page URL matches the criteria for a thank you page donation
+
+      const getParentUrl = () => {
+        try {
+          return window.parent.location.href;
+        } catch (e) {
+          // If we can't access parent location due to same-origin policy, fall back to referrer
+          return document.referrer;
+        }
+      };
+
+      const parentUrl = getParentUrl();
+      const thankYouPageRegex = /\/page\/\d{2,}($|\?)/;
+
+      if (thankYouPageRegex.test(parentUrl)) {
+        const pageNumber = parseInt(((_a = parentUrl.split('/').pop()) === null || _a === void 0 ? void 0 : _a.split('?')[0]) || '0', 10);
+
+        if (pageNumber > 1) {
+          engrid_ENGrid.setBodyData("embedded", "thank-you-page-donation");
+          this.logger.log("iFrame Event - Set embedded attribute to thank-you-page-donation");
+        }
+      } // Fire the resize event
+
 
       this.logger.log("iFrame Event - Begin Resizing");
       window.addEventListener("load", event => {

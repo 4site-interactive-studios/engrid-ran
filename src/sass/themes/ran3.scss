@@ -1514,11 +1514,68 @@
   }
 
   /* Styles the iFrame of the embedded donation page that is displayed on the thank you page */
-  iframe.thank-you-embedded-donate{
+  iframe.thank-you-page-donation{
     outline: 5px dashed #395a4c;
     margin: calc(1rem + 5px);
     outline-offset: 1rem;
     position: relative;
     left: calc(((1rem + 5px)* -1));
+  }
+
+  .highlight-style2{
+    color: #000; 
+    display: inline;
+    padding: 0.45rem 0.45rem 0.20rem 0.45rem;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    background-color: #eff520;
+  }
+
+  /* Hide the cookie banned when embedded */
+  [data-engrid-theme="engrid-ran3"][data-engrid-embedded] .cky-overlay,
+  [data-engrid-theme="engrid-ran3"][data-engrid-embedded] .cky-consent-container{
+      display: none !important;
+  }
+  
+  /* This are temporary stylings that will be moved into the theme once complete */
+  &[data-engrid-embedded="thank-you-page-donation"]{
+    @media screen and (max-width: 600px){
+      
+        --engrid__body_padding: 0
+        --engrid__body-top_padding: 30px 0 0
+        --engrid__body-main_padding: 0 0 85px
+
+        .body-title, .body-top{
+          > * > *:first-child{
+            margin-top: 0;
+          }
+        }
+        
+        .body-top{
+          padding-top: 0;
+        }
+        
+        .body-main{
+          padding-bottom: 0;
+        }
+        
+        .en__submit button{
+          margin-bottom: 0;
+        }
+        
+        .en__digitalWallet__container{
+          display: block !important;
+        }
+        
+        .giveBySelect-Card{
+          margin-top: 1rem !important;
+        }
+
+      &[data-conditonally-hide-show-digital-wallet-elements]{
+        #en__digitalWallet .en__digitalWallet__container{
+          margin-bottom: 0 !important;
+        }
+      }
+    }
   }
 }
