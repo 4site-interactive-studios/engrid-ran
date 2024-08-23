@@ -1532,8 +1532,8 @@
   }
 
   /* Hide the cookie banned when embedded */
-  [data-engrid-theme="engrid-ran3"][data-engrid-embedded] .cky-overlay,
-  [data-engrid-theme="engrid-ran3"][data-engrid-embedded] .cky-consent-container{
+  &[data-engrid-embedded] .cky-overlay,
+  &[data-engrid-embedded] .cky-consent-container{
       display: none !important;
   }
   
