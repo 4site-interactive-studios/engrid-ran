@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, August 22, 2024 @ 21:17:00 ET
+ *  Date: Thursday, August 22, 2024 @ 21:33:15 ET
  *  By: bryancasler
  *  ENGrid styles: v0.19.1
  *  ENGrid scripts: v0.19.1
@@ -8766,6 +8766,11 @@ class engrid_ENGrid {
 
     if (searchParams.has(name)) {
       return searchParams.get(name) || true;
+    } // Add this check for parameters without values
+
+
+    if (window.location.search.includes(`${name}&`) || window.location.search.endsWith(name)) {
+      return true;
     }
 
     return null;
