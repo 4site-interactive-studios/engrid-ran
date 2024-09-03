@@ -153,8 +153,7 @@ export const customScript = function (App, EnForm) {
         const resubLink = document.querySelector(".resubscribe-block a.button");
         if (resubLink) {
           resubLink.href =
-            resubLink.href +
-            `?supporter.emailAddress=${unsubDetails.email}&autosubmit=Y&engrid_hide[engrid]=id`;
+            resubLink.href + `?chain&autosubmit=Y&engrid_hide[engrid]=id`;
         }
         sessionStorage.removeItem("unsub_details");
       }
