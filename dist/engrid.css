@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, August 21, 2024 @ 20:06:09 ET
- *  By: fernando
+ *  Date: Tuesday, September 3, 2024 @ 11:39:55 ET
+ *  By: michael
  *  ENGrid styles: v0.18.18
  *  ENGrid scripts: v0.18.18
  *
@@ -8841,6 +8841,67 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3] .engrid-welcome-back-clear{
   color:#000;
+}
+[data-engrid-theme=engrid-ran3] .transaction-fee-opt-in{
+  --checkbox_background-color:var(--engrid__body_background-color);
+  --checkbox_background-color_hover:var(--engrid__body_background-color);
+  --checkbox_background-color_checked:var(--engrid__body_background-color);
+  --checkbox_font-weight:600;
+  --checkbox_font-size:16px;
+  --checkbox_line-height:20px;
+  justify-self:center;
+  margin-top:10px;
+  max-width:450px;
+  width:100%;
+}
+[data-engrid-theme=engrid-ran3] .transaction-fee-opt-in .en__field__element--checkbox{
+  flex-wrap:nowrap;
+}
+[data-engrid-theme=engrid-ran3] .transaction-fee-opt-in .transaction-fee-tooltip{
+  border:2px solid #000;
+  border-radius:50%;
+  cursor:pointer;
+  flex:0 0 auto;
+  font-size:16px;
+  font-weight:500;
+  height:26px;
+  text-align:center;
+  width:26px;
+}
+[data-engrid-theme=engrid-ran3] .transaction-fee-opt-in .en__field__input--checkbox:focus+.en__field__label{
+  outline:none;
+}
+[data-engrid-theme=engrid-ran3] .tippy-box[data-theme~=white]{
+  background-color:#fff;
+  border:2px solid #000;
+  border-radius:0;
+  color:#000;
+  font-size:16px;
+  font-weight:600;
+  max-width:300px !important;
+  padding:10px;
+}
+[data-engrid-theme=engrid-ran3] .tippy-box[data-theme~=white] .tippy-content{
+  padding:0;
+}
+[data-engrid-theme=engrid-ran3] .tippy-box[data-theme~=white] .custom-tooltip-arrow{
+  background:#fff;
+  border-bottom:2px solid #000;
+  border-right:2px solid #000;
+  height:20px;
+  width:20px;
+}
+[data-engrid-theme=engrid-ran3] .tippy-box[data-theme~=white][data-placement=top] .tippy-svg-arrow{
+  bottom:-10px;
+}
+[data-engrid-theme=engrid-ran3] .tippy-box[data-theme~=white][data-placement=top] .custom-tooltip-arrow{
+  transform:rotate(45deg) translateY(2px);
+}
+[data-engrid-theme=engrid-ran3] .tippy-box[data-theme~=white][data-placement=bottom] .tippy-svg-arrow{
+  top:-10px;
+}
+[data-engrid-theme=engrid-ran3] .tippy-box[data-theme~=white][data-placement=bottom] .custom-tooltip-arrow{
+  transform:rotate(-135deg) translateY(2px);
 }
 
 body[data-engrid-page-type=donation][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=donation][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,iframe[src*=fluidads]{
