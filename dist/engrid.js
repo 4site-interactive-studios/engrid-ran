@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, September 5, 2024 @ 15:16:50 ET
+ *  Date: Thursday, September 5, 2024 @ 16:00:57 ET
  *  By: fernando
  *  ENGrid styles: v0.19.4
- *  ENGrid scripts: v0.19.4
+ *  ENGrid scripts: v0.19.5
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -13076,11 +13076,15 @@ class iFrame {
             // Fire the resize event
             this.logger.log("iFrame Event - Begin Resizing");
             // Run onLoaded function
-            if (document.readyState === "complete") {
+            console.log("document.readyState", document.readyState);
+            // Document Load
+            if (document.readyState !== "loading") {
                 this.onLoaded();
             }
             else {
-                window.addEventListener("load", this.onLoaded.bind(this));
+                document.addEventListener("DOMContentLoaded", () => {
+                    this.onLoaded();
+                });
             }
             window.setTimeout(() => {
                 this.sendIframeHeight();
@@ -13175,6 +13179,8 @@ class iFrame {
                 this.sendIframeHeight();
             }, 100);
         });
+        // Watch for errors and send the height
+        engrid_ENGrid.watchForError(this.sendIframeHeight.bind(this));
     }
     sendIframeHeight() {
         let height = document.body.offsetHeight;
@@ -21465,7 +21471,7 @@ class ThankYouPageConditionalContent {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.19.4";
+const AppVersion = "0.19.5";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
