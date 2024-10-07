@@ -15,6 +15,7 @@ import {
 import "./sass/main.scss";
 import DonationLightboxForm from "./scripts/donation-lightbox-form";
 import { customScript } from "./scripts/main";
+import { AddDAF } from "./scripts/add-daf";
 
 const options: Options = {
   applePay: false,
@@ -119,6 +120,7 @@ const options: Options = {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(App, DonationAmount, DonationFrequency);
     customScript(App, EnForm);
+    new AddDAF();
   },
   onResize: () => console.log("Starter Theme Window Resized"),
   onValidate: () => {
