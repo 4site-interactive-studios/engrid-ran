@@ -584,6 +584,11 @@
     filter: brightness(0) invert(1);
   }
 
+  .en__field--giveBySelect input:checked + label > img.daf-logo,
+  .en__field--giveBySelect input:hover + label > img.daf-logo {
+    filter: brightness(3) invert(0);
+  }
+
   .en__field--giveBySelect .en__field__label--item img.google-pay-logo {
     position: relative;
     top: -3px;
