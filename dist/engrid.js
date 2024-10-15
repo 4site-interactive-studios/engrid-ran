@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, September 5, 2024 @ 16:00:57 ET
+ *  Date: Tuesday, October 15, 2024 @ 14:47:20 ET
  *  By: fernando
- *  ENGrid styles: v0.19.4
- *  ENGrid scripts: v0.19.5
+ *  ENGrid styles: v0.19.9
+ *  ENGrid scripts: v0.19.9
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -12353,6 +12353,7 @@ class App extends engrid_ENGrid {
         new UsOnlyForm();
         new ThankYouPageConditionalContent();
         new EmbeddedEcard();
+        new CheckboxLabel();
         //Debug panel
         let showDebugPanel = this.options.Debug;
         try {
@@ -13038,6 +13039,14 @@ class DataAttributes {
         }
         if (engrid_ENGrid.getPageNumber() === engrid_ENGrid.getPageCount()) {
             engrid_ENGrid.setBodyData("last-page", "");
+        }
+        // "Temporary solutions are forever, you know..."
+        // - Fernando Santos
+        // "I know, but what if we just..."
+        // - Bryan Casler
+        // Add data attribute if browser does not support :has selector
+        if (!CSS.supports("selector(:has(*))")) {
+            engrid_ENGrid.setBodyData("css-has-selector", "false");
         }
     }
 }
@@ -14863,16 +14872,18 @@ class AutoCountrySelect {
                     type: "region",
                 });
                 // We are setting the country by Name because the ISO code is not always the same. They have 2 and 3 letter codes.
-                this.setCountryByName(countriesNames.of(this.country));
+                this.setCountryByName(countriesNames.of(this.country), this.country);
             }
         }
     }
-    setCountryByName(countryName) {
+    setCountryByName(countryName, countryCode) {
         if (this.countrySelect) {
             let countrySelectOptions = this.countrySelect.options;
             for (let i = 0; i < countrySelectOptions.length; i++) {
                 if (countrySelectOptions[i].innerHTML.toLowerCase() ==
-                    countryName.toLowerCase()) {
+                    countryName.toLowerCase() ||
+                    countrySelectOptions[i].value.toLowerCase() ==
+                        countryCode.toLowerCase()) {
                     this.countrySelect.selectedIndex = i;
                     break;
                 }
@@ -19878,7 +19889,6 @@ class GiveBySelect {
     constructor() {
         this.logger = new EngridLogger("GiveBySelect", "#FFF", "#333", "🐇");
         this.transactionGiveBySelect = document.getElementsByName("transaction.giveBySelect");
-        this.paymentTypeField = document.querySelector("select[name='transaction.paymenttype']");
         this._frequency = DonationFrequency.getInstance();
         if (!this.transactionGiveBySelect)
             return;
@@ -21470,11 +21480,44 @@ class ThankYouPageConditionalContent {
     }
 }
 
+;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/checkbox-label.js
+// Component to allow the user to set custom labels for the checkboxes,
+// you can customize the checkbox label on a per-page basis, which is not possible with Engaging Networks
+// The .checkbox-label element should be placed right before the checkbox form block
+
+class CheckboxLabel {
+    constructor() {
+        this.logger = new EngridLogger("CheckboxLabel", "#00CC95", "#2C3E50", "✅");
+        this.checkBoxesLabels = document.querySelectorAll(".checkbox-label");
+        if (!this.shoudRun())
+            return;
+        this.logger.log(`Found ${this.checkBoxesLabels.length} custom labels`);
+        this.run();
+    }
+    shoudRun() {
+        return this.checkBoxesLabels.length > 0;
+    }
+    run() {
+        this.checkBoxesLabels.forEach((checkboxLabel) => {
+            var _a;
+            const labelText = (_a = checkboxLabel.textContent) === null || _a === void 0 ? void 0 : _a.trim();
+            const checkboxContainer = checkboxLabel.nextElementSibling;
+            const checkboxLabelElement = checkboxContainer.querySelector("label");
+            if (!checkboxLabelElement || !labelText)
+                return;
+            checkboxLabelElement.textContent = labelText;
+            checkboxLabel.remove();
+            this.logger.log(`Set checkbox label to "${labelText}"`);
+        });
+    }
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.19.5";
+const AppVersion = "0.19.9";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
+
 
 
 
@@ -22368,7 +22411,10 @@ class DonationLightboxForm {
   }
 
 }
+// EXTERNAL MODULE: ./node_modules/tippy.js/dist/tippy.esm.js + 52 modules
+var tippy_esm = __webpack_require__(3861);
 ;// CONCATENATED MODULE: ./src/scripts/main.js
+
 const customScript = function (App, EnForm) {
   App.log("ENGrid client scripts are executing"); // Add your client scripts here
   // If we're on the last page OR we're redirected from another EN Page
@@ -22530,8 +22576,152 @@ const customScript = function (App, EnForm) {
       formInstance.validate = false;
       return false;
     }
-  });
+  }); // Transaction fee tooltip
+
+  function addTransactionFeeTooltip() {
+    const transactionFeeEl = document.querySelector(".transaction-fee-opt-in .en__field__element--checkbox");
+    if (!transactionFeeEl) return;
+    const transactionFeeTooltip = document.createElement("div");
+    transactionFeeTooltip.classList.add("transaction-fee-tooltip");
+    transactionFeeTooltip.innerHTML = "i";
+    transactionFeeEl.appendChild(transactionFeeTooltip);
+    (0,tippy_esm/* default */.ZP)(transactionFeeTooltip, {
+      content: "By checking this box, you agree to cover the transaction fee for your donation. This small additional amount helps us ensure that 100% of you donation goes directly to RAN.",
+      allowHTML: true,
+      theme: "white",
+      placement: "top",
+      trigger: "mouseenter click",
+      interactive: true,
+      arrow: "<div class='custom-tooltip-arrow'></div>",
+      offset: [0, 20]
+    });
+  }
+
+  addTransactionFeeTooltip();
 };
+;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+;// CONCATENATED MODULE: ./src/scripts/add-daf.ts
+
+// This script adds a DAF payment option to the donation form, only if the DAF payment option is available.
+
+class AddDAF {
+  constructor() {
+    _defineProperty(this, "logger", new EngridLogger("AddDAF", "lightgray", "darkblue", "🪙"));
+
+    _defineProperty(this, "donorAdvisedFundButtonContainer", document.getElementById("en__digitalWallet__chariot__container"));
+
+    if (!this.shouldRun()) return;
+
+    if (this.donorAdvisedFundButtonContainer?.querySelector("*")) {
+      this.addDAF();
+    } else {
+      this.checkForDafBeingAdded();
+    }
+  }
+
+  shouldRun() {
+    return !!this.donorAdvisedFundButtonContainer;
+  }
+
+  checkForDafBeingAdded() {
+    const donorAdvisedFundButtonContainer = document.getElementById("en__digitalWallet__chariot__container");
+
+    if (!donorAdvisedFundButtonContainer) {
+      this.logger.log("No DAF container found");
+      return;
+    }
+
+    const callback = (mutationList, observer) => {
+      for (const mutation of mutationList) {
+        //Once a child node has been added, set up the appropriate digital wallet
+        if (mutation.type === "childList" && mutation.addedNodes.length) {
+          this.addDAF(); //Disconnect observer to prevent multiple additions
+
+          observer.disconnect();
+        }
+      }
+    };
+
+    const observer = new MutationObserver(callback);
+    observer.observe(donorAdvisedFundButtonContainer, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  addDAF() {
+    // Check if DAF is already added to the payment options
+    const dafPaymentOption = document.querySelector("input[name='transaction.giveBySelect'][value='daf']");
+
+    if (dafPaymentOption) {
+      this.logger.log("DAF already added");
+      return;
+    }
+
+    this.logger.log("Adding DAF");
+    const giveBySelectWrapper = document.querySelector(".give-by-select .en__field__element--radio");
+
+    if (!giveBySelectWrapper) {
+      this.logger.log("No giveBySelectWrapper found");
+      return;
+    }
+
+    const dafPaymentButton = `
+    <!-- DAF (added dynamically) -->
+      <div class="en__field__item en__field--giveBySelect give-by-select pseudo-en-field showif-daf-available recurring-frequency-y-hide daf">
+        <input class="en__field__input en__field__input--radio" id="en__field_transaction_giveBySelectDAF" name="transaction.giveBySelect" type="radio" value="daf">
+        <label class="en__field__label en__field__label--item" for="en__field_transaction_giveBySelectDAF">
+          <img alt="DAF Logo" class="daf-logo" src="https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/daf-logo.png">
+        </label>
+      </div>
+    `; // Add the DAF payment option to the payment options, before Credit Card
+
+    const ccPaymentOption = document.querySelector(".en__field__item.card");
+
+    if (ccPaymentOption) {
+      ccPaymentOption.insertAdjacentHTML("beforebegin", dafPaymentButton);
+    } else {
+      giveBySelectWrapper.insertAdjacentHTML("beforeend", dafPaymentButton);
+    } // Add hide-if-daf-selected class to the premium gift container
+
+
+    const premiumGiftContainer = document.querySelector(".en__component--premiumgiftblock");
+
+    if (premiumGiftContainer) {
+      premiumGiftContainer.classList.add("hideif-daf-selected");
+    }
+
+    new ShowHideRadioCheckboxes("transaction.giveBySelect", "giveBySelect-");
+    this.logger.log("DAF added"); // Set the on change event for the DAF payment option
+
+    const dafOption = document.querySelector("input[name='transaction.giveBySelect'][value='daf']");
+
+    if (!dafOption) {
+      this.logger.log("Somehow DAF was not added");
+      return;
+    }
+
+    dafOption.addEventListener("change", () => {
+      this.logger.log("Payment DAF selected");
+      engrid_ENGrid.setPaymentType("daf");
+    });
+  }
+
+}
 ;// CONCATENATED MODULE: ./src/index.ts
  // Uses ENGrid via NPM
 // import {
@@ -22541,6 +22731,7 @@ const customScript = function (App, EnForm) {
 //   DonationFrequency,
 //   EnForm,
 // } from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
+
 
 
 
@@ -22634,6 +22825,7 @@ const options = {
     window.DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(App, DonationAmount, DonationFrequency);
     customScript(App, EnForm);
+    new AddDAF();
   },
   onResize: () => console.log("Starter Theme Window Resized"),
   onValidate: () => {
