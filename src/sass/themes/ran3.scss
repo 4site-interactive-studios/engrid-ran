@@ -818,55 +818,57 @@
   }
 
   @media screen and (max-width: 600px) {
-    --engrid__body_padding: 0 1.5rem;
-    --engrid__body-top_padding: 30px 1.5rem 0;
-    --engrid__body-main_padding: 0 1.5rem 85px;
-    --h1_font-size: 2.5rem;
-    --h2_font-size: 2rem;
-    --button_font-size: 2rem;
-    --label_font-size: 1rem;
-    --input_font-size: 1rem;
-    --radio_font-size: 1rem;
-    --submit__button_font-size: var(--button_font-size);
-    --radio_line-height: 1.3;
-    --donation-amount__button_count: 2;
+    &:not([data-engrid-embedded]) {
+      --engrid__body_padding: 0 1.5rem;
+      --engrid__body-top_padding: 30px 1.5rem 0;
+      --engrid__body-main_padding: 0 1.5rem 85px;
+      --h1_font-size: 2.5rem;
+      --h2_font-size: 2rem;
+      --button_font-size: 2rem;
+      --label_font-size: 1rem;
+      --input_font-size: 1rem;
+      --radio_font-size: 1rem;
+      --submit__button_font-size: var(--button_font-size);
+      --radio_line-height: 1.3;
+      --donation-amount__button_count: 2;
 
-    .radio-to-buttons_donationAmt
-      .en__field--donationAmt
-      .en__field__item.en__field__item--other
-      input {
-      font-size: var(--button_font-size);
-    }
+      .radio-to-buttons_donationAmt
+        .en__field--donationAmt
+        .en__field__item.en__field__item--other
+        input {
+        font-size: var(--button_font-size);
+      }
 
-    .en__submit button {
-      padding-left: 0;
-      padding-right: 0;
-    }
+      .en__submit button {
+        padding-left: 0;
+        padding-right: 0;
+      }
 
-    .footer-wrapper {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
+      .footer-wrapper {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
 
-    .footer-center {
-      flex-direction: column;
-    }
+      .footer-center {
+        flex-direction: column;
+      }
 
-    .footer-badges {
-      margin: 0 0 10px;
-    }
+      .footer-badges {
+        margin: 0 0 10px;
+      }
 
-    .footer-menu {
-      font-size: 1rem;
-      text-align: center;
-    }
+      .footer-menu {
+        font-size: 1rem;
+        text-align: center;
+      }
 
-    .footer-menu a:not(:last-of-type):after {
-      content: none;
-    }
+      .footer-menu a:not(:last-of-type):after {
+        content: none;
+      }
 
-    .footer-menu a:not(:last-of-type) {
-      border-right: 1px solid white;
+      .footer-menu a:not(:last-of-type) {
+        border-right: 1px solid white;
+      }
     }
   }
 
@@ -1588,6 +1590,77 @@
       }
       .custom-tooltip-arrow {
         transform: rotate(-135deg) translateY(2px);
+      }
+    }
+  }
+
+  /* Styles the iFrame of the embedded donation page that is displayed on the thank you page */
+  iframe.thank-you-page-donation {
+    outline: 5px dashed #395a4c;
+    margin: calc(1rem + 5px);
+    outline-offset: 1rem;
+    position: relative;
+    left: calc(((1rem + 5px) * -1));
+  }
+
+  .highlight-style2 {
+    color: #000;
+    display: inline;
+    padding: 0.45rem 0.45rem 0.2rem 0.45rem;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    background-color: #eff520;
+  }
+
+  /* Hide the cookie banned when embedded */
+  &[data-engrid-embedded] .cky-overlay,
+  &[data-engrid-embedded] .cky-consent-container {
+    display: none !important;
+  }
+
+  /* This are temporary stylings that will be moved into the theme once complete */
+  &[data-engrid-embedded="thank-you-page-donation"] {
+    /* Hide the header and footer */
+    .body-headerOutside,
+    .content-footer {
+      display: none !important;
+    }
+    @media screen and (max-width: 600px) {
+      --engrid__body_padding: 0;
+      --engrid__body-top_padding: 30px 0 0;
+      --engrid__body-main_padding: 0 0 85px;
+
+      .body-title,
+      .body-top {
+        > * > *:first-child {
+          margin-top: 0;
+        }
+      }
+
+      .body-top {
+        padding-top: 0;
+      }
+
+      .body-main {
+        padding-bottom: 0;
+      }
+
+      .en__submit button {
+        margin-bottom: 0;
+      }
+
+      .en__digitalWallet__container {
+        display: block !important;
+      }
+
+      .giveBySelect-Card {
+        margin-top: 1rem !important;
+      }
+
+      &[data-conditonally-hide-show-digital-wallet-elements] {
+        #en__digitalWallet .en__digitalWallet__container {
+          margin-bottom: 0 !important;
+        }
       }
     }
   }
