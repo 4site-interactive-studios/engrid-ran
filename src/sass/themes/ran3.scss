@@ -1498,6 +1498,12 @@
     margin-bottom: -50px;
     position: relative;
     z-index: 100;
+    /* Adds space for the welcome back message if there's no content there to natively offer it */
+    /* Screenshot: https://cln.sh/nKrwz2F0 */
+    /* REF: https://app.productive.io/2650-4site-interactive-studios-inc/tasks/5157730 */
+    &.showif-fast-personal-details + .engrid-personal-details-summary {
+      margin-top: calc(3rem - 2px);
+    }
   }
 
   .engrid-welcome-back .engrid-reset-welcome-back {
