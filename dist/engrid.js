@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, October 24, 2024 @ 16:02:06 ET
+ *  Date: Monday, October 28, 2024 @ 12:28:46 ET
  *  By: bryancasler
  *  ENGrid styles: v0.19.9
- *  ENGrid scripts: v0.19.12
+ *  ENGrid scripts: v0.19.13
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -21167,6 +21167,7 @@ class WelcomeBack {
         this.supporterDetails = {};
         this.options = (_a = engrid_ENGrid.getOption("WelcomeBack")) !== null && _a !== void 0 ? _a : false;
         this.rememberMeEvents = RememberMeEvents.getInstance();
+        this.hasRun = false;
         if (!this.shouldRun())
             return;
         if (engrid_ENGrid.getOption("RememberMe")) {
@@ -21182,6 +21183,9 @@ class WelcomeBack {
         }
     }
     run() {
+        if (this.hasRun)
+            return;
+        this.hasRun = true;
         this.supporterDetails = {
             firstName: engrid_ENGrid.getFieldValue("supporter.firstName"),
             lastName: engrid_ENGrid.getFieldValue("supporter.lastName"),
@@ -21753,7 +21757,7 @@ class CheckboxLabel {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.19.12";
+const AppVersion = "0.19.13";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
