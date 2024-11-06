@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, October 28, 2024 @ 12:28:46 ET
- *  By: bryancasler
- *  ENGrid styles: v0.19.9
- *  ENGrid scripts: v0.19.13
+ *  Date: Tuesday, November 5, 2024 @ 21:19:26 ET
+ *  By: fernando
+ *  ENGrid styles: v0.19.15
+ *  ENGrid scripts: v0.19.14
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -11200,6 +11200,12 @@ class DonationAmount {
         if (found.length) {
             const amountField = found[0];
             amountField.checked = true;
+            // Change Event
+            const event = new Event("change", {
+                bubbles: true,
+                cancelable: true,
+            });
+            amountField.dispatchEvent(event);
             // Clear OTHER text field
             this.clearOther();
         }
@@ -11211,6 +11217,12 @@ class DonationAmount {
                     enFieldOtherAmountRadio.checked = true;
                 }
                 otherField.value = parseFloat(amount.toString()).toFixed(2);
+                // Change Event
+                const event = new Event("change", {
+                    bubbles: true,
+                    cancelable: true,
+                });
+                otherField.dispatchEvent(event);
                 const otherWrapper = otherField.parentNode;
                 otherWrapper.classList.remove("en__field__item--hidden");
             }
@@ -14059,6 +14071,7 @@ class UpsellCheckbox {
         this.checkboxContainer = null;
         this.oldAmount = 0;
         this.oldFrequency = "one-time";
+        this.resetCheckbox = false;
         this.logger = new EngridLogger("UpsellCheckbox", "black", "LemonChiffon", "✅");
         let options = "EngridUpsell" in window ? window.EngridUpsell : {};
         this.options = Object.assign(Object.assign({}, UpsellOptionsDefaults), options);
@@ -14066,8 +14079,8 @@ class UpsellCheckbox {
             this.logger.log("Skipped");
             return;
         }
-        // If window.EngridUpsell has only the upsellCheckbox property, set window.EngridUpsell.skipUpsell to true
-        if (Object.keys(options).length === 1 && "upsellCheckbox" in options) {
+        // To avoid using both UpsellLightbox and UpsellCheckbox at the same time, set window.EngridUpsell.skipUpsell to true if there's an upsellCheckbox
+        if ("upsellCheckbox" in options && options.upsellCheckbox !== false) {
             window.EngridUpsell.skipUpsell = true; // Skip the upsell lightbox
         }
         this.checkboxOptions = Object.assign(Object.assign({}, this.checkboxOptionsDefaults), this.options.upsellCheckbox);
@@ -14079,12 +14092,31 @@ class UpsellCheckbox {
         this.renderCheckbox();
         this.updateLiveData();
         this._frequency.onFrequencyChange.subscribe(() => this.updateLiveData());
+        this._frequency.onFrequencyChange.subscribe(() => this.resetUpsellCheckbox());
         this._amount.onAmountChange.subscribe(() => this.updateLiveData());
+        this._amount.onAmountChange.subscribe(() => this.resetUpsellCheckbox());
         this._fees.onFeeChange.subscribe(() => this.updateLiveData());
     }
     updateLiveData() {
         this.liveAmounts();
         this.liveFrequency();
+    }
+    resetUpsellCheckbox() {
+        var _a, _b;
+        // Only reset the upsell checkbox if it has been checked
+        if (!this.resetCheckbox)
+            return;
+        this.logger.log("Reset");
+        // Uncheck the upsell checkbox
+        const checkbox = (_a = this.checkboxContainer) === null || _a === void 0 ? void 0 : _a.querySelector("#upsellCheckbox");
+        if (checkbox) {
+            checkbox.checked = false;
+        }
+        // Hide the upsell checkbox
+        (_b = this.checkboxContainer) === null || _b === void 0 ? void 0 : _b.classList.add("recurring-frequency-y-hide");
+        this.oldAmount = 0;
+        this.oldFrequency = "one-time";
+        this.resetCheckbox = false;
     }
     renderCheckbox() {
         if (this.checkboxOptions === false)
@@ -14211,8 +14243,13 @@ class UpsellCheckbox {
             this._dataLayer.addEndOfGiftProcessVariable("ENGRID_UPSELL_ORIGINAL_AMOUNT", originalAmount);
             this._dataLayer.addEndOfGiftProcessVariable("ENGRID_UPSELL_DONATION_FREQUENCY", "MONTHLY");
             this.renderConversionField("upsellSuccess", "onetime", originalAmount, "monthly", upsoldAmount, "monthly", upsoldAmount);
+            // Set the resetCheckbox flag to true so it will reset if the user changes the amount or frequency
+            window.setTimeout(() => {
+                this.resetCheckbox = true;
+            }, 500);
         }
         else {
+            this.resetCheckbox = false;
             this.logger.success("Not Upsold");
             this._amount.setAmount(this.oldAmount);
             this._frequency.setFrequency(this.oldFrequency);
@@ -21757,7 +21794,7 @@ class CheckboxLabel {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.19.13";
+const AppVersion = "0.19.14";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
