@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, November 12, 2024 @ 13:28:59 ET
+ *  Date: Wednesday, November 13, 2024 @ 22:22:11 ET
  *  By: fernando
  *  ENGrid styles: v0.19.16
  *  ENGrid scripts: v0.19.18
@@ -9031,7 +9031,7 @@ body[data-engrid-debug]:before{
   border:var(--input_border-width) solid var(--input_border-color);
 }
 
-[data-engrid-theme=engrid-ran3][data-engrid-embedded-ecard=true] .en__ecarditems__showprev,body[data-engrid-page-type=donation][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=donation][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,iframe[src*=fluidads]{
+.optin-ladder,[data-engrid-theme=engrid-ran3][data-engrid-embedded-ecard=true] .en__ecarditems__showprev,body[data-engrid-page-type=donation][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=donation][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,iframe[src*=fluidads]{
   display:none;
 }
 body{
