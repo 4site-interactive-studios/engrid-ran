@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, November 13, 2024 @ 22:22:11 ET
+ *  Date: Sunday, November 17, 2024 @ 21:43:18 ET
  *  By: fernando
- *  ENGrid styles: v0.19.16
- *  ENGrid scripts: v0.19.18
+ *  ENGrid styles: v0.19.20
+ *  ENGrid scripts: v0.19.21
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -12163,6 +12163,8 @@ class App extends engrid_ENGrid {
         new Advocacy();
         new InputPlaceholders();
         new InputHasValueAndFocus();
+        // Give By Select
+        new GiveBySelect();
         new ShowHideRadioCheckboxes("transaction.giveBySelect", "giveBySelect-");
         new ShowHideRadioCheckboxes("transaction.inmem", "inmem-");
         new ShowHideRadioCheckboxes("transaction.recurrpay", "recurrpay-");
@@ -12353,8 +12355,6 @@ class App extends engrid_ENGrid {
         // Plaid
         if (this.options.Plaid)
             new Plaid();
-        // Give By Select
-        new GiveBySelect();
         //Exit Intent Lightbox
         new ExitIntentLightbox();
         new UrlParamsToBodyAttrs();
@@ -13157,6 +13157,10 @@ class iFrame {
                     : 0;
                 this.logger.log(`iFrame Event 'scrollTo' - Position of top of first error ${scrollTo} px`); // check the message is being sent correctly
                 window.parent.postMessage({ scrollTo }, "*");
+                // Send the height of the iFrame
+                window.setTimeout(() => {
+                    this.sendIframeHeight();
+                }, 100);
             });
         }
         else {
@@ -13174,6 +13178,12 @@ class iFrame {
                 if (iframe) {
                     if (event.data.hasOwnProperty("frameHeight")) {
                         iframe.style.height = event.data.frameHeight + "px";
+                        if (event.data.frameHeight > 0) {
+                            iframe.classList.add("loaded");
+                        }
+                        else {
+                            iframe.classList.remove("loaded");
+                        }
                     }
                     // Old scroll event logic "scroll", scrolls to correct iframe?
                     else if (event.data.hasOwnProperty("scroll") &&
@@ -17257,7 +17267,8 @@ class UrlToForm {
         this.urlParams.forEach((value, key) => {
             const field = document.getElementsByName(key)[0];
             if (field) {
-                if (!["text", "textarea"].includes(field.type) || !field.value) {
+                if (!["text", "textarea", "email"].includes(field.type) ||
+                    !field.value) {
                     engrid_ENGrid.setFieldValue(key, value);
                     this.logger.log(`Set: ${key} to ${value}`);
                 }
@@ -18808,6 +18819,8 @@ class Autosubmit {
             !window.EngagingNetworks.require._defined.enjs.checkSubmissionFailed() &&
             engrid_ENGrid.getUrlParameter("autosubmit") === "Y") {
             this.logger.log("Autosubmitting Form");
+            // Fix EN ?chain parameter not working with email addresses with + in them
+            engrid_ENGrid.setFieldValue("supporter.emailAddress", engrid_ENGrid.getFieldValue("supporter.emailAddress").replace(/\s/g, "+"));
             this._form.submitForm();
         }
     }
@@ -21811,7 +21824,7 @@ class CheckboxLabel {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.19.18";
+const AppVersion = "0.19.21";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
@@ -23078,6 +23091,16 @@ class OptInLadder {
     if (optInHeaders.length === 0 && optInFormBlocks.length === 0) {
       this.logger.log("No optin-ladder elements found");
       return;
+    } // Check if the e-mail field exist and is not empty
+
+
+    const emailField = engrid_ENGrid.getField("supporter.emailAddress");
+
+    if (!emailField || !emailField.value) {
+      this.logger.log("Email field is empty"); // Since this is a OptInLadder page with no e-mail address, hide the page
+
+      this.hidePage();
+      return;
     }
 
     const sessionStorageCheckboxValues = JSON.parse(sessionStorage.getItem("engrid.supporter.questions") || "{}");
@@ -23130,10 +23153,9 @@ class OptInLadder {
       this.logger.log("No optin-ladder elements found"); // Set the current step to the total steps to avoid redirecting to the first page
 
       currentStep = totalSteps;
-      this.saveStepToSessionStorage(currentStep, totalSteps); // Submit the form
+      this.saveStepToSessionStorage(currentStep, totalSteps); // hide the page
 
-      this._form.submitForm();
-
+      this.hidePage();
       return;
     } // Show the current header and form block, while removing the rest
 
@@ -23231,6 +23253,14 @@ class OptInLadder {
 
   isEmbeddedThankYouPage() {
     return engrid_ENGrid.getBodyData("embedded") === "thank-you-page-donation";
+  }
+
+  hidePage() {
+    const engridPage = document.querySelector("#engrid");
+
+    if (engridPage) {
+      engridPage.classList.add("hide");
+    }
   }
 
 }

@@ -59,6 +59,16 @@ export class OptInLadder {
       this.logger.log("No optin-ladder elements found");
       return;
     }
+    // Check if the e-mail field exist and is not empty
+    const emailField = ENGrid.getField(
+      "supporter.emailAddress"
+    ) as HTMLInputElement;
+    if (!emailField || !emailField.value) {
+      this.logger.log("Email field is empty");
+      // Since this is a OptInLadder page with no e-mail address, hide the page
+      this.hidePage();
+      return;
+    }
     const sessionStorageCheckboxValues = JSON.parse(
       sessionStorage.getItem("engrid.supporter.questions") || "{}"
     );
@@ -109,8 +119,8 @@ export class OptInLadder {
       // Set the current step to the total steps to avoid redirecting to the first page
       currentStep = totalSteps;
       this.saveStepToSessionStorage(currentStep, totalSteps);
-      // Submit the form
-      this._form.submitForm();
+      // hide the page
+      this.hidePage();
       return;
     }
     // Show the current header and form block, while removing the rest
@@ -219,5 +229,11 @@ export class OptInLadder {
   }
   private isEmbeddedThankYouPage() {
     return ENGrid.getBodyData("embedded") === "thank-you-page-donation";
+  }
+  private hidePage() {
+    const engridPage = document.querySelector("#engrid") as HTMLElement;
+    if (engridPage) {
+      engridPage.classList.add("hide");
+    }
   }
 }
