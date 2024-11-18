@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Sunday, November 17, 2024 @ 21:43:18 ET
+ *  Date: Sunday, November 17, 2024 @ 22:04:49 ET
  *  By: fernando
  *  ENGrid styles: v0.19.20
  *  ENGrid scripts: v0.19.21
@@ -23178,7 +23178,10 @@ class OptInLadder {
     this.saveStepToSessionStorage(currentStep, totalSteps); // On form submit, save the checkbox values to sessionStorage
 
     this._form.onSubmit.subscribe(() => {
-      this.saveOptInsToSessionStorage();
+      this.saveOptInsToSessionStorage(); // Save the current step to sessionStorage
+
+      currentStep++;
+      this.saveStepToSessionStorage(currentStep, totalSteps);
     });
   }
 

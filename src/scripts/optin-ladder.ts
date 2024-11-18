@@ -143,6 +143,10 @@ export class OptInLadder {
     // On form submit, save the checkbox values to sessionStorage
     this._form.onSubmit.subscribe(() => {
       this.saveOptInsToSessionStorage();
+
+      // Save the current step to sessionStorage
+      currentStep++;
+      this.saveStepToSessionStorage(currentStep, totalSteps);
     });
   }
 
