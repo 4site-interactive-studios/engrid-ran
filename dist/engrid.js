@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, December 13, 2024 @ 23:40:40 ET
+ *  Date: Friday, December 13, 2024 @ 23:50:28 ET
  *  By: fernando
  *  ENGrid styles: v0.20.0
  *  ENGrid scripts: v0.20.3
@@ -23131,7 +23131,9 @@ const customScript = function (App, EnForm) {
     });
   }
 
-  addTransactionFeeTooltip();
+  addTransactionFeeTooltip(); // Add data-engrid-client-js-loading=finsihed to body
+
+  App.setBodyData("client-js-loading", "finished");
 };
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 function _defineProperty(obj, key, value) {
@@ -23359,9 +23361,9 @@ const options = {
   onLoad: () => {
     window.DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(App, DonationAmount, DonationFrequency);
-    customScript(App, EnForm);
     new AddDAF();
     new OptInLadder();
+    customScript(App, EnForm);
   },
   onResize: () => console.log("Starter Theme Window Resized"),
   onValidate: () => {

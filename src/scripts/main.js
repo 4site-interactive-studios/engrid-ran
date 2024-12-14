@@ -213,4 +213,6 @@ export const customScript = function (App, EnForm) {
   }
 
   addTransactionFeeTooltip();
+  // Add data-engrid-client-js-loading=finsihed to body
+  App.setBodyData("client-js-loading", "finished");
 };
