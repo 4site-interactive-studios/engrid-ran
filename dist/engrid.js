@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, November 22, 2024 @ 18:07:17 ET
+ *  Date: Friday, December 13, 2024 @ 23:40:40 ET
  *  By: fernando
  *  ENGrid styles: v0.20.0
- *  ENGrid scripts: v0.20.1
+ *  ENGrid scripts: v0.20.3
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -13288,6 +13288,7 @@ class iFrame {
             "giveBySelect-Card",
             "en__field--ccnumber",
             "en__field--survey",
+            "en__component--ecardblock",
             "give-by-select",
             "give-by-select-header",
             "en__submit",
@@ -13298,7 +13299,7 @@ class iFrame {
             "radio-to-buttons_donationAmt",
         ];
         const excludeIds = ["en__digitalWallet"];
-        const components = Array.from(document.querySelectorAll(".body-main > div:not(:last-child)"));
+        const components = Array.from(document.querySelectorAll(".body-main:not(.force-visibility) > div:not(:last-child)"));
         components.forEach((component) => {
             const shouldExclude = excludeClasses.some((cls) => component.classList.contains(cls) ||
                 component.querySelector(`:scope > .${cls}`)) || excludeIds.some((id) => component.querySelector(`#${id}`));
@@ -21853,12 +21854,12 @@ class OptInLadder {
         }
         this._form.onSubmit.subscribe(() => {
             // Save the checkbox values to sessionStorage
-            this.saveOptInsToSessionStorage();
+            this.saveOptInsToSessionStorage("parent");
         });
         this.logger.log("Running as Parent");
         if (engrid_ENGrid.getPageNumber() === 1) {
-            // Delete supporter.questions from sessionStorage
-            sessionStorage.removeItem("engrid.supporter.questions");
+            // Delete items from sessionStorage
+            this.clearSessionStorage();
         }
     }
     runAsChildRegular() {
@@ -21949,7 +21950,7 @@ class OptInLadder {
         this.saveStepToSessionStorage(currentStep, totalSteps);
         // On form submit, save the checkbox values to sessionStorage
         this._form.onSubmit.subscribe(() => {
-            this.saveOptInsToSessionStorage();
+            this.saveOptInsToSessionStorage("child");
             // Save the current step to sessionStorage
             currentStep++;
             this.saveStepToSessionStorage(currentStep, totalSteps);
@@ -21960,19 +21961,25 @@ class OptInLadder {
             this.logger.log("Not Embedded on a Thank You Page");
             return;
         }
+        const hasOptInLadderStop = sessionStorage.getItem("engrid.optin-ladder-stop");
+        if (hasOptInLadderStop) {
+            this.logger.log("OptInLadder has been stopped");
+            return;
+        }
         const sessionStorageOptInLadder = JSON.parse(sessionStorage.getItem("engrid.optin-ladder") || "{}");
         const currentStep = sessionStorageOptInLadder.step || 0;
         const totalSteps = sessionStorageOptInLadder.totalSteps || 0;
-        if (currentStep < totalSteps) {
-            this.logger.log(`Current step ${currentStep} is less than total steps ${totalSteps}`);
+        if (currentStep <= totalSteps) {
+            this.logger.log(`Current step ${currentStep} is less or equal to total steps ${totalSteps}`);
+            this.hidePage();
             // Redirect to the first page
             window.location.href = this.getFirstPageUrl();
             return;
         }
         else {
-            this.logger.log(`Current step ${currentStep} is equal to total steps ${totalSteps}`);
+            this.logger.log(`Current step ${currentStep} is greater than total steps ${totalSteps}`);
             // Remove the session storage
-            sessionStorage.removeItem("engrid.optin-ladder");
+            this.clearSessionStorage();
         }
     }
     inIframe() {
@@ -21995,7 +22002,7 @@ class OptInLadder {
         path.push("1");
         return url.origin + path.join("/") + "?chain";
     }
-    saveOptInsToSessionStorage() {
+    saveOptInsToSessionStorage(type = "parent") {
         // Grab all the checkboxes with the name starting with "supporter.questions"
         const checkboxes = document.querySelectorAll('input[name^="supporter.questions"]');
         if (checkboxes.length === 0) {
@@ -22003,15 +22010,23 @@ class OptInLadder {
             return;
         }
         const sessionStorageCheckboxValues = JSON.parse(sessionStorage.getItem("engrid.supporter.questions") || "{}");
+        let hasDeny = false;
         // Loop through all the checkboxes and store the value in sessionStorage
         checkboxes.forEach((checkbox) => {
             if (checkbox.checked) {
                 const index = checkbox.name.split(".")[2];
                 sessionStorageCheckboxValues[index] = "Y";
             }
+            else {
+                hasDeny = true;
+            }
         });
         sessionStorage.setItem("engrid.supporter.questions", JSON.stringify(sessionStorageCheckboxValues));
         this.logger.log(`Saved checkbox values to sessionStorage: ${JSON.stringify(sessionStorageCheckboxValues)}`);
+        if (type === "child" && hasDeny) {
+            // Add a deny value to the sessionStorage to stop the ladder
+            sessionStorage.setItem("engrid.optin-ladder-stop", "Y");
+        }
     }
     isEmbeddedThankYouPage() {
         return engrid_ENGrid.getBodyData("embedded") === "thank-you-page-donation";
@@ -22022,10 +22037,15 @@ class OptInLadder {
             engridPage.classList.add("hide");
         }
     }
+    clearSessionStorage() {
+        sessionStorage.removeItem("engrid.supporter.questions");
+        sessionStorage.removeItem("engrid.optin-ladder");
+        sessionStorage.removeItem("engrid.optin-ladder-stop");
+    }
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.20.1";
+const AppVersion = "0.20.3";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
@@ -23244,6 +23264,7 @@ class AddDAF {
 //   DonationAmount,
 //   DonationFrequency,
 //   EnForm,
+//   OptInLadder,
 // } from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
 
 
