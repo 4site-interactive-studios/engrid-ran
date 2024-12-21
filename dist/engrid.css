@@ -19,10 +19,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, November 12, 2024 @ 13:28:59 ET
+ *  Date: Friday, December 13, 2024 @ 23:50:28 ET
  *  By: fernando
- *  ENGrid styles: v0.19.16
- *  ENGrid scripts: v0.19.18
+ *  ENGrid styles: v0.20.0
+ *  ENGrid scripts: v0.20.3
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -4420,12 +4420,10 @@ button.en__eventOccurrence__select>label{
 }
 @keyframes spin{
   0%{
-    tranform:rotate(0deg);
-    -webkit-transform:rotate(0deg);
+    transform:rotate(0deg);
   }
   to{
-    tranform:rotate(1turn);
-    -webkit-transform:rotate(1turn);
+    transform:rotate(1turn);
   }
 }
 [data-engrid-theme]{
@@ -8970,9 +8968,11 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=engrid-ran3] iframe.thank-you-page-donation{
   left:calc(-1rem + -5px);
   margin:calc(1rem + 5px);
+  position:relative;
+}
+[data-engrid-theme=engrid-ran3] iframe.thank-you-page-donation.loaded{
   outline:5px dashed #395a4c;
   outline-offset:1rem;
-  position:relative;
 }
 [data-engrid-theme=engrid-ran3] .highlight-style2{
   background-color:#eff520;
@@ -8984,6 +8984,10 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3][data-engrid-embedded] .cky-consent-container,[data-engrid-theme=engrid-ran3][data-engrid-embedded] .cky-overlay{
   display:none !important;
+}
+[data-engrid-theme=engrid-ran3][data-engrid-embedded=thank-you-page-donation] form>.en__component--row.en__component--advrow{
+  margin:0 auto;
+  max-width:97vw;
 }
 [data-engrid-theme=engrid-ran3][data-engrid-embedded=thank-you-page-donation] .body-headerOutside,[data-engrid-theme=engrid-ran3][data-engrid-embedded=thank-you-page-donation] .content-footer{
   display:none !important;
@@ -9031,7 +9035,7 @@ body[data-engrid-debug]:before{
   border:var(--input_border-width) solid var(--input_border-color);
 }
 
-[data-engrid-theme=engrid-ran3][data-engrid-embedded-ecard=true] .en__ecarditems__showprev,body[data-engrid-page-type=donation][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=donation][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,iframe[src*=fluidads]{
+.optin-ladder,[data-engrid-theme=engrid-ran3][data-engrid-embedded-ecard=true] .en__ecarditems__showprev,body[data-engrid-page-type=donation][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=donation][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,iframe[src*=fluidads]{
   display:none;
 }
 body{

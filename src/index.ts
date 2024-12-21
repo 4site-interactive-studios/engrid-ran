@@ -4,6 +4,7 @@ import {
   DonationAmount,
   DonationFrequency,
   EnForm,
+  OptInLadder,
 } from "@4site/engrid-scripts"; // Uses ENGrid via NPM
 // import {
 //   Options,
@@ -11,6 +12,7 @@ import {
 //   DonationAmount,
 //   DonationFrequency,
 //   EnForm,
+//   OptInLadder,
 // } from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
 import "./sass/main.scss";
 import DonationLightboxForm from "./scripts/donation-lightbox-form";
@@ -119,8 +121,9 @@ const options: Options = {
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(App, DonationAmount, DonationFrequency);
-    customScript(App, EnForm);
     new AddDAF();
+    new OptInLadder();
+    customScript(App, EnForm);
   },
   onResize: () => console.log("Starter Theme Window Resized"),
   onValidate: () => {

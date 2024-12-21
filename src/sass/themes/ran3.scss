@@ -1602,12 +1602,20 @@
 
   /* Styles the iFrame of the embedded donation page that is displayed on the thank you page */
   iframe.thank-you-page-donation {
-    outline: 5px dashed #395a4c;
     margin: calc(1rem + 5px);
-    outline-offset: 1rem;
     position: relative;
     left: calc(((1rem + 5px) * -1));
+    &.loaded {
+      outline: 5px dashed #395a4c;
+      outline-offset: 1rem;
+    }
   }
+  // iframe.opt-in-ladder-iframe {
+  //   display: none;
+  //   &.loaded {
+  //     display: block;
+  //   }
+  // }
 
   .highlight-style2 {
     color: #000;
@@ -1626,6 +1634,10 @@
 
   /* This are temporary stylings that will be moved into the theme once complete */
   &[data-engrid-embedded="thank-you-page-donation"] {
+    form > .en__component--row.en__component--advrow {
+      max-width: 97vw;
+      margin: 0 auto;
+    }
     /* Hide the header and footer */
     .body-headerOutside,
     .content-footer {
