@@ -13,6 +13,8 @@ body[data-engrid-page-type="premiumgift"][data-engrid-payment-type="paypaltouch"
   }
 }
 
-.optin-ladder {
-  display: none;
+body:not(#en__pagebuilder) {
+  .optin-ladder {
+    display: none;
+  }
 }
