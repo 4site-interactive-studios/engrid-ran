@@ -118,6 +118,11 @@ const options: Options = {
       },
     },
   },
+  OptInLadder: {
+    iframeUrl:
+      "https://act.ran.org/page/75744/data/1?chain&engrid_hide[body-headerOutside]=class&engrid_hide[body-banner]=class&engrid_hide[content-footer]=class&engrid_hide[page-backgroundImage]=class",
+    excludePageIDs: ["78306"],
+  },
   onLoad: () => {
     (<any>window).DonationLightboxForm = DonationLightboxForm;
     new DonationLightboxForm(App, DonationAmount, DonationFrequency);

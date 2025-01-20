@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, January 7, 2025 @ 16:38:12 ET
+ *  Date: Sunday, January 19, 2025 @ 19:32:56 ET
  *  By: fernando
  *  ENGrid styles: v0.20.0
- *  ENGrid scripts: v0.20.4
+ *  ENGrid scripts: v0.20.5
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -10769,6 +10769,7 @@ const OptionsDefaults = {
     PostalCodeValidator: false,
     CountryRedirect: false,
     WelcomeBack: false,
+    OptInLadder: false,
     PageLayouts: [
         "leftleft1col",
         "centerleft1col",
@@ -21881,20 +21882,62 @@ class OptInLadder {
         }
     }
     runAsParent() {
-        // Grab all the checkboxes with the name starting with "supporter.questions"
-        const checkboxes = document.querySelectorAll('input[name^="supporter.questions"]');
-        if (checkboxes.length === 0) {
-            this.logger.log("No checkboxes found");
-            return;
-        }
-        this._form.onSubmit.subscribe(() => {
-            // Save the checkbox values to sessionStorage
-            this.saveOptInsToSessionStorage("parent");
-        });
         this.logger.log("Running as Parent");
-        if (engrid_ENGrid.getPageNumber() === 1) {
-            // Delete items from sessionStorage
-            this.clearSessionStorage();
+        if (engrid_ENGrid.getPageNumber() === engrid_ENGrid.getPageCount()) {
+            // We are on the Thank You Page as a Parent
+            // Check autoinject iFrame
+            const optInLadderOptions = engrid_ENGrid.getOption("OptInLadder");
+            if (!optInLadderOptions || !optInLadderOptions.iframeUrl) {
+                this.logger.log("Options not found");
+                return;
+            }
+            // Create an iFrame
+            const iframe = document.createElement("iframe");
+            iframe.src = optInLadderOptions.iframeUrl;
+            iframe.style.width = "100%";
+            iframe.style.height = "0";
+            iframe.scrolling = "no";
+            iframe.frameBorder = "0";
+            iframe.allowFullscreen = true;
+            iframe.allow = "payment";
+            iframe.classList.add("opt-in-ladder-iframe");
+            iframe.classList.add("engrid-iframe");
+            // If the page already has an iFrame with the same class, we don't need to add another one
+            const existingIframe = document.querySelector(".opt-in-ladder-iframe");
+            if (existingIframe) {
+                this.logger.log("iFrame already exists");
+                return;
+            }
+            // Check if the current page is part of the excludePageIDs
+            if (optInLadderOptions.excludePageIDs &&
+                optInLadderOptions.excludePageIDs.includes(engrid_ENGrid.getPageID())) {
+                this.logger.log("Current page is excluded");
+                return;
+            }
+            // Append the iFrame to the proper placement
+            const placementQuerySelector = optInLadderOptions.placementQuerySelector || ".body-top";
+            const placement = document.querySelector(placementQuerySelector);
+            if (!placement) {
+                this.logger.error("Placement not found");
+                return;
+            }
+            placement.appendChild(iframe);
+        }
+        else {
+            // Grab all the checkboxes with the name starting with "supporter.questions"
+            const checkboxes = document.querySelectorAll('input[name^="supporter.questions"]');
+            if (checkboxes.length === 0) {
+                this.logger.log("No checkboxes found");
+                return;
+            }
+            this._form.onSubmit.subscribe(() => {
+                // Save the checkbox values to sessionStorage
+                this.saveOptInsToSessionStorage("parent");
+            });
+            if (engrid_ENGrid.getPageNumber() === 1) {
+                // Delete items from sessionStorage
+                this.clearSessionStorage();
+            }
         }
     }
     runAsChildRegular() {
@@ -22080,7 +22123,7 @@ class OptInLadder {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.20.4";
+const AppVersion = "0.20.5";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
@@ -23392,6 +23435,10 @@ const options = {
         }
       }
     }
+  },
+  OptInLadder: {
+    iframeUrl: "https://act.ran.org/page/75744/data/1?chain&engrid_hide[body-headerOutside]=class&engrid_hide[body-banner]=class&engrid_hide[content-footer]=class&engrid_hide[page-backgroundImage]=class",
+    excludePageIDs: ["78306"]
   },
   onLoad: () => {
     window.DonationLightboxForm = DonationLightboxForm;
