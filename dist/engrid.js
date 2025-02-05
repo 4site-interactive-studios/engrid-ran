@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, February 3, 2025 @ 08:32:34 ET
+ *  Date: Wednesday, February 5, 2025 @ 08:27:54 ET
  *  By: michael
  *  ENGrid styles: v0.20.6
  *  ENGrid scripts: v0.20.6
@@ -23372,21 +23372,14 @@ class EcardRecipientDetails {
       email
     } = ecardDetails.formData.recipients[0];
     if (!name || !email) return;
-    let extRefField = document.querySelector("[name='en_txn8']"); // If the ext ref field doesn't exist, create it
+    let extRefField = document.querySelector("[name='en_txn8']"); // Add the recipient details to the ext ref field
+    // The field must be added to the page via a code block for this to work.
+    // It does not work if we create the field using JavaScript after page load.
 
-    if (!extRefField) {
-      this.logger.log("No ext ref field found, creating it.");
-      const form = document.querySelector(".en__component--page");
-      extRefField = document.createElement("input");
-      extRefField.classList.add("en__field__input", "en__field__input--text");
-      extRefField.type = "hidden";
-      extRefField.name = "en_txn8";
-      form.appendChild(extRefField);
-    } // Add the recipient details to the ext ref field
-
-
-    extRefField.value = `${email} ; ${name}`;
-    this.logger.log(`Added ecard recipient details "${email} ; ${name}" to ext ref field`);
+    if (extRefField) {
+      extRefField.value = `${email} ; ${name}`;
+      this.logger.log(`Added ecard recipient details "${email} ; ${name}" to ext ref field`);
+    }
   }
 
 }

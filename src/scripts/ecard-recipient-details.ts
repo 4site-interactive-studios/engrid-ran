@@ -45,24 +45,14 @@ export class EcardRecipientDetails {
       "[name='en_txn8']"
     ) as HTMLInputElement;
 
-    // If the ext ref field doesn't exist, create it
-    if (!extRefField) {
-      this.logger.log("No ext ref field found, creating it.");
-      const form = document.querySelector(
-        ".en__component--page"
-      ) as HTMLElement;
-      extRefField = document.createElement("input");
-      extRefField.classList.add("en__field__input", "en__field__input--text");
-      extRefField.type = "hidden";
-      extRefField.name = "en_txn8";
-      form.appendChild(extRefField);
-    }
-
     // Add the recipient details to the ext ref field
-    extRefField.value = `${email} ; ${name}`;
-
-    this.logger.log(
-      `Added ecard recipient details "${email} ; ${name}" to ext ref field`
-    );
+    // The field must be added to the page via a code block for this to work.
+    // It does not work if we create the field using JavaScript after page load.
+    if (extRefField) {
+      extRefField.value = `${email} ; ${name}`;
+      this.logger.log(
+        `Added ecard recipient details "${email} ; ${name}" to ext ref field`
+      );
+    }
   }
 }
