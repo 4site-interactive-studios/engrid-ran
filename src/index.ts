@@ -18,6 +18,7 @@ import "./sass/main.scss";
 import DonationLightboxForm from "./scripts/donation-lightbox-form";
 import { customScript } from "./scripts/main";
 import { AddDAF } from "./scripts/add-daf";
+import { EcardRecipientDetails } from "./scripts/ecard-recipient-details";
 
 const options: Options = {
   applePay: false,
@@ -128,6 +129,7 @@ const options: Options = {
     new DonationLightboxForm(App, DonationAmount, DonationFrequency);
     new AddDAF();
     new OptInLadder();
+    new EcardRecipientDetails();
     customScript(App, EnForm);
   },
   onResize: () => console.log("Starter Theme Window Resized"),
