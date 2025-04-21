@@ -74,7 +74,7 @@ export class AddDAF {
     }
     const dafPaymentButton = `
     <!-- DAF (added dynamically) -->
-      <div class="en__field__item en__field--giveBySelect give-by-select pseudo-en-field showif-daf-available recurring-frequency-y-hide daf">
+      <div class="en__field__item en__field--giveBySelect give-by-select pseudo-en-field show-USD showif-daf-available recurring-frequency-y-hide daf">
         <input class="en__field__input en__field__input--radio" id="en__field_transaction_giveBySelectDAF" name="transaction.giveBySelect" type="radio" value="daf">
         <label class="en__field__label en__field__label--item" for="en__field_transaction_giveBySelectDAF">
           <img alt="DAF Logo" class="daf-logo" src="https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/daf-logo.png">
