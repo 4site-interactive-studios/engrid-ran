@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, May 7, 2025 @ 15:07:34 ET
+ *  Date: Wednesday, May 7, 2025 @ 15:44:20 ET
  *  By: daryl
  *  ENGrid styles: v0.21.0
  *  ENGrid scripts: v0.21.0
@@ -9091,6 +9091,9 @@ body:not(#en__pagebuilder) .optin-ladder,body[data-engrid-page-type=donation][da
 @media screen and (min-width:769px){
   [data-engrid-theme=engrid-ran3] .en__c2c__survey__rating button{
     font-size:1.5rem !important;
+  }
+  [data-engrid-theme=engrid-ran3] .en__c2c__actions .en__button--cancel,[data-engrid-theme=engrid-ran3] .en__c2c__actions .en__button--confirm{
+    font-size:1.2rem !important;
   }
 }
 body{

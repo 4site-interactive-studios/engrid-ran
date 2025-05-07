@@ -21,11 +21,17 @@ body:not(#en__pagebuilder) {
 
 [data-engrid-theme="engrid-ran3"] {
 
-  // Adjust font size for Thank You page buttons for desktop only
+  // Adjust font size for buttons on mobile
   @media screen and (min-width: 769px) {
     .en__c2c__survey__rating {
       button {
         font-size: 1.5rem !important;
+      }
+    }
+
+    .en__c2c__actions {
+      .en__button--cancel, .en__button--confirm {
+        font-size: 1.2rem !important;
       }
     }
   }
