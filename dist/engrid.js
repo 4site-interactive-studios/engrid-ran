@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, May 7, 2025 @ 16:42:06 ET
+ *  Date: Wednesday, May 7, 2025 @ 17:21:54 ET
  *  By: fernando
  *  ENGrid styles: v0.22.0
- *  ENGrid scripts: v0.22.2
+ *  ENGrid scripts: v0.22.3
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -21589,6 +21589,10 @@ class WelcomeBack {
             engrid_ENGrid.setBodyData("hide-fast-personal-details", false);
             this._form.validate = false;
         }
+        else {
+            // Remove the error message if the region field is filled
+            engrid_ENGrid.removeError(".en__field--region");
+        }
     }
     doubleCheckValidation() {
         // Disable the fast personal details if the form is invalidated by other components running AFTER
@@ -22498,7 +22502,7 @@ class PostDonationEmbed {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.22.2";
+const AppVersion = "0.22.3";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
