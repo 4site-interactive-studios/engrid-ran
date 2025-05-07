@@ -24,8 +24,8 @@ body:not(#en__pagebuilder) {
   // Adjust font size for buttns no mobile
   @media screen and (max-width: 768px) {
     .en__c2c__actions {
-      .en__button--cancel, .en__button--confirm {
-        font-size: 1.2rem !important;
+      .en__button.en__button--cancel, .en__button.en__button--confirm {
+        font-size: 1.2rem;
       }
     }
   }
