@@ -21,17 +21,20 @@ body:not(#en__pagebuilder) {
 
 [data-engrid-theme="engrid-ran3"] {
 
-  // Adjust font size for buttons on mobile
+  // Adjust font size for buttns no mobile
+  @media screen and (max-width: 768px) {
+    .en__c2c__actions {
+      .en__button--cancel, .en__button--confirm {
+        font-size: 1.2rem !important;
+      }
+    }
+  }
+
+  // Adjust font size for buttons on desktop
   @media screen and (min-width: 769px) {
     .en__c2c__survey__rating {
       button {
         font-size: 1.5rem !important;
-      }
-    }
-
-    .en__c2c__actions {
-      .en__button--cancel, .en__button--confirm {
-        font-size: 1.2rem !important;
       }
     }
   }
