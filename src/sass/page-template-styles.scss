@@ -21,10 +21,13 @@ body:not(#en__pagebuilder) {
 
 [data-engrid-theme="engrid-ran3"] {
 
-  // Adjust font size for Thank You page buttons
-  .en__c2c__survey__rating {
-    button {
-      font-size: 1.5rem !important;
+  // Adjust font size for Thank You page buttons for desktop only
+  @media screen and (min-width: 769px) {
+    .en__c2c__survey__rating {
+      button {
+        font-size: 1.5rem !important;
+      }
     }
   }
 }
+
