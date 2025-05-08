@@ -19,24 +19,38 @@ body:not(#en__pagebuilder) {
   }
 }
 
-[data-engrid-theme="engrid-ran3"] {
 
-  // Adjust font size for buttns no mobile
-  @media screen and (max-width: 768px) {
-    .en__c2c__actions {
-      .en__button.en__button--cancel, .en__button.en__button--confirm {
-        font-size: 1.2rem;
-      }
+[data-engrid-page-type="click2call"] {
+
+  .en__overlay__header {
+    background: var(--color_green);
+
+    h2 {
+      color: #fff;
     }
   }
 
-  // Adjust font size for buttons on desktop
-  @media screen and (min-width: 769px) {
-    .en__c2c__survey__rating {
-      button {
-        font-size: 1.5rem !important;
+  .en__overlay__content {
+    background: var(--engrid__body-main_background-color) !important;
+  }
+
+  .en__contact__detail {
+    .en__button {
+      font-size: 1.2rem !important;
+      //background-color: var(--submit__button_background-color) !important;
+
+      @media screen and (min-width: 769px) {
+        font-size: 2.5rem !important;
       }
     }
   }
+}
 
+// Adjust font size for buttons on desktop
+@media screen and (min-width: 769px) {
+  .en__c2c__survey__rating {
+    button {
+      font-size: 1.5rem !important;
+    }
+  }
 }
