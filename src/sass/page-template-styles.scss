@@ -37,7 +37,10 @@ body:not(#en__pagebuilder) {
   .en__contact__detail {
     .en__button {
       font-size: 1.2rem !important;
-      //background-color: var(--submit__button_background-color) !important;
+
+      &.en__button--connect {
+        font-size: 1.5rem !important;
+      }
 
       @media screen and (min-width: 769px) {
         font-size: 2.5rem !important;
