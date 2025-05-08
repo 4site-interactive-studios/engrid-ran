@@ -31,19 +31,23 @@ body:not(#en__pagebuilder) {
   }
 
   .en__overlay__content {
-    background: var(--engrid__body-main_background-color) !important;
+    background: var(--engrid__body-main_background-color);
   }
 
   .en__contact__detail {
     .en__button {
-      font-size: 1.2rem !important;
-
-      &.en__button--connect {
-        font-size: 1.5rem !important;
-      }
+      font-size: 1.2rem;
 
       @media screen and (min-width: 769px) {
-        font-size: 2.5rem !important;
+        font-size: 2.5rem;
+      }
+
+      &.en__button--connect {
+        font-size: 1.5rem;
+
+        @media screen and (min-width: 769px) {
+          font-size: 2.5rem;
+        }
       }
     }
   }

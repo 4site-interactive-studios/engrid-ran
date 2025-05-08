@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, May 8, 2025 @ 10:12:34 ET
+ *  Date: Thursday, May 8, 2025 @ 10:21:42 ET
  *  By: daryl
  *  ENGrid styles: v0.21.0
  *  ENGrid scripts: v0.21.0
@@ -9095,17 +9095,22 @@ body:not(#en__pagebuilder) .optin-ladder,body[data-engrid-page-type=donation][da
   color:#fff;
 }
 [data-engrid-page-type=click2call] .en__overlay__content{
-  background:var(--engrid__body-main_background-color) !important;
+  background:var(--engrid__body-main_background-color);
 }
 [data-engrid-page-type=click2call] .en__contact__detail .en__button{
-  font-size:1.2rem !important;
-}
-[data-engrid-page-type=click2call] .en__contact__detail .en__button.en__button--connect{
-  font-size:1.5rem !important;
+  font-size:1.2rem;
 }
 @media screen and (min-width:769px){
   [data-engrid-page-type=click2call] .en__contact__detail .en__button{
-    font-size:2.5rem !important;
+    font-size:2.5rem;
+  }
+}
+[data-engrid-page-type=click2call] .en__contact__detail .en__button.en__button--connect{
+  font-size:1.5rem;
+}
+@media screen and (min-width:769px){
+  [data-engrid-page-type=click2call] .en__contact__detail .en__button.en__button--connect{
+    font-size:2.5rem;
   }
   .en__c2c__survey__rating button{
     font-size:1.5rem !important;
