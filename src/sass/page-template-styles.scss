@@ -28,10 +28,37 @@ body:not(#en__pagebuilder) {
     border: 2px solid var(--color_primary);
 
     .en__overlay__header {
-      background: var(--color_green);
+      background: var(--color_white);
 
       h2 {
         color: #fff;
+      }
+    }
+  }
+
+  .en__overlay__content {
+    background: var(--engrid__body-main_background-color);
+  
+    .en__c2c__actions {
+      justify-content: space-evenly;
+    }
+  }
+  
+  .en__contact__detail {
+    .en__button {
+      font-size: 1.5rem;
+  
+      @media screen and (min-width: 769px) {
+        font-size: 1.7rem;
+      }
+    }
+  }
+  
+  // Adjust font size for buttons on desktop
+  @media screen and (min-width: 769px) {
+    .en__c2c__survey__rating {
+      button {
+        font-size: 1.7rem;
       }
     }
   }
@@ -39,29 +66,3 @@ body:not(#en__pagebuilder) {
 
 
 
-.en__overlay__content {
-  background: var(--engrid__body-main_background-color);
-
-  .en__c2c__actions {
-    justify-content: space-evenly;
-  }
-}
-
-.en__contact__detail {
-  .en__button {
-    font-size: 1.5rem;
-
-    @media screen and (min-width: 769px) {
-      font-size: 1.7rem;
-    }
-  }
-}
-
-// Adjust font size for buttons on desktop
-@media screen and (min-width: 769px) {
-  .en__c2c__survey__rating {
-    button {
-      font-size: 1.7rem;
-    }
-  }
-}
