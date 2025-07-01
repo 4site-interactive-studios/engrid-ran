@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, June 3, 2025 @ 11:04:32 ET
- *  By: fernando
+ *  Date: Tuesday, July 1, 2025 @ 11:01:25 ET
+ *  By: michael
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.6
  *
@@ -23752,6 +23752,7 @@ class DonationLightboxForm {
 var tippy_esm = __webpack_require__(3861);
 ;// CONCATENATED MODULE: ./src/scripts/main.js
 
+
 const customScript = function (App, EnForm) {
   App.log("ENGrid client scripts are executing"); // Add your client scripts here
   // If we're on the last page OR we're redirected from another EN Page
@@ -23934,7 +23935,56 @@ const customScript = function (App, EnForm) {
     });
   }
 
-  addTransactionFeeTooltip(); // Add data-engrid-client-js-loading=finsihed to body
+  addTransactionFeeTooltip(); // *****************************************
+  // START: COP 30 signature format handling
+  // *****************************************
+
+  function cop30SignatureHandling() {
+    const signatureFormatField = document.getElementsByName("supporter.questions.1112452");
+    const signatureField = App.getField("supporter.NOT_TAGGED_62"); // Exit early if we don't have the required fields
+
+    if (!signatureFormatField || !signatureField) return; // Setting the initial signature value for pre-filled data
+
+    setSignature();
+    const firstNameField = App.getField("supporter.firstName");
+    const lastNameField = App.getField("supporter.lastName");
+    const cityField = App.getField("supporter.city");
+    const countryField = App.getField("supporter.country");
+    [firstNameField, lastNameField, cityField, countryField].forEach(field => {
+      field.addEventListener("input", setSignature.bind(this));
+    });
+    [...signatureFormatField].forEach(field => {
+      field.addEventListener("change", setSignature.bind(this));
+    });
+  }
+
+  function setSignature() {
+    const firstName = App.getFieldValue("supporter.firstName");
+    const lastName = App.getFieldValue("supporter.lastName");
+    const city = App.getFieldValue("supporter.city");
+    const country = App.getFieldValue("supporter.country");
+    const firstNameInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
+    const lastNameInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
+    const signatureFormat = App.getFieldValue("supporter.questions.1112452");
+    const formattedSignature = signatureFormat.replace("{First Name}", firstName).replace("{Last Name}", lastName).replace("{First Initial}", firstNameInitial).replace("{Last Initial}", lastNameInitial).replace("{City}", city).replace("{Country}", country);
+    App.setFieldValue("supporter.NOT_TAGGED_62", formattedSignature);
+  }
+
+  if (App.getOption("RememberMe")) {
+    const rememberMeEvents = RememberMeEvents.getInstance();
+    rememberMeEvents.onLoad.subscribe(() => {
+      cop30SignatureHandling();
+    });
+    rememberMeEvents.onClear.subscribe(() => {
+      App.setFieldValue("supporter.NOT_TAGGED_62", "");
+    });
+  } else {
+    cop30SignatureHandling();
+  } // *****************************************
+  // END: COP 30 signature format handling
+  // *****************************************
+  // Add data-engrid-client-js-loading=finsihed to body
+
 
   App.setBodyData("client-js-loading", "finished");
 };
