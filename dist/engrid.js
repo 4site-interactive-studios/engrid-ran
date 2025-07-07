@@ -17,10 +17,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, July 1, 2025 @ 11:01:25 ET
- *  By: michael
+ *  Date: Monday, July 7, 2025 @ 16:36:04 ET
+ *  By: fernando
  *  ENGrid styles: v0.22.4
- *  ENGrid scripts: v0.22.6
+ *  ENGrid scripts: v0.22.7
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -22320,7 +22320,7 @@ class CheckboxLabel {
             var _a;
             const labelText = (_a = checkboxLabel.textContent) === null || _a === void 0 ? void 0 : _a.trim();
             const checkboxContainer = checkboxLabel.nextElementSibling;
-            const checkboxLabelElement = checkboxContainer.querySelector("label");
+            const checkboxLabelElement = checkboxContainer.querySelector("label:last-child");
             if (!checkboxLabelElement || !labelText)
                 return;
             checkboxLabelElement.textContent = labelText;
@@ -22844,7 +22844,7 @@ class FrequencyUpsell {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/version.js
-const AppVersion = "0.22.6";
+const AppVersion = "0.22.7";
 
 ;// CONCATENATED MODULE: ./node_modules/@4site/engrid-scripts/dist/index.js
  // Runs first so it can change the DOM markup before any markup dependent code fires
