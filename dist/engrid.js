@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, August 4, 2025 @ 23:52:00 ET
+ *  Date: Monday, August 4, 2025 @ 23:53:00 ET
  *  By: fernando
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.9
@@ -24215,7 +24215,7 @@ const options = {
   // NeverBounceDateFormat: "YYYYMMDD",
   TidyContact: {
     cid: "659b7129-73d0-4601-af4c-8942c4730f65",
-    us_zip_divider: "+",
+    us_zip_divider: "-",
     record_field: "supporter.NOT_TAGGED_41",
     date_field: "supporter.NOT_TAGGED_39",
     status_field: "supporter.NOT_TAGGED_40",

@@ -44,7 +44,7 @@ const options: Options = {
   // NeverBounceDateFormat: "YYYYMMDD",
   TidyContact: {
     cid: "659b7129-73d0-4601-af4c-8942c4730f65",
-    us_zip_divider: "+",
+    us_zip_divider: "-",
     record_field: "supporter.NOT_TAGGED_41",
     date_field: "supporter.NOT_TAGGED_39",
     status_field: "supporter.NOT_TAGGED_40",
