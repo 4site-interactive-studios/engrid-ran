@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, August 4, 2025 @ 23:53:00 ET
+ *  Date: Wednesday, August 20, 2025 @ 12:02:53 ET
  *  By: fernando
  *  ENGrid styles: v0.22.4
  *  ENGrid scripts: v0.22.9
@@ -7994,7 +7994,7 @@ body[data-engrid-debug]:before{
   display:block;
   outline:1px solid red;
 }
-@media screen and (min-width:879px){
+@media screen and (min-width:880px){
   [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage{
     grid-column:rpc /  pc;
   }
