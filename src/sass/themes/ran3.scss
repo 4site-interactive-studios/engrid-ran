@@ -275,31 +275,51 @@
   }
 
   @media screen and (min-width: 880px) {
+    &[data-engrid-page-background="image"][data-engrid-layout="leftleft1col"]
+      .page-backgroundImage:before,
+    &[data-engrid-page-background="image"][data-engrid-layout="leftleft1col"]
+      figure.media-with-attribution {
+      background-position: center;
+      left: $one_col_body-column_max-width;
+      right: 0;
+      width: calc(100% - $one_col_body-column_max-width);
+    }
+
     &:not(#en__pagebuilder)[data-engrid-layout="leftleft1col"] {
       .page-backgroundImage {
         grid-column: rpc/pc;
 
-        &:before,
-        figure.media-with-attribution {
-          left: $one_col_body-column_max-width;
-          right: 0;
-          width: calc(100% - $one_col_body-column_max-width);
-          background-position: center !important;
-        }
+        // &:before,
+        // figure.media-with-attribution {
+        //   background-position: center;
+        //   left: $one_col_body-column_max-width;
+        //   right: 0;
+        //   width: calc(100% - $one_col_body-column_max-width);
+        // }
       }
+    }
+
+    &[data-engrid-page-background="image"][data-engrid-layout="rightright1col"]
+      .page-backgroundImage:before,
+    &[data-engrid-page-background="image"][data-engrid-layout="rightright1col"]
+      figure.media-with-attribution {
+      background-position: center;
+      left: 0;
+      right: $one_col_body-column_max-width;
+      width: calc(100% - $one_col_body-column_max-width);
     }
 
     &:not(#en__pagebuilder)[data-engrid-layout="rightright1col"] {
       .page-backgroundImage {
         grid-column: pc/lpc;
 
-        &:before,
-        figure.media-with-attribution {
-          left: 0;
-          right: $one_col_body-column_max-width;
-          width: calc(100% - $one_col_body-column_max-width);
-          background-position: center !important;
-        }
+        // &:before,
+        // figure.media-with-attribution {
+        //   background-position: center;
+        //   left: 0;
+        //   right: $one_col_body-column_max-width;
+        //   width: calc(100% - $one_col_body-column_max-width);
+        // }
       }
     }
   }

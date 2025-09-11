@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, September 3, 2025 @ 23:35:22 ET
- *  By: fernando
+ *  Date: Thursday, September 11, 2025 @ 13:18:28 ET
+ *  By: bryancasler
  *  ENGrid styles: v0.22.11
  *  ENGrid scripts: v0.22.17
  *
@@ -8031,23 +8031,23 @@ body[data-engrid-debug]:before{
   outline:1px solid red;
 }
 @media screen and (min-width:880px){
-  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage{
-    grid-column:rpc /  pc;
-  }
-  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage figure.media-with-attribution,[data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage:before{
-    background-position:50% !important;
+  [data-engrid-theme=engrid-ran3][data-engrid-page-background=image][data-engrid-layout=leftleft1col] .page-backgroundImage:before,[data-engrid-theme=engrid-ran3][data-engrid-page-background=image][data-engrid-layout=leftleft1col] figure.media-with-attribution{
+    background-position:50%;
     left:680px;
     right:0;
     width:calc(100% - 680px);
   }
-  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=rightright1col] .page-backgroundImage{
-    grid-column:pc /  lpc;
+  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage{
+    grid-column:rpc /  pc;
   }
-  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=rightright1col] .page-backgroundImage figure.media-with-attribution,[data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=rightright1col] .page-backgroundImage:before{
-    background-position:50% !important;
+  [data-engrid-theme=engrid-ran3][data-engrid-page-background=image][data-engrid-layout=rightright1col] .page-backgroundImage:before,[data-engrid-theme=engrid-ran3][data-engrid-page-background=image][data-engrid-layout=rightright1col] figure.media-with-attribution{
+    background-position:50%;
     left:0;
     right:680px;
     width:calc(100% - 680px);
+  }
+  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=rightright1col] .page-backgroundImage{
+    grid-column:pc /  lpc;
   }
 }
 [data-engrid-theme=engrid-ran3][data-engrid-page-background=image] .page-backgroundImage figure.media-with-attribution figattribution{
