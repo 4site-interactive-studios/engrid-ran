@@ -19,10 +19,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, August 20, 2025 @ 12:02:53 ET
- *  By: fernando
- *  ENGrid styles: v0.22.4
- *  ENGrid scripts: v0.22.9
+ *  Date: Thursday, September 11, 2025 @ 13:18:28 ET
+ *  By: bryancasler
+ *  ENGrid styles: v0.22.11
+ *  ENGrid scripts: v0.22.17
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -4520,6 +4520,42 @@ figure.media-with-attribution figattribution.attribution-topleft{
   top:auto;
 }
 
+body:not(#en__pagebuilder) .page-backgroundImage.attribution-topleft figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-topleft:before{
+  background-position:0 0;
+}
+
+body:not(#en__pagebuilder) .page-backgroundImage.attribution-topright figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-topright:before{
+  background-position:100% 0;
+}
+
+body:not(#en__pagebuilder) .page-backgroundImage.attribution-bottomright figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-bottomright:before{
+  background-position:100% 100%;
+}
+
+body:not(#en__pagebuilder) .page-backgroundImage.attribution-bottomleft figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-bottomleft:before{
+  background-position:0 100%;
+}
+
+body:not(#en__pagebuilder) .page-backgroundImage.attribution-top figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-top:before,body:not(#en__pagebuilder) .page-backgroundImage.attribution-topcenter figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-topcenter:before{
+  background-position:top;
+}
+
+body:not(#en__pagebuilder) .page-backgroundImage.attribution-bottom figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-bottom:before,body:not(#en__pagebuilder) .page-backgroundImage.attribution-bottomcenter figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-bottomcenter:before{
+  background-position:bottom;
+}
+
+body:not(#en__pagebuilder) .page-backgroundImage.attribution-left figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-left:before,body:not(#en__pagebuilder) .page-backgroundImage.attribution-leftcenter figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-leftcenter:before{
+  background-position:0;
+}
+
+body:not(#en__pagebuilder) .page-backgroundImage.attribution-right figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-right:before,body:not(#en__pagebuilder) .page-backgroundImage.attribution-rightcenter figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-rightcenter:before{
+  background-position:100%;
+}
+
+body:not(#en__pagebuilder) .page-backgroundImage.attribution-center figure.media-with-attribution,body:not(#en__pagebuilder) .page-backgroundImage.attribution-center:before{
+  background-position:50%;
+}
+
 img,video{
   aspect-ratio:attr(width)/attr(height);
   display:inherit;
@@ -7995,23 +8031,23 @@ body[data-engrid-debug]:before{
   outline:1px solid red;
 }
 @media screen and (min-width:880px){
-  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage{
-    grid-column:rpc /  pc;
-  }
-  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage figure.media-with-attribution,[data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage:before{
-    background-position:50% !important;
+  [data-engrid-theme=engrid-ran3][data-engrid-page-background=image][data-engrid-layout=leftleft1col] .page-backgroundImage:before,[data-engrid-theme=engrid-ran3][data-engrid-page-background=image][data-engrid-layout=leftleft1col] figure.media-with-attribution{
+    background-position:50%;
     left:680px;
     right:0;
     width:calc(100% - 680px);
   }
-  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=rightright1col] .page-backgroundImage{
-    grid-column:pc /  lpc;
+  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=leftleft1col] .page-backgroundImage{
+    grid-column:rpc /  pc;
   }
-  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=rightright1col] .page-backgroundImage figure.media-with-attribution,[data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=rightright1col] .page-backgroundImage:before{
-    background-position:50% !important;
+  [data-engrid-theme=engrid-ran3][data-engrid-page-background=image][data-engrid-layout=rightright1col] .page-backgroundImage:before,[data-engrid-theme=engrid-ran3][data-engrid-page-background=image][data-engrid-layout=rightright1col] figure.media-with-attribution{
+    background-position:50%;
     left:0;
     right:680px;
     width:calc(100% - 680px);
+  }
+  [data-engrid-theme=engrid-ran3]:not(#en__pagebuilder)[data-engrid-layout=rightright1col] .page-backgroundImage{
+    grid-column:pc /  lpc;
   }
 }
 [data-engrid-theme=engrid-ran3][data-engrid-page-background=image] .page-backgroundImage figure.media-with-attribution figattribution{
