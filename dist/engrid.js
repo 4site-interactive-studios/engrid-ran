@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, October 23, 2025 @ 00:00:38 ET
+ *  Date: Wednesday, October 29, 2025 @ 22:44:27 ET
  *  By: fernando
  *  ENGrid styles: v0.22.18
  *  ENGrid scripts: v0.22.20
@@ -24334,7 +24334,7 @@ const customScript = function (App, EnForm) {
   App.log("ENGrid client scripts are executing"); // Add your client scripts here
   // If we're on the last page OR we're redirected from another EN Page
 
-  if (App.getPageNumber() === App.getPageCount() || document.referrer.includes("act.ran.org")) {
+  if (App.getPageType() !== "UNKNOWN" && (App.getPageNumber() === App.getPageCount() || document.referrer.includes("act.ran.org"))) {
     // Load the Cohort iFrame to the end of the #endgrid element
     const cohortIframe = document.createElement("iframe");
     cohortIframe.src = "https://act.ran.org/page/51899/data/1?chain";

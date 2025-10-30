@@ -7,8 +7,9 @@ export const customScript = function (App, EnForm) {
 
   // If we're on the last page OR we're redirected from another EN Page
   if (
-    App.getPageNumber() === App.getPageCount() ||
-    document.referrer.includes("act.ran.org")
+    App.getPageType() !== "UNKNOWN" &&
+    (App.getPageNumber() === App.getPageCount() ||
+      document.referrer.includes("act.ran.org"))
   ) {
     // Load the Cohort iFrame to the end of the #endgrid element
     const cohortIframe = document.createElement("iframe");
