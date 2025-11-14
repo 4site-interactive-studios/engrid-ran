@@ -1736,4 +1736,13 @@
   .engrid__recipient__error {
     margin-top: 5px;
   }
+
+  .en__component--callsurveyblock {
+    .en__c2c__survey__rate {
+      flex-direction: column;
+    }
+    .en__button {
+      width: 100%;
+    }
+  }
 }

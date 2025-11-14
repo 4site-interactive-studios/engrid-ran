@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, November 6, 2025 @ 10:41:53 ET
- *  By: fernando
+ *  Date: Friday, November 14, 2025 @ 15:05:39 ET
+ *  By: cawe
  *  ENGrid styles: v0.23.0
  *  ENGrid scripts: v0.23.2
  *
@@ -9122,6 +9122,12 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3] .engrid__recipient__error{
   margin-top:5px;
+}
+[data-engrid-theme=engrid-ran3] .en__component--callsurveyblock .en__c2c__survey__rate{
+  flex-direction:column;
+}
+[data-engrid-theme=engrid-ran3] .en__component--callsurveyblock .en__button{
+  width:100%;
 }
 
 body:not(#en__pagebuilder) .optin-ladder,body[data-engrid-page-type=donation][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=donation][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,iframe[src*=fluidads]{
