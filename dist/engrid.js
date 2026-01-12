@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Friday, November 14, 2025 @ 15:05:39 ET
- *  By: cawe
+ *  Date: Monday, January 12, 2026 @ 06:54:59 ET
+ *  By: michael
  *  ENGrid styles: v0.23.0
  *  ENGrid scripts: v0.23.2
  *
@@ -25156,9 +25156,9 @@ const options = {
   },
   onResize: () => console.log("Starter Theme Window Resized"),
   onValidate: () => {
-    const country = App.getFieldValue("supporter.country"); // If country is not US or CA, then remove the region field value
+    const country = App.getFieldValue("supporter.country"); // If country is not US, CA or AU, then remove the region field value
 
-    if (!["us", "usa", "united states", "ca", "canada"].includes(country.toLowerCase())) {
+    if (!["us", "usa", "united states", "ca", "canada", "au", "australia"].includes(country.toLowerCase())) {
       App.setFieldValue("supporter.region", "");
       App.log("Region field cleared");
     }
