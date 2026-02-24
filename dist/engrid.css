@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Sunday, February 8, 2026 @ 19:48:44 ET
- *  By: fernando
+ *  Date: Tuesday, February 24, 2026 @ 16:42:53 ET
+ *  By: nick
  *  ENGrid styles: v0.23.4
  *  ENGrid scripts: v0.23.7
  *
@@ -8507,15 +8507,15 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=engrid-ran3] #remember-me-opt-in{
   overflow-x:visible !important;
 }
-[data-engrid-theme=engrid-ran3] .fewer-emails-block,[data-engrid-theme=engrid-ran3] .sub-emails-block,[data-engrid-theme=engrid-ran3] .unsub-emails-block{
+[data-engrid-theme=engrid-ran3] .fewer-emails-block,[data-engrid-theme=engrid-ran3] .snooze-emails-block,[data-engrid-theme=engrid-ran3] .sub-emails-block,[data-engrid-theme=engrid-ran3] .unsub-emails-block{
   border:1px solid #000;
   margin:20px auto;
   padding:20px;
 }
-[data-engrid-theme=engrid-ran3] .fewer-emails-block>:first-child,[data-engrid-theme=engrid-ran3] .sub-emails-block>:first-child,[data-engrid-theme=engrid-ran3] .unsub-emails-block>:first-child{
+[data-engrid-theme=engrid-ran3] .fewer-emails-block>:first-child,[data-engrid-theme=engrid-ran3] .snooze-emails-block>:first-child,[data-engrid-theme=engrid-ran3] .sub-emails-block>:first-child,[data-engrid-theme=engrid-ran3] .unsub-emails-block>:first-child{
   margin-top:0;
 }
-[data-engrid-theme=engrid-ran3] .fewer-emails-block button,[data-engrid-theme=engrid-ran3] .fewer-emails-block>:last-child,[data-engrid-theme=engrid-ran3] .sub-emails-block button,[data-engrid-theme=engrid-ran3] .sub-emails-block>:last-child,[data-engrid-theme=engrid-ran3] .unsub-emails-block button,[data-engrid-theme=engrid-ran3] .unsub-emails-block>:last-child{
+[data-engrid-theme=engrid-ran3] .fewer-emails-block button,[data-engrid-theme=engrid-ran3] .fewer-emails-block>:last-child,[data-engrid-theme=engrid-ran3] .snooze-emails-block button,[data-engrid-theme=engrid-ran3] .snooze-emails-block>:last-child,[data-engrid-theme=engrid-ran3] .sub-emails-block button,[data-engrid-theme=engrid-ran3] .sub-emails-block>:last-child,[data-engrid-theme=engrid-ran3] .unsub-emails-block button,[data-engrid-theme=engrid-ran3] .unsub-emails-block>:last-child{
   margin-bottom:0;
 }
 [data-engrid-theme=engrid-ran3] .unsub-from-all{

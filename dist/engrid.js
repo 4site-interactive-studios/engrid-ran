@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Sunday, February 8, 2026 @ 19:48:44 ET
- *  By: fernando
+ *  Date: Tuesday, February 24, 2026 @ 16:42:53 ET
+ *  By: nick
  *  ENGrid styles: v0.23.4
  *  ENGrid scripts: v0.23.7
  *
@@ -24821,90 +24821,13 @@ const customScript = function (App, EnForm) {
 
   if (submitDiv) {
     submitDiv.classList.add("hideif-stripedigitalwallet-selected", "hideif-paypaltouch-selected");
-  } //Unsubscribe page customisations
+  }
 
+  const substackIframe = document.querySelector('iframe[name="substack"]');
 
-  if (App.getPageType() === "UNSUBSCRIBE") {
-    const formSubmitBtn = document.querySelector(".en__submit button");
-    const importantEmailsField = App.getField("supporter.questions.341509");
-    const regularEmailsField = App.getField("supporter.questions.102600");
-    const emailFieldValue = App.getFieldValue("supporter.emailAddress");
-
-    if (emailFieldValue) {
-      //Add "Not you?" link to email field
-      const emailField = App.getField("supporter.emailAddress");
-      emailField.setAttribute("readonly", "true");
-      const notYouLink = document.createElement("a");
-      notYouLink.href = window.location.href.split("?")[0] + "?redirect=cold";
-      notYouLink.innerText = `Not ${emailFieldValue}?`;
-      App.addHtml(notYouLink, ".en__field--emailAddress", "beforeend");
-    } //Hide subscribe to fewer emails block if already subscribe to important emails only
-
-
-    const fewerEmailsBlock = document.querySelector(".fewer-emails-block");
-
-    if (importantEmailsField && importantEmailsField.checked && fewerEmailsBlock) {
-      fewerEmailsBlock.style.display = "none";
-    } //Subscribe to fewer emails
-
-
-    const fewerEmailsButton = document.querySelector(".fewer-emails-block button");
-
-    if (fewerEmailsButton) {
-      fewerEmailsButton.addEventListener("click", () => {
-        importantEmailsField.checked = true;
-        regularEmailsField.checked = false;
-        App.enParseDependencies();
-        formSubmitBtn.click();
-      });
-    } //Subscribe to all emails
-
-
-    const allEmailsButton = document.querySelector(".sub-emails-block button");
-
-    if (allEmailsButton) {
-      allEmailsButton.addEventListener("click", () => {
-        importantEmailsField.checked = false;
-        regularEmailsField.checked = true;
-        App.enParseDependencies();
-        formSubmitBtn.click();
-      });
-    } //Unsubscribe from all emails
-
-
-    const noEmailsButton = document.querySelector(".unsub-emails-block button");
-
-    if (noEmailsButton) {
-      noEmailsButton.addEventListener("click", () => {
-        importantEmailsField.checked = false;
-        regularEmailsField.checked = false;
-        App.enParseDependencies();
-        formSubmitBtn.click();
-      });
-    }
-
-    EnForm.getInstance().onSubmit.subscribe(() => {
-      if (!regularEmailsField.checked) {
-        sessionStorage.setItem("unsub_details", JSON.stringify({
-          email: App.getFieldValue("supporter.emailAddress")
-        }));
-      }
-    });
-
-    if (App.getPageNumber() === 2) {
-      const unsubDetails = JSON.parse(sessionStorage.getItem("unsub_details"));
-
-      if (unsubDetails) {
-        App.setBodyData("recent-unsubscribe", "true");
-        const resubLink = document.querySelector(".resubscribe-block a.button");
-
-        if (resubLink) {
-          resubLink.href = resubLink.href + `?chain&autosubmit=Y&engrid_hide[engrid]=id`;
-        }
-
-        sessionStorage.removeItem("unsub_details");
-      }
-    }
+  if (substackIframe) {
+    substackIframe.removeAttribute("sandbox");
+    substackIframe.src = substackIframe.src;
   }
 
   const addRecipientButton = document.querySelector("button.en__ecarditems__button.en__ecarditems__addrecipient");
@@ -25162,6 +25085,216 @@ class EcardRecipientDetails {
   }
 
 }
+;// CONCATENATED MODULE: ./src/scripts/hide-if-checked.ts
+
+// This script adds css to hide fields based on the value of a checkbox field. It can be used to hide fields when a supporter opts in or out of something, dynamically.
+
+class HideIfChecked {
+  constructor() {
+    _defineProperty(this, "logger", new EngridLogger("HideIfChecked", "lightgray", "dodgerblue", "🙈"));
+
+    const fields = this.getCheckboxFields();
+    this.addStyles(fields);
+  }
+
+  getCheckboxFields() {
+    const fieldNames = [];
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      const fieldName = checkbox.getAttribute("name");
+
+      if (fieldName) {
+        this.logger.log(`Found checkbox field: ${fieldName}`);
+        fieldNames.push(fieldName);
+      }
+    });
+    return fieldNames;
+  }
+
+  addStyles(fields) {
+    const style = document.createElement("style");
+    let css = "";
+    fields.forEach(field => {
+      css += `
+        #engrid:not(:has(input[name="${field}"]:checked)) .hideif-${field.replace(/\./g, '')}-unchecked{ display: none !important; }
+        #engrid:has(input[name="${field}"]:checked) .hideif-${field.replace(/\./g, '')}-checked{ display: none !important; }
+      `;
+    });
+    style.innerHTML = css;
+    document.head.appendChild(style);
+  }
+
+}
+;// CONCATENATED MODULE: ./src/scripts/unsubscribe.ts
+
+
+class Unsubscribe {
+  constructor(options) {
+    _defineProperty(this, "logger", new EngridLogger("Unsubscribe", "lightgray", "dodgerblue", "🚫"));
+
+    _defineProperty(this, "_form", EnForm.getInstance());
+
+    _defineProperty(this, "options", void 0);
+
+    _defineProperty(this, "invalidFields", new Set());
+
+    this.options = options;
+    if (!this.shouldRun()) return;
+
+    if (engrid_ENGrid.getPageNumber() === 2) {
+      this.postUnsubscribe();
+      return;
+    }
+
+    if (this.options.not_you) {
+      this.addNotYou();
+    }
+
+    this.addListeners();
+  }
+
+  shouldRun() {
+    if (engrid_ENGrid.getPageType() !== "UNSUBSCRIBE" || !this._form) return false;
+    this.logger.log("Unsubscribe script is running.");
+    if (engrid_ENGrid.getPageNumber() !== 1) return true;
+
+    if (this.options.snooze_emails) {
+      this.logger.log("Snooze emails options:", this.options.snooze_emails);
+      this.verifyFieldsExist(this.options.snooze_emails.opt_in_field);
+      this.verifyFieldsExist(this.options.snooze_emails.opt_out_field);
+    }
+
+    if (this.options.categories) {
+      Object.entries(this.options.categories).forEach(_ref => {
+        let [category, config] = _ref;
+        this.logger.log(`Category "${category}" options:`, config);
+        this.verifyFieldsExist(config.opt_in_field);
+        this.verifyFieldsExist(config.opt_out_field);
+      });
+    }
+
+    return true;
+  }
+
+  verifyFieldsExist(fields) {
+    if (!fields) return;
+    const fieldArray = typeof fields === "string" ? [fields] : fields;
+    const validFields = fieldArray.filter(field => {
+      if (this.invalidFields.has(field)) return false;
+      return !!engrid_ENGrid.getField(field);
+    });
+    const invalidFields = fieldArray.filter(field => !validFields.includes(field));
+    invalidFields.forEach(field => {
+      this.logger.warn(`Field "${field}" not found. It will be skipped when performing actions.`);
+      this.invalidFields.add(field);
+    });
+  }
+
+  getValidFields(fields) {
+    if (!fields) return [];
+    const fieldArray = typeof fields === "string" ? [fields] : fields;
+    return fieldArray.filter(field => !this.invalidFields.has(field));
+  }
+
+  addNotYou() {
+    const emailFieldValue = engrid_ENGrid.getFieldValue("supporter.emailAddress");
+
+    if (emailFieldValue) {
+      const emailField = engrid_ENGrid.getField("supporter.emailAddress");
+      emailField.setAttribute("readonly", "true");
+      const notYouLink = document.createElement("a");
+      notYouLink.href = window.location.href.split("?")[0] + "?redirect=cold";
+      notYouLink.innerText = `Not ${emailFieldValue}?`;
+      engrid_ENGrid.addHtml(notYouLink, ".en__field--emailAddress", "beforeend");
+    }
+  }
+
+  addListeners() {
+    if (this.options.snooze_emails) {
+      const snoozeButton = document.querySelector(`${this.options.snooze_emails?.selector} button`) || document.querySelector(`${this.options.snooze_emails?.selector}`);
+
+      if (snoozeButton) {
+        snoozeButton.addEventListener("click", () => this.activateSnooze());
+      } else {
+        this.logger.warn(`Snooze button with selector "${this.options.snooze_emails?.selector}" not found. Snooze functionality will not be available.`);
+      }
+    }
+
+    if (this.options.categories) {
+      Object.entries(this.options.categories).forEach(_ref2 => {
+        let [category, config] = _ref2;
+        const categoryElement = document.querySelector(config.selector);
+
+        if (categoryElement) {
+          categoryElement.addEventListener("click", () => this.setSubscriptions(config.opt_in_field, config.opt_out_field, category, config.clear_snooze));
+        } else {
+          this.logger.warn(`Category element with selector "${config.selector}" not found. Unsubscribe option for category "${category}" will not be available.`);
+        }
+      });
+    }
+  }
+
+  setSubscriptions(optInFields, optOutFields, category) {
+    let clear_snooze = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    const validOptInFields = this.getValidFields(optInFields);
+    const validOptOutFields = this.getValidFields(optOutFields);
+    validOptInFields.forEach(field => engrid_ENGrid.setFieldValue(field, "Y"));
+    validOptOutFields.forEach(field => engrid_ENGrid.setFieldValue(field, "N"));
+
+    if (clear_snooze && this.options.snooze_emails) {
+      const snoozeDateField = engrid_ENGrid.getField(this.options.snooze_emails.date_field);
+
+      if (snoozeDateField) {
+        snoozeDateField.value = "";
+        this.logger.log(`Cleared snooze date field "${this.options.snooze_emails.date_field}" because clear_snooze is true for category "${category}".`);
+      } else {
+        this.logger.warn(`Snooze date field "${this.options.snooze_emails.date_field}" not found. Unable to clear snooze date for category "${category}".`);
+      }
+    }
+
+    this.logger.log(`Updated fields for (un)subscribe action.\nOpt-in: ${validOptInFields.join(", ")}\nOpt-out: ${validOptOutFields.join(", ")}`);
+    sessionStorage.setItem("unsub_details", JSON.stringify({
+      opt_in_fields: validOptInFields,
+      opt_out_fields: validOptOutFields,
+      category
+    }));
+    engrid_ENGrid.enParseDependencies();
+
+    this._form.submitForm();
+  }
+
+  activateSnooze() {
+    const duration = this.options.snooze_emails.duration;
+    const snoozeDateField = engrid_ENGrid.getField(this.options.snooze_emails.date_field);
+    const snoozeUntil = new Date(new Date().getTime() + duration * 24 * 60 * 60 * 1000);
+    snoozeDateField.value = snoozeUntil.toISOString().split("T")[0];
+    this.logger.log(`Snoozed emails until ${snoozeUntil.toDateString()}`);
+    sessionStorage.setItem("snooze_until", snoozeUntil.toISOString());
+    this.setSubscriptions(this.options.snooze_emails.opt_in_field, this.options.snooze_emails.opt_out_field, "Snoozed Emails", false);
+  }
+
+  postUnsubscribe() {
+    const unsubDetails = sessionStorage.getItem("unsub_details") ? JSON.parse(sessionStorage.getItem("unsub_details")) : {};
+
+    if (unsubDetails) {
+      engrid_ENGrid.setBodyData("recent-unsubscribe", "true");
+      const resubLink = document.querySelector(".resubscribe-block a.button");
+
+      if (resubLink) {
+        resubLink.href = resubLink.href + `?chain&autosubmit=Y&engrid_hide[engrid]=id`;
+      }
+
+      sessionStorage.removeItem("unsub_details");
+    }
+
+    const snoozeUntil = sessionStorage.getItem("snooze_until");
+
+    if (snoozeUntil) {
+      engrid_ENGrid.setBodyData("recent-snooze", "true");
+      sessionStorage.removeItem("snooze_until");
+    }
+  }
+
+}
 ;// CONCATENATED MODULE: ./src/index.ts
  // Uses ENGrid via NPM
 // import {
@@ -25172,6 +25305,8 @@ class EcardRecipientDetails {
 //   EnForm,
 //   OptInLadder,
 // } from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
+
+
 
 
 
@@ -25264,7 +25399,8 @@ const options = {
     }
   },
   OptInLadder: {
-    iframeUrl: "https://act.ran.org/page/75744/data/1?chain&engrid_hide[body-headerOutside]=class&engrid_hide[body-banner]=class&engrid_hide[content-footer]=class&engrid_hide[page-backgroundImage]=class",
+    iframeUrl: // TODO: Update URL before launch - This is currently pointed to a test page with the correct query parameters to pull in the ladder form
+    "https://act.ran.org/page/94352/data/1?chain&engrid_hide[body-headerOutside]=class&engrid_hide[body-banner]=class&engrid_hide[content-footer]=class&engrid_hide[page-backgroundImage]=class&assets=unsubscribe-updates",
     excludePageIDs: ["78306"]
   },
   onLoad: () => {
@@ -25273,6 +25409,32 @@ const options = {
     new AddDAF();
     new OptInLadder();
     new EcardRecipientDetails();
+    new HideIfChecked();
+    new Unsubscribe({
+      snooze_emails: {
+        date_field: "supporter.NOT_TAGGED_66",
+        opt_out_field: "supporter.questions.341509",
+        duration: 60,
+        selector: ".snooze-emails-block"
+      },
+      not_you: true,
+      categories: {
+        "Fewer Emails": {
+          selector: ".fewer-emails-block",
+          opt_out_field: "supporter.questions.102600",
+          opt_in_field: "supporter.questions.341509"
+        },
+        "Unsub All Emails": {
+          selector: ".unsub-emails-block",
+          opt_out_field: ["supporter.questions.102600", "supporter.questions.341509"]
+        },
+        "Sub All Emails": {
+          selector: ".sub-emails-block",
+          opt_in_field: "supporter.questions.102600",
+          opt_out_field: "supporter.questions.341509"
+        }
+      }
+    });
     customScript(App, EnForm);
   },
   onResize: () => console.log("Starter Theme Window Resized"),
