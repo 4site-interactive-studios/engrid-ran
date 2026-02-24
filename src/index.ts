@@ -137,7 +137,7 @@ const options: Options = {
     new Unsubscribe({
       snooze_emails: {
         date_field: "supporter.NOT_TAGGED_66",
-        opt_out_field: "supporter.questions.341509",
+        opt_out_field: "supporter.questions.102600",
         duration: 60,
         selector: ".snooze-emails-block"
       },
