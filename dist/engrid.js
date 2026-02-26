@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Tuesday, February 24, 2026 @ 16:42:53 ET
+ *  Date: Thursday, February 26, 2026 @ 11:22:55 ET
  *  By: nick
  *  ENGrid styles: v0.23.4
  *  ENGrid scripts: v0.23.7
@@ -25244,7 +25244,7 @@ class Unsubscribe {
       const snoozeDateField = engrid_ENGrid.getField(this.options.snooze_emails.date_field);
 
       if (snoozeDateField) {
-        snoozeDateField.value = "";
+        snoozeDateField.value = "-";
         this.logger.log(`Cleared snooze date field "${this.options.snooze_emails.date_field}" because clear_snooze is true for category "${category}".`);
       } else {
         this.logger.warn(`Snooze date field "${this.options.snooze_emails.date_field}" not found. Unable to clear snooze date for category "${category}".`);
@@ -25413,7 +25413,7 @@ const options = {
     new Unsubscribe({
       snooze_emails: {
         date_field: "supporter.NOT_TAGGED_66",
-        opt_out_field: "supporter.questions.341509",
+        opt_out_field: "supporter.questions.102600",
         duration: 60,
         selector: ".snooze-emails-block"
       },

@@ -976,6 +976,15 @@
     }
   }
 
+  .snooze-emails-notice {
+    display: none;
+  }
+  &[data-engrid-recent-snooze="true"] {
+    .snooze-emails-notice {
+      display: block;
+    }
+  }
+
   &:not([data-engrid-recent-unsubscribe="true"]):not(#en__pagebuilder) {
     .resubscribe-block {
       display: none;
