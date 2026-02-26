@@ -122,6 +122,7 @@ export class Unsubscribe {
       const snoozeDateField = ENGrid.getField(this.options.snooze_emails.date_field) as HTMLInputElement;
       if(snoozeDateField) {
         snoozeDateField.value = "-";
+        sessionStorage.removeItem("snooze_until");
         this.logger.log(`Cleared snooze date field "${this.options.snooze_emails.date_field}" because clear_snooze is true for category "${category}".`);
       } else {
         this.logger.warn(`Snooze date field "${this.options.snooze_emails.date_field}" not found. Unable to clear snooze date for category "${category}".`);
