@@ -4,7 +4,6 @@ import {
   DonationAmount,
   DonationFrequency,
   EnForm,
-  OptInLadder,
 } from "@4site/engrid-scripts"; // Uses ENGrid via NPM
 // import {
 //   Options,
@@ -19,6 +18,9 @@ import DonationLightboxForm from "./scripts/donation-lightbox-form";
 import { customScript } from "./scripts/main";
 import { AddDAF } from "./scripts/add-daf";
 import { EcardRecipientDetails } from "./scripts/ecard-recipient-details";
+import { HideIfChecked } from "./scripts/hide-if-checked";
+import { Unsubscribe } from "./scripts/unsubscribe";
+import { OptInLadder } from "./scripts/optin-ladder";
 
 const options: Options = {
   applePay: false,
@@ -121,7 +123,8 @@ const options: Options = {
   },
   OptInLadder: {
     iframeUrl:
-      "https://act.ran.org/page/75744/data/1?chain&engrid_hide[body-headerOutside]=class&engrid_hide[body-banner]=class&engrid_hide[content-footer]=class&engrid_hide[page-backgroundImage]=class",
+      // TODO: Update URL before launch - This is currently pointed to a test page with the correct query parameters to pull in the ladder form
+      "https://act.ran.org/page/94352/data/1?chain&engrid_hide[body-headerOutside]=class&engrid_hide[body-banner]=class&engrid_hide[content-footer]=class&engrid_hide[page-backgroundImage]=class&data-engrid-opt-in-ladder-persist=true",
     excludePageIDs: ["78306"],
   },
   onLoad: () => {
@@ -130,6 +133,32 @@ const options: Options = {
     new AddDAF();
     new OptInLadder();
     new EcardRecipientDetails();
+    new HideIfChecked();
+    new Unsubscribe({
+      snooze_emails: {
+        date_field: "supporter.NOT_TAGGED_66",
+        opt_out_field: "supporter.questions.102600",
+        duration: 60,
+        selector: ".snooze-emails-block"
+      },
+      not_you: true,
+      categories: {
+        "Fewer Emails": {
+          selector: ".fewer-emails-block",
+          opt_out_field: "supporter.questions.102600",
+          opt_in_field: "supporter.questions.341509",
+        },
+        "Unsub All Emails": {
+          selector: ".unsub-emails-block",
+          opt_out_field: ["supporter.questions.102600", "supporter.questions.341509"],
+        },
+        "Sub All Emails": {
+          selector: ".sub-emails-block",
+          opt_in_field: "supporter.questions.102600",
+          opt_out_field: "supporter.questions.341509",
+        }
+      }
+    });
     customScript(App, EnForm);
   },
   onResize: () => console.log("Starter Theme Window Resized"),
