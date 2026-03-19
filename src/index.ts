@@ -4,6 +4,7 @@ import {
   DonationAmount,
   DonationFrequency,
   EnForm,
+  OptInLadder,
 } from "@4site/engrid-scripts"; // Uses ENGrid via NPM
 // import {
 //   Options,
@@ -20,7 +21,6 @@ import { AddDAF } from "./scripts/add-daf";
 import { EcardRecipientDetails } from "./scripts/ecard-recipient-details";
 import { HideIfChecked } from "./scripts/hide-if-checked";
 import { Unsubscribe } from "./scripts/unsubscribe";
-import { OptInLadder } from "./scripts/optin-ladder";
 
 const options: Options = {
   applePay: false,
