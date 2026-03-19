@@ -4,6 +4,7 @@ import {
   DonationAmount,
   DonationFrequency,
   EnForm,
+  OptInLadder,
 } from "@4site/engrid-scripts"; // Uses ENGrid via NPM
 // import {
 //   Options,
@@ -20,7 +21,6 @@ import { AddDAF } from "./scripts/add-daf";
 import { EcardRecipientDetails } from "./scripts/ecard-recipient-details";
 import { HideIfChecked } from "./scripts/hide-if-checked";
 import { Unsubscribe } from "./scripts/unsubscribe";
-import { OptInLadder } from "./scripts/optin-ladder";
 
 const options: Options = {
   applePay: false,
@@ -79,7 +79,6 @@ const options: Options = {
       "supporter.emailAddress",
     ],
   },
-  Plaid: true,
   Debug: App.getUrlParameter("debug") == "true" ? true : false,
   WelcomeBack: {
     welcomeBackMessage: {
@@ -139,7 +138,7 @@ const options: Options = {
         date_field: "supporter.NOT_TAGGED_66",
         opt_out_field: "supporter.questions.102600",
         duration: 60,
-        selector: ".snooze-emails-block"
+        selector: ".snooze-emails-block",
       },
       not_you: true,
       categories: {
@@ -150,14 +149,17 @@ const options: Options = {
         },
         "Unsub All Emails": {
           selector: ".unsub-emails-block",
-          opt_out_field: ["supporter.questions.102600", "supporter.questions.341509"],
+          opt_out_field: [
+            "supporter.questions.102600",
+            "supporter.questions.341509",
+          ],
         },
         "Sub All Emails": {
           selector: ".sub-emails-block",
           opt_in_field: "supporter.questions.102600",
           opt_out_field: "supporter.questions.341509",
-        }
-      }
+        },
+      },
     });
     customScript(App, EnForm);
   },
