@@ -1,7 +1,4 @@
-// import { EngridLogger, ENGrid, EnForm } from "@4site/engrid-scripts";
-import {
-  EngridLogger, ENGrid, EnForm
-} from "../../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
+import { EngridLogger, ENGrid, EnForm } from "@4site/engrid-scripts";
 declare global {
   interface Window {
     EngagingNetworks: any;
