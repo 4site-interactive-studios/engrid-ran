@@ -714,6 +714,31 @@
     background-size: 100%;
   }
 
+  .new-footer-menu {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 12px;
+    margin: 60px auto 40px;
+    justify-content: center;
+    max-width: 800px;
+
+    a {
+      padding: 0 12px;
+      text-decoration: underline;
+      font-weight: bold;
+      position: relative;
+    }
+
+    a:nth-of-type(-n+2):after {
+      content: "|";
+      position: absolute;
+      padding-left: 14px;
+      text-decoration: none;
+      pointer-events: none;
+      font-weight: normal;
+    }
+  }
+  
   .footer-menu {
     display: flex;
     flex-flow: row nowrap;
@@ -743,12 +768,25 @@
     justify-content: center;
   }
 
+  .new-footer-seals {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+
   .footer-badges {
     img {
       margin: 0;
     }
 
     margin-right: 40px;
+  }
+
+  .new-footer-badges {
+    img {
+      margin: 0;
+    }
   }
 
   .footer-copy {
@@ -888,6 +926,16 @@
 
       .footer-menu a:not(:last-of-type) {
         border-right: 1px solid white;
+      }
+
+      .new-footer-menu {
+        font-size: 1rem;
+        text-align: center;
+        flex-direction: column;
+        
+        a::after {
+          content: none
+        }
       }
     }
   }

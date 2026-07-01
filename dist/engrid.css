@@ -19,8 +19,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, January 12, 2026 @ 06:54:59 ET
- *  By: michael
+ *  Date: Wednesday, July 1, 2026 @ 15:12:37 ET
+ *  By: pedroluan
  *  ENGrid styles: v0.23.0
  *  ENGrid scripts: v0.23.2
  *
@@ -8344,6 +8344,30 @@ body[data-engrid-debug]:before{
   top:-50px;
   width:100%;
 }
+[data-engrid-theme=engrid-ran3] .new-footer-menu{
+  display:flex;
+  flex-flow:row wrap;
+  gap:12px;
+  justify-content:center;
+  margin:60px auto 40px;
+  max-width:800px;
+}
+[data-engrid-theme=engrid-ran3] .new-footer-menu a{
+  font-weight:700;
+  padding:0 12px;
+  position:relative;
+  -webkit-text-decoration:underline;
+  text-decoration:underline;
+}
+[data-engrid-theme=engrid-ran3] .new-footer-menu a:nth-of-type(-n+2):after{
+  content:"|";
+  font-weight:400;
+  padding-left:14px;
+  pointer-events:none;
+  position:absolute;
+  -webkit-text-decoration:none;
+  text-decoration:none;
+}
 [data-engrid-theme=engrid-ran3] .footer-menu{
   display:flex;
   flex-flow:row nowrap;
@@ -8366,10 +8390,13 @@ body[data-engrid-debug]:before{
   -webkit-text-decoration:none;
   text-decoration:none;
 }
-[data-engrid-theme=engrid-ran3] .footer-center{
+[data-engrid-theme=engrid-ran3] .footer-center,[data-engrid-theme=engrid-ran3] .new-footer-seals{
   align-items:center;
   display:flex;
   justify-content:center;
+}
+[data-engrid-theme=engrid-ran3] .new-footer-seals{
+  gap:40px;
 }
 [data-engrid-theme=engrid-ran3] .footer-badges{
   margin-right:40px;
@@ -8469,6 +8496,14 @@ body[data-engrid-debug]:before{
   }
   [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .footer-menu a:not(:last-of-type){
     border-right:1px solid #fff;
+  }
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .new-footer-menu{
+    flex-direction:column;
+    font-size:1rem;
+    text-align:center;
+  }
+  [data-engrid-theme=engrid-ran3]:not([data-engrid-embedded]) .new-footer-menu a:after{
+    content:none;
   }
 }
 @media screen and (max-width:500px){
