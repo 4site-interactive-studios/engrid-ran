@@ -1,5 +1,9 @@
 import { EngridLogger, ENGrid, EnForm } from "@4site/engrid-scripts";
-
+declare global {
+  interface Window {
+    EngagingNetworks: any;
+  }
+}
 export class EcardRecipientDetails {
   private logger: EngridLogger = new EngridLogger(
     "EcardRecipientDetails",
@@ -13,7 +17,7 @@ export class EcardRecipientDetails {
     if (!this.shouldRun()) return;
     this.logger.log("Running EcardRecipientDetails");
     // We run this onValidate instead of onSubmit because EN does not run onSubmit for all gateways
-    this._form.onValidate.subscribe(
+    this._form.onIntentSubmit.subscribe(
       this.addEcardRecipientDetailsToExtRefField.bind(this)
     );
   }

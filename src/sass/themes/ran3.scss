@@ -990,6 +990,7 @@
     overflow-x: visible !important;
   }
 
+  .snooze-emails-block,
   .fewer-emails-block,
   .unsub-emails-block,
   .sub-emails-block {
@@ -1020,6 +1021,15 @@
 
     span:hover {
       text-decoration: none;
+    }
+  }
+
+  .snooze-emails-notice {
+    display: none;
+  }
+  &[data-engrid-recent-snooze="true"] {
+    .snooze-emails-notice {
+      display: block;
     }
   }
 
