@@ -6,25 +6,30 @@ export const customScript = function (App, EnForm) {
   // Add your client scripts here
 
   // If body-banner has a image, copy it to the body background image
-  const bodyBanner = document.querySelector(".body-banner");
-  const pageBackground = document.querySelector(".page-backgroundImage");
-  if (bodyBanner && pageBackground) {
-    const bodyBannerImage = bodyBanner.querySelector("img");
-    const pageBackgroundImage = pageBackground.querySelector(
-      "img, video, picture"
-    );
-    if (bodyBannerImage && !pageBackgroundImage) {
-      const imageUrl = bodyBannerImage.src;
-      const cssUrl = `url('${imageUrl}')`;
-      pageBackground.style.setProperty(
-        "--engrid__page-backgroundImage_url",
-        cssUrl
-      );
-      App.setBodyData("page-background", "image");
-      document.body.removeAttribute("data-engrid-no-page-backgroundImage");
-      App.log(`Set page background image to: ${imageUrl}`);
-    }
-  }
+  // const bodyBanner = document.querySelector(".body-banner");
+  // const pageBackground = document.querySelector(".page-backgroundImage");
+  // if (bodyBanner && pageBackground) {
+  //   const bodyBannerFigure = bodyBanner.querySelector("figure");
+  //   const bodyBannerImage = bodyBanner.querySelector("img");
+  //   const pageBackgroundImage = pageBackground.querySelector(
+  //     "img, video, picture"
+  //   );
+  //   if (bodyBannerImage && !pageBackgroundImage) {
+  //     const imageUrl = bodyBannerImage.src;
+  //     const cssUrl = `url('${imageUrl}')`;
+  //     pageBackground.style.setProperty(
+  //       "--engrid__page-backgroundImage_url",
+  //       cssUrl
+  //     );
+  //     App.setBodyData("page-background", "image");
+  //     document.body.removeAttribute("data-engrid-no-page-backgroundImage");
+  //     App.log(`Set page background image to: ${imageUrl}`);
+  //     // Clone image to page background (for figattribution)
+  //     const clonedImage = bodyBannerImage.cloneNode(true);
+  //     pageBackground.appendChild(clonedImage);
+  //   }
+  // }
+  // MediaAttribution();
 
   // If we're on the last page OR we're redirected from another EN Page
   if (
@@ -63,11 +68,11 @@ export const customScript = function (App, EnForm) {
     enFieldMobilePhone.placeholder = "000-000-0000 (optional)";
   }
 
-  const attriubtion = document.querySelector(
+  const attriubtion = document.querySelectorAll(
     ".media-with-attribution figattribution"
   );
-  if (attriubtion) {
-    const tippyInstance = attriubtion._tippy;
+  for (const attr of attriubtion) {
+    const tippyInstance = attr._tippy;
     if (tippyInstance) {
       tippyInstance.setProps({
         allowHTML: true,

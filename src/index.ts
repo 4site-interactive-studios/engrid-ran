@@ -1,11 +1,3 @@
-import {
-  Options,
-  App,
-  DonationAmount,
-  DonationFrequency,
-  EnForm,
-  OptInLadder,
-} from "@4site/engrid-scripts"; // Uses ENGrid via NPM
 // import {
 //   Options,
 //   App,
@@ -13,7 +5,15 @@ import {
 //   DonationFrequency,
 //   EnForm,
 //   OptInLadder,
-// } from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
+// } from "@4site/engrid-scripts"; // Uses ENGrid via NPM
+import {
+  Options,
+  App,
+  DonationAmount,
+  DonationFrequency,
+  EnForm,
+  OptInLadder,
+} from "../../engrid/packages/scripts"; // Uses ENGrid via Visual Studio Workspace
 import "./sass/main.scss";
 import DonationLightboxForm from "./scripts/donation-lightbox-form";
 import { customScript } from "./scripts/main";
@@ -36,6 +36,7 @@ const options: Options = {
   MinAmountMessage: "Amount must be at least $5 - Contact us for assistance",
   MaxAmountMessage:
     "Amount must be less than $100,000 - Contact us for assistance",
+  UseBodyBannerImageAsBackground: true,
   MediaAttribution: true,
   SkipToMainContentLink: true,
   SrcDefer: true,

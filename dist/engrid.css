@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, June 29, 2026 @ 10:08:08 ET
+ *  Date: Thursday, July 2, 2026 @ 17:16:01 ET
  *  By: nick
  *  ENGrid styles: v0.25.0
  *  ENGrid scripts: v0.25.0
@@ -8328,7 +8328,7 @@ body[data-engrid-debug]:before{
   padding:112px 0 30px;
 }
 [data-engrid-theme=engrid-ran3] .footer-wrapper:before{
-  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/footer-banner.png?v=1683033739000);
+  background-image:url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/footer-banner.webp?v=1683033739000);
   background-repeat:repeat-x;
   background-size:100%;
   content:"";
