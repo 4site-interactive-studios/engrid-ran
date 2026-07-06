@@ -769,9 +769,8 @@
   }
 
   .new-footer-seals {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) repeat(2, 1fr);
     gap: 40px;
   }
 
@@ -956,7 +955,7 @@
     }
 
     .new-footer-seals {
-      flex-direction: column;
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
