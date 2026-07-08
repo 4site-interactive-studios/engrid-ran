@@ -770,9 +770,16 @@
 
   .new-footer-seals {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 40px;
+
+    & > *:last-child {
+      flex: 0 0 100%;
+      display: flex;
+      justify-content: center;
+    }
   }
 
   .footer-badges {
@@ -935,6 +942,21 @@
         
         a::after {
           content: none
+        }
+      }
+
+      .new-footer-seals {
+        column-gap: 40px;
+
+        & > * {
+          display: flex;
+          justify-content: center;
+        }
+
+        & > *:last-child {
+          flex: 0 0 100%;
+          display: flex;
+          justify-content: center;
         }
       }
     }
