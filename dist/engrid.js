@@ -17,7 +17,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, August 17, 2026 @ 19:30:49 ET
+ *  Date: Monday, August 17, 2026 @ 19:41:51 ET
  *  By: nick
  *  ENGrid styles: v0.27.3
  *  ENGrid scripts: v0.27.4
@@ -27846,31 +27846,6 @@ var tippy_esm = __webpack_require__(3861);
 
 const customScript = function (App, EnForm) {
   App.log("ENGrid client scripts are executing"); // Add your client scripts here
-  // If body-banner has a image, copy it to the body background image
-  // const bodyBanner = document.querySelector(".body-banner");
-  // const pageBackground = document.querySelector(".page-backgroundImage");
-  // if (bodyBanner && pageBackground) {
-  //   const bodyBannerFigure = bodyBanner.querySelector("figure");
-  //   const bodyBannerImage = bodyBanner.querySelector("img");
-  //   const pageBackgroundImage = pageBackground.querySelector(
-  //     "img, video, picture"
-  //   );
-  //   if (bodyBannerImage && !pageBackgroundImage) {
-  //     const imageUrl = bodyBannerImage.src;
-  //     const cssUrl = `url('${imageUrl}')`;
-  //     pageBackground.style.setProperty(
-  //       "--engrid__page-backgroundImage_url",
-  //       cssUrl
-  //     );
-  //     App.setBodyData("page-background", "image");
-  //     document.body.removeAttribute("data-engrid-no-page-backgroundImage");
-  //     App.log(`Set page background image to: ${imageUrl}`);
-  //     // Clone image to page background (for figattribution)
-  //     const clonedImage = bodyBannerImage.cloneNode(true);
-  //     pageBackground.appendChild(clonedImage);
-  //   }
-  // }
-  // MediaAttribution();
   // If we're on the last page OR we're redirected from another EN Page
 
   if (App.getPageType() !== "UNKNOWN" && (App.getPageNumber() === App.getPageCount() || document.referrer.includes("act.ran.org"))) {
@@ -28509,7 +28484,7 @@ const options = {
   },
   OptInLadder: {
     iframeUrl: // TODO: Update URL before launch - This is currently pointed to a test page with the correct query parameters to pull in the ladder form
-    "https://act.ran.org/page/94352/data/1?chain&engrid_hide[body-headerOutside]=class&engrid_hide[body-banner]=class&engrid_hide[content-footer]=class&engrid_hide[page-backgroundImage]=class&data-engrid-opt-in-ladder-persist=true",
+    "https://act.ran.org/page/75744/data/1?chain&engrid_hide[body-headerOutside]=class&engrid_hide[body-banner]=class&engrid_hide[content-footer]=class&engrid_hide[page-backgroundImage]=class&data-engrid-opt-in-ladder-persist=true",
     excludePageIDs: ["78306"]
   },
   onLoad: () => {
