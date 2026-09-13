@@ -36,6 +36,7 @@ const options: Options = {
   MinAmountMessage: "Amount must be at least $5 - Contact us for assistance",
   MaxAmountMessage:
     "Amount must be less than $100,000 - Contact us for assistance",
+  UseBodyBannerImageAsBackground: true,
   MediaAttribution: true,
   SkipToMainContentLink: true,
   SrcDefer: true,

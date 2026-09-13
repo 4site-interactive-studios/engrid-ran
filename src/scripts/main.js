@@ -42,11 +42,11 @@ export const customScript = function (App, EnForm) {
     enFieldMobilePhone.placeholder = "000-000-0000 (optional)";
   }
 
-  const attriubtion = document.querySelector(
+  const attriubtion = document.querySelectorAll(
     ".media-with-attribution figattribution"
   );
-  if (attriubtion) {
-    const tippyInstance = attriubtion._tippy;
+  for (const attr of attriubtion) {
+    const tippyInstance = attr._tippy;
     if (tippyInstance) {
       tippyInstance.setProps({
         allowHTML: true,
@@ -77,7 +77,7 @@ export const customScript = function (App, EnForm) {
 
   const substackIframe = document.querySelector('iframe[name="substack"]');
 
-  if(substackIframe) {
+  if (substackIframe) {
     substackIframe.removeAttribute("sandbox");
     substackIframe.src = substackIframe.src;
   }
