@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, October 8, 2026 @ 14:29:52 ET
+ *  Date: Thursday, October 8, 2026 @ 14:32:59 ET
  *  By: pedroluan
  *  ENGrid styles: v0.27.3
  *  ENGrid scripts: v0.27.4
@@ -7994,13 +7994,13 @@ body[data-engrid-debug]:before{
   src:local("Futura Bold"), local("Futura-Bold"), url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/Futura-Bold.woff2?v=1680784770000) format("woff2");
 }
 [data-engrid-theme=engrid-ran3]{
-  --engrid__page_background-color:#f5f2d8;
+  --engrid__page_background-color:#fcfbf2;
   --color_primary:#000;
   --color_primary_accent:#f57e20;
   --color_green:#395a4c;
   --error__color:#d2232a;
   --error__color_faded:#fff;
-  --engrid__body_background-color:#f5f2d8;
+  --engrid__body_background-color:#fcfbf2;
   --engrid__body-headerOutside_background-color:var(
     --engrid__body_background-color
   );
