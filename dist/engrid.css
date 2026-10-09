@@ -19,7 +19,7 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Thursday, October 8, 2026 @ 14:32:59 ET
+ *  Date: Friday, October 9, 2026 @ 16:55:46 ET
  *  By: pedroluan
  *  ENGrid styles: v0.27.3
  *  ENGrid scripts: v0.27.4
@@ -8089,7 +8089,7 @@ body[data-engrid-debug]:before{
   --click-to-expand__cta-image_width:100%;
   --recurring-frequency__button_font-size:1.5rem;
   --recurring-frequency__button_padding:60px 0px 17px;
-  --donation-amount__button_padding:22px 0 14px;
+  --donation-amount__button_padding:0;
   --donation-amount__button_line-height:1;
   --donation-amount__button_font-family:var(--secondary_font-family);
   --give-by-select__button_font-size:1rem;
@@ -8450,6 +8450,9 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3] .en__field--paycurrency select option{
   font-weight:700;
+}
+[data-engrid-theme=engrid-ran3] .en__field--donationAmt .en__field__label--item{
+  height:82px;
 }
 [data-engrid-theme=engrid-ran3] .radio-to-buttons_donationAmt .en__field__label--item .engrid-currency-symbol{
   font-family:var(--secondary_font-family);
@@ -9430,6 +9433,19 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3] .en__component--callsurveyblock .en__button{
   width:100%;
+}
+@media screen and (max-width:660px){
+  [data-engrid-theme=engrid-ran3] .with-radio input[type=radio]{
+    height:30px;
+    width:30px;
+  }
+  [data-engrid-theme=engrid-ran3] .with-radio input[type=radio]:checked{
+    background-size:20px 20px;
+  }
+  [data-engrid-theme=engrid-ran3] .en__field--recurrfreq .en__field__element--radio .en__field__label--item,[data-engrid-theme=engrid-ran3] .radio-to-buttons_recurrfreq .en__field--recurrfreq .en__field__element--radio .en__field__label--item{
+    font-size:18px;
+    padding-top:70px;
+  }
 }
 
 body:not(#en__pagebuilder) .optin-ladder,body[data-engrid-page-type=donation][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=donation][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypal]:not([data-engrid-currency-code=USD]) .en__submit,body[data-engrid-page-type=premiumgift][data-engrid-payment-type=paypaltouch]:not([data-engrid-currency-code=USD]) .en__submit,iframe[src*=fluidads]{
