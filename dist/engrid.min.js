@@ -17,8 +17,8 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Monday, August 17, 2026 @ 19:41:51 ET
- *  By: nick
+ *  Date: Friday, October 9, 2026 @ 18:05:53 ET
+ *  By: pedroluan
  *  ENGrid styles: v0.27.3
  *  ENGrid scripts: v0.27.4
  *
