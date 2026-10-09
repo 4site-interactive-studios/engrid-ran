@@ -658,9 +658,13 @@
   }
 
   //donation buttons
-  --donation-amount__button_padding: 22px 0 14px;
+  --donation-amount__button_padding: 0;
   --donation-amount__button_line-height: 1;
   --donation-amount__button_font-family: var(--secondary_font-family);
+
+  .en__field--donationAmt .en__field__label--item {
+    height: 82px;
+  }
 
   .radio-to-buttons_donationAmt
     .en__field__label--item
@@ -1963,6 +1967,28 @@
     }
     .en__button {
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 660px) {
+    .with-radio input[type="radio"] {
+      height: 30px;
+      width: 30px;
+    }
+
+    .with-radio input[type="radio"]:checked {
+      background-size: 20px 20px;
+    }
+
+    .radio-to-buttons_recurrfreq
+      .en__field--recurrfreq
+      .en__field__element--radio
+      .en__field__label--item,
+    .en__field--recurrfreq
+      .en__field__element--radio
+      .en__field__label--item {
+      font-size: 18px;
+      padding-top: 70px;
     }
   }
 }
