@@ -1,13 +1,13 @@
 //noinspection SassScssResolvedByNameOnly
 [data-engrid-theme="engrid-ran3"] {
   // PRIMARY COLORS
-  --engrid__page_background-color: #f5f2d8;
+  --engrid__page_background-color: #fcfbf2;
   --color_primary: #000000;
   --color_primary_accent: #f57e20;
   --color_green: #395a4c;
   --error__color: #d2232a;
   --error__color_faded: #ffffff;
-  --engrid__body_background-color: #f5f2d8;
+  --engrid__body_background-color: #fcfbf2;
   --engrid__body-headerOutside_background-color: var(
     --engrid__body_background-color
   );
@@ -31,6 +31,7 @@
   --default_font-size: var(--root_font-size);
   --engrid__body_padding: 0 3.5rem;
   --engrid__content-footer_padding: 85px 0 0;
+  --secondary_font-family: "Futura", sans-serif;
   //--engrid__body-main_padding: 0 3.5rem 85px;
 
   // TYPOGRAPHY H1 AND H2
@@ -147,14 +148,18 @@
   --button_border-radius: 0px;
 
   // TYPOGRAPHY BUTTON:HOVER
-  --button_color_hover: #ffffff;
-  --button_background-color_hover: #000000;
-  --button_border-color_hover: #000000;
+  --button_color_hover: var(--button_color);
+  --button_background-color_hover: #F7F4DD;
+  --button_border-color_hover: var(--color_primary_accent);
 
   // TYPOGRAPHY BUTTON:SELECTED
-  --button_color_checked: var(--button_color_hover);
-  --button_background-color_checked: var(--button_background-color_hover);
+  --button_color_checked: var(--button_color);
+  --button_background-color_checked: var(--color_primary_accent);
   --button_border-color_checked: var(--button_border-color_hover);
+
+  --donation-amount__button_background-color_checked: var(
+    --button_background-color_checked
+  );
 
   // TYPOGRAPHY SUBMIT BUTTON
   --submit__button_border-color: var(--color_primary_accent);
@@ -400,7 +405,7 @@
 
   /* RECURRING FREQUENCY BUTTONS */
   --recurring-frequency__button_font-size: 1.5rem;
-  --recurring-frequency__button_padding: 70px 0px 14px;
+  --recurring-frequency__button_padding: 60px 0px 17px;
 
   .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio {
     margin-top: calc(60px - 1em);
@@ -425,9 +430,6 @@
           left: 0;
           background-position: top 13px center;
           background-size: 42px;
-        }
-
-        input:not(:checked):not(:hover) + label:after {
           filter: invert(1);
         }
       }
@@ -439,25 +441,150 @@
           background-image: url(https://acb0a5d73b67fccd4bbe-c2d8138f0ea10a18dd4c43ec3aa4240a.ssl.cf5.rackcdn.com/10042/monthly-icon.png?v=1683026670000);
           background-position: top;
           background-repeat: no-repeat;
-          bottom: 0;
+          top: -6px;
           content: "";
-          left: calc(50% + 5px);
           position: absolute;
-          top: 45px;
           transition: transform 0.25s ease-in-out;
           width: 50%;
+          height: 100%;
           background-size: 116px 74px;
+          transform: scale(0.6)
         }
 
-        input:checked + label:after,
         input:hover + label:after {
-          filter: invert(1);
-          transform: scale(0.7) translateY(10px);
+          transform: scale(0.7);
+        }
+
+        input:checked + label:after {
+          transform: scale(1.1) translateY(-13px);
         }
       }
 
       padding-bottom: 0;
     }
+  }
+
+  .radio-to-buttons_recurrfreq .en__field--recurrfreq .en__field__element--radio {
+    --recurrfreq-selected-indicator_offset: 7px;
+    --recurring-frequency__button_background-color: transparent;
+    --recurring-frequency__button_background-color_checked: transparent;
+    --recurring-frequency__button_background-color_hover: #efeabe;
+    --recurring-frequency__button_border-color_hover: transparent;
+    --recurring-frequency__button_border-color: transparent;
+    --recurring-frequency__button_border-width: 0px;
+    border: 2px solid black;
+    margin-left: 0px;
+    margin-right: 0px;
+    background-color: var(--color_white);
+    padding: var(--recurrfreq-selected-indicator_offset);
+    position: relative;
+
+    &::before {
+      background-color: var(--color_primary_accent);
+      bottom: var(--recurrfreq-selected-indicator_offset);
+      content: "";
+      left: var(--recurrfreq-selected-indicator_offset);
+      position: absolute;
+      top: var(--recurrfreq-selected-indicator_offset);
+      transform: translateX(0);
+      transition: transform 0.5s cubic-bezier(0.34, 1.27, 0.64, 1);
+      width: calc((100% - (var(--recurrfreq-selected-indicator_offset) * 2) - var(--spacing-2, 8px)) / 2);
+      z-index: 0;
+    }
+
+    &:has(input[value="MONTHLY"]:checked)::before {
+      transform: translateX(calc(100% + var(--spacing-2, 8px)));
+    }
+
+    &:has(input[value="ONETIME"]:checked)::before {
+      transform: translateX(0);
+    }
+
+    .en__field__item {
+      padding: 0px !important;
+      height: 112px !important;
+    }
+
+    .en__field__item,
+    .en__field__label--item {
+      position: relative;
+      z-index: 1;
+    }
+
+    .en__field__label--item {
+      font-size: 26px;
+      font-weight: 700;
+      font-family: var(--secondary_font-family);
+    }
+  }
+
+  .rounded .en__field__element--radio,
+  .rounded .en__field__element--radio::before,
+  .rounded .en__field__label--item {
+    border-radius: 999px;
+  }
+
+  .rounded {
+    --recurring-frequency__button_border-radius: 999px;
+  }
+
+  .recurring-frequency-monthly-hide {
+    font-weight: 700;
+    font-size: 16px;
+    font-style: italic;
+    text-align: center;
+
+    &::after {
+      content: url('data:image/svg+xml;utf8,<svg width="34" height="29" viewBox="0 0 34 29" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.3774 2.35588L18.6173 11.3167C18.6173 11.3167 18.3246 13.08 19.7475 12.2455L23.0852 9.99016L26.9063 10.261C26.9063 10.261 28.695 10.2915 27.6475 9.01263L21.5148 2.22852C21.5148 2.22852 20.6803 1.31635 20.3774 2.35588Z" fill="%23F57E20"/><path d="M4.05846 20.6917C10.5585 24.1917 15.6821 24.8379 18.5582 23.1937C25.5585 19.1917 24.0585 12.6917 23.0585 9.19198" fill="none" stroke-width="1.25" stroke="%23F57E20"/></svg>');
+    }
+  }
+
+  .with-radio {
+    position: relative;
+  }
+
+  .with-radio input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #bfbfbf;
+    border-radius: 50%;
+    clip: auto;
+    clip-path: none;
+    height: 46px;
+    left: 16px;
+    margin: 0;
+    overflow: visible;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px;
+    white-space: normal;
+    -webkit-clip-path: none;
+    z-index: 2;
+    cursor: pointer;
+
+    &:hover,
+    &:checked {
+      border-color: #000;
+    }
+  }
+
+  .with-radio:has(input[type="radio"] + label:hover) input[type="radio"] {
+    border-color: #000;
+  }
+
+  .with-radio input[type="radio"]:checked {
+    background-image: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs><mask id="heart-cutout"><rect width="32" height="32" fill="white"/><path transform="translate(8.5 9.5)" d="M7.16094 12.3846C7.11715 12.3846 7.07218 12.3701 7.03552 12.3411L6.6237 12.0245C6.4462 11.8939 2.1801 8.72888 0.647607 6.31065C-0.0848626 5.15412 -0.20203 3.76311 0.326908 2.4942C0.855846 1.22529 1.91857 0.318883 3.1694 0.0711438C5.21665 -0.334919 6.61066 1.10439 7.07695 1.6833C7.54317 1.10444 8.93601 -0.334927 10.9845 0.0711394C12.2353 0.318883 13.298 1.22526 13.8269 2.49419C14.3559 3.76312 14.2388 5.15412 13.5062 6.31067C11.9749 8.72767 7.47689 12.1961 7.28638 12.3423C7.2497 12.3713 7.20474 12.3846 7.16094 12.3846Z" fill="black"/></mask></defs><circle cx="16" cy="16" r="16" fill="black" mask="url(%23heart-cutout)"/></svg>');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+  }
+
+  .with-radio input[type="radio"]:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
   }
 
   &[data-engrid-transaction-recurring="y"] .monthly-donation-suggestion {
@@ -493,30 +620,61 @@
     }
   }
 
+  .en__field--paycurrency .en__field__element--select {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    &::before {
+      content: "Give with";
+      font-family: var(--secondary_font-family);
+      font-size: 24px;
+      font-weight: 500;
+      margin-top: 18px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+  }
+
   .en__field--paycurrency select {
     border: none;
     text-align: center;
     text-transform: uppercase;
-    font-size: 1.5rem;
+    font-size: 24px;
+    font-weight: 700;
     width: auto;
-    margin: 18px auto 0 !important;
+    margin: 18px 0 0 !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    padding-left: 8px !important;
     box-shadow: none;
     background-color: transparent;
+    font-family: var(--secondary_font-family);
+    line-height: 1;
+  }
+
+  .en__field--paycurrency select option {
+    font-weight: 700;
   }
 
   //donation buttons
-  --donation-amount__button_padding: 22px 0 14px;
+  --donation-amount__button_padding: 0;
   --donation-amount__button_line-height: 1;
+  --donation-amount__button_font-family: var(--secondary_font-family);
+
+  .en__field--donationAmt .en__field__label--item {
+    height: 82px;
+  }
 
   .radio-to-buttons_donationAmt
     .en__field__label--item
     .engrid-currency-symbol {
-    font-size: 1.5rem;
+    font-size: 26px;
     font-weight: 500;
-    margin-right: -2px;
-    margin-top: 2px;
+    margin-top: 4px;
     position: relative;
     top: -10px;
+    font-family: var(--secondary_font-family);
   }
 
   // /mo appended label
@@ -530,15 +688,8 @@
         opacity: 1;
         margin-left: 0;
         letter-spacing: 0;
+        font-weight: 500;
       }
-    }
-
-    .en__field__label--item:hover:after {
-      color: white;
-    }
-
-    input:checked + label:after {
-      color: white;
     }
   }
 
@@ -559,6 +710,7 @@
       left: 20px;
       top: 21px;
       font-size: 26px;
+      font-family: var(--secondary_font-family);
     }
 
     input {
@@ -566,10 +718,6 @@
       font-size: 36px;
       line-height: var(--donation-amount__button_line-height);
     }
-  }
-
-  .en__field--withOther--active .en__field__item--other:before {
-    color: white;
   }
 
   //give by select
@@ -595,13 +743,9 @@
 
   .en__field--giveBySelect input:checked + label > img.paypal,
   .en__field--giveBySelect input:hover + label > img.paypal,
-  .en__field--giveBySelect input:checked + label > img.google-pay-type,
-  .en__field--giveBySelect input:hover + label > img.google-pay-type,
-  .en__field--giveBySelect input:checked + label > img.apple-pay-logo,
-  .en__field--giveBySelect input:hover + label > img.apple-pay-logo,
   .en__field--giveBySelect input:checked + label > img.paypal-venmo,
   .en__field--giveBySelect input:hover + label > img.paypal-venmo {
-    filter: brightness(0) invert(1);
+    filter: brightness(0);
   }
 
   .en__field--giveBySelect input:checked + label > img.daf-logo,
@@ -622,6 +766,11 @@
   .en__field--giveBySelect .en__field__label--item img.paypal-venmo {
     height: 25px;
     margin: 0 5px;
+  }
+
+  .en__field--give-by-select.en__field--radio .en__field__item input[type=radio]:checked+label {
+    background-color: var(--color_primary_accent);
+    border-color: var(--color_primary_accent);
   }
 
   .header-logo {
@@ -696,7 +845,7 @@
     justify-content: center;
     align-items: center;
     color: #fff;
-    padding: 112px 0 30px;
+    padding: 112px 0 64px;
     flex-direction: column;
     font-weight: 400;
   }
@@ -777,6 +926,11 @@
   }
 
   .footer-badges {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: center;
+    
     img {
       margin: 0;
     }
@@ -792,6 +946,12 @@
 
   .footer-copy {
     flex-basis: 65%;
+    padding: 24px 76.5px;
+    text-align: center;
+
+    p {
+      font-size: 18px !important;
+    }
   }
 
   .footer-copy p {
@@ -800,8 +960,13 @@
   }
 
   .footer-address {
-    margin-top: 30px;
+    margin-top: 16px;
     text-align: center;
+
+    p {
+      margin: 0px !important;
+      line-height: 160%;
+    }
   }
 
   &:not(#en__pagebuilder) .page-backgroundImage {
@@ -1802,6 +1967,28 @@
     }
     .en__button {
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 660px) {
+    .with-radio input[type="radio"] {
+      height: 30px;
+      width: 30px;
+    }
+
+    .with-radio input[type="radio"]:checked {
+      background-size: 20px 20px;
+    }
+
+    .radio-to-buttons_recurrfreq
+      .en__field--recurrfreq
+      .en__field__element--radio
+      .en__field__label--item,
+    .en__field--recurrfreq
+      .en__field__element--radio
+      .en__field__label--item {
+      font-size: 18px;
+      padding-top: 70px;
     }
   }
 }
