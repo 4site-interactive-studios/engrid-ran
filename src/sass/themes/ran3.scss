@@ -1228,6 +1228,7 @@
     --donation-amount__button_color_checked: #ffffff;
     --donation-amount__button_background-color_checked: #78a22f;
     --donation-amount__button_font-size: 1.5rem;
+    --donation-amount__button_font-family: var(--button_font-family);
     --donation-amount__button_count: 3;
     --donation-amount__button_padding: 17px 0px 13px;
 
@@ -1337,11 +1338,13 @@
               background-image: none;
               content: url('data:image/svg+xml;utf8,<svg width="55" height="40" viewBox="0 0 55 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.80373 32.3883C5.71656 31.1148 10.2653 28.4764 15.3603 27.9304C16.3609 27.8395 16.543 29.1131 16.0881 29.6591C15.4514 30.3869 14.6324 31.4785 13.7227 32.3883C16.2702 32.5704 18.6356 33.48 21.183 34.0261C23.5485 34.5719 25.9139 34.208 28.0972 33.3892C27.5514 32.8433 27.0966 32.2065 26.5506 31.5697C22.9116 26.3839 20.6372 9.37092 30.0988 8.1882C35.4665 7.46038 40.3793 14.2838 40.6523 19.1056C41.0162 25.4741 37.1951 30.8418 32.0093 34.0261C34.1928 35.4817 36.8312 36.2096 39.6515 36.3914C45.5651 36.6644 49.7501 32.7524 51.7516 27.4755C55.3906 17.8318 52.2974 4.6399 41.9258 0.909784C41.4709 0.727828 41.4709 0 42.0168 0C55.0267 0.181957 56.8463 19.5604 53.5711 28.5672C49.8409 38.8478 37.5589 41.0314 29.8257 35.0267C29.1888 35.2996 28.461 35.6635 27.7332 35.8455C22.7295 37.5741 18.2716 35.1177 13.4497 34.5719C14.0866 35.7547 14.7234 37.0282 15.6332 38.1201C16.2701 38.9389 15.7242 40.3036 14.5415 39.9395C9.62863 38.4839 4.62482 37.3921 0.439816 34.3898C-0.197182 33.844 -0.197182 32.5704 0.80373 32.3883ZM30.0986 32.3883C31.1904 31.7515 32.2821 31.0236 33.1919 30.2048C39.4694 24.9281 40.3792 15.1024 32.555 10.7355C28.9159 8.73393 26.8236 13.1919 26.0956 16.0122C25.0038 20.1062 25.6407 24.8371 27.3693 28.6582C28.1881 30.1138 29.0979 31.2966 30.0986 32.3883ZM10.4474 33.571C10.3565 33.571 10.2653 33.3891 10.2653 33.2981C10.5383 32.2973 11.3572 31.4785 12.2669 30.6597C9.35555 31.4785 6.62635 32.7522 3.71503 33.662C6.44424 35.1177 9.44668 36.0274 12.5398 36.9372C11.9939 35.9365 11.5392 34.9356 10.7204 34.1168C10.5383 33.9349 10.4474 33.753 10.4474 33.571Z" fill="black"/></svg> ');
               position: absolute;
-              right: -35px;
+              right: -40px;
               top: -3px;
               left: initial;
               bottom: initial;
               width: auto;
+              height: auto;
+              transform: none;
               transition: opacity 0.2s ease-in-out;
             }
           }
@@ -1355,6 +1358,30 @@
           filter: none;
           transform: none;
         }
+      }
+    }
+
+    // Keeps the orange sliding toggle from the new LP, sized to fit the 350x550 lightbox
+    .radio-to-buttons_recurrfreq .en__field--recurrfreq .en__field__element--radio {
+      // LP hover background is light, so keep the text dark on hover
+      --recurring-frequency__button_color_hover: var(--recurring-frequency__button_color);
+
+      // Items have no gap in the lightbox, so the indicator is exactly half the width
+      &::before {
+        width: calc((100% - (var(--recurrfreq-selected-indicator_offset) * 2)) / 2);
+      }
+
+      &:has(input[value="MONTHLY"]:checked)::before {
+        transform: translateX(100%);
+      }
+
+      .en__field__item {
+        height: auto !important;
+      }
+
+      .en__field__label--item {
+        font-size: var(--recurring-frequency__button_font-size);
+        padding: 14px 10px 11px;
       }
     }
 
@@ -1426,10 +1453,12 @@
       margin-right: -2px;
       margin-top: 2px;
       position: initial;
+      font-family: inherit;
     }
 
     .en__field--donationAmt .en__field__label--item {
       align-items: flex-start;
+      height: auto;
     }
 
     .en__component--column--1 h1 {

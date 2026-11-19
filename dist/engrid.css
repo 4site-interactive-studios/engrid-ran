@@ -19,10 +19,10 @@
  *
  *  ENGRID PAGE TEMPLATE ASSETS
  *
- *  Date: Wednesday, November 4, 2026 @ 12:56:11 ET
- *  By: nick
- *  ENGrid styles: v0.28.3
- *  ENGrid scripts: v0.28.7
+ *  Date: Wednesday, November 18, 2026 @ 16:08:52 ET
+ *  By: pedroluan
+ *  ENGrid styles: v0.27.3
+ *  ENGrid scripts: v0.27.4
  *
  *  Created by 4Site Studios
  *  Come work with us or join our team, we would love to hear from you
@@ -2605,9 +2605,6 @@ body[data-engrid-live-currency=active] .en__field--donationAmt .en__field__item:
     display:none;
   }
 }
-body:not(#en__pagebuilder):not([data-engrid-payment-type=applepay]) .showif-applepay-selected,body:not(#en__pagebuilder)[data-engrid-payment-type=applepay] .hideif-applepay-selected{
-  display:none;
-}
 input:-webkit-autofill,select:-webkit-autofill,textarea:-webkit-autofill{
   animation-name:onAutoFillStart;
   -webkit-transition:background-color 50000s ease-in-out 0s;
@@ -5071,140 +5068,6 @@ div[id^=nb-field-].nb-success input{
   display:none !important;
 }
 
-body:not(#en__pagebuilder) .page-backgroundImage .page-background-rotation .background-rotation-layer{
-  background-position:100% 0;
-  background-repeat:no-repeat;
-  background-size:cover;
-  height:100vh;
-  left:0;
-  object-position:top right;
-  opacity:0;
-  pointer-events:none;
-  position:fixed;
-  top:0;
-  transition:opacity var(--background-rotation-transition-duration, .5s) ease-in-out;
-  width:100vw;
-  z-index:0;
-}
-body:not(#en__pagebuilder) .page-backgroundImage .page-background-rotation .background-rotation-layer.active{
-  opacity:1;
-}
-body:not(#en__pagebuilder) .page-backgroundImage .page-background-rotation .background-rotation-layer.active:not(.background-rotation-outgoing){
-  z-index:1;
-}
-body:not(#en__pagebuilder) .page-backgroundImage .page-background-rotation.background-rotation-transition .background-rotation-layer{
-  will-change:opacity;
-}
-body:not(#en__pagebuilder) .page-backgroundImage .page-background-rotation img.background-rotation-layer{
-  display:block;
-  object-fit:cover;
-}
-body:not(#en__pagebuilder) .page-backgroundImage .page-background-rotation figure.background-rotation-layer.active{
-  pointer-events:auto;
-}
-body:not(#en__pagebuilder) .page-backgroundImage .page-background-rotation figure.media-with-attribution:not(.background-rotation-layer){
-  background-image:none;
-  display:block;
-  position:static;
-}
-body:not(#en__pagebuilder)[data-engrid-background-rotation] .page-backgroundImage:before{
-  background-image:var(--background-rotation-image, none);
-}
-body:not(#en__pagebuilder)[data-engrid-layout=centercenter1col] .page-backgroundImage .page-background-rotation .background-rotation-layer,body:not(#en__pagebuilder)[data-engrid-layout=centercenter2col] .page-backgroundImage .page-background-rotation .background-rotation-layer{
-  background-position:top;
-  object-position:top center;
-}
-body:not(#en__pagebuilder)[data-engrid-layout=centerright1col] .page-backgroundImage .page-background-rotation .background-rotation-layer,body:not(#en__pagebuilder)[data-engrid-layout=rightright1col] .page-backgroundImage .page-background-rotation .background-rotation-layer{
-  background-position:0 0;
-  object-position:top left;
-}
-
-@media screen and (max-width:499px){
-  body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-background-image] .page-backgroundImage .page-background-rotation,body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-banner-empty][data-engrid-body-banner=empty] .page-backgroundImage .page-background-rotation{
-    overflow:hidden;
-    position:relative;
-  }
-  body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-background-image] .page-backgroundImage .page-background-rotation .background-rotation-layer,body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-banner-empty][data-engrid-body-banner=empty] .page-backgroundImage .page-background-rotation .background-rotation-layer{
-    display:none !important;
-  }
-  body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-background-image] .page-backgroundImage .page-background-rotation .background-rotation-layer.active,body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-banner-empty][data-engrid-body-banner=empty] .page-backgroundImage .page-background-rotation .background-rotation-layer.active{
-    background-image:none !important;
-    display:block !important;
-    height:auto;
-    left:0;
-    opacity:1;
-    position:absolute;
-    top:0;
-    width:100%;
-  }
-  body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-background-image] .page-backgroundImage .page-background-rotation .background-rotation-layer.background-rotation-flow,body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-banner-empty][data-engrid-body-banner=empty] .page-backgroundImage .page-background-rotation .background-rotation-layer.background-rotation-flow{
-    position:static;
-  }
-  body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-background-image] .page-backgroundImage .page-background-rotation .background-rotation-layer.background-rotation-outgoing,body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-banner-empty][data-engrid-body-banner=empty] .page-backgroundImage .page-background-rotation .background-rotation-layer.background-rotation-outgoing{
-    z-index:0;
-  }
-  body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-background-image] .page-backgroundImage .page-background-rotation figure.background-rotation-layer.active,body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-banner-empty][data-engrid-body-banner=empty] .page-backgroundImage .page-background-rotation figure.background-rotation-layer.active{
-    height:auto !important;
-    transform:none !important;
-    width:100% !important;
-  }
-  body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-background-image] .page-backgroundImage .page-background-rotation figure.background-rotation-layer.background-rotation-flow,body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-banner-empty][data-engrid-body-banner=empty] .page-backgroundImage .page-background-rotation figure.background-rotation-layer.background-rotation-flow{
-    position:relative !important;
-  }
-  body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-background-image] .page-backgroundImage .page-background-rotation img.background-rotation-layer.active,body:not(#en__pagebuilder)[data-engrid-page-background=image][data-replace-banner-with-background=if-banner-empty][data-engrid-body-banner=empty] .page-backgroundImage .page-background-rotation img.background-rotation-layer.active{
-    object-fit:fill;
-  }
-}
-.background-rotation-controls{
-  display:none;
-}
-
-body:not(#en__pagebuilder)[data-engrid-background-rotation=active] .background-rotation-controls{
-  display:flex;
-  gap:.5rem;
-  position:fixed;
-  right:1rem;
-  top:1rem;
-  z-index:8;
-}
-body:not(#en__pagebuilder)[data-engrid-background-rotation=active] .background-rotation-controls button{
-  align-items:center;
-  background-color:#000000bf;
-  border:none;
-  border-radius:50%;
-  color:#fff;
-  cursor:pointer;
-  display:flex;
-  height:40px;
-  justify-content:center;
-  padding:0;
-  transition:background-color .15s ease-in-out;
-  width:40px;
-}
-body:not(#en__pagebuilder)[data-engrid-background-rotation=active] .background-rotation-controls button:focus-visible,body:not(#en__pagebuilder)[data-engrid-background-rotation=active] .background-rotation-controls button:hover{
-  background-color:#000000bf;
-}
-body:not(#en__pagebuilder)[data-engrid-background-rotation=active] .background-rotation-controls button:focus-visible{
-  outline:2px solid #fff;
-  outline-offset:2px;
-}
-body:not(#en__pagebuilder)[data-engrid-background-rotation=active] .background-rotation-controls button:disabled{
-  cursor:default;
-  opacity:.4;
-}
-body:not(#en__pagebuilder)[data-engrid-background-rotation=active] .background-rotation-controls button:disabled:focus-visible,body:not(#en__pagebuilder)[data-engrid-background-rotation=active] .background-rotation-controls button:disabled:hover{
-  background-color:#00000080;
-}
-body:not(#en__pagebuilder)[data-engrid-background-rotation=active] .background-rotation-controls button svg{
-  height:20px;
-  width:20px;
-}
-
-@media (prefers-reduced-motion:reduce){
-  body:not(#en__pagebuilder) .page-backgroundImage .page-background-rotation .background-rotation-layer{
-    transition:none;
-  }
-}
 [data-engrid-theme]{
   --premium__border-width:0;
   --premium__border-color:none;
@@ -8998,6 +8861,7 @@ body[data-engrid-debug]:before{
   --donation-amount__button_color_checked:#fff;
   --donation-amount__button_background-color_checked:#78a22f;
   --donation-amount__button_font-size:1.5rem;
+  --donation-amount__button_font-family:var(--button_font-family);
   --donation-amount__button_count:3;
   --donation-amount__button_padding:17px 0px 13px;
   --en-vgs-height:46px;
@@ -9096,10 +8960,12 @@ body[data-engrid-debug]:before{
   background-image:none;
   bottom:auto;
   content:url('data:image/svg+xml;utf8,<svg width="55" height="40" viewBox="0 0 55 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.80373 32.3883C5.71656 31.1148 10.2653 28.4764 15.3603 27.9304C16.3609 27.8395 16.543 29.1131 16.0881 29.6591C15.4514 30.3869 14.6324 31.4785 13.7227 32.3883C16.2702 32.5704 18.6356 33.48 21.183 34.0261C23.5485 34.5719 25.9139 34.208 28.0972 33.3892C27.5514 32.8433 27.0966 32.2065 26.5506 31.5697C22.9116 26.3839 20.6372 9.37092 30.0988 8.1882C35.4665 7.46038 40.3793 14.2838 40.6523 19.1056C41.0162 25.4741 37.1951 30.8418 32.0093 34.0261C34.1928 35.4817 36.8312 36.2096 39.6515 36.3914C45.5651 36.6644 49.7501 32.7524 51.7516 27.4755C55.3906 17.8318 52.2974 4.6399 41.9258 0.909784C41.4709 0.727828 41.4709 0 42.0168 0C55.0267 0.181957 56.8463 19.5604 53.5711 28.5672C49.8409 38.8478 37.5589 41.0314 29.8257 35.0267C29.1888 35.2996 28.461 35.6635 27.7332 35.8455C22.7295 37.5741 18.2716 35.1177 13.4497 34.5719C14.0866 35.7547 14.7234 37.0282 15.6332 38.1201C16.2701 38.9389 15.7242 40.3036 14.5415 39.9395C9.62863 38.4839 4.62482 37.3921 0.439816 34.3898C-0.197182 33.844 -0.197182 32.5704 0.80373 32.3883ZM30.0986 32.3883C31.1904 31.7515 32.2821 31.0236 33.1919 30.2048C39.4694 24.9281 40.3792 15.1024 32.555 10.7355C28.9159 8.73393 26.8236 13.1919 26.0956 16.0122C25.0038 20.1062 25.6407 24.8371 27.3693 28.6582C28.1881 30.1138 29.0979 31.2966 30.0986 32.3883ZM10.4474 33.571C10.3565 33.571 10.2653 33.3891 10.2653 33.2981C10.5383 32.2973 11.3572 31.4785 12.2669 30.6597C9.35555 31.4785 6.62635 32.7522 3.71503 33.662C6.44424 35.1177 9.44668 36.0274 12.5398 36.9372C11.9939 35.9365 11.5392 34.9356 10.7204 34.1168C10.5383 33.9349 10.4474 33.753 10.4474 33.571Z" fill="black"/></svg>');
+  height:auto;
   left:auto;
   position:absolute;
-  right:-35px;
+  right:-40px;
   top:-3px;
+  transform:none;
   transition:opacity .2s ease-in-out;
   width:auto;
 }
@@ -9109,6 +8975,22 @@ body[data-engrid-debug]:before{
 [data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item input:checked+label:after,[data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .radio-to-buttons_recurrfreq .en__field--recurrfreq.en__field--radio>.en__field__element .en__field__item input:hover+label:after{
   filter:none;
   transform:none;
+}
+[data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .radio-to-buttons_recurrfreq .en__field--recurrfreq .en__field__element--radio{
+  --recurring-frequency__button_color_hover:var(--recurring-frequency__button_color);
+}
+[data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .radio-to-buttons_recurrfreq .en__field--recurrfreq .en__field__element--radio:before{
+  width:calc(50% - var(--recurrfreq-selected-indicator_offset)*2/2);
+}
+[data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .radio-to-buttons_recurrfreq .en__field--recurrfreq .en__field__element--radio:has(input[value=MONTHLY]:checked):before{
+  transform:translateX(100%);
+}
+[data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .radio-to-buttons_recurrfreq .en__field--recurrfreq .en__field__element--radio .en__field__item{
+  height:auto !important;
+}
+[data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .radio-to-buttons_recurrfreq .en__field--recurrfreq .en__field__element--radio .en__field__label--item{
+  font-size:var(--recurring-frequency__button_font-size);
+  padding:14px 10px 11px;
 }
 [data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep][data-engrid-embedded]{
   height:100vh;
@@ -9138,6 +9020,7 @@ body[data-engrid-debug]:before{
   display:none;
 }
 [data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .radio-to-buttons_donationAmt .en__field__label--item .engrid-currency-symbol{
+  font-family:inherit;
   font-size:1rem;
   font-weight:500;
   margin-right:-2px;
@@ -9146,6 +9029,7 @@ body[data-engrid-debug]:before{
 }
 [data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .en__field--donationAmt .en__field__label--item{
   align-items:flex-start;
+  height:auto;
 }
 [data-engrid-theme=engrid-ran3][data-engrid-subtheme=multistep] .en__component--column--1 h1{
   font-size:1.4rem;
